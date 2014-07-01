@@ -8,10 +8,6 @@ Getting started
 ---
 To get started with this game, [read the official wiki](https://github.com/MyRealityCoding/craft/wiki).
 
-API
----
-This game works with the official Craft API. This API is in another repository. The whole API is a node.js application with MongoDB and returns json only. If you want to get familiar with the api, read the official wiki. (not finished yet)
-
 Development
 ---
 The game is developed by [Miguel Gonzalez](http://my-reality.de). 
