@@ -6,4 +6,4 @@ To make this happen, I'm also providing an API where game developer can submit o
 
 Getting started
 ---
-To get started with this game, [read the official wiki](/wiki).
+To get started with this game, [read the official wiki](https://github.com/MyRealityCoding/craft/wiki).
