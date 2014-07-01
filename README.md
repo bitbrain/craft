@@ -4,4 +4,6 @@ A crafting game for Android and PC. In this game you can craft different items. 
 
 To make this happen, I'm also providing an API where game developer can submit own items and apps.
 
-
+Getting started
+---
+To get started with this game, [read the official wiki](/wiki).
