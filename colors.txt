@@ -1,0 +1,10 @@
+Craft colors:
+
+background brown: #4e2c11
+button dark green: #5b761a
+button light green: #8e9e22
+text color: #e5d9a3
+border brown: #3c1d0b
+background dark brown: #270d0b
+bar red: #c22400
+bar dark red: #870700
