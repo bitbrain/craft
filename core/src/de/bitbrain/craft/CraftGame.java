@@ -50,7 +50,7 @@ public class CraftGame extends Game {
 		AssetManager mgr = SharedAssetManager.getInstance();
 		
 		mgr.load(Resources.TEXTURE_BACKGROUND, Texture.class);
-		
+		mgr.load(Resources.TEXTURE_LOGO, Texture.class);
 		
 		mgr.finishLoading();
 	}

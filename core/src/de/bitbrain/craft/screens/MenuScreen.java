@@ -15,7 +15,7 @@ import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Resources;
 import de.bitbrain.craft.SharedAssetManager;
 
-public class MenuScreen implements Screen {
+public abstract class MenuScreen implements Screen {
 	
 	protected CraftGame game;
 	
@@ -25,14 +25,14 @@ public class MenuScreen implements Screen {
 	
 	private OrthographicCamera camera;		
 	
-	private Stage stage;
+	protected Stage stage;
 	
 	public MenuScreen(CraftGame game) {
 		this.game = game;		
 	}
 
 	@Override
-	public void render(float delta) {
+	public final void render(float delta) {
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -45,16 +45,19 @@ public class MenuScreen implements Screen {
 		batch.begin();
 			background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			background.draw(batch);
+			
+			onDraw(batch, delta);
 		batch.end();
 		
 		stage.draw();
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public final void resize(int width, int height) {
 		
 		if (stage == null) {
-			stage = new Stage(new FitViewport(width, height));	
+			stage = createStage(width, height);
+			onCreateStage(stage);
 		} else {		
 			stage.setViewport(new FitViewport(width, height));
 		}
@@ -63,11 +66,13 @@ public class MenuScreen implements Screen {
 	}
 
 	@Override
-	public void show() {
+	public final void show() {
 		camera = new OrthographicCamera();	
 		batch = new SpriteBatch();
 		background = new Sprite(SharedAssetManager.getInstance().get(Resources.TEXTURE_BACKGROUND, Texture.class));
 		background.flip(false, true);
+		
+		onShow();
 	}
 
 	@Override
@@ -83,5 +88,13 @@ public class MenuScreen implements Screen {
 
 	@Override
 	public void resume() { }
+	
+	protected abstract void onCreateStage(Stage stage);
+	
+	protected abstract Stage createStage(int width, int height);
+	
+	protected abstract void onDraw(Batch batch, float delta);
+	
+	protected abstract void onShow();
 
 }

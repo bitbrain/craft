@@ -34,7 +34,12 @@ public final class Resources {
 	public static final String FOLDER_IMAGES = "images/";
 
 	/**
-	 * Background image path
+	 * Background image (brown)
 	 */
 	public static final String TEXTURE_BACKGROUND = FOLDER_IMAGES + "background.png";
+	
+	/**
+	 * Craft logo (medium)
+	 */
+	public static final String TEXTURE_LOGO = FOLDER_IMAGES + "logo.png";
 }
