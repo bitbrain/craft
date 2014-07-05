@@ -29,6 +29,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * @version 1.0
  */
 public class TitleControls extends Stage {
+	
+	public TitleControls() {
+		super();
+	}
 
 	
 }

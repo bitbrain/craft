@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Resources;
@@ -36,6 +37,8 @@ public class MenuScreen implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		stage.act(delta);
+		
 		camera.update();		
 		batch.setProjectionMatrix(camera.combined);
 		
@@ -43,10 +46,19 @@ public class MenuScreen implements Screen {
 			background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			background.draw(batch);
 		batch.end();
+		
+		stage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
+		
+		if (stage == null) {
+			stage = new Stage(new FitViewport(width, height));	
+		} else {		
+			stage.setViewport(new FitViewport(width, height));
+		}
+		
 		camera.setToOrtho(true, width, height);
 	}
 
