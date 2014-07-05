@@ -29,12 +29,12 @@ package de.bitbrain.craft;
 public final class Resources {
 	
 	/**
-	 * Background image folderpath
+	 * Background texture folderpath
 	 */
-	public static final String IMAGE_FOLDER = "images/";
+	public static final String FOLDER_IMAGES = "images/";
 
 	/**
 	 * Background image path
 	 */
-	public static final String IMAGE_BACKGROUND = IMAGE_FOLDER + "background.png";
+	public static final String TEXTURE_BACKGROUND = FOLDER_IMAGES + "background.png";
 }

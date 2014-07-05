@@ -19,39 +19,24 @@
 
 package de.bitbrain.craft;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-
-import de.bitbrain.craft.screens.TitleScreen;
 
 /**
- * Main game file which handles all screens
- * 
+ * Shared (singleton) asset manager
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class CraftGame extends Game {
+public class SharedAssetManager extends AssetManager {
 
-	@Override
-	public void create () {
-		loadResources();
-		TitleScreen screen = new TitleScreen(this);
-		setScreen(screen);	
+	private static SharedAssetManager instance = new SharedAssetManager();	
+	
+	private SharedAssetManager() {
+		
 	}
 	
-	@Override
-	public void dispose() {
-		SharedAssetManager.getInstance().dispose();
-	}
-	
-	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();
-		
-		mgr.load(Resources.TEXTURE_BACKGROUND, Texture.class);
-		
-		
-		mgr.finishLoading();
+	public static SharedAssetManager getInstance() {
+		return instance;
 	}
 }

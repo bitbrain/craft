@@ -17,41 +17,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft;
+package de.bitbrain.craft.controls;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-
-import de.bitbrain.craft.screens.TitleScreen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
- * Main game file which handles all screens
  * 
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class CraftGame extends Game {
+public class TitleControls extends Stage {
 
-	@Override
-	public void create () {
-		loadResources();
-		TitleScreen screen = new TitleScreen(this);
-		setScreen(screen);	
-	}
 	
-	@Override
-	public void dispose() {
-		SharedAssetManager.getInstance().dispose();
-	}
-	
-	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();
-		
-		mgr.load(Resources.TEXTURE_BACKGROUND, Texture.class);
-		
-		
-		mgr.finishLoading();
-	}
 }
