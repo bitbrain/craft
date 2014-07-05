@@ -26,7 +26,15 @@ package de.bitbrain.craft;
  * @since 1.0
  * @version 1.0
  */
-public class Resources {
-
+public final class Resources {
 	
+	/**
+	 * Background image folderpath
+	 */
+	public static final String IMAGE_FOLDER = "images/";
+
+	/**
+	 * Background image path
+	 */
+	public static final String IMAGE_BACKGROUND = IMAGE_FOLDER + "background.png";
 }
