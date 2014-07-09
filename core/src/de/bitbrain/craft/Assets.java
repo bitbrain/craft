@@ -80,9 +80,14 @@ public final class Assets {
 	public static final String TEXTURE_LOGO = FOLDER_IMAGES + "logo.png";
 	
 	/**
-	 * button (unpressed
+	 * button (unpressed)
 	 */
 	public static final String TEXTURE_BUTTON = FOLDER_IMAGES + "button.png";
+	
+	/**
+	 * button (pressed)
+	 */
+	public static final String TEXTURE_BUTTON_DARK = FOLDER_IMAGES + "button_down.png";
 	
 	// ---------- COLORS ----------
 	

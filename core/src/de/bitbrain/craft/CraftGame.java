@@ -64,6 +64,7 @@ public class CraftGame extends Game {
 		mgr.load(Assets.TEXTURE_BACKGROUND, Texture.class);
 		mgr.load(Assets.TEXTURE_LOGO, Texture.class);
 		mgr.load(Assets.TEXTURE_BUTTON, Texture.class);
+		mgr.load(Assets.TEXTURE_BUTTON_DARK, Texture.class);
 		
 		mgr.finishLoading();
 		

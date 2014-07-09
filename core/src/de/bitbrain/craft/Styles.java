@@ -38,8 +38,10 @@ public final class Styles {
 	public static final TextButtonStyle TEXT_BUTTON = new TextButtonStyle();
 
 	static void load() {
-		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FONT_MEDIUM, BitmapFont.class);
-		TEXT_BUTTON.up = TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON, Texture.class)));
-		TEXT_BUTTON.downFontColor = TEXT_BUTTON.fontColor = Color.WHITE;
+		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FONT_LARGER, BitmapFont.class);
+		TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON, Texture.class)));
+		TEXT_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON_DARK, Texture.class)));
+		TEXT_BUTTON.fontColor = Color.WHITE;
+		
 	}
 }
