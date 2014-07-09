@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import de.bitbrain.craft.CraftGame;
-import de.bitbrain.craft.Resources;
+import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.TitleControls;
@@ -41,7 +41,7 @@ public class TitleScreen extends MenuScreen {
 		stage.addActor(btnPlay);
 		
 		LabelStyle style = new LabelStyle();
-		style.font = SharedAssetManager.get(Resources.FONT_MEDIUM, BitmapFont.class);
+		style.font = SharedAssetManager.get(Assets.FONT_MEDIUM, BitmapFont.class);
 		stage.addActor(new Label("Hallo Welt", style));
 	}
 
@@ -69,7 +69,7 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onShow() {
-		logo = new Sprite(SharedAssetManager.get(Resources.TEXTURE_LOGO, Texture.class));
+		logo = new Sprite(SharedAssetManager.get(Assets.TEXTURE_LOGO, Texture.class));
 		logo.flip(false, true);
 	}
 

@@ -29,7 +29,7 @@ import com.badlogic.gdx.graphics.Color;
  * @since 1.0
  * @version 1.0
  */
-public final class Resources {
+public final class Assets {
 	
 	// ---------- GENERAL --------
 	

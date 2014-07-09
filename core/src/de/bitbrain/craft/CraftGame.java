@@ -56,14 +56,14 @@ public class CraftGame extends Game {
 	private void loadResources() {
 		AssetManager mgr = SharedAssetManager.getInstance();
 		
-		mgr.load(Resources.FONT_SMALL, BitmapFont.class);
-		mgr.load(Resources.FONT_MEDIUM, BitmapFont.class);
-		mgr.load(Resources.FONT_LARGER, BitmapFont.class);
-		mgr.load(Resources.FONT_BIG, BitmapFont.class);
+		mgr.load(Assets.FONT_SMALL, BitmapFont.class);
+		mgr.load(Assets.FONT_MEDIUM, BitmapFont.class);
+		mgr.load(Assets.FONT_LARGER, BitmapFont.class);
+		mgr.load(Assets.FONT_BIG, BitmapFont.class);
 		
-		mgr.load(Resources.TEXTURE_BACKGROUND, Texture.class);
-		mgr.load(Resources.TEXTURE_LOGO, Texture.class);
-		mgr.load(Resources.TEXTURE_BUTTON, Texture.class);
+		mgr.load(Assets.TEXTURE_BACKGROUND, Texture.class);
+		mgr.load(Assets.TEXTURE_LOGO, Texture.class);
+		mgr.load(Assets.TEXTURE_BUTTON, Texture.class);
 		
 		mgr.finishLoading();
 		
