@@ -19,50 +19,25 @@
 
 package de.bitbrain.craft;
 
-import java.awt.Font;
-
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-
-import de.bitbrain.craft.screens.TitleScreen;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
- * Main game file which handles all screens
- * 
+ * Styles file
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class CraftGame extends Game {
+public final class Styles {
+	
+	public static final TextButtonStyle TEXT_BUTTON = new TextButtonStyle();
 
-	@Override
-	public void create () {
-		loadResources();
-		TitleScreen screen = new TitleScreen(this);
-		setScreen(screen);	
-	}
-	
-	@Override
-	public void dispose() {
-		SharedAssetManager.getInstance().dispose();
-	}
-	
-	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();
-		
-		mgr.load(Resources.FONT_SMALL, BitmapFont.class);
-		mgr.load(Resources.FONT_MEDIUM, BitmapFont.class);
-		mgr.load(Resources.FONT_LARGER, BitmapFont.class);
-		mgr.load(Resources.FONT_BIG, BitmapFont.class);
-		
-		mgr.load(Resources.TEXTURE_BACKGROUND, Texture.class);
-		mgr.load(Resources.TEXTURE_LOGO, Texture.class);
-		mgr.load(Resources.TEXTURE_BUTTON, Texture.class);
-		
-		mgr.finishLoading();
-		
-		Styles.load();
+	static void load() {
+		TEXT_BUTTON.font = SharedAssetManager.get(Resources.FONT_MEDIUM, BitmapFont.class);
+		TEXT_BUTTON.up = TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Resources.TEXTURE_BACKGROUND, Texture.class)));
 	}
 }

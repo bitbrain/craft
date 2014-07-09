@@ -5,17 +5,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Resources;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.TitleControls;
 
 
 public class TitleScreen extends MenuScreen {
 	
-	private Sprite logo;		
+	private Sprite logo;	
+	
+	private TextButton btnPlay;
 
 	public TitleScreen(CraftGame game) {
 		super(game);
@@ -26,7 +30,10 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		// TODO Auto-generated method stub		
+		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);
+		btnPlay.setWidth(100);
+		btnPlay.setHeight(100);
+		stage.addActor(btnPlay);
 	}
 
 	/* (non-Javadoc)
@@ -53,7 +60,7 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onShow() {
-		logo = new Sprite(SharedAssetManager.getInstance().get(Resources.TEXTURE_LOGO, Texture.class));
+		logo = new Sprite(SharedAssetManager.get(Resources.TEXTURE_LOGO, Texture.class));
 		logo.flip(false, true);
 	}
 

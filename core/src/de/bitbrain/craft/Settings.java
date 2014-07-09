@@ -19,28 +19,19 @@
 
 package de.bitbrain.craft;
 
-import com.badlogic.gdx.assets.AssetManager;
-
 /**
- * Shared (singleton) asset manager
+ * Settings file
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SharedAssetManager {
+public final class Settings {
 
-	private static AssetManager instance = new AssetManager();	
+	public static final int WIDTH = 720;	
+	public static final int HEIGHT = 400;
 	
-	private SharedAssetManager() {
-		
-	}
-	
-	static AssetManager getInstance() {
-		return instance;
-	}
-	
-	public static <T> T get(String s, Class<T> clss) {
-		return getInstance().get(s, clss);
-	}
+	public static final String VERSION = "0.1";	
+	public static final String NAME = "Craft";
+	public static final String PHASE = "dev";
 }

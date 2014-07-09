@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft;
 
+
 /**
  * Resource file which contains all resource keys
  *
@@ -28,10 +29,43 @@ package de.bitbrain.craft;
  */
 public final class Resources {
 	
+	// ---------- GENERAL --------
+	
 	/**
-	 * Background texture folderpath
+	 * Texture folderpath
 	 */
 	public static final String FOLDER_IMAGES = "images/";
+	
+	/**
+	 * Font folderpath
+	 */
+	public static final String FOLDER_FONTS = "fonts/";
+	
+	
+	// ---------- FONTS -----------	
+	
+	/**
+	 * 8bit font (small)
+	 */
+	public static final String FONT_SMALL = FOLDER_FONTS + "small.fnt";
+	
+	/**
+	 * 8bit font (medium)
+	 */
+	public static final String FONT_MEDIUM = FOLDER_FONTS + "medium.fnt";
+	
+	/**
+	 * 8bit font (larger)
+	 */
+	public static final String FONT_LARGER = FOLDER_FONTS + "larger.fnt";
+	
+	/**
+	 * 8bit font (big)
+	 */
+	public static final String FONT_BIG = FOLDER_FONTS + "big.fnt";
+
+	
+	// ---------- TEXTURES --------
 
 	/**
 	 * Background image (brown)
@@ -42,4 +76,11 @@ public final class Resources {
 	 * Craft logo (medium)
 	 */
 	public static final String TEXTURE_LOGO = FOLDER_IMAGES + "logo.png";
+	
+	/**
+	 * button (unpressed
+	 */
+	public static final String TEXTURE_BUTTON = FOLDER_IMAGES + "button.png";
+	
+	// ---------- COLORS ----------
 }

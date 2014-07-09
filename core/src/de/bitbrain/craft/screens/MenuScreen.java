@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import de.bitbrain.craft.CraftGame;
@@ -69,7 +70,7 @@ public abstract class MenuScreen implements Screen {
 	public final void show() {
 		camera = new OrthographicCamera();	
 		batch = new SpriteBatch();
-		background = new Sprite(SharedAssetManager.getInstance().get(Resources.TEXTURE_BACKGROUND, Texture.class));
+		background = new Sprite(SharedAssetManager.get(Resources.TEXTURE_BACKGROUND, Texture.class));
 		background.flip(false, true);
 		
 		onShow();
