@@ -58,6 +58,7 @@ public abstract class MenuScreen implements Screen {
 		
 		if (stage == null) {
 			stage = createStage(width, height);
+			Gdx.input.setInputProcessor(stage);
 			onCreateStage(stage);
 		} else {		
 			stage.setViewport(new FitViewport(width, height));

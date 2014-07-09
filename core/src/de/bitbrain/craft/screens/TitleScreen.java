@@ -3,8 +3,11 @@ package de.bitbrain.craft.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -36,6 +39,10 @@ public class TitleScreen extends MenuScreen {
 		btnPlay.setX(Gdx.graphics.getWidth() / 2 - btnPlay.getWidth() / 2);
 		btnPlay.setY(Gdx.graphics.getHeight() / 2 - btnPlay.getHeight() / 2);
 		stage.addActor(btnPlay);
+		
+		LabelStyle style = new LabelStyle();
+		style.font = SharedAssetManager.get(Resources.FONT_MEDIUM, BitmapFont.class);
+		stage.addActor(new Label("Hallo Welt", style));
 	}
 
 	/* (non-Javadoc)

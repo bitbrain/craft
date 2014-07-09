@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft;
 
-import java.awt.Font;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,8 +43,14 @@ public class CraftGame extends Game {
 	}
 	
 	@Override
+	public void resume() {
+		super.resume();
+		loadResources();
+	}
+	
+	@Override
 	public void dispose() {
-		SharedAssetManager.getInstance().dispose();
+		SharedAssetManager.dispose();
 	}
 	
 	private void loadResources() {

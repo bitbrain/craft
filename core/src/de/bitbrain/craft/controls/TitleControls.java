@@ -38,6 +38,6 @@ public class TitleControls extends Stage {
 	public TitleControls() {
 		super();
 	}
-
+	
 	
 }

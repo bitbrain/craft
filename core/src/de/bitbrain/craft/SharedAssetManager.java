@@ -30,17 +30,27 @@ import com.badlogic.gdx.assets.AssetManager;
  */
 public class SharedAssetManager {
 
-	private static AssetManager instance = new AssetManager();	
+	private static AssetManager instance = null;
 	
 	private SharedAssetManager() {
 		
 	}
 	
 	static AssetManager getInstance() {
+		
+		if (instance == null) {
+			instance = new AssetManager();	
+		}
+		
 		return instance;
 	}
 	
 	public static <T> T get(String s, Class<T> clss) {
 		return getInstance().get(s, clss);
+	}
+	
+	public static void dispose() {
+		getInstance().dispose();
+		instance = null;
 	}
 }
