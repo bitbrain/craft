@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.TitleControls;
@@ -33,35 +33,40 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);
-		btnPlay.setWidth(100);
-		btnPlay.setHeight(100);
-		btnPlay.setX(Gdx.graphics.getWidth() / 2 - btnPlay.getWidth() / 2);
-		btnPlay.setY(Gdx.graphics.getHeight() / 2 - btnPlay.getHeight() / 2);
+		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);		
 		stage.addActor(btnPlay);
-		
-		LabelStyle style = new LabelStyle();
-		style.font = SharedAssetManager.get(Assets.FONT_MEDIUM, BitmapFont.class);
-		stage.addActor(new Label("Hallo Welt", style));
 	}
 
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics.g2d.Batch, float)
 	 */
 	@Override
-	protected void onDraw(Batch batch, float delta) {
-		logo.setX(Gdx.graphics.getWidth() / 2 - logo.getWidth() / 2);
-		logo.setScale(Gdx.graphics.getWidth() / 550.0f);
-		logo.setY(Gdx.graphics.getHeight() / 5.0f);
+	protected void onDraw(Batch batch, float delta) {		
 		logo.draw(batch);
+	}
+	
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		
+		float scale = Gdx.graphics.getWidth() / 550.0f;
+		
+		logo.setX(Gdx.graphics.getWidth() / 2 - logo.getWidth() / 2);
+		logo.setScale(scale);
+		logo.setY(Gdx.graphics.getHeight() / 4.1f);
+		
+		btnPlay.setBounds(0, 0, logo.getWidth(), logo.getHeight());
+		btnPlay.setScale(scale * 3);
+		btnPlay.setX(Gdx.graphics.getWidth() / 2.0f - btnPlay.getWidth() / 2.0f);
+		btnPlay.setY(Gdx.graphics.getHeight() / 4.1f);
 	}
 
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.screens.MenuScreen#createStage()
 	 */
 	@Override
-	protected Stage createStage(int width, int height) {
-		return new TitleControls(new FitViewport(width, height));
+	protected Stage createStage(int width, int height, Batch batch) {
+		return new TitleControls(new FitViewport(width, height), batch);
 	}
 
 	/* (non-Javadoc)

@@ -22,9 +22,9 @@ public abstract class MenuScreen implements Screen {
 	
 	private Sprite background;
 	
-	private Batch batch;
+	protected Batch batch;
 	
-	private OrthographicCamera camera;		
+	protected OrthographicCamera camera;		
 	
 	protected Stage stage;
 	
@@ -42,7 +42,6 @@ public abstract class MenuScreen implements Screen {
 		
 		camera.update();		
 		batch.setProjectionMatrix(camera.combined);
-		
 		batch.begin();
 			background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			background.draw(batch);
@@ -54,14 +53,14 @@ public abstract class MenuScreen implements Screen {
 	}
 
 	@Override
-	public final void resize(int width, int height) {
+	public void resize(int width, int height) {
 		
 		if (stage == null) {
-			stage = createStage(width, height);
+			stage = createStage(width, height, batch);
 			Gdx.input.setInputProcessor(stage);
 			onCreateStage(stage);
 		} else {		
-			stage.setViewport(new FitViewport(width, height));
+			stage.getViewport().update(width, height, true);
 		}
 		
 		camera.setToOrtho(true, width, height);
@@ -93,7 +92,7 @@ public abstract class MenuScreen implements Screen {
 	
 	protected abstract void onCreateStage(Stage stage);
 	
-	protected abstract Stage createStage(int width, int height);
+	protected abstract Stage createStage(int width, int height, Batch batch);
 	
 	protected abstract void onDraw(Batch batch, float delta);
 	

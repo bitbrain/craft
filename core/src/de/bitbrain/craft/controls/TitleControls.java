@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.controls;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -31,12 +32,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class TitleControls extends Stage {
 	
-	public TitleControls(Viewport viewport) {
-		super(viewport);
-	}
-	
-	public TitleControls() {
-		super();
+	public TitleControls(Viewport viewport, Batch batch) {
+		super(viewport, batch);
 	}
 	
 	
