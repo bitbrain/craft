@@ -39,5 +39,6 @@ public final class Styles {
 	static void load() {
 		TEXT_BUTTON.font = SharedAssetManager.get(Resources.FONT_MEDIUM, BitmapFont.class);
 		TEXT_BUTTON.up = TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Resources.TEXTURE_BACKGROUND, Texture.class)));
+		TEXT_BUTTON.fontColor = Resources.COLOR_GREEN_GRASS;
 	}
 }

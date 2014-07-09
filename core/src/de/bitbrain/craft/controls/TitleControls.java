@@ -34,6 +34,10 @@ public class TitleControls extends Stage {
 	public TitleControls(Viewport viewport) {
 		super(viewport);
 	}
+	
+	public TitleControls() {
+		super();
+	}
 
 	
 }

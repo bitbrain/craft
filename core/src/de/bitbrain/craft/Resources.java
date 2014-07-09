@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft;
 
+import com.badlogic.gdx.graphics.Color;
+
 
 /**
  * Resource file which contains all resource keys
@@ -83,4 +85,9 @@ public final class Resources {
 	public static final String TEXTURE_BUTTON = FOLDER_IMAGES + "button.png";
 	
 	// ---------- COLORS ----------
+	
+	/**
+	 * grass green color
+	 */
+	public static final Color COLOR_GREEN_GRASS = Color.valueOf("a3b52b");
 }

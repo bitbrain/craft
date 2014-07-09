@@ -33,6 +33,8 @@ public class TitleScreen extends MenuScreen {
 		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);
 		btnPlay.setWidth(100);
 		btnPlay.setHeight(100);
+		btnPlay.setX(Gdx.graphics.getWidth() / 2 - btnPlay.getWidth() / 2);
+		btnPlay.setY(Gdx.graphics.getHeight() / 2 - btnPlay.getHeight() / 2);
 		stage.addActor(btnPlay);
 	}
 
