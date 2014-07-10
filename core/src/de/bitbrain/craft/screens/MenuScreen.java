@@ -9,11 +9,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 
 public abstract class MenuScreen implements Screen {

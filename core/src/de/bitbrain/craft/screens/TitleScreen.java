@@ -40,7 +40,8 @@ public class TitleScreen extends MenuScreen {
 		stage.addActor(btnPlay);
 		
 		LabelStyle lblStyle = new LabelStyle();
-		lblStyle.font =  SharedAssetManager.get(Assets.FONT_MEDIUM, BitmapFont.class);
+		lblStyle.fontColor = Assets.COLOR_WOOD_TEAK;
+		lblStyle.font =  SharedAssetManager.get(Assets.FONT_SMALL, BitmapFont.class);
 		lblCredits = new Label("a game by Miguel Gonzalez, 2014", lblStyle);
 		stage.addActor(lblCredits);
 	}

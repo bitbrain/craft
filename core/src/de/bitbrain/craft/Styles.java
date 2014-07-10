@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -41,7 +40,7 @@ public final class Styles {
 		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FONT_LARGER, BitmapFont.class);
 		TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON, Texture.class)));
 		TEXT_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON_DARK, Texture.class)));
-		TEXT_BUTTON.fontColor = Color.WHITE;
+		TEXT_BUTTON.fontColor = Assets.COLOR_GREEN_GRASS;
 		
 	}
 }

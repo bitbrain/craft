@@ -94,5 +94,7 @@ public final class Assets {
 	/**
 	 * grass green color
 	 */
-	public static final Color COLOR_GREEN_GRASS = Color.valueOf("a3b52b");
+	public static final Color COLOR_GREEN_GRASS = Color.valueOf("b8d41c");
+	public static final Color COLOR_GREEN_GRASS_LIGHT = Color.valueOf("c7e03d");
+	public static final Color COLOR_WOOD_TEAK = Color.valueOf("6a2b05");
 }
