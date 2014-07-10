@@ -1,5 +1,7 @@
 package de.bitbrain.craft.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.SpriteTween;
 
 public abstract class MenuScreen implements Screen {
 	
@@ -84,6 +87,13 @@ public abstract class MenuScreen implements Screen {
 		tweenManager = new TweenManager();
 		background = new Sprite(SharedAssetManager.get(Assets.TEXTURE_BACKGROUND, Texture.class));
 		background.flip(false, true);
+		
+		background.setColor(1f, 1f, 1f, 0f);
+		
+		Tween.to(background, SpriteTween.ALPHA, 0.3f)
+			.ease(TweenEquations.easeInOutCubic)
+			.target(1f)
+			.start(tweenManager);
 		
 		onShow();
 	}
