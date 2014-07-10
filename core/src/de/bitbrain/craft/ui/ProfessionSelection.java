@@ -18,45 +18,18 @@
  */
 
 
-package de.bitbrain.craft.screens;
+package de.bitbrain.craft.ui;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import de.bitbrain.craft.CraftGame;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Shows up a selection for available professions
+ * This element shows a selection for all professions. It is also possible to add a listener
+ * which detects, if a certain profession has been clicked (as an enumeration)
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionScreen extends MenuScreen {
-
-	public ProfessionScreen(CraftGame game) {
-		super(game);
-	}
-
-	@Override
-	protected void onCreateStage(Stage stage) {
-		
-	}
-
-	@Override
-	protected Stage createStage(int width, int height, Batch batch) {
-		
-		return null;
-	}
-
-	@Override
-	protected void onDraw(Batch batch, float delta) {
-
-	}
-
-	@Override
-	protected void onShow() {
-
-	}
+public class ProfessionSelection extends Actor {
 
 }
