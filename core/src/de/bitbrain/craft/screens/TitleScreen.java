@@ -1,7 +1,6 @@
 package de.bitbrain.craft.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -64,8 +63,6 @@ public class TitleScreen extends MenuScreen {
 		logo.setScale(scale);
 		logo.setY(Gdx.graphics.getHeight() / 4.1f);
 		
-		btnPlay.setBounds(0, 0, logo.getWidth(), logo.getHeight());
-		btnPlay.setScale(scale);
 		btnPlay.setX(Gdx.graphics.getWidth() / 2.0f - btnPlay.getWidth() / 2.0f);
 		btnPlay.setY(Gdx.graphics.getHeight() / 4.1f);
 		

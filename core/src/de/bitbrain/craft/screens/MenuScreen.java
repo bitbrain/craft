@@ -41,7 +41,11 @@ public abstract class MenuScreen implements Screen {
 		camera.update();		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-			background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			background.setBounds(
+					camera.position.x - camera.viewportWidth / 2, 
+					camera.position.y - camera.viewportHeight / 2, 
+					camera.viewportWidth, 
+					camera.viewportHeight);
 			background.draw(batch);
 			
 			onDraw(batch, delta);
