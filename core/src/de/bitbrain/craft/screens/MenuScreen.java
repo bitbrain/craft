@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
-import de.bitbrain.craft.SpriteTween;
+import de.bitbrain.craft.tweens.SpriteTween;
 
 public abstract class MenuScreen implements Screen {
 	

@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import de.bitbrain.craft.screens.TitleScreen;
+import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
  * Main game file which handles all screens

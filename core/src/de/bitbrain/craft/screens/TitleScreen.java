@@ -19,9 +19,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
-import de.bitbrain.craft.SpriteTween;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.TitleControls;
+import de.bitbrain.craft.tweens.SpriteTween;
 
 
 public class TitleScreen extends MenuScreen {

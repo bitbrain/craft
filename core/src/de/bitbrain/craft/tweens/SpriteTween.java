@@ -1,4 +1,4 @@
-package de.bitbrain.craft;
+package de.bitbrain.craft.tweens;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
