@@ -89,6 +89,8 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "aurelienribon:tweenengine:6.3.3"
+        compile "aurelienribon:tweenengine:6.3.3:sources"
     }
 }
 
