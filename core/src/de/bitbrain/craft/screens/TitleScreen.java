@@ -35,7 +35,7 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);		
+		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);	
 		stage.addActor(btnPlay);
 		
 		LabelStyle lblStyle = new LabelStyle();
@@ -63,6 +63,8 @@ public class TitleScreen extends MenuScreen {
 		logo.setScale(scale);
 		logo.setY(Gdx.graphics.getHeight() / 4.1f);
 		
+		btnPlay.setWidth(logo.getWidth() * scale / 1.5f);
+		btnPlay.setHeight(logo.getHeight() * scale);
 		btnPlay.setX(Gdx.graphics.getWidth() / 2.0f - btnPlay.getWidth() / 2.0f);
 		btnPlay.setY(Gdx.graphics.getHeight() / 4.1f);
 		

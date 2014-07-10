@@ -38,7 +38,7 @@ public abstract class MenuScreen implements Screen {
 		
 		stage.act(delta);
 		
-		camera.update();		
+		camera.update();			
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 			background.setBounds(
