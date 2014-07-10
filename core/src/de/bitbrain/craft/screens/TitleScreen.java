@@ -1,5 +1,8 @@
 package de.bitbrain.craft.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.SpriteTween;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.TitleControls;
 
@@ -104,6 +108,13 @@ public class TitleScreen extends MenuScreen {
 	protected void onShow() {
 		logo = new Sprite(SharedAssetManager.get(Assets.TEXTURE_LOGO, Texture.class));
 		logo.flip(false, true);
+		
+		logo.setColor(1f, 1f, 1f, 0f);
+		
+		Tween.to(logo, SpriteTween.ALPHA, 1f)
+		  .target(1f)
+		  .ease(TweenEquations.easeInOutCubic)
+		  .start(tweenManager);
 	}
 
 	

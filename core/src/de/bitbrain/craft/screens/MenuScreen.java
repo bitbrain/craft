@@ -1,5 +1,7 @@
 package de.bitbrain.craft.screens;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,6 +28,9 @@ public abstract class MenuScreen implements Screen {
 	
 	protected Stage stage;
 	
+	protected TweenManager tweenManager;
+	
+	
 	public MenuScreen(CraftGame game) {
 		this.game = game;		
 	}
@@ -35,6 +40,8 @@ public abstract class MenuScreen implements Screen {
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		tweenManager.update(delta);
 		
 		if (stage != null)
 			stage.act(delta);
@@ -74,6 +81,7 @@ public abstract class MenuScreen implements Screen {
 	public final void show() {
 		camera = new OrthographicCamera();	
 		batch = new SpriteBatch();
+		tweenManager = new TweenManager();
 		background = new Sprite(SharedAssetManager.get(Assets.TEXTURE_BACKGROUND, Texture.class));
 		background.flip(false, true);
 		

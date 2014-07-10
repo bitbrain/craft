@@ -19,10 +19,13 @@
 
 package de.bitbrain.craft;
 
+import aurelienribon.tweenengine.Tween;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import de.bitbrain.craft.screens.TitleScreen;
 
@@ -38,6 +41,7 @@ public class CraftGame extends Game {
 	@Override
 	public void create () {
 		loadResources();
+		registerTweens();
 		TitleScreen screen = new TitleScreen(this);
 		setScreen(screen);	
 	}
@@ -69,5 +73,9 @@ public class CraftGame extends Game {
 		mgr.finishLoading();
 		
 		Styles.load();
+	}
+	
+	private void registerTweens() {
+		Tween.registerAccessor(Sprite.class, new SpriteTween());
 	}
 }
