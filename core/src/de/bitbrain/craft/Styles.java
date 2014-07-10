@@ -41,6 +41,7 @@ public final class Styles {
 		TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON, Texture.class)));
 		TEXT_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON_DARK, Texture.class)));
 		TEXT_BUTTON.fontColor = Assets.COLOR_GREEN_GRASS;
+		TEXT_BUTTON.downFontColor = Assets.COLOR_GREEN_GRASS_LIGHT;
 		
 	}
 }

@@ -36,7 +36,8 @@ public abstract class MenuScreen implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		stage.act(delta);
+		if (stage != null)
+			stage.act(delta);
 		
 		camera.update();			
 		batch.setProjectionMatrix(camera.combined);
@@ -51,7 +52,8 @@ public abstract class MenuScreen implements Screen {
 			onDraw(batch, delta);
 		batch.end();
 		
-		stage.draw();
+		if (stage != null)
+			stage.draw();
 	}
 
 	@Override

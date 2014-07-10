@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.Assets;
@@ -36,12 +38,24 @@ public class TitleScreen extends MenuScreen {
 	@Override
 	protected void onCreateStage(Stage stage) {
 		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);	
+		
+		final CraftGame tempGame = game;
+		
+		btnPlay.addCaptureListener(new ClickListener() {
+
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				tempGame.setScreen(new ProfessionScreen(tempGame));
+			}
+			
+		});
 		stage.addActor(btnPlay);
 		
 		LabelStyle lblStyle = new LabelStyle();
 		lblStyle.fontColor = Assets.COLOR_WOOD_TEAK;
 		lblStyle.font =  SharedAssetManager.get(Assets.FONT_SMALL, BitmapFont.class);
-		lblCredits = new Label("a game by Miguel Gonzalez, 2014", lblStyle);
+		lblCredits = new Label("a game by Miguel Gonzalez", lblStyle);
 		stage.addActor(lblCredits);
 	}
 
@@ -60,16 +74,18 @@ public class TitleScreen extends MenuScreen {
 		float scale = Gdx.graphics.getWidth() / 550.0f;
 		
 		logo.setX(Gdx.graphics.getWidth() / 2 - logo.getWidth() / 2);
-		logo.setScale(scale);
 		logo.setY(Gdx.graphics.getHeight() / 4.1f);
+		logo.setScale(scale);
 		
 		btnPlay.setWidth(logo.getWidth() * scale / 1.5f);
 		btnPlay.setHeight(logo.getHeight() * scale);
 		btnPlay.setX(Gdx.graphics.getWidth() / 2.0f - btnPlay.getWidth() / 2.0f);
 		btnPlay.setY(Gdx.graphics.getHeight() / 4.1f);
+		btnPlay.getLabel().setFontScale(scale / 1.5f);
 		
-		lblCredits.setX(Gdx.graphics.getWidth() / 2 - lblCredits.getWidth() / 2);
-		lblCredits.setY(20);
+		lblCredits.setFontScale(scale / 1.5f);
+		lblCredits.setX(Gdx.graphics.getWidth() / 2 - (lblCredits.getWidth() * lblCredits.getFontScaleX()) / 2);
+		lblCredits.setY(Gdx.graphics.getHeight() / 15f);
 		
 	}
 
