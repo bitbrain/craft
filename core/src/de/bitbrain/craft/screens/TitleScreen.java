@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
@@ -24,6 +24,8 @@ public class TitleScreen extends MenuScreen {
 	private Sprite logo;	
 	
 	private TextButton btnPlay;
+	
+	private Label lblCredits;
 
 	public TitleScreen(CraftGame game) {
 		super(game);
@@ -36,6 +38,11 @@ public class TitleScreen extends MenuScreen {
 	protected void onCreateStage(Stage stage) {
 		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);		
 		stage.addActor(btnPlay);
+		
+		LabelStyle lblStyle = new LabelStyle();
+		lblStyle.font =  SharedAssetManager.get(Assets.FONT_MEDIUM, BitmapFont.class);
+		lblCredits = new Label("a game by Miguel Gonzalez, 2014", lblStyle);
+		stage.addActor(lblCredits);
 	}
 
 	/* (non-Javadoc)
@@ -57,9 +64,13 @@ public class TitleScreen extends MenuScreen {
 		logo.setY(Gdx.graphics.getHeight() / 4.1f);
 		
 		btnPlay.setBounds(0, 0, logo.getWidth(), logo.getHeight());
-		btnPlay.setScale(scale * 3);
+		btnPlay.setScale(scale);
 		btnPlay.setX(Gdx.graphics.getWidth() / 2.0f - btnPlay.getWidth() / 2.0f);
 		btnPlay.setY(Gdx.graphics.getHeight() / 4.1f);
+		
+		lblCredits.setX(Gdx.graphics.getWidth() / 2 - lblCredits.getWidth() / 2);
+		lblCredits.setY(20);
+		
 	}
 
 	/* (non-Javadoc)
@@ -67,7 +78,7 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected Stage createStage(int width, int height, Batch batch) {
-		return new TitleControls(new FitViewport(width, height), batch);
+		return new TitleControls(new ScreenViewport(), batch);
 	}
 
 	/* (non-Javadoc)

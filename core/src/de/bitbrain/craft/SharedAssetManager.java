@@ -32,9 +32,7 @@ public class SharedAssetManager {
 
 	private static AssetManager instance = null;
 	
-	private SharedAssetManager() {
-		
-	}
+	private SharedAssetManager() { }
 	
 	static AssetManager getInstance() {
 		
