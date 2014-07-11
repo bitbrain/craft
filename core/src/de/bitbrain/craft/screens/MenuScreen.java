@@ -38,6 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
@@ -107,6 +108,10 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 			stage = createStage(width, height, batch);
 			Gdx.input.setInputProcessor(stage);
 			onCreateStage(stage);
+			
+			background.setColor(1f, 1f, 1f, 0f);
+			
+			onFadeIn(FADE_INTERVAL);
 		} else {		
 			stage.getViewport().update(width, height, true);
 		}
@@ -122,16 +127,6 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 		tweenManager = new TweenManager();
 		background = new Sprite(SharedAssetManager.get(Assets.TEXTURE_BACKGROUND, Texture.class));
 		background.flip(false, true);
-		
-		background.setColor(1f, 1f, 1f, 0f);
-		
-		onFadeIn(FADE_INTERVAL);
-		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
-			.ease(TweenEquations.easeInOutCubic)
-			.target(1f)
-			.setCallbackTriggers(TweenCallback.COMPLETE)
-			.setCallback(this)
-			.start(tweenManager);
 		
 		onShow();
 	}
@@ -167,13 +162,13 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 	public void setScreen(Screen screen) {		
 		Gdx.input.setInputProcessor(null);
 		nextScreen = screen;
-		
+		onFadeOut(FADE_INTERVAL);
 		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
-		.ease(TweenEquations.easeInOutCubic)
-		.target(0f)
-		.setCallbackTriggers(TweenCallback.COMPLETE)
-		.setCallback(this)
-		.start(tweenManager);
+		 	 .ease(TweenEquations.easeInOutCubic)
+		     .target(0f)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .setCallback(this)
+			 .start(tweenManager);
 		
 	}
 	
@@ -185,8 +180,32 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 	
 	protected abstract void onShow();
 	
-	protected void onFadeIn(float parentInterval) { }	
-	protected void onFadeOut(float parentInterval) { }
+	protected void onFadeIn(float parentInterval) {
+		
+		if (stage != null && stage.getRoot() != null) {
+			stage.getRoot().setColor(1f, 1f, 1f, 0.0f);
+			Tween.to(stage.getRoot(), ActorTween.ALPHA, parentInterval)
+			     .ease(TweenEquations.easeInOutCubic)
+			     .target(1f)
+			     .start(tweenManager);
+		}
+		
+		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .target(1f)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .setCallback(this)
+			 .start(tweenManager);
+	}	
+	protected void onFadeOut(float parentInterval) { 
+		if (stage != null && stage.getRoot() != null) {
+			Tween.to(stage.getRoot(), ActorTween.ALPHA, parentInterval)
+			     .ease(TweenEquations.easeInOutCubic)
+			     .target(0f)
+			     .start(tweenManager);
+		}
+	}
+	
 	protected void afterFadeIn(float parentInterval) { }
 	protected void afterFadeOut(float parentInterval) { }
 

@@ -135,12 +135,27 @@ public class TitleScreen extends MenuScreen {
 		logo = new Sprite(SharedAssetManager.get(Assets.TEXTURE_LOGO, Texture.class));
 		logo.flip(false, true);
 		
+	}
+	
+	@Override
+	protected void onFadeIn(float parentInterval) {
+		super.onFadeIn(parentInterval);
 		logo.setColor(1f, 1f, 1f, 0f);
 		
-		/*Tween.to(logo, SpriteTween.ALPHA, 1f)
+		Tween.to(logo, SpriteTween.ALPHA, parentInterval)
 		  .target(1f)
 		  .ease(TweenEquations.easeInOutCubic)
-		  .start(tweenManager);*/
+		  .start(tweenManager);
+	}
+	
+	@Override
+	protected void onFadeOut(float parentInterval) {
+		super.onFadeOut(parentInterval);
+		
+		Tween.to(logo, SpriteTween.ALPHA, parentInterval)
+		  .target(0f)
+		  .ease(TweenEquations.easeInOutCubic)
+		  .start(tweenManager);
 	}
 
 	

@@ -26,8 +26,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.bitbrain.craft.screens.TitleScreen;
+import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
@@ -78,5 +80,6 @@ public class CraftGame extends Game {
 	
 	private void registerTweens() {
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
+		Tween.registerAccessor(Actor.class, new ActorTween());
 	}
 }
