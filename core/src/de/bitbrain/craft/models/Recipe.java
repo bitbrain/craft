@@ -20,7 +20,7 @@
 package de.bitbrain.craft.models;
 
 /**
- * Provides data from the database for the game
+ * Recipe which describes how to make items out of other items
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0

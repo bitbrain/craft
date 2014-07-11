@@ -20,12 +20,12 @@
 package de.bitbrain.craft.models;
 
 /**
- * Profession of a player
+ * Player which owns a game
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class Profession {
+public class Player {
 
 }
