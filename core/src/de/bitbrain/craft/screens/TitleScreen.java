@@ -69,14 +69,14 @@ public class TitleScreen extends MenuScreen {
 	protected void onCreateStage(Stage stage) {
 		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);	
 		
-		final CraftGame tempGame = game;
+		final TitleScreen tempScreen = this;
 		
 		btnPlay.addCaptureListener(new ClickListener() {
 
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				tempGame.setScreen(new ProfessionScreen(tempGame));
+				tempScreen.setScreen(new ProfessionScreen(tempScreen.game));
 			}
 			
 		});
@@ -137,10 +137,10 @@ public class TitleScreen extends MenuScreen {
 		
 		logo.setColor(1f, 1f, 1f, 0f);
 		
-		Tween.to(logo, SpriteTween.ALPHA, 1f)
+		/*Tween.to(logo, SpriteTween.ALPHA, 1f)
 		  .target(1f)
 		  .ease(TweenEquations.easeInOutCubic)
-		  .start(tweenManager);
+		  .start(tweenManager);*/
 	}
 
 	

@@ -19,7 +19,9 @@
 
 package de.bitbrain.craft.screens;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -45,7 +47,7 @@ import de.bitbrain.craft.tweens.SpriteTween;
  * @since 1.0
  * @version 1.0
  */
-public abstract class MenuScreen implements Screen {
+public abstract class MenuScreen implements Screen, TweenCallback {
 	
 	protected CraftGame game;
 	
@@ -58,6 +60,12 @@ public abstract class MenuScreen implements Screen {
 	protected Stage stage;
 	
 	protected TweenManager tweenManager;
+	
+	private boolean fadeIn  = true;
+	
+	private Screen nextScreen;
+	
+	public static final float FADE_INTERVAL = 0.4f;
 	
 	
 	public MenuScreen(CraftGame game) {
@@ -108,6 +116,7 @@ public abstract class MenuScreen implements Screen {
 
 	@Override
 	public final void show() {
+		fadeIn = true;
 		camera = new OrthographicCamera();	
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
@@ -116,9 +125,12 @@ public abstract class MenuScreen implements Screen {
 		
 		background.setColor(1f, 1f, 1f, 0f);
 		
-		Tween.to(background, SpriteTween.ALPHA, 0.3f)
+		onFadeIn(FADE_INTERVAL);
+		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
 			.ease(TweenEquations.easeInOutCubic)
 			.target(1f)
+			.setCallbackTriggers(TweenCallback.COMPLETE)
+			.setCallback(this)
 			.start(tweenManager);
 		
 		onShow();
@@ -138,6 +150,33 @@ public abstract class MenuScreen implements Screen {
 	@Override
 	public void resume() { }
 	
+	@Override
+	public void onEvent(int type, BaseTween<?> source) {
+		if (fadeIn) {
+			afterFadeIn(FADE_INTERVAL);
+			fadeIn = false;
+		} else {
+			afterFadeOut(FADE_INTERVAL);
+			
+			if (nextScreen != null) {
+				game.setScreen(nextScreen);
+			}
+		}
+	}
+	
+	public void setScreen(Screen screen) {		
+		Gdx.input.setInputProcessor(null);
+		nextScreen = screen;
+		
+		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
+		.ease(TweenEquations.easeInOutCubic)
+		.target(0f)
+		.setCallbackTriggers(TweenCallback.COMPLETE)
+		.setCallback(this)
+		.start(tweenManager);
+		
+	}
+	
 	protected abstract void onCreateStage(Stage stage);
 	
 	protected abstract Stage createStage(int width, int height, Batch batch);
@@ -145,5 +184,10 @@ public abstract class MenuScreen implements Screen {
 	protected abstract void onDraw(Batch batch, float delta);
 	
 	protected abstract void onShow();
+	
+	protected void onFadeIn(float parentInterval) { }	
+	protected void onFadeOut(float parentInterval) { }
+	protected void afterFadeIn(float parentInterval) { }
+	protected void afterFadeOut(float parentInterval) { }
 
 }
