@@ -8,6 +8,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
         classpath 'com.android.tools.build:gradle:0.10+'
         classpath 'com.github.jtakakura:gradle-robovm-plugin:0.0.9'
+        classpath 'org.xerial:sqlite-jdbc:3.7.2'
     }
 }
 
@@ -91,6 +92,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "aurelienribon:tweenengine:6.3.3"
         compile "aurelienribon:tweenengine:6.3.3:sources"
+	compile "org.xerial:sqlite-jdbc:3.7.2"
     }
 }
 
