@@ -23,6 +23,7 @@ public class ActorTween implements TweenAccessor<Actor> {
 			return 1;
 		case SCALE:
 			returnValues[0] = target.getScaleX();
+			returnValues[1] = target.getScaleY();
 			return 1;
 		default:
 			return 0;
@@ -41,7 +42,8 @@ public class ActorTween implements TweenAccessor<Actor> {
 			target.setPosition(target.getX(), newValues[0]);
 			break;
 		case SCALE:
-			target.setScale(newValues[0]);
+			target.setScaleX(newValues[0]);
+			target.setScaleY(newValues[1]);
 			break;
 		}
 	}

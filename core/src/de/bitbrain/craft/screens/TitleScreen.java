@@ -173,12 +173,21 @@ public class TitleScreen extends MenuScreen {
 	protected void afterFadeIn(float parentInterval) {
 		super.afterFadeIn(parentInterval);
 		btnPlay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Tween.to(btnPlay, ActorTween.ALPHA, 0.6f)
+
+		final float INTERVAL = 0.6f;
+		
+		Tween.to(btnPlay, ActorTween.SCALE, INTERVAL)
+		.repeatYoyo(Tween.INFINITY, 0f)
+		.ease(TweenEquations.easeNone)
+		.target(0.7f)
+		.start(tweenManager);
+		
+		Tween.to(btnPlay, ActorTween.ALPHA, INTERVAL)
 		.repeatYoyo(Tween.INFINITY, 0f)
 		.ease(TweenEquations.easeNone)
 		.target(0.8f)
 		.start(tweenManager);
-		Tween.to(btnPlay.getLabel(), ActorTween.ALPHA, 0.6f)
+		Tween.to(btnPlay.getLabel(), ActorTween.ALPHA, INTERVAL)
 		.repeatYoyo(Tween.INFINITY, 0f)
 		.ease(TweenEquations.easeNone)
 		.target(0.8f)
