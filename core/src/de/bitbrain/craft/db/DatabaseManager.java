@@ -17,45 +17,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.screens;
+package de.bitbrain.craft.db;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import java.util.Collection;
 
-import de.bitbrain.craft.CraftGame;
+import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Recipe;
 
 /**
- * Shows up a selection for available professions
+ * Provides data from the database for the game
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionScreen extends MenuScreen {
-
-	public ProfessionScreen(CraftGame game) {
-		super(game);
-	}
-
-	@Override
-	protected void onCreateStage(Stage stage) {
-		
-	}
-
-	@Override
-	protected Stage createStage(int width, int height, Batch batch) {
-		
-		return null;
-	}
-
-	@Override
-	protected void onDraw(Batch batch, float delta) {
-
-	}
-
-	@Override
-	protected void onShow() {
-
-	}
+public interface DatabaseManager {
+	
+	Profession findProfession(String id);
+	Collection<Profession> allProfessions();
+	
+	Item findItem(String id);
+	Collection<Item> allItems();
+	
+	Recipe findRecipe(String id);
+	Collection<Recipe> allRecipes();
 
 }
