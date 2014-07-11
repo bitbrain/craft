@@ -24,6 +24,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,7 +41,9 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.controls.TitleControls;
+import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
@@ -80,6 +83,9 @@ public class TitleScreen extends MenuScreen {
 			}
 			
 		});
+		
+		btnPlay.addCaptureListener(new ButtonSoundListener());
+		
 		stage.addActor(btnPlay);
 		
 		LabelStyle lblStyle = new LabelStyle();
@@ -135,6 +141,11 @@ public class TitleScreen extends MenuScreen {
 		logo = new Sprite(SharedAssetManager.get(Assets.TEXTURE_LOGO, Texture.class));
 		logo.flip(false, true);
 		
+		Music music = SharedAssetManager.get(Assets.MUSIC_MENU, Music.class);
+		music.setLooping(true);
+		music.setVolume(0.4f);
+		music.play();
+		
 	}
 	
 	@Override
@@ -158,5 +169,20 @@ public class TitleScreen extends MenuScreen {
 		  .start(tweenManager);
 	}
 
+	@Override
+	protected void afterFadeIn(float parentInterval) {
+		super.afterFadeIn(parentInterval);
+		btnPlay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		Tween.to(btnPlay, ActorTween.ALPHA, 0.6f)
+		.repeatYoyo(Tween.INFINITY, 0f)
+		.ease(TweenEquations.easeNone)
+		.target(0.8f)
+		.start(tweenManager);
+		Tween.to(btnPlay.getLabel(), ActorTween.ALPHA, 0.6f)
+		.repeatYoyo(Tween.INFINITY, 0f)
+		.ease(TweenEquations.easeNone)
+		.target(0.8f)
+		.start(tweenManager);
+	}
 	
 }	

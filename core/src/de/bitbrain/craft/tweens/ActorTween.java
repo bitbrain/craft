@@ -9,6 +9,8 @@ public class ActorTween implements TweenAccessor<Actor> {
 	public static final int ALPHA = 1;
 
 	public static final int POPUP = 2;
+	
+	public static final int SCALE = 3;
 
 	@Override
 	public int getValues(Actor target, int tweenType, float[] returnValues) {
@@ -18,6 +20,9 @@ public class ActorTween implements TweenAccessor<Actor> {
 			return 1;
 		case POPUP:
 			returnValues[0] = target.getY();
+			return 1;
+		case SCALE:
+			returnValues[0] = target.getScaleX();
 			return 1;
 		default:
 			return 0;
@@ -34,6 +39,9 @@ public class ActorTween implements TweenAccessor<Actor> {
 			break;
 		case POPUP:
 			target.setPosition(target.getX(), newValues[0]);
+			break;
+		case SCALE:
+			target.setScale(newValues[0]);
 			break;
 		}
 	}

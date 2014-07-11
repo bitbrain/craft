@@ -43,6 +43,10 @@ public final class Assets {
 	 */
 	public static final String FOLDER_FONTS = "fonts/";
 	
+	/**
+	 * Audio folderpath
+	 */
+	public static final String FOLDER_AUDIO = "audio/";
 	
 	// ---------- FONTS -----------	
 	
@@ -66,6 +70,15 @@ public final class Assets {
 	 */
 	public static final String FONT_BIG = FOLDER_FONTS + "big.fnt";
 
+	// ---------- SOUNDS ----------
+	
+	public static final String SOUND_BUTTON_01 = FOLDER_AUDIO + "button_01.wav";	
+	
+	
+	// ---------- MUSIC ----------
+	
+	public static final String MUSIC_MENU = FOLDER_AUDIO + "menu.mp3";	
+	
 	
 	// ---------- TEXTURES --------
 

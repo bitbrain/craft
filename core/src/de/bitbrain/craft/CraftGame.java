@@ -23,6 +23,8 @@ import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -72,6 +74,10 @@ public class CraftGame extends Game {
 		mgr.load(Assets.TEXTURE_LOGO, Texture.class);
 		mgr.load(Assets.TEXTURE_BUTTON, Texture.class);
 		mgr.load(Assets.TEXTURE_BUTTON_DARK, Texture.class);
+		
+		mgr.load(Assets.SOUND_BUTTON_01, Sound.class);
+		
+		mgr.load(Assets.MUSIC_MENU, Music.class);
 		
 		mgr.finishLoading();
 		
