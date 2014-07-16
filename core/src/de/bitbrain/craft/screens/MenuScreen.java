@@ -106,7 +106,6 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 		
 		if (stage == null) {
 			stage = createStage(width, height, batch);
-			Gdx.input.setInputProcessor(stage);
 			onCreateStage(stage);
 			
 			background.setColor(1f, 1f, 1f, 0f);
@@ -206,7 +205,9 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 		}
 	}
 	
-	protected void afterFadeIn(float parentInterval) { }
+	protected void afterFadeIn(float parentInterval) {
+		Gdx.input.setInputProcessor(stage);
+	}
 	protected void afterFadeOut(float parentInterval) { }
 
 }
