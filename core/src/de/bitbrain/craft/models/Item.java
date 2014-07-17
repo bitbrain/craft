@@ -28,4 +28,72 @@ package de.bitbrain.craft.models;
  */
 public class Item {
 
+	private String id = "";
+	
+	private String name = "";
+	
+	private String description = "";
+	
+	private String icon = "";
+	
+	private Rarity rarity = Rarity.COMMON;
+	
+	private int level = 1;
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	public Rarity getRarity() {
+		return rarity;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setRarity(Rarity rarity) {
+		this.rarity = rarity;
+	}
+	
+	public static enum Rarity {
+		TRASH,
+		COMMON,
+		RARE,
+		EPIC,
+		UNIQUE,
+		LEGENDARY
+	}
 }
