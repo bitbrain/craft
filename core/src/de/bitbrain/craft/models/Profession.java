@@ -28,4 +28,53 @@ package de.bitbrain.craft.models;
  */
 public class Profession {
 
+	private String id;
+	
+	private String name;
+	
+	private String description;
+	
+	private String icon;
+	
+	private String banner;
+	
+	public String getBanner() {
+		return banner;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setBanner(String banner) {
+		this.banner = banner;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 }

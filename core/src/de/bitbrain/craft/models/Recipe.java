@@ -32,7 +32,7 @@ import de.myreality.jpersis.annotations.IgnoredMethod;
  */
 public class Recipe {
 
-	private int id;
+	private String id;
 	
 	private List<String> itemIds;
 	
@@ -52,7 +52,7 @@ public class Recipe {
 		this.icon = icon;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -73,7 +73,7 @@ public class Recipe {
 		return icon;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
