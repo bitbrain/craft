@@ -34,19 +34,41 @@ public final class Assets {
 	// ---------- GENERAL --------
 	
 	/**
-	 * Texture folderpath
+	 * Texture folder path
 	 */
 	public static final String FOLDER_IMAGES = "images/";
 	
 	/**
-	 * Font folderpath
+	 * Font folder path
 	 */
 	public static final String FOLDER_FONTS = "fonts/";
 	
 	/**
-	 * Audio folderpath
+	 * Audio folder path
 	 */
 	public static final String FOLDER_AUDIO = "audio/";
+	
+	/**
+	 * Language folder path
+	 */
+	public static final String FOLDER_LANGUAGE = "i18n/";
+	
+	// ---------- BUNDLES -----------	
+	
+	/**
+	 * General bundle, contains basic game translations
+	 */
+	public static final String BUNDLE_GENERAL = FOLDER_LANGUAGE + "general.properties";
+	
+	/**
+	 * item bundle, contains item game translations
+	 */
+	public static final String BUNDLE_ITEMS = FOLDER_LANGUAGE + "items.properties";
+	
+	/**
+	 * General bundle, contains recipe game translations
+	 */
+	public static final String BUNDLE_RECIPES = FOLDER_LANGUAGE + "recipes.properties";
 	
 	// ---------- FONTS -----------	
 	
