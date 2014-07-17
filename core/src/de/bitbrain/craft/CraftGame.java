@@ -82,6 +82,9 @@ public class CraftGame extends Game {
 		mgr.load(Assets.TEXTURE_LOGO, Texture.class);
 		mgr.load(Assets.TEXTURE_BUTTON, Texture.class);
 		mgr.load(Assets.TEXTURE_BUTTON_DARK, Texture.class);
+		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL, Texture.class);
+		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_DOWN, Texture.class);
+		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_HOVER, Texture.class);
 		
 		mgr.load(Assets.SOUND_BUTTON_01, Sound.class);
 		

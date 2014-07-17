@@ -134,6 +134,14 @@ public final class Assets {
 	 */
 	public static final String TEXTURE_JEWELER_BANNER = FOLDER_IMAGES + "jeweler-banner.png";
 	
+	/**
+	 * Vertical panel (medium)
+	 */
+	
+	public static final String TEXTURE_PANEL_MEDIUM_VERTICAL = FOLDER_IMAGES + "panel_medium_vertical.png";
+	public static final String TEXTURE_PANEL_MEDIUM_VERTICAL_DOWN = FOLDER_IMAGES + "panel_medium_vertical_down.png";
+	public static final String TEXTURE_PANEL_MEDIUM_VERTICAL_HOVER = FOLDER_IMAGES + "panel_medium_vertical_hover.png";
+	
 	// ---------- COLORS ----------
 	
 	/**
@@ -142,4 +150,6 @@ public final class Assets {
 	public static final Color COLOR_GREEN_GRASS = Color.valueOf("b8d41c");
 	public static final Color COLOR_GREEN_GRASS_LIGHT = Color.valueOf("c7e03d");
 	public static final Color COLOR_WOOD_TEAK = Color.valueOf("6a2b05");
+	public static final Color COLOR_SAND_LIGHT = Color.valueOf("dcc77d");
+	public static final Color COLOR_SAND_LIGHT_ALPHA = Color.valueOf("dcc77d99");
 }

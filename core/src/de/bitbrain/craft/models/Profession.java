@@ -54,7 +54,7 @@ public enum Profession {
 		
 	},
 	
-	SCIENTIST {
+	ENGINEER {
 
 		@Override
 		public String getIcon() {
@@ -64,8 +64,7 @@ public enum Profession {
 
 		@Override
 		public String getName() {
-			// TODO Auto-generated method stub
-			return null;
+			return "Scientist";
 		}
 
 		@Override
@@ -92,8 +91,7 @@ public enum Profession {
 
 		@Override
 		public String getName() {
-			// TODO Auto-generated method stub
-			return null;
+			return "Alchemist";
 		}
 
 		@Override

@@ -48,7 +48,6 @@ public class ProfessionScreen extends MenuScreen {
 		
 		selection.align(Align.center);
 		selection.setFillParent(true);
-		selection.debug();
 		
 		
 		stage.addActor(selection);

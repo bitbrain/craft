@@ -55,6 +55,9 @@ public class ProfessionSelection extends Table implements EventListener {
 			.height(Gdx.graphics.getHeight() / 1.2f)
 			.pad(Gdx.graphics.getWidth() / 70f);
 			
+			element.getLabel().setFontScale(element.getWidth() / 150f);
+			element.padTop(140f);
+			
 		}
 		
 		this.pad(Gdx.graphics.getWidth() / 40f);
@@ -79,7 +82,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	public class ProfessionElement extends TextButton {
 		
-		private Profession profession;
+		Profession profession;
 
 		/**
 		 * @param text
