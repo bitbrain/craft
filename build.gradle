@@ -4,6 +4,7 @@ buildscript {
         mavenLocal()
         maven { url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/' }
     }
+
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.4'
         classpath 'com.android.tools.build:gradle:0.10+'
@@ -94,6 +95,7 @@ project(":core") {
         compile "aurelienribon:tweenengine:6.3.3:sources"
 	compile "org.xerial:sqlite-jdbc:3.7.2"
 	compile "myreality:jpersis:1.0.0"
+        testCompile "junit:junit:4.10"
     }
 }
 

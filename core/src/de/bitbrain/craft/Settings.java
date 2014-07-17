@@ -34,4 +34,6 @@ public final class Settings {
 	public static final String VERSION = "0.1";	
 	public static final String NAME = "Craft";
 	public static final String PHASE = "dev";
+	
+	public static final String DATABASE = "data.db";
 }

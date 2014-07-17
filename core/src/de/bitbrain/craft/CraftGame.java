@@ -22,6 +22,7 @@ package de.bitbrain.craft;
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -30,9 +31,13 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import de.bitbrain.craft.db.SQLiteConnector;
+import de.bitbrain.craft.models.ItemMapper;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.myreality.jpersis.MapperManager;
+import de.myreality.jpersis.db.DatabaseConnector;
 
 /**
  * Main game file which handles all screens
@@ -46,6 +51,7 @@ public class CraftGame extends Game {
 	@Override
 	public void create () {
 		loadResources();
+		initDatabase();
 		registerTweens();
 		TitleScreen screen = new TitleScreen(this);
 		setScreen(screen);	
@@ -55,11 +61,13 @@ public class CraftGame extends Game {
 	public void resume() {
 		super.resume();
 		loadResources();
+		initDatabase();
 	}
 	
 	@Override
 	public void dispose() {
 		SharedAssetManager.dispose();
+		shutdownDatabase();
 	}
 	
 	private void loadResources() {
@@ -87,5 +95,15 @@ public class CraftGame extends Game {
 	private void registerTweens() {
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
 		Tween.registerAccessor(Actor.class, new ActorTween());
+	}
+	
+	private void initDatabase() {
+		String databasePath = Gdx.files.internal(Settings.DATABASE).path();
+		DatabaseConnector connector = new SQLiteConnector(databasePath);
+		MapperManager.setDefaultConnector(connector);
+	}
+	
+	private void shutdownDatabase() {
+		
 	}
 }
