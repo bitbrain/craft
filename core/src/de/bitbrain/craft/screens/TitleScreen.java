@@ -38,6 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
@@ -70,7 +71,7 @@ public class TitleScreen extends MenuScreen {
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		btnPlay = new TextButton("PLAY", Styles.TEXT_BUTTON);	
+		btnPlay = new TextButton(Bundles.general.get(Bundles.START), Styles.TEXT_BUTTON);	
 		
 		final TitleScreen tempScreen = this;
 		
@@ -91,7 +92,7 @@ public class TitleScreen extends MenuScreen {
 		LabelStyle lblStyle = new LabelStyle();
 		lblStyle.fontColor = Assets.COLOR_WOOD_TEAK;
 		lblStyle.font =  SharedAssetManager.get(Assets.FONT_SMALL, BitmapFont.class);
-		lblCredits = new Label("a game by Miguel Gonzalez", lblStyle);
+		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), lblStyle);
 		stage.addActor(lblCredits);
 	}
 

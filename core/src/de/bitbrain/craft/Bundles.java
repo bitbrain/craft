@@ -32,19 +32,32 @@ import com.badlogic.gdx.utils.I18NBundle;
  * @since 1.0
  * @version 1.0
  */
-public class Bundles {
+public final class Bundles {
 
 	public static I18NBundle general, items, recipes;
 	
-	static {
-		FileHandle generalHandle = Gdx.files.internal(Assets.BUNDLE_GENERAL);
-		FileHandle itemHandle = Gdx.files.internal(Assets.BUNDLE_ITEMS);
-		FileHandle recipesHandle = Gdx.files.internal(Assets.BUNDLE_RECIPES);
+	private static FileHandle generalHandle;
+	private static FileHandle itemHandle;
+	private static FileHandle recipesHandle;
+	
+	static void load() {		
+
+		generalHandle = Gdx.files.internal(Assets.BUNDLE_GENERAL);
+		itemHandle = Gdx.files.internal(Assets.BUNDLE_ITEMS);
+		recipesHandle = Gdx.files.internal(Assets.BUNDLE_RECIPES);
 		
-		Locale locale = new Locale("en");
-		
+		Locale locale = new Locale("en");		
+		setLocale(locale);
+	}
+	
+	public static void setLocale(Locale locale) {
 		general = I18NBundle.createBundle(generalHandle, locale);
 		items = I18NBundle.createBundle(itemHandle, locale);
 		recipes = I18NBundle.createBundle(recipesHandle, locale);
 	}
+	
+	// KEYS
+	
+	public static final String START = "play";
+	public static final String CREDITS = "credits";
 }

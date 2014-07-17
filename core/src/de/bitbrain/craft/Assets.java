@@ -58,17 +58,17 @@ public final class Assets {
 	/**
 	 * General bundle, contains basic game translations
 	 */
-	public static final String BUNDLE_GENERAL = FOLDER_LANGUAGE + "general.properties";
+	public static final String BUNDLE_GENERAL = FOLDER_LANGUAGE + "general";
 	
 	/**
 	 * item bundle, contains item game translations
 	 */
-	public static final String BUNDLE_ITEMS = FOLDER_LANGUAGE + "items.properties";
+	public static final String BUNDLE_ITEMS = FOLDER_LANGUAGE + "items";
 	
 	/**
 	 * General bundle, contains recipe game translations
 	 */
-	public static final String BUNDLE_RECIPES = FOLDER_LANGUAGE + "recipes.properties";
+	public static final String BUNDLE_RECIPES = FOLDER_LANGUAGE + "recipes";
 	
 	// ---------- FONTS -----------	
 	

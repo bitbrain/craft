@@ -52,6 +52,7 @@ public class CraftGame extends Game {
 		loadResources();
 		initDatabase();
 		registerTweens();
+		Bundles.load();
 		TitleScreen screen = new TitleScreen(this);
 		setScreen(screen);	
 	}
