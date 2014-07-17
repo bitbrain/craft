@@ -52,6 +52,62 @@ public enum Profession {
 			return Assets.TEXTURE_JEWELER_BANNER;
 		}
 		
+	},
+	
+	SCIENTIST {
+
+		@Override
+		public String getIcon() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getBanner() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	},
+	
+	ALCHEMIST {
+
+		@Override
+		public String getIcon() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public String getBanner() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	};
 
 	public abstract String getIcon();

@@ -34,6 +34,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
@@ -97,8 +98,10 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 			onDraw(batch, delta);
 		batch.end();
 		
-		if (stage != null)
+		if (stage != null) {
 			stage.draw();
+			Table.drawDebug(stage);
+		}
 	}
 
 	@Override
