@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.models;
 
+import de.bitbrain.craft.Assets;
+
 /**
  * Profession of a player
  * 
@@ -26,55 +28,37 @@ package de.bitbrain.craft.models;
  * @since 1.0
  * @version 1.0
  */
-public class Profession {
+public enum Profession {
+	
+	JEWELER {
 
-	private String id;
+		@Override
+		public String getIcon() {
+			return Assets.TEXTURE_JEWELER_ICON;
+		}
+
+		@Override
+		public String getName() {
+			return "jeweler";
+		}
+
+		@Override
+		public String getDescription() {
+			return "jeweler-info";
+		}
+
+		@Override
+		public String getBanner() {
+			return Assets.TEXTURE_JEWELER_BANNER;
+		}
+		
+	};
+
+	public abstract String getIcon();
 	
-	private String name;
+	public abstract String getName();
 	
-	private String description;
+	public abstract String getDescription();
 	
-	private String icon;
-	
-	private String banner;
-	
-	public String getBanner() {
-		return banner;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public String getIcon() {
-		return icon;
-	}
-	
-	public String getId() {
-		return id;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setBanner(String banner) {
-		this.banner = banner;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
+	public abstract String getBanner();
 }

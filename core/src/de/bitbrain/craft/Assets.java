@@ -102,6 +102,16 @@ public final class Assets {
 	 */
 	public static final String TEXTURE_BUTTON_DARK = FOLDER_IMAGES + "button_down.png";
 	
+	/**
+	 * Jeweler icon
+	 */
+	public static final String TEXTURE_JEWELER_ICON = FOLDER_IMAGES + "jeweler-icon.png";
+	
+	/**
+	 * Jeweler banner
+	 */
+	public static final String TEXTURE_JEWELER_BANNER = FOLDER_IMAGES + "jeweler-banner.png";
+	
 	// ---------- COLORS ----------
 	
 	/**
