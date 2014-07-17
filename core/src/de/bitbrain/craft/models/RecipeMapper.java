@@ -9,32 +9,32 @@ import de.myreality.jpersis.annotations.Insert;
 import de.myreality.jpersis.annotations.Select;
 import de.myreality.jpersis.annotations.Update;
 
-@DataMapper(model = "de.bitbrain.craft.models.Item", table="item", primaryKey = "id")
-public interface ItemMapper {
+@DataMapper(model = "de.bitbrain.craft.models.Recipe", table="recipe", primaryKey = "id")
+public interface RecipeMapper {
 
 	@Select
-	Collection<Item> findAll();
+	Collection<Recipe> findAll();
 	
 	@Select(condition = "id = $1")
-	Item findById(int id);
+	Recipe findById(int id);
 	
 	@Insert
-	void insert(Item item);
+	void insert(Recipe item);
 	
 	@Insert
-	void insert(Collection<Item> items);
+	void insert(Collection<Recipe> items);
 	
 	@Update
-	void update(Item customer);
+	void update(Recipe customer);
 
 	@Update
-	void update(Collection<Item> customer);
+	void update(Collection<Recipe> customer);
 	
 	@Delete
-	void delete(Item item);
+	void delete(Recipe item);
 	
 	@Delete
-	void delete(Collection<Item> items);
+	void delete(Collection<Recipe> items);
 	
 	@Count
     int count();

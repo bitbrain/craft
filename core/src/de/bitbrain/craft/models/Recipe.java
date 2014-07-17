@@ -19,6 +19,10 @@
 
 package de.bitbrain.craft.models;
 
+import java.util.List;
+
+import de.myreality.jpersis.annotations.IgnoredMethod;
+
 /**
  * Recipe which describes how to make items out of other items
  * 
@@ -28,4 +32,65 @@ package de.bitbrain.craft.models;
  */
 public class Recipe {
 
+	private int id;
+	
+	private List<String> itemIds;
+	
+	private String productId;
+	
+	private String name;
+	
+	private String description;
+	
+	private String icon;
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	@IgnoredMethod
+	public void setItemIds(List<String> items) {
+		this.itemIds = items;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getIcon() {
+		return icon;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String getProductId() {
+		return productId;
+	}
+	
+	public void setProductId(String product) {
+		this.productId = product;
+	}
+	
+	@IgnoredMethod
+	public List<String> getItemIds() {
+		return itemIds;
+	}
+	
+	public String getName() {
+		return name;
+	}
 }
