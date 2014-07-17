@@ -142,6 +142,12 @@ public final class Assets {
 	public static final String TEXTURE_PANEL_MEDIUM_VERTICAL_DOWN = FOLDER_IMAGES + "panel_medium_vertical_down.png";
 	public static final String TEXTURE_PANEL_MEDIUM_VERTICAL_HOVER = FOLDER_IMAGES + "panel_medium_vertical_hover.png";
 	
+	// ICONS
+	
+	public static final String TEXTURE_ICO_JEWEL_DIAMOND_MEDIUM = FOLDER_IMAGES + "icons/ico_jewel_diamond_medium.png";
+	public static final String TEXTURE_ICO_FAB_POWER_MEDIUM = FOLDER_IMAGES + "icons/ico_fab_power_medium.png";
+	public static final String TEXTURE_ICO_ALCHEMY_FLASK_OVERVIEW = FOLDER_IMAGES + "icons/ico_alchemy_flasks_overview.png";
+	
 	// ---------- COLORS ----------
 	
 	/**

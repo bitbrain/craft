@@ -46,7 +46,7 @@ public final class Bundles {
 		itemHandle = Gdx.files.internal(Assets.BUNDLE_ITEMS);
 		recipesHandle = Gdx.files.internal(Assets.BUNDLE_RECIPES);
 		
-		Locale locale = new Locale("en");		
+		Locale locale = new Locale("de");		
 		setLocale(locale);
 	}
 	
@@ -60,4 +60,7 @@ public final class Bundles {
 	
 	public static final String START = "play";
 	public static final String CREDITS = "credits";
+	public static final String ALCHEMIST = "alchemist";
+	public static final String ENGINEER = "engineer";
+	public static final String JEWELER = "jeweler";
 }

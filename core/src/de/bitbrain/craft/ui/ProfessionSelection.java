@@ -21,11 +21,18 @@
 package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.models.Profession;
@@ -82,7 +89,9 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	public class ProfessionElement extends TextButton {
 		
-		Profession profession;
+		private Sprite icon;
+		
+		private float iconAlpha = 0.5f;
 
 		/**
 		 * @param text
@@ -90,7 +99,80 @@ public class ProfessionSelection extends Table implements EventListener {
 		 */
 		public ProfessionElement(String text, TextButtonStyle style, Profession profession) {
 			super(text, style);
-			this.profession = profession;
+			
+			Texture tex = getProfessionTexture(profession);
+			
+			if (tex != null) {
+				icon = new Sprite(tex);
+			}
+			
+			addCaptureListener(new IconModulator());
+		}
+		
+		/* (non-Javadoc)
+		 * @see com.badlogic.gdx.scenes.scene2d.ui.TextButton#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+		 */
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			super.draw(batch, parentAlpha);
+			
+			if (icon != null) {
+				icon.setSize(getWidth() / 1.5f, getWidth() / 1.5f);
+				icon.setPosition(getX() + getWidth() / 2 - icon.getWidth() / 2, getY() + getHeight() / 2.5f);
+				icon.draw(batch, parentAlpha * iconAlpha);
+			}
+			
+		}
+		
+		private Texture getProfessionTexture(Profession profession) {			
+			if (profession.getIcon() != null) {
+				return SharedAssetManager.get(profession.getIcon(), Texture.class);
+			} else {
+				return null;
+			}
+		}
+		
+		
+		private class IconModulator extends ClickListener {
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+			 */
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				iconAlpha = 1.0f;
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#enter(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, com.badlogic.gdx.scenes.scene2d.Actor)
+			 */
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				super.enter(event, x, y, pointer, fromActor);
+				iconAlpha = 1.0f;
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#touchUp(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			 */
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				iconAlpha = 1.0f;
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#exit(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, com.badlogic.gdx.scenes.scene2d.Actor)
+			 */
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer,
+					Actor toActor) {
+				super.exit(event, x, y, pointer, toActor);
+				iconAlpha = 0.5f;
+			}
 		}
 		
 	}

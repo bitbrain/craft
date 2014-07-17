@@ -86,6 +86,10 @@ public class CraftGame extends Game {
 		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_DOWN, Texture.class);
 		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_HOVER, Texture.class);
 		
+		mgr.load(Assets.TEXTURE_ICO_JEWEL_DIAMOND_MEDIUM, Texture.class);
+		mgr.load(Assets.TEXTURE_ICO_FAB_POWER_MEDIUM, Texture.class);
+		mgr.load(Assets.TEXTURE_ICO_ALCHEMY_FLASK_OVERVIEW, Texture.class);
+		
 		mgr.load(Assets.SOUND_BUTTON_01, Sound.class);
 		
 		mgr.load(Assets.MUSIC_MENU, Music.class);

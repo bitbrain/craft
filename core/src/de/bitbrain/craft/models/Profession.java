@@ -20,6 +20,7 @@
 package de.bitbrain.craft.models;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.Bundles;
 
 /**
  * Profession of a player
@@ -34,12 +35,12 @@ public enum Profession {
 
 		@Override
 		public String getIcon() {
-			return Assets.TEXTURE_JEWELER_ICON;
+			return Assets.TEXTURE_ICO_JEWEL_DIAMOND_MEDIUM;
 		}
 
 		@Override
 		public String getName() {
-			return "jeweler";
+			return Bundles.general.get(Bundles.JEWELER);
 		}
 
 		@Override
@@ -58,13 +59,12 @@ public enum Profession {
 
 		@Override
 		public String getIcon() {
-			// TODO Auto-generated method stub
-			return null;
+			return Assets.TEXTURE_ICO_FAB_POWER_MEDIUM;
 		}
 
 		@Override
 		public String getName() {
-			return "Scientist";
+			return Bundles.general.get(Bundles.ENGINEER);
 		}
 
 		@Override
@@ -85,13 +85,12 @@ public enum Profession {
 
 		@Override
 		public String getIcon() {
-			// TODO Auto-generated method stub
-			return null;
+			return Assets.TEXTURE_ICO_ALCHEMY_FLASK_OVERVIEW;
 		}
 
 		@Override
 		public String getName() {
-			return "Alchemist";
+			return Bundles.general.get(Bundles.ALCHEMIST);
 		}
 
 		@Override
