@@ -83,7 +83,7 @@ public class ProfessionScreen extends MenuScreen implements ProfessionSelectList
 	 */
 	@Override
 	public void onSelect(Profession profession) {
-		System.out.println("Selected: " + profession);
+		// TODO
 	}
 
 }

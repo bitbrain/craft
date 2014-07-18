@@ -46,7 +46,7 @@ public final class Bundles {
 		itemHandle = Gdx.files.internal(Assets.BUNDLE_ITEMS);
 		recipesHandle = Gdx.files.internal(Assets.BUNDLE_RECIPES);
 		
-		Locale locale = new Locale("de");		
+		Locale locale = new Locale("en");		
 		setLocale(locale);
 	}
 	

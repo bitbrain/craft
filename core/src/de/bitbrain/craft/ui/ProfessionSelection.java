@@ -72,6 +72,8 @@ public class ProfessionSelection extends Table implements EventListener {
 		
 		this.columnDefaults(Profession.values().length);
 		
+		ClickNotifier notifier = new ClickNotifier();
+		
 		for (int index = 0; index < Profession.values().length; index++) {			
 			
 			Profession f = Profession.values()[index];
@@ -79,6 +81,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			ProfessionElement element = new ProfessionElement(f.getName(), Styles.PROFESSION_BUTTON, f);
 			element.addCaptureListener(this);
 			element.addCaptureListener(new ButtonSoundListener(Assets.SOUND_CONFIRM));
+			element.addCaptureListener(notifier);
 
 			Cell<?> cell = add(element);
 			elements.put(cell, element);
@@ -98,14 +101,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	public boolean handle(Event event) {
 		
 		if (event.isCapture()) {
-			notify(event, true);
-			
-			if (event.getTarget() instanceof ProfessionElement) {			
-				for (ProfessionSelectListener l : listeners) {
-					l.onSelect(((ProfessionElement)event.getTarget()).getProfession());
-				}
-			}
-			
+			notify(event, true);			
 			return true;
 		}
 		
@@ -251,6 +247,24 @@ public class ProfessionSelection extends Table implements EventListener {
 			}
 		}
 		
+	}
+	
+	
+	private class ClickNotifier extends ClickListener {
+		
+		/* (non-Javadoc)
+		 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+		 */
+		@Override
+		public void clicked(InputEvent event, float x, float y) {
+			super.clicked(event, x, y);
+			
+			if (event.getTarget() instanceof ProfessionElement) {
+				for (ProfessionSelectListener l : listeners) {
+					l.onSelect(((ProfessionElement)event.getTarget()).getProfession());
+				}
+			}
+		}
 	}
 	
 	
