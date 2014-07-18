@@ -93,6 +93,7 @@ public class CraftGame extends Game {
 		mgr.load(Assets.SOUND_BUTTON_01, Sound.class);
 		mgr.load(Assets.SOUND_ABORT, Sound.class);
 		mgr.load(Assets.SOUND_CONFIRM, Sound.class);
+		mgr.load(Assets.SOUND_POP, Sound.class);
 		mgr.load(Assets.MUSIC_MENU, Music.class);
 		
 		mgr.finishLoading();

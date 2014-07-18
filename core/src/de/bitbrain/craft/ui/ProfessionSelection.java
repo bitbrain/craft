@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -45,6 +46,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
+import de.bitbrain.craft.audio.TweenNoise;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.ActorTween;
 
@@ -122,10 +124,17 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	private void animateElement(int index, ProfessionElement element, TweenManager tweenManager) {
 		element.getColor().a = 0f;
-		Tween.to(element, ActorTween.ALPHA, 1.0f)
-		.delay(index / 4f)
+		
+		TweenNoise n = new TweenNoise(Assets.SOUND_POP);
+		
+		n.pitch = index / 9.6f + 0.7f; 
+		
+		Tween.to(element, ActorTween.ALPHA, 0.6f)
+		.delay(index / 5f)
 		.target(1.0f)
-		.ease(TweenEquations.easeInOutQuad)
+		.setCallback(n)
+		.setCallbackTriggers(TweenCallback.START)
+		.ease(TweenEquations.easeInOutQuart)
 		.start(tweenManager);
 	}
 	

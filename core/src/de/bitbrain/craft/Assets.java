@@ -99,6 +99,9 @@ public final class Assets {
 	public static final String SOUND_ABORT = FOLDER_AUDIO + "abort.mp3";
 	
 	public static final String SOUND_CONFIRM = FOLDER_AUDIO + "confirm.mp3";
+	
+	public static final String SOUND_POP = FOLDER_AUDIO + "pop.mp3";
+	
 	// ---------- MUSIC ----------
 	
 	public static final String MUSIC_MENU = FOLDER_AUDIO + "menu.mp3";	
