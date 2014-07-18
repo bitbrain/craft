@@ -1,7 +1,8 @@
-package de.bitbrain.craft.models;
+package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
+import de.bitbrain.craft.models.Item;
 import de.myreality.jpersis.annotations.Count;
 import de.myreality.jpersis.annotations.DataMapper;
 import de.myreality.jpersis.annotations.Delete;
@@ -9,32 +10,32 @@ import de.myreality.jpersis.annotations.Insert;
 import de.myreality.jpersis.annotations.Select;
 import de.myreality.jpersis.annotations.Update;
 
-@DataMapper(model = "de.bitbrain.craft.models.Recipe", table="recipe", primaryKey = "id")
-public interface RecipeMapper {
+@DataMapper(model = "de.bitbrain.craft.models.Item", table="item", primaryKey = "id")
+public interface ItemMapper {
 
 	@Select
-	Collection<Recipe> findAll();
+	Collection<Item> findAll();
 	
 	@Select(condition = "id = $1")
-	Recipe findById(int id);
+	Item findById(int id);
 	
 	@Insert
-	void insert(Recipe item);
+	void insert(Item item);
 	
 	@Insert
-	void insert(Collection<Recipe> items);
+	void insert(Collection<Item> items);
 	
 	@Update
-	void update(Recipe customer);
+	void update(Item customer);
 
 	@Update
-	void update(Collection<Recipe> customer);
+	void update(Collection<Item> customer);
 	
 	@Delete
-	void delete(Recipe item);
+	void delete(Item item);
 	
 	@Delete
-	void delete(Collection<Recipe> items);
+	void delete(Collection<Item> items);
 	
 	@Count
     int count();

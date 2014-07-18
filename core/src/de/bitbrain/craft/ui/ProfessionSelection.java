@@ -20,7 +20,9 @@
 
 package de.bitbrain.craft.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -62,7 +64,11 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	private Map<Cell<?>, ProfessionElement> elements = new HashMap<Cell<?>, ProfessionElement>();
 	
+	private List<ProfessionSelectListener> listeners;
+	
 	public ProfessionSelection(TweenManager tweenManager) {
+		
+		listeners = new ArrayList<ProfessionSelectListener>();
 		
 		this.columnDefaults(Profession.values().length);
 		
@@ -93,10 +99,21 @@ public class ProfessionSelection extends Table implements EventListener {
 		
 		if (event.isCapture()) {
 			notify(event, true);
+			
+			if (event.getTarget() instanceof ProfessionElement) {			
+				for (ProfessionSelectListener l : listeners) {
+					l.onSelect(((ProfessionElement)event.getTarget()).getProfession());
+				}
+			}
+			
 			return true;
 		}
 		
 		return false;
+	}
+	
+	public void addProfessionSelectListener(ProfessionSelectListener l ) {
+		this.listeners.add(l);
 	}
 	
 	
@@ -143,6 +160,8 @@ public class ProfessionSelection extends Table implements EventListener {
 		private Sprite icon;
 		
 		private float iconAlpha = 0.5f;
+		
+		private Profession profession;
 
 		/**
 		 * @param text
@@ -151,6 +170,8 @@ public class ProfessionSelection extends Table implements EventListener {
 		public ProfessionElement(String text, TextButtonStyle style, Profession profession) {
 			super(text, style);
 			
+			this.profession = profession;
+			
 			Texture tex = getProfessionTexture(profession);
 			
 			if (tex != null) {
@@ -158,6 +179,10 @@ public class ProfessionSelection extends Table implements EventListener {
 			}
 			
 			addCaptureListener(new IconModulator());
+		}
+		
+		public Profession getProfession() {
+			return profession;
 		}
 		
 		/* (non-Javadoc)
@@ -226,5 +251,11 @@ public class ProfessionSelection extends Table implements EventListener {
 			}
 		}
 		
+	}
+	
+	
+	public static interface ProfessionSelectListener {
+		
+		void onSelect(Profession profession);
 	}
 }

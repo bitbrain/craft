@@ -27,7 +27,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.controls.ProfessionSelectionControls;
+import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
+import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
 
 /**
  * Shows up a selection for available professions
@@ -36,7 +38,7 @@ import de.bitbrain.craft.ui.ProfessionSelection;
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionScreen extends MenuScreen {
+public class ProfessionScreen extends MenuScreen implements ProfessionSelectListener {
 	
 	private ProfessionSelection selection;
 
@@ -47,6 +49,7 @@ public class ProfessionScreen extends MenuScreen {
 	@Override
 	protected void onCreateStage(Stage stage) {
 		selection = new ProfessionSelection(tweenManager);		
+		selection.addProfessionSelectListener(this);
 		selection.align(Align.center);
 		stage.addActor(selection);
 	}
@@ -73,6 +76,14 @@ public class ProfessionScreen extends MenuScreen {
 	@Override
 	protected void onShow() {
 
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener#onSelect(de.bitbrain.craft.models.Profession)
+	 */
+	@Override
+	public void onSelect(Profession profession) {
+		System.out.println("Selected: " + profession);
 	}
 
 }
