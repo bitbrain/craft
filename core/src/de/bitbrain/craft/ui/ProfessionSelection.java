@@ -20,6 +20,10 @@
 
 package de.bitbrain.craft.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -28,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -47,6 +52,8 @@ import de.bitbrain.craft.models.Profession;
  */
 public class ProfessionSelection extends Table implements EventListener {
 	
+	private Map<Cell<?>, ProfessionElement> elements = new HashMap<Cell<?>, ProfessionElement>();
+	
 	public ProfessionSelection() {
 		
 		this.columnDefaults(Profession.values().length);
@@ -55,22 +62,14 @@ public class ProfessionSelection extends Table implements EventListener {
 			ProfessionElement element = new ProfessionElement(f.getName(), Styles.PROFESSION_BUTTON, f);
 			element.addCaptureListener(this);
 			element.addCaptureListener(new ButtonSoundListener(1.3f));
-			element.setBounds(0, 0, 100, 100);
 
-			add(element)
-			.width((Gdx.graphics.getWidth() / 1.2f) / Profession.values().length)
-			.height(Gdx.graphics.getHeight() / 1.2f)
-			.pad(Gdx.graphics.getWidth() / 70f);
-			
-			element.getLabel().setFontScale(element.getWidth() / 150f);
-			element.padTop(140f);
-			
+			Cell<?> cell = add(element);
+			elements.put(cell, element);
 		}
 		
 		this.pad(Gdx.graphics.getWidth() / 40f);
 		pack();
-	}
-	
+	}	
 	
 
 	/* (non-Javadoc)
@@ -85,6 +84,29 @@ public class ProfessionSelection extends Table implements EventListener {
 		}
 		
 		return false;
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup#sizeChanged()
+	 */
+	@Override
+	protected void sizeChanged() {
+		super.sizeChanged();
+		
+		for (Entry<Cell<?>, ProfessionElement> entry : elements.entrySet()) {
+			alignSize(entry.getKey(), entry.getValue());
+		}
+		
+	}
+
+	
+	private void alignSize(Cell<?> cell, ProfessionElement element) {
+		cell.width((Gdx.graphics.getWidth() / 1.2f) / Profession.values().length)
+		.height(Gdx.graphics.getHeight() / 1.2f)
+		.pad(Gdx.graphics.getWidth() / 70f);
+		element.getLabel().setFontScale(element.getWidth() / 280f);
+		element.padTop(element.getHeight() / 2f);
 	}
 	
 	public class ProfessionElement extends TextButton {
