@@ -32,6 +32,7 @@ import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -40,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -181,6 +183,10 @@ public class ProfessionSelection extends Table implements EventListener {
 			return profession;
 		}
 		
+		public Sprite getIcon() {
+			return icon;
+		}
+		
 		/* (non-Javadoc)
 		 * @see com.badlogic.gdx.scenes.scene2d.ui.TextButton#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
 		 */
@@ -260,11 +266,33 @@ public class ProfessionSelection extends Table implements EventListener {
 			super.clicked(event, x, y);
 			
 			if (event.getTarget() instanceof ProfessionElement) {
+				
+				ProfessionElement e = (ProfessionElement) event.getTarget();
+				
 				for (ProfessionSelectListener l : listeners) {
-					l.onSelect(((ProfessionElement)event.getTarget()).getProfession());
+					l.onSelect(e.getProfession());
 				}
+				
+				e.setColor(0.3f, 1.0f, 0.1f, 1.0f);
+				e.getIcon().setColor(0.4f, 1.0f, 0.1f, 1.0f);
+				e.getLabel().setColor(0.6f, 1.0f, 0.1f, 1.0f);
+			} else if (event.getTarget() instanceof Label) {
+				
+				Label l = (Label) event.getTarget();
+				
+				if (l.getParent() instanceof ProfessionElement) {
+					ProfessionElement e = (ProfessionElement) l.getParent();
+					
+					e.getIcon().setColor(0.4f, 1.0f, 0.1f, 1.0f);
+					e.setColor(0.3f, 1.0f, 0.1f, 1.0f);
+				}
+				
+				l.setColor(0.6f, 1.0f, 0.1f, 1.0f);
+				
 			}
 		}
+		
+		
 	}
 	
 	

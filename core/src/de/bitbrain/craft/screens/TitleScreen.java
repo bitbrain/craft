@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -81,6 +82,54 @@ public class TitleScreen extends MenuScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
 				tempScreen.setScreen(new ProfessionScreen(tempScreen.game));
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			 */
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchDown(event, x, y, pointer, button);
+				btnPlay.padTop(5f);
+				btnPlay.invalidate();
+				return true;
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#touchUp(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			 */
+			@Override
+			public void touchUp(InputEvent event, float x, float y,
+					int pointer, int button) {
+				super.touchUp(event, x, y, pointer, button);
+				btnPlay.padTop(0f);
+				btnPlay.invalidate();
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#exit(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, com.badlogic.gdx.scenes.scene2d.Actor)
+			 */
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer,
+					Actor toActor) {
+				super.exit(event, x, y, pointer, toActor);
+				btnPlay.padTop(0f);
+				btnPlay.invalidate();
+			}
+			
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#enter(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, com.badlogic.gdx.scenes.scene2d.Actor)
+			 */
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer,
+					Actor fromActor) {
+				super.enter(event, x, y, pointer, fromActor);
+				
+				if (btnPlay.isPressed()) {
+					btnPlay.padTop(5f);
+					btnPlay.invalidate();
+				}
 			}
 			
 		});
@@ -145,7 +194,7 @@ public class TitleScreen extends MenuScreen {
 		Music music = SharedAssetManager.get(Assets.MUSIC_MENU, Music.class);
 		music.setLooping(true);
 		music.setVolume(0.1f);
-		music.play();
+		//music.play();
 		
 	}
 	

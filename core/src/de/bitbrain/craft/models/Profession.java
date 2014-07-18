@@ -47,12 +47,6 @@ public enum Profession {
 		public String getDescription() {
 			return "jeweler-info";
 		}
-
-		@Override
-		public String getBanner() {
-			return Assets.TEXTURE_JEWELER_BANNER;
-		}
-		
 	},
 	
 	ENGINEER {
@@ -69,12 +63,6 @@ public enum Profession {
 
 		@Override
 		public String getDescription() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public String getBanner() {
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -98,12 +86,6 @@ public enum Profession {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
-		@Override
-		public String getBanner() {
-			// TODO Auto-generated method stub
-			return null;
-		}
 		
 	};
 
@@ -112,6 +94,4 @@ public enum Profession {
 	public abstract String getName();
 	
 	public abstract String getDescription();
-	
-	public abstract String getBanner();
 }
