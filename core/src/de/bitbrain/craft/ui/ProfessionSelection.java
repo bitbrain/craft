@@ -24,6 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -41,6 +45,7 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.tweens.ActorTween;
 
 /**
  * This element shows a selection for all professions. It is also possible to add a listener
@@ -54,17 +59,22 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	private Map<Cell<?>, ProfessionElement> elements = new HashMap<Cell<?>, ProfessionElement>();
 	
-	public ProfessionSelection() {
+	public ProfessionSelection(TweenManager tweenManager) {
 		
 		this.columnDefaults(Profession.values().length);
 		
-		for (Profession f : Profession.values()) {			
+		for (int index = 0; index < Profession.values().length; index++) {			
+			
+			Profession f = Profession.values()[index];
+			
 			ProfessionElement element = new ProfessionElement(f.getName(), Styles.PROFESSION_BUTTON, f);
 			element.addCaptureListener(this);
 			element.addCaptureListener(new ButtonSoundListener(1.3f));
 
 			Cell<?> cell = add(element);
 			elements.put(cell, element);
+			
+			animateElement(index, element, tweenManager);
 		}
 		
 		this.pad(Gdx.graphics.getWidth() / 40f);
@@ -109,6 +119,15 @@ public class ProfessionSelection extends Table implements EventListener {
 		element.padTop(element.getHeight() / 2f);
 	}
 	
+	private void animateElement(int index, ProfessionElement element, TweenManager tweenManager) {
+		element.getColor().a = 0f;
+		Tween.to(element, ActorTween.ALPHA, 1.0f)
+		.delay(index / 4f)
+		.target(1.0f)
+		.ease(TweenEquations.easeInOutQuad)
+		.start(tweenManager);
+	}
+	
 	public class ProfessionElement extends TextButton {
 		
 		private Sprite icon;
@@ -141,7 +160,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			if (icon != null) {
 				icon.setSize(getWidth() / 1.5f, getWidth() / 1.5f);
 				icon.setPosition(getX() + getWidth() / 2 - icon.getWidth() / 2, getY() + getHeight() / 2.5f);
-				icon.draw(batch, parentAlpha * iconAlpha);
+				icon.draw(batch, parentAlpha * iconAlpha * getColor().a);
 			}
 			
 		}

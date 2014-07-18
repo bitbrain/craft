@@ -44,7 +44,7 @@ public class ProfessionScreen extends MenuScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		selection = new ProfessionSelection();
+		selection = new ProfessionSelection(tweenManager);
 		
 		selection.align(Align.center);
 		selection.setFillParent(true);
