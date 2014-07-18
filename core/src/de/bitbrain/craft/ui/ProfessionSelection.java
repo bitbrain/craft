@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
@@ -69,7 +70,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			
 			ProfessionElement element = new ProfessionElement(f.getName(), Styles.PROFESSION_BUTTON, f);
 			element.addCaptureListener(this);
-			element.addCaptureListener(new ButtonSoundListener(1.3f));
+			element.addCaptureListener(new ButtonSoundListener(Assets.SOUND_CONFIRM));
 
 			Cell<?> cell = add(element);
 			elements.put(cell, element);

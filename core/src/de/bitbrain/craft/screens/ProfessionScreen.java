@@ -19,12 +19,14 @@
 
 package de.bitbrain.craft.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
+import de.bitbrain.craft.controls.ProfessionSelectionControls;
 import de.bitbrain.craft.ui.ProfessionSelection;
 
 /**
@@ -44,12 +46,8 @@ public class ProfessionScreen extends MenuScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		selection = new ProfessionSelection(tweenManager);
-		
+		selection = new ProfessionSelection(tweenManager);		
 		selection.align(Align.center);
-		selection.setFillParent(true);
-		
-		
 		stage.addActor(selection);
 	}
 	
@@ -59,18 +57,17 @@ public class ProfessionScreen extends MenuScreen {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		
-		
+		selection.setWidth(Gdx.graphics.getWidth());
+		selection.setHeight(Gdx.graphics.getHeight());
 	}
 
 	@Override
 	protected Stage createStage(int width, int height, Batch batch) {
-		return new Stage(new ScreenViewport(), batch);
+		return new ProfessionSelectionControls(this, new ScreenViewport(), batch);
 	}
 
 	@Override
 	protected void onDraw(Batch batch, float delta) {
-
 	}
 
 	@Override

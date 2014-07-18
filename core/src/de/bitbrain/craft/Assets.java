@@ -94,9 +94,11 @@ public final class Assets {
 
 	// ---------- SOUNDS ----------
 	
-	public static final String SOUND_BUTTON_01 = FOLDER_AUDIO + "button_01.wav";	
+	public static final String SOUND_BUTTON_01 = FOLDER_AUDIO + "button_01.mp3";	
 	
+	public static final String SOUND_ABORT = FOLDER_AUDIO + "abort.mp3";
 	
+	public static final String SOUND_CONFIRM = FOLDER_AUDIO + "confirm.mp3";
 	// ---------- MUSIC ----------
 	
 	public static final String MUSIC_MENU = FOLDER_AUDIO + "menu.mp3";	

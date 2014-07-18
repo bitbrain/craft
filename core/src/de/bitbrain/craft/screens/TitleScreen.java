@@ -144,7 +144,7 @@ public class TitleScreen extends MenuScreen {
 		
 		Music music = SharedAssetManager.get(Assets.MUSIC_MENU, Music.class);
 		music.setLooping(true);
-		music.setVolume(0.4f);
+		music.setVolume(0.1f);
 		music.play();
 		
 	}
