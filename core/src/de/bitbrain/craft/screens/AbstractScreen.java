@@ -39,6 +39,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
@@ -49,7 +50,7 @@ import de.bitbrain.craft.tweens.SpriteTween;
  * @since 1.0
  * @version 1.0
  */
-public abstract class MenuScreen implements Screen, TweenCallback {
+public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	protected CraftGame game;
 	
@@ -67,10 +68,12 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 	
 	private Screen nextScreen;
 	
+	private ParticleRenderer particleRenderer;
+	
 	public static final float FADE_INTERVAL = 0.4f;
 	
 	
-	public MenuScreen(CraftGame game) {
+	public AbstractScreen(CraftGame game) {
 		this.game = game;		
 	}
 
@@ -97,6 +100,8 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 			
 			onDraw(batch, delta);
 		batch.end();
+		
+		particleRenderer.render(batch, delta);
 		
 		if (stage != null) {
 			stage.draw();
@@ -127,6 +132,7 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 		camera = new OrthographicCamera();	
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
+		particleRenderer = new ParticleRenderer();
 		background = new Sprite(SharedAssetManager.get(Assets.TEXTURE_BACKGROUND, Texture.class));
 		background.flip(false, true);
 		
@@ -215,6 +221,8 @@ public abstract class MenuScreen implements Screen, TweenCallback {
 	protected void afterFadeIn(float parentInterval) {
 		Gdx.input.setInputProcessor(stage);
 	}
-	protected void afterFadeOut(float parentInterval) { }
+	protected void afterFadeOut(float parentInterval) {		
+		particleRenderer.clear();
+	}
 
 }

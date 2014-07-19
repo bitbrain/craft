@@ -265,17 +265,26 @@ public class ProfessionSelection extends Table implements EventListener {
 		public void clicked(InputEvent event, float x, float y) {
 			super.clicked(event, x, y);
 			
+			Color clrFore = new Color(0.6f, 1.0f, 0.1f, 1.0f);
+			Color clrBack = new Color(0.3f, 1.0f, 0.1f, 1.0f);
+			
+			for (ProfessionElement e : elements.values()) {
+				e.setColor(Color.WHITE);
+				e.getLabel().setColor(Color.WHITE);
+				e.getIcon().setColor(Color.WHITE);
+			}
+			
 			if (event.getTarget() instanceof ProfessionElement) {
 				
-				ProfessionElement e = (ProfessionElement) event.getTarget();
+				ProfessionElement  e = (ProfessionElement) event.getTarget();
 				
 				for (ProfessionSelectListener l : listeners) {
 					l.onSelect(e.getProfession());
 				}
 				
-				e.setColor(0.3f, 1.0f, 0.1f, 1.0f);
-				e.getIcon().setColor(0.4f, 1.0f, 0.1f, 1.0f);
-				e.getLabel().setColor(0.6f, 1.0f, 0.1f, 1.0f);
+				e.setColor(clrBack);
+				e.getIcon().setColor(clrBack);
+				e.getLabel().setColor(clrFore);
 			} else if (event.getTarget() instanceof Label) {
 				
 				Label l = (Label) event.getTarget();
@@ -283,11 +292,15 @@ public class ProfessionSelection extends Table implements EventListener {
 				if (l.getParent() instanceof ProfessionElement) {
 					ProfessionElement e = (ProfessionElement) l.getParent();
 					
-					e.getIcon().setColor(0.4f, 1.0f, 0.1f, 1.0f);
-					e.setColor(0.3f, 1.0f, 0.1f, 1.0f);
+					for (ProfessionSelectListener listener : listeners) {
+						listener.onSelect(e.getProfession());
+					}
+					
+					e.getIcon().setColor(clrBack);
+					e.setColor(clrBack);
 				}
 				
-				l.setColor(0.6f, 1.0f, 0.1f, 1.0f);
+				l.setColor(clrFore);
 				
 			}
 		}

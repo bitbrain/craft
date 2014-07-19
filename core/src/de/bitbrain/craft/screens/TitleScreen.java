@@ -55,7 +55,7 @@ import de.bitbrain.craft.tweens.SpriteTween;
  * @since 1.0
  * @version 1.0
  */
-public class TitleScreen extends MenuScreen {
+public class TitleScreen extends AbstractScreen {
 	
 	private Sprite logo;	
 	

@@ -19,39 +19,32 @@
 
 package de.bitbrain.craft.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
-import de.bitbrain.craft.controls.ProfessionSelectionControls;
 import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.ui.ProfessionSelection;
-import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
 
 /**
- * Shows up a selection for available professions
+ * Loads a game of a given profession
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
+public class LoadingScreen extends AbstractScreen {
 	
-	private ProfessionSelection selection;
+	private Profession profession;
 
-	public ProfessionScreen(CraftGame game) {
+	public LoadingScreen(Profession profession, CraftGame game) {
 		super(game);
+		this.profession = profession;
 	}
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		selection = new ProfessionSelection(tweenManager);		
-		selection.addProfessionSelectListener(this);
-		selection.align(Align.center);
-		stage.addActor(selection);
+
 	}
 	
 	/* (non-Javadoc)
@@ -60,13 +53,12 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		selection.setWidth(Gdx.graphics.getWidth());
-		selection.setHeight(Gdx.graphics.getHeight());
+		
 	}
 
 	@Override
 	protected Stage createStage(int width, int height, Batch batch) {
-		return new ProfessionSelectionControls(this, new ScreenViewport(), batch);
+		return new Stage(new ScreenViewport(), batch);
 	}
 
 	@Override
@@ -76,14 +68,6 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	@Override
 	protected void onShow() {
 
-	}
-
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener#onSelect(de.bitbrain.craft.models.Profession)
-	 */
-	@Override
-	public void onSelect(Profession profession) {
-		setScreen(new LoadingScreen(profession, game));
 	}
 
 }
