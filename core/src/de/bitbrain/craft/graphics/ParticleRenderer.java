@@ -27,6 +27,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 
+import de.bitbrain.craft.SharedAssetManager;
+
 /**
  * Manages particle effect rendering
  *
@@ -42,7 +44,12 @@ public class ParticleRenderer {
             effects = new ConcurrentHashMap<ParticleEffect, Boolean>();
     }
     
-    public ParticleEffect create(ParticleEffect original, boolean endless) {
+    public ParticleEffect create(String particleResource) {
+    	return create(particleResource, false);
+    }
+    
+    public ParticleEffect create(String particleResource, boolean endless) {
+    		ParticleEffect original = SharedAssetManager.get(particleResource, ParticleEffect.class);
             ParticleEffect copy = new ParticleEffect(original);                
             effects.put(copy, endless);
             return copy;

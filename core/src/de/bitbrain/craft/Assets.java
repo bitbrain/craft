@@ -53,6 +53,12 @@ public final class Assets {
 	 */
 	public static final String FOLDER_LANGUAGE = "i18n/";
 	
+	public static final String FOLDER_PARTICLES = "particles/";
+	
+	// ---------- Particles -----------	
+	
+	public static final String PARTICLES_GREEN_SMALL = FOLDER_PARTICLES + "particles-green-small.p";
+	
 	// ---------- BUNDLES -----------	
 	
 	/**

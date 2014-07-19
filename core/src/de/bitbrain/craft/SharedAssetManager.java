@@ -20,6 +20,10 @@
 package de.bitbrain.craft;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+
+import de.bitbrain.craft.loader.ParticleLoader;
 
 /**
  * Shared (singleton) asset manager
@@ -37,7 +41,7 @@ public class SharedAssetManager {
 	static AssetManager getInstance() {
 		
 		if (instance == null) {
-			instance = new AssetManager();	
+			loadInternal();
 		}
 		
 		return instance;
@@ -50,5 +54,11 @@ public class SharedAssetManager {
 	public static void dispose() {
 		getInstance().dispose();
 		instance = null;
+	}
+	
+	private static void loadInternal() {
+		instance = new AssetManager();
+		
+		instance.setLoader(ParticleEffect.class, new ParticleLoader(new InternalFileHandleResolver()));
 	}
 }

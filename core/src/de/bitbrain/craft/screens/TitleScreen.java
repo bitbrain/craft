@@ -28,6 +28,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -45,6 +46,7 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.controls.TitleControls;
+import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
@@ -75,6 +77,8 @@ public class TitleScreen extends AbstractScreen {
 		btnPlay = new TextButton(Bundles.general.get(Bundles.START), Styles.TEXT_BUTTON);	
 		
 		final TitleScreen tempScreen = this;
+		
+		final ParticleRenderer r = particleRenderer;
 		
 		btnPlay.addCaptureListener(new ClickListener() {
 

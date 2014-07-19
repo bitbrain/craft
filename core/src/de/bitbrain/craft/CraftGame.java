@@ -28,6 +28,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -90,10 +91,13 @@ public class CraftGame extends Game {
 		mgr.load(Assets.TEXTURE_ICO_FAB_POWER_MEDIUM, Texture.class);
 		mgr.load(Assets.TEXTURE_ICO_ALCHEMY_FLASK_OVERVIEW, Texture.class);
 		
+		mgr.load(Assets.PARTICLES_GREEN_SMALL, ParticleEffect.class);
+		
 		mgr.load(Assets.SOUND_BUTTON_01, Sound.class);
 		mgr.load(Assets.SOUND_ABORT, Sound.class);
 		mgr.load(Assets.SOUND_CONFIRM, Sound.class);
 		mgr.load(Assets.SOUND_POP, Sound.class);
+		
 		mgr.load(Assets.MUSIC_MENU, Music.class);
 		
 		mgr.finishLoading();

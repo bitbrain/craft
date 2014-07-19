@@ -68,9 +68,9 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	private Screen nextScreen;
 	
-	private ParticleRenderer particleRenderer;
+	protected ParticleRenderer particleRenderer;
 	
-	public static final float FADE_INTERVAL = 0.4f;
+	public static final float FADE_INTERVAL = 0.8f;
 	
 	
 	public AbstractScreen(CraftGame game) {
@@ -101,12 +101,14 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			onDraw(batch, delta);
 		batch.end();
 		
-		particleRenderer.render(batch, delta);
-		
 		if (stage != null) {
 			stage.draw();
 			Table.drawDebug(stage);
 		}
+		
+		batch.begin();
+			particleRenderer.render(batch, delta);
+		batch.end();
 	}
 
 	@Override
