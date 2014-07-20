@@ -76,6 +76,10 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	public AbstractScreen(CraftGame game) {
 		this.game = game;		
 	}
+	
+	public void setBackground(Sprite background) {
+		this.background = background;
+	}
 
 	@Override
 	public final void render(float delta) {

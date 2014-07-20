@@ -82,9 +82,6 @@ public class TitleScreen extends AbstractScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				ParticleEffect e = particleRenderer.create(Assets.PRT_GREEN_SMALL);
-				e.setPosition(btnPlay.getX() + x, btnPlay.getY() + y);
-				e.start();
 				tempScreen.setScreen(new ProfessionScreen(tempScreen.game));
 			}
 			

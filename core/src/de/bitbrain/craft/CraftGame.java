@@ -24,6 +24,7 @@ import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -51,6 +52,7 @@ public class CraftGame extends Game {
 		loadResources();
 		initDatabase();
 		registerTweens();
+		//loadCursor();
 		Bundles.load();
 		TitleScreen screen = new TitleScreen(this);
 		setScreen(screen);	
@@ -59,6 +61,7 @@ public class CraftGame extends Game {
 	@Override
 	public void resume() {
 		super.resume();
+		
 		loadResources();
 		initDatabase();
 	}
@@ -66,16 +69,13 @@ public class CraftGame extends Game {
 	@Override
 	public void dispose() {
 		SharedAssetManager.dispose();
-		shutdownDatabase();
 	}
 	
 	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();
-		
+		AssetManager mgr = SharedAssetManager.getInstance();		
 		AssetReflector reflector = new AssetReflector(mgr);
 		
-		reflector.load();
-		
+		reflector.load();		
 		Styles.load();
 	}
 	
@@ -91,7 +91,12 @@ public class CraftGame extends Game {
 		MapperManager.setDefaultConnector(connector);
 	}
 	
-	private void shutdownDatabase() {
-		
+	private void loadCursor() {
+		Pixmap pm = new Pixmap(Gdx.files.internal("images/cursor.png"));
+        int xHotSpot = pm.getWidth() / 2;
+        int yHotSpot = pm.getHeight() / 2;
+        
+        Gdx.input.setCursorImage(pm, xHotSpot, yHotSpot);
+        pm.dispose();
 	}
 }
