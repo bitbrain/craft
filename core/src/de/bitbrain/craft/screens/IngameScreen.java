@@ -24,23 +24,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
-import de.bitbrain.craft.models.Profession;
 
 /**
- * Loads a game of a given profession
+ * Displays the main game
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class LoadingScreen extends AbstractScreen {
-	
-	@SuppressWarnings("unused")
-	private Profession profession;
+public class IngameScreen extends AbstractScreen {
 
-	public LoadingScreen(Profession profession, CraftGame game) {
+	public IngameScreen(CraftGame game) {
 		super(game);
-		this.profession = profession;
 	}
 
 	@Override

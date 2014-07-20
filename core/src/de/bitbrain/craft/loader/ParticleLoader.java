@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft.loader;
 
-import javax.annotation.Resources;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
@@ -34,7 +32,7 @@ import com.badlogic.gdx.utils.Array;
 import de.bitbrain.craft.Assets;
 
 /**
- * 
+ * Custom asset loader for particle effects
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0

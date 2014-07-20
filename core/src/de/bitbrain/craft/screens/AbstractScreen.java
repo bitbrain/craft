@@ -41,6 +41,7 @@ import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.tweens.ParticleRendererTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
@@ -70,8 +71,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	protected ParticleRenderer particleRenderer;
 	
-	public static final float FADE_INTERVAL = 0.8f;
-	
+	public static final float FADE_INTERVAL = 0.7f;	
 	
 	public AbstractScreen(CraftGame game) {
 		this.game = game;		
@@ -172,14 +172,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	public void setScreen(Screen screen) {		
 		Gdx.input.setInputProcessor(null);
 		nextScreen = screen;
-		onFadeOut(FADE_INTERVAL);
-		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
-		 	 .ease(TweenEquations.easeInOutCubic)
-		     .target(0f)
-			 .setCallbackTriggers(TweenCallback.COMPLETE)
-			 .setCallback(this)
-			 .start(tweenManager);
-		
+		onFadeOut(FADE_INTERVAL);		
 	}
 	
 	public CraftGame getGame() {
@@ -204,7 +197,16 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			     .start(tweenManager);
 		}
 		
+		particleRenderer.setAlpha(0.0f);
+		
 		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .target(1f)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .setCallback(this)
+			 .start(tweenManager);
+		
+		Tween.to(particleRenderer, ParticleRendererTween.ALPHA, FADE_INTERVAL)
 			 .ease(TweenEquations.easeInOutCubic)
 			 .target(1f)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
@@ -218,6 +220,19 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			     .target(0f)
 			     .start(tweenManager);
 		}
+		
+		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
+		 	 .ease(TweenEquations.easeInOutCubic)
+		     .target(0f)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .setCallback(this)
+			 .start(tweenManager);
+		
+		Tween.to(particleRenderer, ParticleRendererTween.ALPHA, FADE_INTERVAL)
+		 	 .ease(TweenEquations.easeInOutCubic)
+		     .target(0f)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .start(tweenManager);
 	}
 	
 	protected void afterFadeIn(float parentInterval) {

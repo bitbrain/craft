@@ -33,8 +33,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.bitbrain.craft.db.SQLiteConnector;
+import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.tweens.ParticleRendererTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.myreality.jpersis.MapperManager;
 import de.myreality.jpersis.db.DatabaseConnector;
@@ -108,6 +110,7 @@ public class CraftGame extends Game {
 	private void registerTweens() {
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
 		Tween.registerAccessor(Actor.class, new ActorTween());
+		Tween.registerAccessor(ParticleRenderer.class, new ParticleRendererTween());
 	}
 	
 	private void initDatabase() {

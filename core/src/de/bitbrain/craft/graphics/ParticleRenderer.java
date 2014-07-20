@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 
 import de.bitbrain.craft.SharedAssetManager;
 
@@ -40,6 +41,8 @@ public class ParticleRenderer {
     
     private Map<ParticleEffect, Boolean> effects;
     
+    private float alpha = 1.0f;
+    
     public ParticleRenderer() {
             effects = new ConcurrentHashMap<ParticleEffect, Boolean>();
     }
@@ -53,6 +56,26 @@ public class ParticleRenderer {
             ParticleEffect copy = new ParticleEffect(original);                
             effects.put(copy, endless);
             return copy;
+    }
+    
+    public void setAlpha(float alpha) {
+    	
+    	// TODO: Alpha doesn't work for particles here as intended :(
+    	
+    	this.alpha = alpha;
+    	
+    	for (ParticleEffect e : effects.keySet()) {
+    		
+    		for (ParticleEmitter emitter : e.getEmitters()) {
+    			ScaledNumericValue v = emitter.getTransparency();
+    			v.setHigh(alpha);
+    			v.setLow(alpha);
+    		}
+    	}
+    }
+    
+    public float getAlpha() {
+    	return alpha;
     }
     
     public void setColor(ParticleEffect effect, float[] colors, float[] timeline) {

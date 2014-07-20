@@ -46,7 +46,6 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.controls.TitleControls;
-import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
@@ -78,13 +77,14 @@ public class TitleScreen extends AbstractScreen {
 		
 		final TitleScreen tempScreen = this;
 		
-		final ParticleRenderer r = particleRenderer;
-		
 		btnPlay.addCaptureListener(new ClickListener() {
 
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
+				ParticleEffect e = particleRenderer.create(Assets.PARTICLES_GREEN_SMALL);
+				e.setPosition(btnPlay.getX() + x, btnPlay.getY() + y);
+				e.start();
 				tempScreen.setScreen(new ProfessionScreen(tempScreen.game));
 			}
 			
