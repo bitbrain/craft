@@ -53,7 +53,7 @@ public class ProfessionSelectionControls extends Stage {
 	public boolean keyDown(int keyCode) {
 		
 		if (keyCode == Keys.ESCAPE) {
-			Sound sound = SharedAssetManager.get(Assets.SOUND_ABORT, Sound.class);
+			Sound sound = SharedAssetManager.get(Assets.SND_ABORT, Sound.class);
 			sound.play(1.0f, 0.8f, 1.0f);
 			screen.setScreen(new TitleScreen(screen.getGame()));
 			return true;

@@ -21,6 +21,7 @@ package de.bitbrain.craft.ui;
 
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -50,5 +51,11 @@ public class ProgressBar extends Actor {
 		this.value = value;
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+	}
 }

@@ -135,7 +135,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		batch = new SpriteBatch();
 		tweenManager = new TweenManager();
 		particleRenderer = new ParticleRenderer();
-		background = new Sprite(SharedAssetManager.get(Assets.TEXTURE_BACKGROUND, Texture.class));
+		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
 		background.flip(false, true);
 		
 		onShow();

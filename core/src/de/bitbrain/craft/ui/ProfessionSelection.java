@@ -82,7 +82,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			
 			ProfessionElement element = new ProfessionElement(f.getName(), Styles.PROFESSION_BUTTON, f);
 			element.addCaptureListener(this);
-			element.addCaptureListener(new ButtonSoundListener(Assets.SOUND_CONFIRM));
+			element.addCaptureListener(new ButtonSoundListener(Assets.SND_CONFIRM));
 			element.addCaptureListener(notifier);
 
 			Cell<?> cell = add(element);
@@ -140,7 +140,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	private void animateElement(int index, ProfessionElement element, TweenManager tweenManager) {
 		element.getColor().a = 0f;
 		
-		TweenNoise n = new TweenNoise(Assets.SOUND_POP);
+		TweenNoise n = new TweenNoise(Assets.SND_POP);
 		
 		n.pitch = index / 9.6f + 0.7f; 
 		

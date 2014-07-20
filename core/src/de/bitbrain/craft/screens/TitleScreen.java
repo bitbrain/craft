@@ -82,7 +82,7 @@ public class TitleScreen extends AbstractScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				ParticleEffect e = particleRenderer.create(Assets.PARTICLES_GREEN_SMALL);
+				ParticleEffect e = particleRenderer.create(Assets.PRT_GREEN_SMALL);
 				e.setPosition(btnPlay.getX() + x, btnPlay.getY() + y);
 				e.start();
 				tempScreen.setScreen(new ProfessionScreen(tempScreen.game));
@@ -143,8 +143,8 @@ public class TitleScreen extends AbstractScreen {
 		stage.addActor(btnPlay);
 		
 		LabelStyle lblStyle = new LabelStyle();
-		lblStyle.fontColor = Assets.COLOR_WOOD_TEAK;
-		lblStyle.font =  SharedAssetManager.get(Assets.FONT_SMALL, BitmapFont.class);
+		lblStyle.fontColor = Assets.COLOR_BROWN_TEAK;
+		lblStyle.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
 		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), lblStyle);
 		stage.addActor(lblCredits);
 	}
@@ -192,7 +192,7 @@ public class TitleScreen extends AbstractScreen {
 	 */
 	@Override
 	protected void onShow() {
-		logo = new Sprite(SharedAssetManager.get(Assets.TEXTURE_LOGO, Texture.class));
+		logo = new Sprite(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
 		logo.flip(false, true);
 		
 		Music music = SharedAssetManager.get(Assets.MUSIC_MENU, Music.class);

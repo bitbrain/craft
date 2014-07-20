@@ -59,7 +59,7 @@ public class ParticleLoader extends SynchronousAssetLoader<ParticleEffect, Parti
 	public ParticleEffect load(AssetManager assetManager, String fileName,
 			FileHandle file, ParticleParameter parameter) {
 		ParticleEffect effect = new ParticleEffect();		
-		effect.load(file, Gdx.files.internal(Assets.FOLDER_PARTICLES));		
+		effect.load(file, Gdx.files.internal(Assets.DIR_PARTICLES));		
 		return effect;
 	}
 }

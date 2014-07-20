@@ -42,9 +42,9 @@ public final class Bundles {
 	
 	static void load() {		
 
-		generalHandle = Gdx.files.internal(Assets.BUNDLE_GENERAL);
-		itemHandle = Gdx.files.internal(Assets.BUNDLE_ITEMS);
-		recipesHandle = Gdx.files.internal(Assets.BUNDLE_RECIPES);
+		generalHandle = Gdx.files.internal(Assets.BDL_GENERAL);
+		itemHandle = Gdx.files.internal(Assets.BDL_ITEMS);
+		recipesHandle = Gdx.files.internal(Assets.BDL_RECIPES);
 		
 		Locale locale = new Locale("en");		
 		setLocale(locale);

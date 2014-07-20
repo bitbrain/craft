@@ -16,7 +16,7 @@ public class ButtonSoundListener extends ClickListener {
 	public float volume = 0.5f;
 	
 	public ButtonSoundListener() {
-		this(Assets.SOUND_BUTTON_01);
+		this(Assets.SND_BEEP);
 	}
 	
 	public ButtonSoundListener(String soundID) {

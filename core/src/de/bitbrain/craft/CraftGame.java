@@ -76,29 +76,29 @@ public class CraftGame extends Game {
 	private void loadResources() {
 		AssetManager mgr = SharedAssetManager.getInstance();
 		
-		mgr.load(Assets.FONT_SMALL, BitmapFont.class);
-		mgr.load(Assets.FONT_MEDIUM, BitmapFont.class);
-		mgr.load(Assets.FONT_LARGER, BitmapFont.class);
-		mgr.load(Assets.FONT_BIG, BitmapFont.class);
+		mgr.load(Assets.FNT_SMALL, BitmapFont.class);
+		mgr.load(Assets.FNT_MEDIUM, BitmapFont.class);
+		mgr.load(Assets.FNT_LARGER, BitmapFont.class);
+		mgr.load(Assets.FNT_BIG, BitmapFont.class);
 		
-		mgr.load(Assets.TEXTURE_BACKGROUND, Texture.class);
-		mgr.load(Assets.TEXTURE_LOGO, Texture.class);
-		mgr.load(Assets.TEXTURE_BUTTON, Texture.class);
-		mgr.load(Assets.TEXTURE_BUTTON_DARK, Texture.class);
-		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL, Texture.class);
-		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_DOWN, Texture.class);
-		mgr.load(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_HOVER, Texture.class);
+		mgr.load(Assets.TEX_BACKGROUND_01, Texture.class);
+		mgr.load(Assets.TEX_LOGO, Texture.class);
+		mgr.load(Assets.TEX_BUTTON_GREEN, Texture.class);
+		mgr.load(Assets.TEX_BUTTON_GREEN_DARK, Texture.class);
+		mgr.load(Assets.TEX_PANEL_V, Texture.class);
+		mgr.load(Assets.TEX_PANEL_DOWN_V, Texture.class);
+		mgr.load(Assets.TEX_PANEL_HOVER_V, Texture.class);
 		
-		mgr.load(Assets.TEXTURE_ICO_JEWEL_DIAMOND_MEDIUM, Texture.class);
-		mgr.load(Assets.TEXTURE_ICO_FAB_POWER_MEDIUM, Texture.class);
-		mgr.load(Assets.TEXTURE_ICO_ALCHEMY_FLASK_OVERVIEW, Texture.class);
+		mgr.load(Assets.TEX_JEWELER, Texture.class);
+		mgr.load(Assets.TEX_ENGINEER, Texture.class);
+		mgr.load(Assets.TEX_ALCHEMIST, Texture.class);
 		
-		mgr.load(Assets.PARTICLES_GREEN_SMALL, ParticleEffect.class);
+		mgr.load(Assets.PRT_GREEN_SMALL, ParticleEffect.class);
 		
-		mgr.load(Assets.SOUND_BUTTON_01, Sound.class);
-		mgr.load(Assets.SOUND_ABORT, Sound.class);
-		mgr.load(Assets.SOUND_CONFIRM, Sound.class);
-		mgr.load(Assets.SOUND_POP, Sound.class);
+		mgr.load(Assets.SND_BEEP, Sound.class);
+		mgr.load(Assets.SND_ABORT, Sound.class);
+		mgr.load(Assets.SND_CONFIRM, Sound.class);
+		mgr.load(Assets.SND_POP, Sound.class);
 		
 		mgr.load(Assets.MUSIC_MENU, Music.class);
 		

@@ -38,19 +38,19 @@ public final class Styles {
 	public static final TextButtonStyle PROFESSION_BUTTON = new TextButtonStyle();
 
 	static void load() {
-		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FONT_LARGER, BitmapFont.class);
-		TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON, Texture.class)));
-		TEXT_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_BUTTON_DARK, Texture.class)));
-		TEXT_BUTTON.fontColor = Assets.COLOR_GREEN_GRASS;
-		TEXT_BUTTON.downFontColor = Assets.COLOR_GREEN_GRASS_LIGHT;
+		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
+		TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class)));
+		TEXT_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN_DARK, Texture.class)));
+		TEXT_BUTTON.fontColor = Assets.CLR_GREEN_GRASS;
+		TEXT_BUTTON.downFontColor = Assets.CLR_GREEN_GRASS_LIGHT;
 		
-		PROFESSION_BUTTON.font = SharedAssetManager.get(Assets.FONT_LARGER, BitmapFont.class);
-		PROFESSION_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_DOWN, Texture.class)));
-		PROFESSION_BUTTON.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL_HOVER, Texture.class)));
-		PROFESSION_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEXTURE_PANEL_MEDIUM_VERTICAL, Texture.class)));
-		PROFESSION_BUTTON.fontColor = Assets.COLOR_SAND_LIGHT_ALPHA;
-		PROFESSION_BUTTON.downFontColor = Assets.COLOR_SAND_LIGHT;
-		PROFESSION_BUTTON.overFontColor = Assets.COLOR_SAND_LIGHT;
+		PROFESSION_BUTTON.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
+		PROFESSION_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DOWN_V, Texture.class)));
+		PROFESSION_BUTTON.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_HOVER_V, Texture.class)));
+		PROFESSION_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class)));
+		PROFESSION_BUTTON.fontColor = Assets.COLOR_YELLOW_SAND_A;
+		PROFESSION_BUTTON.downFontColor = Assets.COLOR_YELLOW_SAND;
+		PROFESSION_BUTTON.overFontColor = Assets.COLOR_YELLOW_SAND;
 		
 	}
 }

@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.ui.ProgressBar;
 
 /**
  * Loads a game of a given profession
@@ -37,6 +38,8 @@ public class LoadingScreen extends AbstractScreen {
 	
 	@SuppressWarnings("unused")
 	private Profession profession;
+	
+	private ProgressBar bar;
 
 	public LoadingScreen(Profession profession, CraftGame game) {
 		super(game);
@@ -45,7 +48,9 @@ public class LoadingScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-
+		bar = new ProgressBar(0f, 100f, tweenManager);
+		
+		stage.addActor(bar);
 	}
 	
 	/* (non-Javadoc)
