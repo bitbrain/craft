@@ -24,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
+import de.bitbrain.craft.controls.IngameControls;
+import de.bitbrain.craft.models.Profession;
 
 /**
  * Displays the main game
@@ -34,7 +36,7 @@ import de.bitbrain.craft.CraftGame;
  */
 public class IngameScreen extends AbstractScreen {
 
-	public IngameScreen(CraftGame game) {
+	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
 	}
 
@@ -54,7 +56,7 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected Stage createStage(int width, int height, Batch batch) {
-		return new Stage(new ScreenViewport(), batch);
+		return new IngameControls(this, new ScreenViewport(), batch);
 	}
 
 	@Override

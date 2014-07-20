@@ -17,63 +17,47 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.screens;
+package de.bitbrain.craft.controls;
 
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
-import de.bitbrain.craft.CraftGame;
-import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.ui.ProgressBar;
+import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.screens.IngameScreen;
+import de.bitbrain.craft.screens.TitleScreen;
 
 /**
- * Loads a game of a given profession
- * 
+ * Controls for {@see de.bitbrain.craft.screens.TitleScreen}
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class LoadingScreen extends AbstractScreen {
+public class IngameControls extends Stage {
 	
-	@SuppressWarnings("unused")
-	private Profession profession;
+	private IngameScreen screen;
 	
-	private ProgressBar bar;
-
-	public LoadingScreen(Profession profession, CraftGame game) {
-		super(game);
-		this.profession = profession;
-	}
-
-	@Override
-	protected void onCreateStage(Stage stage) {
-		bar = new ProgressBar(0f, 100f, tweenManager);
-		
-		stage.addActor(bar);
+	public IngameControls(IngameScreen screen, Viewport viewport, Batch batch) {
+		super(viewport, batch);
+		this.screen = screen;
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.MenuScreen#resize(int, int)
+	 * @see com.badlogic.gdx.scenes.scene2d.Stage#keyDown(int)
 	 */
 	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
+	public boolean keyDown(int keyCode) {
 		
+		if (keyCode == Keys.ESCAPE) {
+			Sound sound = SharedAssetManager.get(Assets.SND_ABORT, Sound.class);
+			sound.play(1.0f, 0.8f, 1.0f);
+			screen.setScreen(new TitleScreen(screen.getGame()));
+		}
+		
+		return super.keyDown(keyCode);
 	}
-
-	@Override
-	protected Stage createStage(int width, int height, Batch batch) {
-		return new Stage(new ScreenViewport(), batch);
-	}
-
-	@Override
-	protected void onDraw(Batch batch, float delta) {
-	}
-
-	@Override
-	protected void onShow() {
-
-	}
-
 }

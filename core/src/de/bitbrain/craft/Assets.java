@@ -56,7 +56,6 @@ public final class Assets {
 	public static final String FNT_SMALL			    	= DIR_FONTS + "small.fnt";
 	public static final String FNT_MEDIUM			    = DIR_FONTS + "medium.fnt";
 	public static final String FNT_LARGER 				= DIR_FONTS + "larger.fnt";
-	public static final String FNT_BIG 					= DIR_FONTS + "big.fnt";
 
 	// ---------- SOUNDS ----------
 	
@@ -67,7 +66,7 @@ public final class Assets {
 	
 	// ---------- MUSIC ----------
 	
-	public static final String MSC_MENU_01 				= DIR_AUDIO + "menu.mp3";		
+	//public static final String MSC_MENU_01 				= DIR_AUDIO + "menu.mp3";		
 	
 	// ---------- TEXTURES --------
 
