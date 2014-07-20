@@ -22,6 +22,7 @@ package de.bitbrain.craft.ui;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -36,6 +37,8 @@ public class ProgressBar extends Actor {
 	private float min, max, value;
 	
 	private TweenManager tweenManager;
+	
+	private Sprite border, background, foreground, light;
 	
 	public ProgressBar(float min, float max, TweenManager tweenManager) {
 		setRange(min, max);

@@ -50,7 +50,9 @@ public final class Assets {
 	public static final String BDL_RECIPES 				= DIR_LANGUAGE + "recipes";
 	
 	// ---------- FONTS -----------	
-	
+	/**
+	 * grass green color
+	 */
 	public static final String FNT_SMALL			    	= DIR_FONTS + "small.fnt";
 	public static final String FNT_MEDIUM			    = DIR_FONTS + "medium.fnt";
 	public static final String FNT_LARGER 				= DIR_FONTS + "larger.fnt";
@@ -62,10 +64,10 @@ public final class Assets {
 	public static final String SND_ABORT 			    = DIR_AUDIO + "abort.mp3";	
 	public static final String SND_CONFIRM 				= DIR_AUDIO + "confirm.mp3";	
 	public static final String SND_POP 					= DIR_AUDIO + "pop.mp3";	
+	
 	// ---------- MUSIC ----------
 	
-	public static final String MUSIC_MENU 				= DIR_AUDIO + "menu.mp3";	
-	
+	public static final String MSC_MENU_01 				= DIR_AUDIO + "menu.mp3";		
 	
 	// ---------- TEXTURES --------
 
@@ -79,6 +81,8 @@ public final class Assets {
 	public static final String TEX_JEWELER 				= DIR_IMAGES + "icons/ico_jewel_diamond_medium.png";
 	public static final String TEX_ENGINEER 				= DIR_IMAGES + "icons/ico_fab_power_medium.png";
 	public static final String TEX_ALCHEMIST 			= DIR_IMAGES + "icons/ico_alchemy_flasks_overview.png";
+	public static final String TEX_PANEL_DARK_H 		=  DIR_IMAGES + "panel_dark_horizontal.png";
+	
 	
 	// ---------- COLORS ----------
 	

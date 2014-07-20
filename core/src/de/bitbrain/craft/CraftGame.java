@@ -24,11 +24,6 @@ import aurelienribon.tweenengine.Tween;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -38,6 +33,7 @@ import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.ParticleRendererTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.util.AssetReflector;
 import de.myreality.jpersis.MapperManager;
 import de.myreality.jpersis.db.DatabaseConnector;
 
@@ -76,33 +72,9 @@ public class CraftGame extends Game {
 	private void loadResources() {
 		AssetManager mgr = SharedAssetManager.getInstance();
 		
-		mgr.load(Assets.FNT_SMALL, BitmapFont.class);
-		mgr.load(Assets.FNT_MEDIUM, BitmapFont.class);
-		mgr.load(Assets.FNT_LARGER, BitmapFont.class);
-		mgr.load(Assets.FNT_BIG, BitmapFont.class);
+		AssetReflector reflector = new AssetReflector(mgr);
 		
-		mgr.load(Assets.TEX_BACKGROUND_01, Texture.class);
-		mgr.load(Assets.TEX_LOGO, Texture.class);
-		mgr.load(Assets.TEX_BUTTON_GREEN, Texture.class);
-		mgr.load(Assets.TEX_BUTTON_GREEN_DARK, Texture.class);
-		mgr.load(Assets.TEX_PANEL_V, Texture.class);
-		mgr.load(Assets.TEX_PANEL_DOWN_V, Texture.class);
-		mgr.load(Assets.TEX_PANEL_HOVER_V, Texture.class);
-		
-		mgr.load(Assets.TEX_JEWELER, Texture.class);
-		mgr.load(Assets.TEX_ENGINEER, Texture.class);
-		mgr.load(Assets.TEX_ALCHEMIST, Texture.class);
-		
-		mgr.load(Assets.PRT_GREEN_SMALL, ParticleEffect.class);
-		
-		mgr.load(Assets.SND_BEEP, Sound.class);
-		mgr.load(Assets.SND_ABORT, Sound.class);
-		mgr.load(Assets.SND_CONFIRM, Sound.class);
-		mgr.load(Assets.SND_POP, Sound.class);
-		
-		mgr.load(Assets.MUSIC_MENU, Music.class);
-		
-		mgr.finishLoading();
+		reflector.load();
 		
 		Styles.load();
 	}

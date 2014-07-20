@@ -195,7 +195,7 @@ public class TitleScreen extends AbstractScreen {
 		logo = new Sprite(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
 		logo.flip(false, true);
 		
-		Music music = SharedAssetManager.get(Assets.MUSIC_MENU, Music.class);
+		Music music = SharedAssetManager.get(Assets.MSC_MENU_01, Music.class);
 		music.setLooping(true);
 		music.setVolume(0.1f);
 		//music.play();
