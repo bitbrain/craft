@@ -57,6 +57,7 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.util.PlayerDataProvider;
 
 /**
@@ -147,7 +148,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	private void animateElement(final int index, final ProfessionElement element, final TweenManager tweenManager) {
 		element.getColor().a = 0f;
-		
+		element.getIcon().setScale(0f);
 		TweenCallback callback = new TweenCallback() {
 
 			@Override
@@ -155,10 +156,15 @@ public class ProfessionSelection extends Table implements EventListener {
 				Sound s = SharedAssetManager.get(Assets.SND_POP, Sound.class);
 				s.play(1.0f, index / 9.6f + 0.7f, 0.3f);
 				
-				Tween.to(element.getBar(), 1, 0.5f)
+				Tween.to(element.getBar(), 1, 0.8f)
 					.target(playerDataProvider.getProgress(element.getProfession()))
 					.ease(TweenEquations.easeInOutQuad)
 					.start(tweenManager);
+				
+				Tween.to(element.getIcon(), SpriteTween.SCALE, 1.0f)
+				.target(1.0f)
+				.ease(TweenEquations.easeOutElastic)
+				.start(tweenManager);
 			}
 			
 		};

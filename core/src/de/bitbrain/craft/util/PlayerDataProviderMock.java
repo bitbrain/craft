@@ -36,7 +36,16 @@ public class PlayerDataProviderMock implements PlayerDataProvider {
 	 */
 	@Override
 	public int getLevel(Profession profession) {
-		return 4;
+		switch (profession) {
+			case ALCHEMIST:
+				return 2;
+			case ENGINEER:
+				return 3;
+			case JEWELER:
+				return 4;
+		}
+		
+		return 1;
 	}
 
 	/* (non-Javadoc)
@@ -44,7 +53,16 @@ public class PlayerDataProviderMock implements PlayerDataProvider {
 	 */
 	@Override
 	public float getProgress(Profession profession) {
-		return 0.8f;
+		switch (profession) {
+			case ALCHEMIST:
+				return 0.7f;
+			case ENGINEER:
+				return 0.36f;
+			case JEWELER:
+				return 0.52f;
+		}
+		
+		return 0.1f;
 	}
 
 	/* (non-Javadoc)

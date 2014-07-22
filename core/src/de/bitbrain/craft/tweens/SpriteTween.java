@@ -35,7 +35,8 @@ public class SpriteTween implements TweenAccessor<Sprite> {
 	public static final int BOUNCE = 1;
 	public static final int ALPHA = 2;
 	public static final int ROTATION = 3;
-
+	public static final int SCALE = 4;
+	
 	@Override
 	public int getValues(Sprite target, int tweenType, float[] returnValues) {
 		switch (tweenType) {
@@ -47,6 +48,9 @@ public class SpriteTween implements TweenAccessor<Sprite> {
 			return 1;
 		case ROTATION:
 			returnValues[0] = target.getRotation();
+			return 1;
+		case SCALE:
+			returnValues[0] = target.getScaleX();
 			return 1;
 		default:
 			return 0;
@@ -65,6 +69,9 @@ public class SpriteTween implements TweenAccessor<Sprite> {
 			break;
 		case ROTATION:
 			target.setRotation(newValues[0]);
+			break;
+		case SCALE:
+			target.setScale(newValues[0]);
 			break;
 		}
 	}
