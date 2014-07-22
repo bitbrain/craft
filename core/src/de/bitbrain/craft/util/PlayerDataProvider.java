@@ -17,39 +17,40 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.audio;
+package de.bitbrain.craft.util;
 
-import com.badlogic.gdx.audio.Sound;
-
-import de.bitbrain.craft.SharedAssetManager;
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.TweenCallback;
+import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Profession;
 
 /**
- * Pop noise for tween engine
+ * Provides data of the current player
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class TweenNoise implements TweenCallback {
-	
-	private String id;
-	
-	public float pitch;
-	
-	public TweenNoise(String id) {
-		this.id = id;
-	}
+public interface PlayerDataProvider {
 
-	/* (non-Javadoc)
-	 * @see aurelienribon.tweenengine.TweenCallback#onEvent(int, aurelienribon.tweenengine.BaseTween)
+	/**
+	 * Provides the level of profession 
+	 * 
+	 * @param profession target profession
+	 * @return current profession level
 	 */
-	@Override
-	public void onEvent(int type, BaseTween<?> source) {
-		
-		Sound s = SharedAssetManager.get(id, Sound.class);
-		s.play(1.0f, pitch, 1.0f);
-	}
-
+	int getLevel(Profession profession);
+	
+	/**
+	 * Returns the percentage of progress
+	 * 
+	 * @param profession target profession
+	 * @return current profession level
+	 */
+	float getProgress(Profession profession);
+	
+	/**
+	 * Returns the current player
+	 * 
+	 * @return current player of the game
+	 */
+	Player getCurrentPlayer();
 }

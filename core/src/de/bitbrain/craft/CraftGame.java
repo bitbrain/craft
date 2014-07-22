@@ -91,6 +91,7 @@ public class CraftGame extends Game {
 		MapperManager.setDefaultConnector(connector);
 	}
 	
+	@SuppressWarnings("unused")
 	private void loadCursor() {
 		Pixmap pm = new Pixmap(Gdx.files.internal("images/cursor.png"));
         int xHotSpot = pm.getWidth() / 2;

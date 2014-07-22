@@ -80,14 +80,16 @@ public final class Assets {
 	public static final String TEX_JEWELER 				= DIR_IMAGES + "icons/ico_jewel_diamond_medium.png";
 	public static final String TEX_ENGINEER 				= DIR_IMAGES + "icons/ico_fab_power_medium.png";
 	public static final String TEX_ALCHEMIST 			= DIR_IMAGES + "icons/ico_alchemy_flasks_overview.png";
-	public static final String TEX_PANEL_DARK_H 		=  DIR_IMAGES + "panel_dark_horizontal.png";
-	
+	public static final String TEX_PANEL_DARK_H 		= DIR_IMAGES + "panel_dark_horizontal.png";
+	public static final String TEX_PANEL_SMALL_H 		= DIR_IMAGES + "panel_small_horizontal.png";
+	public static final String TEX_PANEL_SMALL_L_H 		= DIR_IMAGES + "panel_small_light_horizontal.png";
 	
 	// ---------- COLORS ----------
 	
 	public static final Color CLR_GREEN_GRASS 			= Color.valueOf("b8d41c");
 	public static final Color CLR_GREEN_GRASS_LIGHT 	= Color.valueOf("c7e03d");
-	public static final Color COLOR_BROWN_TEAK 			= Color.valueOf("6a2b05");
-	public static final Color COLOR_YELLOW_SAND 		= Color.valueOf("dcc77d");
-	public static final Color COLOR_YELLOW_SAND_A 		= Color.valueOf("dcc77d99");
+	public static final Color CLR_BROWN_TEAK 			= Color.valueOf("6a2b05");
+	public static final Color CLR_YELLOW_SAND 			= Color.valueOf("dcc77d");
+	public static final Color CLR_YELLOW_SAND_A 		= Color.valueOf("dcc77d99");
+	public static final Color CLR_BLUE_SKY				= Color.valueOf("84f2ff");
 }

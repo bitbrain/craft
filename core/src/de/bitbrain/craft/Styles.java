@@ -48,9 +48,9 @@ public final class Styles {
 		PROFESSION_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DOWN_V, Texture.class)));
 		PROFESSION_BUTTON.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_HOVER_V, Texture.class)));
 		PROFESSION_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class)));
-		PROFESSION_BUTTON.fontColor = Assets.COLOR_YELLOW_SAND_A;
-		PROFESSION_BUTTON.downFontColor = Assets.COLOR_YELLOW_SAND;
-		PROFESSION_BUTTON.overFontColor = Assets.COLOR_YELLOW_SAND;
+		PROFESSION_BUTTON.fontColor = Assets.CLR_YELLOW_SAND_A;
+		PROFESSION_BUTTON.downFontColor = Assets.CLR_YELLOW_SAND;
+		PROFESSION_BUTTON.overFontColor = Assets.CLR_YELLOW_SAND;
 		
 	}
 }

@@ -24,11 +24,9 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -140,7 +138,7 @@ public class TitleScreen extends AbstractScreen {
 		stage.addActor(btnPlay);
 		
 		LabelStyle lblStyle = new LabelStyle();
-		lblStyle.fontColor = Assets.COLOR_BROWN_TEAK;
+		lblStyle.fontColor = Assets.CLR_BROWN_TEAK;
 		lblStyle.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
 		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), lblStyle);
 		stage.addActor(lblCredits);
