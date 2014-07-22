@@ -42,6 +42,7 @@ import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.util.AssetReflector;
 import de.myreality.jpersis.MapperManager;
 import de.myreality.jpersis.db.DatabaseConnector;
+import de.myreality.jpersis.db.DatabaseException;
 
 /**
  * Main game file which handles all screens
@@ -74,6 +75,12 @@ public class CraftGame extends Game {
 	@Override
 	public void dispose() {
 		SharedAssetManager.dispose();
+		
+		try {
+			MapperManager.getInstance().getConnector().closeConnection();
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadResources() {
