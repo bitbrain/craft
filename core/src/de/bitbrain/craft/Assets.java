@@ -39,6 +39,8 @@ public final class Assets {
 	public static final String DIR_LANGUAGE   			= "i18n/";	
 	public static final String DIR_PARTICLES 	    	= "particles/";
 	
+	public static final String SQL_INIT 					= "game.sql";
+	
 	// ---------- Particles -----------	
 	
 	public static final String PRT_GREEN_SMALL   		= DIR_PARTICLES + "particles-green-small.p";

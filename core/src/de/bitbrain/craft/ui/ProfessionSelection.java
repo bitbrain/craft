@@ -153,8 +153,6 @@ public class ProfessionSelection extends Table implements EventListener {
 
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				Sound s = SharedAssetManager.get(Assets.SND_POP, Sound.class);
-				s.play(1.0f, index / 9.6f + 0.7f, 0.3f);
 				
 				Tween.to(element.getBar(), 1, 0.8f)
 					.target(playerDataProvider.getProgress(element.getProfession()))
@@ -162,6 +160,17 @@ public class ProfessionSelection extends Table implements EventListener {
 					.start(tweenManager);
 				
 				Tween.to(element.getIcon(), SpriteTween.SCALE, 1.0f)
+				.delay(0.3f)
+				.setCallbackTriggers(TweenCallback.START)
+				.setCallback(new TweenCallback() {
+
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+						Sound s = SharedAssetManager.get(Assets.SND_POP, Sound.class);
+						s.play(1.0f, index / 9.6f + 0.7f, 0.3f);
+					}
+					
+				})
 				.target(1.0f)
 				.ease(TweenEquations.easeOutElastic)
 				.start(tweenManager);

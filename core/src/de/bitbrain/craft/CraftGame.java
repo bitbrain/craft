@@ -19,15 +19,20 @@
 
 package de.bitbrain.craft;
 
+import java.io.IOException;
+import java.sql.Statement;
+
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import de.bitbrain.craft.db.DatabaseHelper;
 import de.bitbrain.craft.db.SQLiteConnector;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.screens.TitleScreen;
@@ -50,7 +55,7 @@ public class CraftGame extends Game {
 	@Override
 	public void create () {
 		loadResources();
-		initDatabase();
+		DatabaseHelper.connect();
 		registerTweens();
 		//loadCursor();
 		Bundles.load();
@@ -63,7 +68,7 @@ public class CraftGame extends Game {
 		super.resume();
 		
 		loadResources();
-		initDatabase();
+		DatabaseHelper.connect();
 	}
 	
 	@Override
@@ -83,12 +88,6 @@ public class CraftGame extends Game {
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
 		Tween.registerAccessor(Actor.class, new ActorTween());
 		Tween.registerAccessor(ParticleRenderer.class, new ParticleRendererTween());
-	}
-	
-	private void initDatabase() {
-		String databasePath = Gdx.files.internal(Settings.DATABASE).path();
-		DatabaseConnector connector = new SQLiteConnector(databasePath);
-		MapperManager.setDefaultConnector(connector);
 	}
 	
 	@SuppressWarnings("unused")

@@ -35,5 +35,6 @@ public final class Settings {
 	public static final String NAME = "Craft";
 	public static final String PHASE = "dev";
 	
-	public static final String DATABASE = "data.db";
+	public static final String DIR_DATA = ".craft/";
+	public static final String DATABASE = "game.db";
 }
