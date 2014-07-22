@@ -19,8 +19,15 @@
 
 package de.bitbrain.craft.util;
 
+import java.util.Collection;
+
+import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Progress;
+import de.myreality.jpersis.MapperManager;
+
+import de.myreality.jpersis.MapperManager;
 
 /**
  * 
@@ -29,23 +36,29 @@ import de.bitbrain.craft.models.Profession;
  * @since 1.0
  * @version 1.0
  */
-public class PlayerDataProviderMock implements PlayerDataProvider {
+public class DirectPlayerDataProvider implements PlayerDataProvider {
+	
+	private Collection<Progress> progress;
+	
+	public DirectPlayerDataProvider(int playerID) {
+		
+		ProgressMapper mapper = MapperManager.getInstance().getMapper(ProgressMapper.class);		
+		progress = mapper.progressOfPlayer(playerID);		
+	}
 
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.util.PlayerDataProvider#getLevel(de.bitbrain.craft.models.Profession)
 	 */
 	@Override
 	public int getLevel(Profession profession) {
-		switch (profession) {
-			case ALCHEMIST:
-				return 2;
-			case ENGINEER:
-				return 3;
-			case JEWELER:
-				return 4;
+		
+		for (Progress p : progress) {
+			if (p.getProfession().equals(profession)) {
+				return p.getLevel();
+			}
 		}
 		
-		return 1;
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -53,24 +66,14 @@ public class PlayerDataProviderMock implements PlayerDataProvider {
 	 */
 	@Override
 	public float getProgress(Profession profession) {
-		switch (profession) {
-			case ALCHEMIST:
-				return 0.7f;
-			case ENGINEER:
-				return 0.36f;
-			case JEWELER:
-				return 0.52f;
+		
+		for (Progress p : progress) {
+			if (p.getProfession().equals(profession)) {
+				return p.getXp();
+			}
 		}
 		
-		return 0.1f;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.util.PlayerDataProvider#getCurrentPlayer()
-	 */
-	@Override
-	public Player getCurrentPlayer() {
-		return new Player();
+		return 0;
 	}
 
 }

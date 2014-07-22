@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft;
 
-import java.util.Collection;
-
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
@@ -31,10 +29,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.bitbrain.craft.db.DatabaseHelper;
-import de.bitbrain.craft.db.ItemMapper;
-import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.graphics.ParticleRenderer;
-import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.ParticleRendererTween;
@@ -66,15 +61,6 @@ public class CraftGame extends Game {
 		Bundles.load();
 		TitleScreen screen = new TitleScreen(this);
 		setScreen(screen);	
-		
-		
-		ItemMapper itemMapper = MapperManager.getInstance().getMapper(ItemMapper.class);
-		
-		ProgressMapper progressMapper = MapperManager.getInstance().getMapper(ProgressMapper.class);
-		
-		Collection<Progress> progress = progressMapper.progressOfPlayer(1);
-		
-		System.out.println(progress.size());
 	}
 	
 	@Override

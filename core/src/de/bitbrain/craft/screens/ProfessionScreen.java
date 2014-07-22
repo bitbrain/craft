@@ -30,7 +30,7 @@ import de.bitbrain.craft.controls.ProfessionSelectionControls;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
 import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
-import de.bitbrain.craft.util.PlayerDataProviderMock;
+import de.bitbrain.craft.util.DirectPlayerDataProvider;
 
 /**
  * Shows up a selection for available professions
@@ -49,7 +49,8 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		selection = new ProfessionSelection(new PlayerDataProviderMock(), tweenManager);		
+		// TODO: Fix player ID here
+		selection = new ProfessionSelection(new DirectPlayerDataProvider(1), tweenManager);		
 		selection.addProfessionSelectListener(this);
 		selection.align(Align.center);
 		stage.addActor(selection);

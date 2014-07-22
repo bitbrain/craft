@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.util;
 
-import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 
 /**
@@ -46,11 +45,4 @@ public interface PlayerDataProvider {
 	 * @return current profession level
 	 */
 	float getProgress(Profession profession);
-	
-	/**
-	 * Returns the current player
-	 * 
-	 * @return current player of the game
-	 */
-	Player getCurrentPlayer();
 }
