@@ -19,21 +19,16 @@
 
 package de.bitbrain.craft;
 
-import java.io.IOException;
-import java.sql.Statement;
-
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.bitbrain.craft.db.DatabaseHelper;
-import de.bitbrain.craft.db.SQLiteConnector;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
@@ -41,7 +36,6 @@ import de.bitbrain.craft.tweens.ParticleRendererTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.util.AssetReflector;
 import de.myreality.jpersis.MapperManager;
-import de.myreality.jpersis.db.DatabaseConnector;
 import de.myreality.jpersis.db.DatabaseException;
 
 /**
@@ -55,6 +49,11 @@ public class CraftGame extends Game {
 
 	@Override
 	public void create () {
+		
+		Gdx.app.setLogLevel(Settings.LOGLEVEL);
+		
+		showStartupMessage();
+		
 		loadResources();
 		DatabaseHelper.connect();
 		registerTweens();
@@ -81,6 +80,11 @@ public class CraftGame extends Game {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void showStartupMessage() {
+		Gdx.app.log("STARTUP", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
+
 	}
 	
 	private void loadResources() {

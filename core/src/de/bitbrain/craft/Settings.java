@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft;
 
+import com.badlogic.gdx.Application;
+
 /**
  * Settings file
  *
@@ -37,4 +39,6 @@ public final class Settings {
 	
 	public static final String DIR_DATA = ".craft/";
 	public static final String DATABASE = "game.db";
+	
+	public static final int LOGLEVEL = Application.LOG_DEBUG;
 }
