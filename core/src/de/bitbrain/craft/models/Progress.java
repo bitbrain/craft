@@ -20,68 +20,91 @@
 package de.bitbrain.craft.models;
 
 /**
- * Item which can be used for crafting
- * 
+ * Progress of a given player
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class Item {
+public class Progress {
 
-	private String id = "";
+	private int id;
 	
-	private String icon = "";
+	private int level;
 	
-	private Rarity rarity = Rarity.COMMON;
+	private Profession profession;
 	
-	private int level = 1;
+	private float xp;
 	
-	public String getIcon() {
-		return icon;
-	}
+	private int playerId;
 	
-	public String getId() {
+	/**
+	 * @return the id
+	 */
+	public int getId() {
 		return id;
 	}
 	
+	/**
+	 * @return the level
+	 */
 	public int getLevel() {
 		return level;
 	}
 	
-	public Rarity getRarity() {
-		return rarity;
-	}
-	
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
+	/**
+	 * @return the playerId
+	 */
+	public int getPlayerId() {
+		return playerId;
 	}
 
+	/**
+	 * @return the profession
+	 */
+	public Profession getProfession() {
+		return profession;
+	}
+	
+	/**
+	 * @return the xp
+	 */
+	public float getXp() {
+		return xp;
+	}
+	
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	/**
+	 * @param level the level to set
+	 */
 	public void setLevel(int level) {
 		this.level = level;
 	}
 	
-	public void setRarity(Rarity rarity) {
-		this.rarity = rarity;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
+	/**
+	 * @param playerId the playerId to set
 	 */
-	@Override
-	public String toString() {
-		return id + ", " + icon + ", " + level + ", " + rarity;
+	public void setPlayerId(int playerId) {
+		this.playerId = playerId;
 	}
 	
-	public static enum Rarity {
-		COMMON,
-		RARE,
-		SUPERIOR,
-		EPIC,
-		UNIQUE,
-		LEGENDARY
+	/**
+	 * @param profession the profession to set
+	 */
+	public void setProfession(Profession profession) {
+		this.profession = profession;
+	}
+	
+	/**
+	 * @param xp the xp to set
+	 */
+	public void setXp(float xp) {
+		this.xp = xp;
 	}
 }

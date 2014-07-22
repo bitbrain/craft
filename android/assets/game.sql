@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `progress` (
 	`id` INTEGER PRIMARY KEY AUTOINCREMENT,
 	`level` INT(11) NOT NULL,
 	`profession` VARCHAR(100) NOT NULL,
+	`xp` REAL NOT NULL,
 	`player_id` INT(255) NOT NULL
 );
 
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `material` (
 
 CREATE TABLE IF NOT EXISTS `craftstep` (
 	`id` INTEGER PRIMARY KEY AUTOINCREMENT,
-	`recipe_id` INT(255) NOT NULL,
+	`recipe_id` VARCHAR(100) NOT NULL,
 	`order` INT(100) NOT NULL,
 	`logic_id` VARCHAR(100) NOT NULL
 );

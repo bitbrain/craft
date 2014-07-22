@@ -63,12 +63,14 @@ public final class DatabaseHelper {
 		MapperManager.setDefaultConnector(connector);
 
 		try {
-			connector.openConnection();		
+			connector.openConnection();
 
 			// Create a new database if not exists
 			if (empty) {
 				Statement statement = MapperManager.getInstance().getConnector().getStatement();
 				FileHandle init = Gdx.files.internal(Assets.SQL_INIT);
+				exectuteScript(init.reader(), statement);
+				init = Gdx.files.internal(Assets.SQL_UPDATE);
 				exectuteScript(init.reader(), statement);
 			}
 			
