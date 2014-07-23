@@ -30,6 +30,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import de.bitbrain.craft.Assets;
+
 /**
  * Handles icon management and loads them on time
  *
@@ -47,6 +49,7 @@ public class IconManager {
 	static {
 		instance = new IconManager();
 		loadingSprite = new Sprite(new Texture(Gdx.files.internal("images/icons/ico_loading.png")));
+		loadingSprite.flip(false, true);
 	}
 	
 	private Map<String, Icon> icons;	
@@ -63,29 +66,51 @@ public class IconManager {
 	}
 	
 	public void update() {
+		
 		for (int i = 0; i < BUFFER; ++i) {
+			
+			if (requests.isEmpty()) {
+				break;
+			}
+			
 			loadIcon(requests.poll());
 		}
 	}
 	
-	public Icon fetchIcon(String file) {
-		
+	public Icon fetch(String file) {		
 		if (icons.containsKey(file)) {
-			references.put(file, references.get(file) + 1);
 			return icons.get(file);
 		} else {
 			references.put(file, 1);
 			requests.add(file);
-			return icons.put(file, new Icon());
+			Icon icon = new Icon();
+			icons.put(file, icon);
+			return icon;
 		}
 	}
 	
-	public void freeIcon(String file) {
-		
+	public void free(String file) {
+		if (references.containsKey(file)) {
+			if (references.get(file) > 1) {
+				references.put(file, references.get(file) - 1);
+			} else {
+				references.remove(file);
+				textures.get(file).dispose();
+				textures.remove(file);
+				icons.get(file).setTexture(null);
+			}
+		}
 	}
 	
 	public void dispose() {
-		loadingSprite.getTexture().dispose();
+		
+		for (Texture t : textures.values()) {
+			t.dispose();
+		}
+		
+		references.clear();
+		icons.clear();
+		textures.clear();
 	}
 	
 	public static IconManager getInstance() {
@@ -94,13 +119,18 @@ public class IconManager {
 	
 	
 	private void loadIcon(String file) {
-		
+		if (!textures.containsKey(file)) {
+			Texture texture = new Texture(Gdx.files.internal(Assets.DIR_ICONS + file));
+			textures.put(file, texture);
+			icons.get(file).setTexture(texture);
+		}
 	}
 	
 	public static class Icon {
 		
 		public float scale = 1.0f;
 		public float x, y, width, height;
+		public float rotation;
 		public Color color = Color.WHITE;
 		
 		private Sprite sprite;
@@ -112,6 +142,7 @@ public class IconManager {
 		void setTexture(Texture texture) {
 			if (texture != null) {
 				this.sprite = new Sprite(texture);
+				sprite.flip(false, true);
 			} else {
 				this.sprite = loadingSprite;
 			}
@@ -121,6 +152,8 @@ public class IconManager {
 			sprite.setScale(scale);
 			sprite.setBounds(x, y, width, height);
 			sprite.setColor(color);
+			sprite.setOrigin(width / 2f, height / 2f);
+			sprite.setRotation(rotation);
 			
 			sprite.draw(batch, alphaModulation);
 		}

@@ -20,3 +20,6 @@ INSERT INTO `item` VALUES("item_bentagon", 	"ico_bentagon.png", 	 2, "RARE");
 INSERT INTO `item` VALUES("item_phiole_medium", "ico_phiole_medium.png", 2, "COMMON");
 INSERT INTO `item` VALUES("item_darkstone",	"ico_darkstone.png", 	 2, "SUPERIOR");
 INSERT INTO `item` VALUES("item_molten_sand", 	"ico_molten_sand.png", 	 2, "RARE");
+
+INSERT INTO `owned_items` VALUES(null, "item_flux", 1, 3);
+INSERT INTO `owned_items` VALUES(null, "item_acid_1", 1, 1);

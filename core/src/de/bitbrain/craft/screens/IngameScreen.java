@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -27,6 +28,7 @@ import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.ui.TabPanel;
 
 /**
  * Displays the main game
@@ -38,6 +40,8 @@ import de.bitbrain.craft.models.Profession;
 public class IngameScreen extends AbstractScreen {
 	
 	private IconManager iconManager = IconManager.getInstance();
+	
+	private TabPanel tabPanel;
 
 	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
@@ -45,7 +49,9 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-
+		tabPanel = new TabPanel();
+		tabPanel.debug();
+		stage.addActor(tabPanel);
 	}
 	
 	/* (non-Javadoc)
@@ -53,8 +59,11 @@ public class IngameScreen extends AbstractScreen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		super.resize(width, height);
-		
+		super.resize(width, height);	
+
+
+		tabPanel.setWidth(Gdx.graphics.getWidth() / 2.5f);
+		tabPanel.setHeight(Gdx.graphics.getHeight() / 1.2f);
 	}
 
 	@Override
@@ -64,7 +73,16 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onDraw(Batch batch, float delta) {
-
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#dispose()
+	 */
+	@Override
+	public void dispose() {
+		super.dispose();
+		iconManager.dispose();
 	}
 	
 	/* (non-Javadoc)
@@ -77,7 +95,6 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onShow() {
-
 	}
 
 }

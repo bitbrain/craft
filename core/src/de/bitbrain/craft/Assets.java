@@ -38,6 +38,7 @@ public final class Assets {
 	public static final String DIR_AUDIO 				= "audio/";
 	public static final String DIR_LANGUAGE   			= "i18n/";	
 	public static final String DIR_PARTICLES 	    	= "particles/";
+	public static final String DIR_ICONS					= DIR_IMAGES + "icons/";
 	
 	public static final String SQL_INIT 					= "game.sql";
 	public static final String SQL_UPDATE				= "update.sql";

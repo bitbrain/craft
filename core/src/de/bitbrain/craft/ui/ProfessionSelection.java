@@ -248,6 +248,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			if (icon != null) {
 				icon.setSize(getWidth() / 1.5f, getWidth() / 1.5f);
 				icon.setPosition(getX() + getWidth() / 2 - icon.getWidth() / 2, getY() + getHeight() / 2.5f);
+				icon.setOrigin(icon.getWidth() / 2f, icon.getHeight() / 2f);
 				icon.draw(batch, parentAlpha * iconAlpha * getColor().a);
 			}
 			bar.setColor(getColor());
