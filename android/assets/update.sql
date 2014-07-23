@@ -1,9 +1,9 @@
 INSERT INTO `player` VALUES(1, 'localhost');
 
 
-INSERT INTO `progress` VALUES(null, 1, "ALCHEMIST", 0.0, 1);
-INSERT INTO `progress` VALUES(null, 1, "ENGINEER", 0.0, 1);
-INSERT INTO `progress` VALUES(null, 1, "JEWELER", 0.0,  1);
+INSERT INTO `progress` VALUES(null, 1, "ALCHEMIST", 0.3, 3);
+INSERT INTO `progress` VALUES(null, 1, "ENGINEER", 0.16, 5);
+INSERT INTO `progress` VALUES(null, 1, "JEWELER", 0.57, 4);
 
 
 INSERT INTO `item` VALUES("item_flux",    	"ico_flux.png", 	 1, "COMMON");

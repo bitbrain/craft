@@ -5,10 +5,10 @@ CREATE TABLE IF NOT EXISTS `player` (
 
 CREATE TABLE IF NOT EXISTS `progress` (
 	`id` INTEGER PRIMARY KEY AUTOINCREMENT,
-	`level` INT(11) NOT NULL,
+	`player_id` INT(255) NOT NULL,
 	`profession` VARCHAR(100) NOT NULL,
 	`xp` REAL NOT NULL,
-	`player_id` INT(255) NOT NULL
+	`level` INT(11) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `item` (

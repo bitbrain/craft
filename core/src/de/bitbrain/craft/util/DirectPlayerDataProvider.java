@@ -40,10 +40,10 @@ public class DirectPlayerDataProvider implements PlayerDataProvider {
 	
 	private Collection<Progress> progress;
 	
-	public DirectPlayerDataProvider(int playerID) {
-		
-		ProgressMapper mapper = MapperManager.getInstance().getMapper(ProgressMapper.class);		
-		progress = mapper.progressOfPlayer(playerID);		
+	private int playerID;
+	
+	public DirectPlayerDataProvider(int playerID) {		
+			this.playerID = playerID;
 	}
 
 	/* (non-Javadoc)
@@ -51,6 +51,8 @@ public class DirectPlayerDataProvider implements PlayerDataProvider {
 	 */
 	@Override
 	public int getLevel(Profession profession) {
+		
+		refresh();
 		
 		for (Progress p : progress) {
 			if (p.getProfession().equals(profession)) {
@@ -67,6 +69,8 @@ public class DirectPlayerDataProvider implements PlayerDataProvider {
 	@Override
 	public float getProgress(Profession profession) {
 		
+		refresh();
+		
 		for (Progress p : progress) {
 			if (p.getProfession().equals(profession)) {
 				return p.getXp();
@@ -76,4 +80,10 @@ public class DirectPlayerDataProvider implements PlayerDataProvider {
 		return 0;
 	}
 
+	public void refresh() {
+		if (progress == null) {
+			ProgressMapper mapper = MapperManager.getInstance().getMapper(ProgressMapper.class);		
+			progress = mapper.progressOfPlayer(playerID);	
+		}
+	}
 }
