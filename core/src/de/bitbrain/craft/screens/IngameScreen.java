@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.controls.IngameControls;
+import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.models.Profession;
 
 /**
@@ -35,6 +36,8 @@ import de.bitbrain.craft.models.Profession;
  * @version 1.0
  */
 public class IngameScreen extends AbstractScreen {
+	
+	private IconManager iconManager = IconManager.getInstance();
 
 	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
@@ -61,6 +64,15 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onDraw(Batch batch, float delta) {
+
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#onUpdate(float)
+	 */
+	@Override
+	protected void onUpdate(float delta) {
+		iconManager.update();
 	}
 
 	@Override

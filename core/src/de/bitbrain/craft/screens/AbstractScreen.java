@@ -86,6 +86,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		
 		Gdx.gl.glClearColor(0.08f, 0.02f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		onUpdate(delta);
 
 		tweenManager.update(delta);
 		
@@ -238,6 +240,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
 			 .start(tweenManager);
 	}
+	
+	protected void onUpdate(float delta) { }
 	
 	protected void afterFadeIn(float parentInterval) {
 		Gdx.input.setInputProcessor(stage);
