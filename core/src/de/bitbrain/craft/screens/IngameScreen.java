@@ -61,7 +61,6 @@ public class IngameScreen extends AbstractScreen {
 	public void resize(int width, int height) {
 		super.resize(width, height);	
 
-
 		tabPanel.setWidth(Gdx.graphics.getWidth() / 2.5f);
 		tabPanel.setHeight(Gdx.graphics.getHeight() / 1.2f);
 	}
@@ -90,7 +89,7 @@ public class IngameScreen extends AbstractScreen {
 	 */
 	@Override
 	protected void onUpdate(float delta) {
-		iconManager.update();
+		//iconManager.update();
 	}
 
 	@Override

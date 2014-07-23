@@ -28,7 +28,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.screens.IngameScreen;
-import de.bitbrain.craft.screens.TitleScreen;
+import de.bitbrain.craft.screens.ProfessionScreen;
 
 /**
  * Controls for {@see de.bitbrain.craft.screens.TitleScreen}
@@ -55,7 +55,7 @@ public class IngameControls extends Stage {
 		if (keyCode == Keys.ESCAPE) {
 			Sound sound = SharedAssetManager.get(Assets.SND_ABORT, Sound.class);
 			sound.play(1.0f, 0.8f, 1.0f);
-			screen.setScreen(new TitleScreen(screen.getGame()));
+			screen.setScreen(new ProfessionScreen(screen.getGame()));
 		}
 		
 		return super.keyDown(keyCode);

@@ -19,10 +19,11 @@
 
 package de.bitbrain.craft.ui;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -35,15 +36,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  */
 public class TabPanel extends Table {
 	
-	private Cell content;
+	private Cell<?> content;
 	
-	private List<Group> tabContent;
+	private Map<String, Actor> tabs;
 
 	public TabPanel() {	
-		tabContent = new ArrayList<Group>();
-		content = this.add();
+		tabs = new HashMap<String, Actor>();
+		content = add();
 		this.row();
+	}
+	
+	public void addTab(String id, TabStyle tabStyle, Actor actor) {
+		tabs.remove(id);		
+		tabs.put(id, actor);
+	}
+	
+	public void setTab(String id) {
+		Actor actor = tabs.get(id);
 		
+		if (actor != null) {
+			content.setActor(actor);
+		}
+	}
+	
+	public static class TabStyle {
 		
+		public String text;		
+		public Sprite icon;
 	}
 }
