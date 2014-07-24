@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.tweens.ActorTween;
@@ -170,12 +171,19 @@ public class TabPanel extends Table {
 			activeStyles = new HashMap<ImageButton, ImageButton.ImageButtonStyle>();
 		}
 		
+		public boolean isActive(String id) {
+			return ids.get(id).equals(active);
+		}
+		
 		public void addTab(String id, String iconId) {
 			
 			ImageButtonStyle style = generateStyle(iconId, false);
 			ImageButtonStyle activeStyle = generateStyle(iconId, true);
 			
 			final ImageButton button = new ImageButton(style);
+			
+			button.addCaptureListener(new ButtonSoundListener(Assets.SND_TAB));
+			
 			buttons.put(button, id);
 			cells.put(button, add(button));
 			ids.put(id, button);
@@ -192,10 +200,12 @@ public class TabPanel extends Table {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					super.clicked(event, x, y);
+					 
 					Actor a = event.getTarget();
 					
-					if (a instanceof ImageButton) {
+					if (a instanceof ImageButton && !isActive(buttons.get((ImageButton)a))) {
 						parentPanel.setTab(buttons.get((ImageButton)a));
+					
 					}
 				}
 			});
@@ -235,7 +245,8 @@ public class TabPanel extends Table {
 			IconManager iconManager = IconManager.getInstance();
 			Icon icon = iconManager.fetch(iconId);
 	
-			style.imageUp = icon;			
+			style.imageUp = icon;		
+			style.imageOver = icon;
 			
 			return style;
 		}

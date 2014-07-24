@@ -179,6 +179,26 @@ public class IconManager {
 			
 		}
 		
+		/* (non-Javadoc)
+		 * @see com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable#draw(com.badlogic.gdx.graphics.g2d.Batch, float, float, float, float)
+		 */
+		@Override
+		public void draw(Batch batch, float x, float y, float width,
+				float height) {
+			
+			width = 30f;
+			height = 30f;
+			
+			super.draw(batch, x, y, width, height);
+			sprite.setScale(scale);
+			sprite.setBounds(x - width / 2f, y - height / 2f, width, height);
+			sprite.setColor(color);
+			sprite.setOrigin(width / 2f, height / 2f);
+			sprite.setRotation(rotation);
+			
+			sprite.draw(batch, 1f);
+		}
+		
 		
 	}
 }
