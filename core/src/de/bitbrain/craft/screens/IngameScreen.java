@@ -19,8 +19,9 @@
 
 package de.bitbrain.craft.screens;
 
+import java.util.Collection;
+
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
@@ -29,13 +30,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.db.ItemMapper;
+import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.IconManagerTween;
+import de.bitbrain.craft.ui.ListView;
 import de.bitbrain.craft.ui.TabPanel;
+import de.myreality.jpersis.MapperManager;
 
 /**
  * Displays the main game
@@ -47,6 +53,8 @@ import de.bitbrain.craft.ui.TabPanel;
 public class IngameScreen extends AbstractScreen {
 	
 	private IconManager iconManager = IconManager.getInstance();
+	
+	private MapperManager dataManager = MapperManager.getInstance();
 	
 	private TabPanel tabPanel;
 
@@ -73,10 +81,24 @@ public class IngameScreen extends AbstractScreen {
 		tabPanel.padLeft(Gdx.graphics.getWidth() / 10f);
 		tabPanel.padBottom(Gdx.graphics.getHeight() / 7f);
 		
-		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", new Label("Tab1", Styles.LBL_BROWN));
+		ListView listView = new ListView();
+		ItemMapper itemMapper = dataManager.getMapper(ItemMapper.class);
+		Collection<Item> items = itemMapper.findAll();
+		
+		for (Item item : items) {
+			String text = Bundles.items.get(item.getId());
+			listView.addActor(new Label(text, Styles.LBL_BROWN));
+		}
+		
+		listView.setSpacing(15f);
+		listView.setPadding(15f);
+		
+		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);
 		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
 		tabPanel.addTab("tab3", "ico_jewel_diamond_medium.png", new Label("Tab3", Styles.LBL_BROWN));
 		tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));
+		
+		tabPanel.setTab("tab1");
 	}
 
 	@Override

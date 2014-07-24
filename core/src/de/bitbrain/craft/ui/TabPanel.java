@@ -20,7 +20,9 @@
 package de.bitbrain.craft.ui;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -66,9 +68,12 @@ public class TabPanel extends Table {
 	private Sprite background;
 	
 	private TweenManager tweenManager;
+	
+	private Set<TabListener> listeners;
 
 	public TabPanel(TweenManager tweenManager) {	
 		this.tweenManager = tweenManager;
+		listeners = new HashSet<TabListener>();
 		tabs = new HashMap<String, Actor>();
 		content = add();
 		this.row();
@@ -107,12 +112,22 @@ public class TabPanel extends Table {
 		actor.getColor().a = 0f;
 	}
 	
+	public void addListener(TabListener listener) {
+		listeners.add(listener);
+	}
+	
 	public void setTab(String id) {
 		Actor actor = tabs.get(id);
 		
 		if (actor != null) {		
 			
 			Actor current = content.getActor();
+			
+			if (actor != current) {
+				for (TabListener l : listeners) {
+					l.onChange(current, actor);
+				}
+			}
 			
 			if (current != null) {
 				current.getColor().a = 0f;
@@ -148,6 +163,11 @@ public class TabPanel extends Table {
 		
 		public String text;		
 		public Sprite icon;
+	}
+	
+	public static interface TabListener {
+		
+		void onChange(Actor before, Actor next);
 	}
 	
 	private static class TabControl extends Table {
