@@ -22,6 +22,7 @@ package de.bitbrain.craft;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
@@ -35,27 +36,31 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
  */
 public final class Styles {
 	
-	public static final TextButtonStyle TEXT_BUTTON = new TextButtonStyle();
-	public static final TextButtonStyle PROFESSION_BUTTON = new TextButtonStyle();
-	public static final LabelStyle	  LABEL_CREDITS_STYLE = new LabelStyle();
-
+	public static final TextButtonStyle BTN_GREEN 			  = new TextButtonStyle();
+	public static final TextButtonStyle BTN_PROFESSION     = new TextButtonStyle();
+	public static final LabelStyle LBL_BROWN 		  = new LabelStyle();
+	public static final ImageButtonStyle BTN_TAB				  = new ImageButtonStyle();
+	public static final ImageButtonStyle BTN_TAB_ACTIVE 		  = new ImageButtonStyle();
 	static void load() {
-		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
-		TEXT_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class)));
-		TEXT_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN_DARK, Texture.class)));
-		TEXT_BUTTON.fontColor = Assets.CLR_GREEN_GRASS;
-		TEXT_BUTTON.downFontColor = Assets.CLR_GREEN_GRASS_LIGHT;
+		BTN_GREEN.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
+		BTN_GREEN.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class)));
+		BTN_GREEN.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN_DARK, Texture.class)));
+		BTN_GREEN.fontColor = Assets.CLR_GREEN_GRASS;
+		BTN_GREEN.downFontColor = Assets.CLR_GREEN_GRASS_LIGHT;
 		
-		PROFESSION_BUTTON.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
-		PROFESSION_BUTTON.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DOWN_V, Texture.class)));
-		PROFESSION_BUTTON.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_HOVER_V, Texture.class)));
-		PROFESSION_BUTTON.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class)));
-		PROFESSION_BUTTON.fontColor = Assets.CLR_YELLOW_SAND_A;
-		PROFESSION_BUTTON.downFontColor = Assets.CLR_YELLOW_SAND;
-		PROFESSION_BUTTON.overFontColor = Assets.CLR_YELLOW_SAND;
+		BTN_PROFESSION.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
+		BTN_PROFESSION.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DOWN_V, Texture.class)));
+		BTN_PROFESSION.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_HOVER_V, Texture.class)));
+		BTN_PROFESSION.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class)));
+		BTN_PROFESSION.fontColor = Assets.CLR_YELLOW_SAND_A;
+		BTN_PROFESSION.downFontColor = Assets.CLR_YELLOW_SAND;
+		BTN_PROFESSION.overFontColor = Assets.CLR_YELLOW_SAND;
 		
-		LABEL_CREDITS_STYLE.fontColor = Assets.CLR_BROWN_TEAK;
-		LABEL_CREDITS_STYLE.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
+		LBL_BROWN.fontColor = Assets.CLR_BROWN_TEAK;
+		LBL_BROWN.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
+		
+		BTN_TAB.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB, Texture.class)));
+		BTN_TAB_ACTIVE.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB_ACTIVE, Texture.class)));
 		
 	}
 }

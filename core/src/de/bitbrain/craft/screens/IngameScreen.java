@@ -68,10 +68,10 @@ public class IngameScreen extends AbstractScreen {
 		tabPanel.padLeft(Gdx.graphics.getWidth() / 15f);
 		tabPanel.padBottom(Gdx.graphics.getHeight() / 15f);
 
-		tabPanel.addTab("tab1", new Label("Tab1", Styles.LABEL_CREDITS_STYLE));
-		tabPanel.addTab("tab2", new Label("Tab2", Styles.LABEL_CREDITS_STYLE));
-		tabPanel.addTab("tab3", new Label("Tab3", Styles.LABEL_CREDITS_STYLE));
-		tabPanel.addTab("tab4", new Label("Tab4", Styles.LABEL_CREDITS_STYLE));
+		tabPanel.addTab("tab1", new Label("Tab1", Styles.LBL_BROWN));
+		tabPanel.addTab("tab2", new Label("Tab2", Styles.LBL_BROWN));
+		tabPanel.addTab("tab3", new Label("Tab3", Styles.LBL_BROWN));
+		tabPanel.addTab("tab4", new Label("Tab4", Styles.LBL_BROWN));
 	}
 
 	@Override

@@ -21,9 +21,9 @@ package de.bitbrain.craft.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -32,11 +32,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
@@ -70,7 +68,7 @@ public class TabPanel extends Table {
 		
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));
 		
-		Button b = new TextButton("Blubb", Styles.TEXT_BUTTON);
+		Button b = new TextButton("Blubb", Styles.BTN_GREEN);
 
 		b.setBounds(0, 0, 10f, 10f);
 	}
@@ -132,26 +130,23 @@ public class TabPanel extends Table {
 		
 		private Map<ImageButton, String> buttons;
 		
-		private ImageButtonStyle style;
-		
-		private List<Cell<?>> cells;
+		private Map<ImageButton, Cell<?>> cells;
 		
 		private TabPanel parentPanel;
+		
+		private ImageButton active;
 		
 		public TabControl(TabPanel panel) {
 			this.parentPanel = panel;
 			buttons = new HashMap<ImageButton, String>();
-			cells = new ArrayList<Cell<?>>();
-			
-			style = new ImageButtonStyle();
-			style.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DARK_H, Texture.class)));
+			cells = new HashMap<ImageButton, Cell<?>>();			
 		}
 		
 		public void addTab(String id) {
-			ImageButton button = new ImageButton(style);
+			final ImageButton button = new ImageButton(Styles.BTN_TAB);
 			buttons.put(button, id);
-			cells.add(add(button));
-			
+			cells.put(button, add(button));
+			active = button;
 			button.addCaptureListener(new ClickListener() {
 				/* (non-Javadoc)
 				 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
@@ -162,15 +157,26 @@ public class TabPanel extends Table {
 					Actor a = event.getTarget();
 					
 					if (a instanceof ImageButton) {
-						parentPanel.setTab(buttons.get((ImageButton)a));
+						setTab((ImageButton)a);
 					}
 				}
 			});
 			
-			for (Cell<?> c : cells) {
-				c.width(parentPanel.getWidth() / cells.size());
+			for (Cell<?> c : cells.values()) {
+				c.width((parentPanel.getWidth() / 1.2f) / cells.size());
+				c.padRight(4f);
+				c.padLeft(4f);
 				c.height(parentPanel.getHeight() - (parentPanel.getHeight() / HEIGHT_DIV));
 			}
+		}
+		
+		private void setTab(ImageButton tab) {
+			active.setStyle(Styles.BTN_TAB);
+			cells.get(active).padBottom(0f);
+			active = tab;
+			parentPanel.setTab(buttons.get(tab));
+			active.setStyle(Styles.BTN_TAB_ACTIVE);
+			cells.get(active).padBottom(Gdx.graphics.getHeight() / 20f);
 		}
 	}
 }

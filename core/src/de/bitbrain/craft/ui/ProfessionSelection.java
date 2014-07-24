@@ -87,7 +87,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			
 			Profession f = Profession.values()[index];
 			
-			ProfessionElement element = new ProfessionElement(f.getName(), Styles.PROFESSION_BUTTON, f);
+			ProfessionElement element = new ProfessionElement(f.getName(), Styles.BTN_PROFESSION, f);
 			element.addCaptureListener(this);
 			element.addCaptureListener(new ButtonSoundListener(Assets.SND_CONFIRM));
 			element.addCaptureListener(notifier);

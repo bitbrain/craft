@@ -69,7 +69,7 @@ public class TitleScreen extends AbstractScreen {
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		btnPlay = new TextButton(Bundles.general.get(Bundles.START), Styles.TEXT_BUTTON);	
+		btnPlay = new TextButton(Bundles.general.get(Bundles.START), Styles.BTN_GREEN);	
 		
 		final TitleScreen tempScreen = this;
 		
@@ -134,7 +134,7 @@ public class TitleScreen extends AbstractScreen {
 		btnPlay.addCaptureListener(new ButtonSoundListener());
 		
 		stage.addActor(btnPlay);
-		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LABEL_CREDITS_STYLE);
+		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
 		stage.addActor(lblCredits);
 	}
 
