@@ -22,9 +22,11 @@ package de.bitbrain.craft.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
+import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.models.Profession;
@@ -50,7 +52,6 @@ public class IngameScreen extends AbstractScreen {
 	@Override
 	protected void onCreateStage(Stage stage) {
 		tabPanel = new TabPanel();
-		tabPanel.debug();
 		stage.addActor(tabPanel);
 	}
 	
@@ -66,6 +67,11 @@ public class IngameScreen extends AbstractScreen {
 
 		tabPanel.padLeft(Gdx.graphics.getWidth() / 15f);
 		tabPanel.padBottom(Gdx.graphics.getHeight() / 15f);
+
+		tabPanel.addTab("tab1", new Label("Tab1", Styles.LABEL_CREDITS_STYLE));
+		tabPanel.addTab("tab2", new Label("Tab2", Styles.LABEL_CREDITS_STYLE));
+		tabPanel.addTab("tab3", new Label("Tab3", Styles.LABEL_CREDITS_STYLE));
+		tabPanel.addTab("tab4", new Label("Tab4", Styles.LABEL_CREDITS_STYLE));
 	}
 
 	@Override

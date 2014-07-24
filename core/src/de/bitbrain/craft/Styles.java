@@ -22,6 +22,7 @@ package de.bitbrain.craft;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
@@ -36,6 +37,7 @@ public final class Styles {
 	
 	public static final TextButtonStyle TEXT_BUTTON = new TextButtonStyle();
 	public static final TextButtonStyle PROFESSION_BUTTON = new TextButtonStyle();
+	public static final LabelStyle	  LABEL_CREDITS_STYLE = new LabelStyle();
 
 	static void load() {
 		TEXT_BUTTON.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
@@ -51,6 +53,9 @@ public final class Styles {
 		PROFESSION_BUTTON.fontColor = Assets.CLR_YELLOW_SAND_A;
 		PROFESSION_BUTTON.downFontColor = Assets.CLR_YELLOW_SAND;
 		PROFESSION_BUTTON.overFontColor = Assets.CLR_YELLOW_SAND;
+		
+		LABEL_CREDITS_STYLE.fontColor = Assets.CLR_BROWN_TEAK;
+		LABEL_CREDITS_STYLE.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
 		
 	}
 }

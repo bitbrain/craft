@@ -19,19 +19,28 @@
 
 package de.bitbrain.craft.ui;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Styles;
 
 /**
  * Provides a panel with a tabbed menu at the bottom
@@ -41,6 +50,8 @@ import de.bitbrain.craft.SharedAssetManager;
  * @version 1.0
  */
 public class TabPanel extends Table {
+	
+	private static final float HEIGHT_DIV = 1.2f;
 	
 	private Cell<?> content, menu;
 	
@@ -54,10 +65,14 @@ public class TabPanel extends Table {
 		tabs = new HashMap<String, Actor>();
 		content = add();
 		this.row();
-		tabControl = new TabControl();
+		tabControl = new TabControl(this);
 		menu = add(tabControl);
 		
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class));
+		
+		Button b = new TextButton("Blubb", Styles.TEXT_BUTTON);
+
+		b.setBounds(0, 0, 10f, 10f);
 	}
 	
 	/* (non-Javadoc)
@@ -66,7 +81,7 @@ public class TabPanel extends Table {
 	@Override
 	public void setHeight(float height) {
 		super.setHeight(height);
-		content.height(height / 1.2f);
+		content.height(height / HEIGHT_DIV);
 		menu.height(height - content.getPrefHeight());
 	}
 	
@@ -80,10 +95,11 @@ public class TabPanel extends Table {
 		menu.width(width);
 	}
 	
-	public void addTab(String id, TabStyle tabStyle, Actor actor) {
+	public void addTab(String id, Actor actor) {
 		tabs.remove(id);		
 		tabs.put(id, actor);
 		tabControl.addTab(id);
+		setTab(id);
 	}
 	
 	public void setTab(String id) {
@@ -116,12 +132,50 @@ public class TabPanel extends Table {
 		
 		private Map<ImageButton, String> buttons;
 		
-		public TabControl() {
+		private ImageButtonStyle style;
+		
+		private List<Cell<?>> cells;
+		
+		private TabPanel parentPanel;
+		
+		public TabControl(TabPanel panel) {
+			this.parentPanel = panel;
 			buttons = new HashMap<ImageButton, String>();
+			cells = new ArrayList<Cell<?>>();
+			
+			style = new ImageButtonStyle();
+			style.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DARK_H, Texture.class)));
 		}
 		
 		public void addTab(String id) {
+			ImageButton button = new ImageButton(style);
+			buttons.put(button, id);
+			cells.add(add(button));
 			
+			button.addCaptureListener(new ClickListener() {
+				/* (non-Javadoc)
+				 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+				 */
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					super.clicked(event, x, y);
+					Actor a = event.getTarget();
+					
+					if (a instanceof ImageButton) {
+						parentPanel.setTab(buttons.get((ImageButton)a));
+					}
+				}
+			});
+			
+			for (Cell<?> c : cells) {
+				c.width(parentPanel.getWidth() / cells.size());
+				c.height(parentPanel.getHeight() - (parentPanel.getHeight() / HEIGHT_DIV));
+			}
 		}
 	}
 }
+
+
+
+
+

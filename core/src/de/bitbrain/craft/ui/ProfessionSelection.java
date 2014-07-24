@@ -81,8 +81,6 @@ public class ProfessionSelection extends Table implements EventListener {
 		listeners = new ArrayList<ProfessionSelectListener>();
 		this.playerDataProvider = playerDataProvider;
 		
-		this.columnDefaults(Profession.values().length);
-		
 		ClickNotifier notifier = new ClickNotifier();
 		
 		for (int index = 0; index < Profession.values().length; index++) {			
