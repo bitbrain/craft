@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.models;
 
+import com.badlogic.gdx.graphics.Color;
+
 /**
  * Item which can be used for crafting
  * 
@@ -77,11 +79,21 @@ public class Item {
 	}
 	
 	public static enum Rarity {
-		COMMON,
-		RARE,
-		SUPERIOR,
-		EPIC,
-		UNIQUE,
-		LEGENDARY
+		COMMON("ffffff"),
+		RARE("00ff00"),
+		SUPERIOR("0000ff"),
+		EPIC("5500ff"),
+		UNIQUE("ff6600"),
+		LEGENDARY("ff00ff");
+		
+		private Color color;
+		
+		Rarity(String color) {
+			this.color = Color.valueOf(color);
+		}
+		
+		public Color getColor() {
+			return color;
+		}
 	}
 }

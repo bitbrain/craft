@@ -83,8 +83,6 @@ public class ListView extends Actor {
 
 			if (item.getY() < 0f || getY() + item.getY() + item.getHeight() > getY() + getHeight()) {
 				break;
-			} else {
-				item.getColor().g = 100f;
 			}
 			
 			float oldHeight = item.getHeight();

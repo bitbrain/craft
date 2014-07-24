@@ -25,6 +25,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -84,14 +85,21 @@ public class IngameScreen extends AbstractScreen {
 		ListView listView = new ListView();
 		ItemMapper itemMapper = dataManager.getMapper(ItemMapper.class);
 		Collection<Item> items = itemMapper.findAll();
-		
+		int index = 0;
 		for (Item item : items) {
+			
+			if (index++ % 5 ==0) {
+				continue;
+			}
+			
 			String text = Bundles.items.get(item.getId());
-			listView.addActor(new Label(text, Styles.LBL_BROWN));
+			Label label = new Label(text, Styles.LBL_ITEM);
+			Color rarity = item.getRarity().getColor();
+			label.setColor(rarity);
+			listView.addActor(label);
 		}
 		
 		listView.setSpacing(15f);
-		listView.setPadding(15f);
 		
 		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);
 		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));

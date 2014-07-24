@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -39,6 +40,7 @@ public final class Styles {
 	public static final TextButtonStyle BTN_GREEN 			  = new TextButtonStyle();
 	public static final TextButtonStyle BTN_PROFESSION     = new TextButtonStyle();
 	public static final LabelStyle LBL_BROWN 		  = new LabelStyle();
+	public static final LabelStyle LBL_ITEM 		  = new LabelStyle();
 	public static final ImageButtonStyle BTN_TAB				  = new ImageButtonStyle();
 	public static final ImageButtonStyle BTN_TAB_ACTIVE 		  = new ImageButtonStyle();
 	static void load() {
@@ -58,6 +60,9 @@ public final class Styles {
 		
 		LBL_BROWN.fontColor = Assets.CLR_BROWN_TEAK;
 		LBL_BROWN.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
+		
+		LBL_ITEM.fontColor = new Color(Color.WHITE);
+		LBL_ITEM.font =  SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
 		
 		BTN_TAB.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB, Texture.class)));
 		BTN_TAB_ACTIVE.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB_ACTIVE, Texture.class)));
