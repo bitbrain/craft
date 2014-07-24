@@ -61,8 +61,11 @@ public class IngameScreen extends AbstractScreen {
 	public void resize(int width, int height) {
 		super.resize(width, height);	
 
-		tabPanel.setWidth(Gdx.graphics.getWidth() / 2.5f);
-		tabPanel.setHeight(Gdx.graphics.getHeight() / 1.2f);
+		tabPanel.setWidth(Gdx.graphics.getWidth() / 2.2f);
+		tabPanel.setHeight(Gdx.graphics.getHeight() / 1.1f);
+
+		tabPanel.padLeft(Gdx.graphics.getWidth() / 15f);
+		tabPanel.padBottom(Gdx.graphics.getHeight() / 15f);
 	}
 
 	@Override
