@@ -19,9 +19,10 @@
 
 package de.bitbrain.craft.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -58,8 +59,11 @@ public class TabPanel extends Table {
 	private TabControl tabControl;
 	
 	private Sprite background;
+	
+	private TweenManager tweenManager;
 
-	public TabPanel() {	
+	public TabPanel(TweenManager tweenManager) {	
+		this.tweenManager = tweenManager;
 		tabs = new HashMap<String, Actor>();
 		content = add();
 		this.row();
@@ -106,6 +110,7 @@ public class TabPanel extends Table {
 		
 		if (actor != null) {
 			content.setActor(actor);
+			tabControl.setTab(id);
 		}
 	}
 	
@@ -132,7 +137,7 @@ public class TabPanel extends Table {
 	private static class TabControl extends Table {
 		
 		private Map<ImageButton, String> buttons;
-		
+		private Map<String, ImageButton> ids;
 		private Map<ImageButton, Cell<?>> cells;
 		
 		private TabPanel parentPanel;
@@ -142,6 +147,7 @@ public class TabPanel extends Table {
 		public TabControl(TabPanel panel) {
 			this.parentPanel = panel;
 			buttons = new HashMap<ImageButton, String>();
+			ids = new HashMap<String, ImageButton>();
 			cells = new HashMap<ImageButton, Cell<?>>();			
 		}
 		
@@ -149,7 +155,10 @@ public class TabPanel extends Table {
 			final ImageButton button = new ImageButton(Styles.BTN_TAB);
 			buttons.put(button, id);
 			cells.put(button, add(button));
-			active = button;
+			ids.put(id, button);
+			
+			setTab(button);
+			
 			button.addCaptureListener(new ClickListener() {
 				/* (non-Javadoc)
 				 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
@@ -160,7 +169,7 @@ public class TabPanel extends Table {
 					Actor a = event.getTarget();
 					
 					if (a instanceof ImageButton) {
-						setTab((ImageButton)a);
+						parentPanel.setTab(buttons.get((ImageButton)a));
 					}
 				}
 			});
@@ -173,11 +182,17 @@ public class TabPanel extends Table {
 			}
 		}
 		
+		void setTab(String id) {
+			setTab(ids.get(id));
+		}
+		
 		private void setTab(ImageButton tab) {
-			active.setStyle(Styles.BTN_TAB);
-			cells.get(active).padBottom(0f);
+			
+			if (active != null) {
+				active.setStyle(Styles.BTN_TAB);
+				cells.get(active).padBottom(0f);
+			}
 			active = tab;
-			parentPanel.setTab(buttons.get(tab));
 			active.setStyle(Styles.BTN_TAB_ACTIVE);
 			cells.get(active).padBottom(Gdx.graphics.getHeight() / 21.2f);
 		}

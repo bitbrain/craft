@@ -51,7 +51,7 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		tabPanel = new TabPanel();
+		tabPanel = new TabPanel(tweenManager);
 		stage.addActor(tabPanel);
 	}
 	
