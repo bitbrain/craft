@@ -22,6 +22,8 @@ package de.bitbrain.craft.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
@@ -30,16 +32,18 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.tweens.ActorTween;
 
 /**
  * Provides a panel with a tabbed menu at the bottom
@@ -71,10 +75,6 @@ public class TabPanel extends Table {
 		menu = add(tabControl);
 		
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));
-		
-		Button b = new TextButton("Blubb", Styles.BTN_GREEN);
-
-		b.setBounds(0, 0, 10f, 10f);
 		content.pad(Gdx.graphics.getHeight() / 30f);
 	}
 	
@@ -98,19 +98,34 @@ public class TabPanel extends Table {
 		menu.width(width);
 	}
 	
-	public void addTab(String id, Actor actor) {
+	public void addTab(String id, String iconId, Actor actor) {
 		tabs.remove(id);		
 		tabs.put(id, actor);
-		tabControl.addTab(id);
+		tabControl.addTab(id, iconId);
 		setTab(id);
+		actor.getColor().a = 0f;
 	}
 	
 	public void setTab(String id) {
 		Actor actor = tabs.get(id);
 		
-		if (actor != null) {
+		if (actor != null) {		
+			
+			Actor current = content.getActor();
+			
+			if (current != null) {
+				current.getColor().a = 0f;
+				
+				tweenManager.killTarget(current);
+			}
+			
 			content.setActor(actor);
 			tabControl.setTab(id);
+			
+			Tween.to(actor, ActorTween.ALPHA, 0.5f)
+				.target(1f)
+				.ease(TweenEquations.easeOutQuad)
+				.start(tweenManager);
 		}
 	}
 	
@@ -138,6 +153,8 @@ public class TabPanel extends Table {
 		
 		private Map<ImageButton, String> buttons;
 		private Map<String, ImageButton> ids;
+		private Map<ImageButton, ImageButtonStyle> styles;
+		private Map<ImageButton, ImageButtonStyle> activeStyles;
 		private Map<ImageButton, Cell<?>> cells;
 		
 		private TabPanel parentPanel;
@@ -148,14 +165,23 @@ public class TabPanel extends Table {
 			this.parentPanel = panel;
 			buttons = new HashMap<ImageButton, String>();
 			ids = new HashMap<String, ImageButton>();
-			cells = new HashMap<ImageButton, Cell<?>>();			
+			cells = new HashMap<ImageButton, Cell<?>>();	
+			styles = new HashMap<ImageButton, ImageButton.ImageButtonStyle>();
+			activeStyles = new HashMap<ImageButton, ImageButton.ImageButtonStyle>();
 		}
 		
-		public void addTab(String id) {
-			final ImageButton button = new ImageButton(Styles.BTN_TAB);
+		public void addTab(String id, String iconId) {
+			
+			ImageButtonStyle style = generateStyle(iconId, false);
+			ImageButtonStyle activeStyle = generateStyle(iconId, true);
+			
+			final ImageButton button = new ImageButton(style);
 			buttons.put(button, id);
 			cells.put(button, add(button));
 			ids.put(id, button);
+			
+			styles.put(button, style);
+			activeStyles.put(button, activeStyle);
 			
 			setTab(button);
 			
@@ -189,12 +215,29 @@ public class TabPanel extends Table {
 		private void setTab(ImageButton tab) {
 			
 			if (active != null) {
-				active.setStyle(Styles.BTN_TAB);
+				active.setStyle(styles.get(active));
 				cells.get(active).padBottom(0f);
 			}
 			active = tab;
-			active.setStyle(Styles.BTN_TAB_ACTIVE);
+			active.setStyle(activeStyles.get(active));
 			cells.get(active).padBottom(Gdx.graphics.getHeight() / 21.2f);
+		}
+		
+		private ImageButtonStyle generateStyle(String iconId, boolean active) {
+			
+			ImageButtonStyle origin = Styles.BTN_TAB;
+			
+			if (active) {
+				origin = Styles.BTN_TAB_ACTIVE;
+			}
+			
+			ImageButtonStyle style = new ImageButtonStyle(origin);
+			IconManager iconManager = IconManager.getInstance();
+			Icon icon = iconManager.fetch(iconId);
+	
+			style.imageUp = icon;			
+			
+			return style;
 		}
 	}
 }

@@ -29,6 +29,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 
 import de.bitbrain.craft.Assets;
 
@@ -126,12 +128,12 @@ public class IconManager {
 		}
 	}
 	
-	public static class Icon {
+	public static class Icon extends BaseDrawable implements TransformDrawable {
 		
 		public float scale = 1.0f;
 		public float x, y, width, height;
 		public float rotation;
-		public Color color = Color.WHITE;
+		public Color color = new Color(Color.WHITE);
 		
 		private Sprite sprite;
 		
@@ -157,5 +159,26 @@ public class IconManager {
 			
 			sprite.draw(batch, alphaModulation);
 		}
+
+		/* (non-Javadoc)
+		 * @see com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable#draw(com.badlogic.gdx.graphics.g2d.Batch, float, float, float, float, float, float, float, float, float)
+		 */
+		@SuppressWarnings("deprecation")
+		@Override
+		public void draw(Batch batch, float x, float y, float originX,
+				float originY, float width, float height, float scaleX,
+				float scaleY, float rotation) {
+			sprite.setOrigin(originX, originY);
+			sprite.setRotation(rotation);
+			sprite.setScale(scaleX, scaleY);
+			sprite.setBounds(x, y, width, height);
+			Color color = sprite.getColor();
+			sprite.setColor(Color.tmp.set(color).mul(batch.getColor()));
+			sprite.draw(batch);
+			sprite.setColor(color);
+			
+		}
+		
+		
 	}
 }
