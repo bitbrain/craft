@@ -71,6 +71,7 @@ public class TabPanel extends Table {
 		Button b = new TextButton("Blubb", Styles.BTN_GREEN);
 
 		b.setBounds(0, 0, 10f, 10f);
+		content.pad(Gdx.graphics.getHeight() / 30f);
 	}
 	
 	/* (non-Javadoc)
@@ -114,8 +115,10 @@ public class TabPanel extends Table {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		background.setBounds(
-				getX() + getPadLeft() / 2f, 
-				getY() + content.getActorY(), getWidth(), content.getPrefHeight());
+				getX() + getPadLeft() / 2f - content.getPadLeft(), 
+				getY() + content.getActorY() - content.getPadBottom(), 
+				getWidth() + content.getPadRight() * 2, 
+				content.getPrefHeight() + content.getPadTop() * 2);
 		background.draw(batch, parentAlpha);
 		super.draw(batch, parentAlpha);
 	}
@@ -176,7 +179,7 @@ public class TabPanel extends Table {
 			active = tab;
 			parentPanel.setTab(buttons.get(tab));
 			active.setStyle(Styles.BTN_TAB_ACTIVE);
-			cells.get(active).padBottom(Gdx.graphics.getHeight() / 20f);
+			cells.get(active).padBottom(Gdx.graphics.getHeight() / 21.2f);
 		}
 	}
 }
