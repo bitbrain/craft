@@ -87,6 +87,7 @@ public final class Assets {
 	public static final String TEX_PANEL_DARK_H 		= DIR_IMAGES + "panel_dark_horizontal.png";
 	public static final String TEX_PANEL_SMALL_H 		= DIR_IMAGES + "panel_small_horizontal.png";
 	public static final String TEX_PANEL_SMALL_L_H 		= DIR_IMAGES + "panel_small_light_horizontal.png";
+	public static final String TEX_PANEL_MEDIUM_BOX 	= DIR_IMAGES + "panel_medium_box.png";
 	
 	// ---------- COLORS ----------
 	

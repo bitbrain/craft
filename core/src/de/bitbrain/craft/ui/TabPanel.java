@@ -68,7 +68,7 @@ public class TabPanel extends Table {
 		tabControl = new TabControl(this);
 		menu = add(tabControl);
 		
-		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class));
+		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));
 		
 		Button b = new TextButton("Blubb", Styles.TEXT_BUTTON);
 
