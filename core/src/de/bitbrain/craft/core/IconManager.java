@@ -60,6 +60,8 @@ public class IconManager {
 	
 	private Queue<String> requests;
 	
+	private float alpha = 1.0f;
+	
 	private IconManager() { 
 		icons = new HashMap<String, Icon>();
 		references = new HashMap<String, Integer>();
@@ -104,6 +106,18 @@ public class IconManager {
 		}
 	}
 	
+	public void setAlpha(float alpha) {
+		for (Icon icon : icons.values()) {
+			icon.color.a = alpha;
+		}
+		this.alpha = alpha;
+	}
+	
+	public float getAlpha() {
+		return alpha;
+		
+	}
+	
 	public void dispose() {
 		
 		for (Texture t : textures.values()) {
@@ -127,6 +141,8 @@ public class IconManager {
 			icons.get(file).setTexture(texture);
 		}
 	}
+	
+	
 	
 	public static class Icon extends BaseDrawable implements TransformDrawable {
 		
@@ -183,20 +199,20 @@ public class IconManager {
 		 * @see com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable#draw(com.badlogic.gdx.graphics.g2d.Batch, float, float, float, float)
 		 */
 		@Override
-		public void draw(Batch batch, float x, float y, float width,
-				float height) {
+		public void draw(Batch batch, float x, float y, float w,
+				float h) {
 			
-			width = 30f;
-			height = 30f;
-			
+			if (sprite.isFlipY()) {
+				sprite.flip(false, true);
+			}
 			super.draw(batch, x, y, width, height);
 			sprite.setScale(scale);
-			sprite.setBounds(x - width / 2f, y - height / 2f, width, height);
+			sprite.setBounds(x - width / 2f, y - height / 2.5f, width, height);
 			sprite.setColor(color);
 			sprite.setOrigin(width / 2f, height / 2f);
 			sprite.setRotation(rotation);
 			
-			sprite.draw(batch, 1f);
+			sprite.draw(batch, color.a);
 		}
 		
 		

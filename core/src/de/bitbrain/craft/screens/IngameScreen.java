@@ -19,6 +19,10 @@
 
 package de.bitbrain.craft.screens;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenEquations;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,6 +34,7 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.tweens.IconManagerTween;
 import de.bitbrain.craft.ui.TabPanel;
 
 /**
@@ -103,6 +108,34 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onShow() {
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#onFadeOut(float)
+	 */
+	@Override
+	protected void onFadeOut(float parentInterval) {
+		
+		Tween.to(iconManager, IconManagerTween.ALPHA, parentInterval)
+		.target(0f)
+		.ease(TweenEquations.easeInOutCubic)
+		.start(tweenManager);
+		
+		super.onFadeOut(parentInterval);
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#onFadeIn(float)
+	 */
+	@Override
+	protected void onFadeIn(float parentInterval) {
+		iconManager.setAlpha(0.0f);
+		Tween.to(iconManager, IconManagerTween.ALPHA, parentInterval)
+		.target(1f)
+		.ease(TweenEquations.easeInOutCubic)
+		.start(tweenManager);
+		
+		super.onFadeIn(parentInterval);
 	}
 
 }

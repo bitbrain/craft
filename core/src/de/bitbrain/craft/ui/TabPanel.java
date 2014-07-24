@@ -181,7 +181,7 @@ public class TabPanel extends Table {
 			ImageButtonStyle activeStyle = generateStyle(iconId, true);
 			
 			final ImageButton button = new ImageButton(style);
-			
+			button.padBottom(15f);
 			button.addCaptureListener(new ButtonSoundListener(Assets.SND_TAB));
 			
 			buttons.put(button, id);
@@ -203,9 +203,13 @@ public class TabPanel extends Table {
 					 
 					Actor a = event.getTarget();
 					
-					if (a instanceof ImageButton && !isActive(buttons.get((ImageButton)a))) {
-						parentPanel.setTab(buttons.get((ImageButton)a));
-					
+					if (a instanceof ImageButton) {
+						
+						ImageButton b = (ImageButton)a;
+						
+						if (!isActive(buttons.get(b))) {
+							parentPanel.setTab(buttons.get(b));
+						}					
 					}
 				}
 			});
@@ -244,7 +248,9 @@ public class TabPanel extends Table {
 			ImageButtonStyle style = new ImageButtonStyle(origin);
 			IconManager iconManager = IconManager.getInstance();
 			Icon icon = iconManager.fetch(iconId);
-	
+			icon.width = Gdx.graphics.getHeight() / 15f;
+			icon.height = icon.width;
+			icon.color.a = 0.5f;
 			style.imageUp = icon;		
 			style.imageOver = icon;
 			

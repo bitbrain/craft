@@ -28,10 +28,12 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DatabaseHelper;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.tweens.IconManagerTween;
 import de.bitbrain.craft.tweens.ParticleRendererTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.util.AssetReflector;
@@ -99,6 +101,7 @@ public class CraftGame extends Game {
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
 		Tween.registerAccessor(Actor.class, new ActorTween());
 		Tween.registerAccessor(ParticleRenderer.class, new ParticleRendererTween());
+		Tween.registerAccessor(IconManager.class, new IconManagerTween());
 	}
 	
 	@SuppressWarnings("unused")
