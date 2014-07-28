@@ -25,13 +25,11 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.IngameControls;
@@ -40,6 +38,8 @@ import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.IconManagerTween;
+import de.bitbrain.craft.ui.ElementInfo;
+import de.bitbrain.craft.ui.ItemElementAdapter;
 import de.bitbrain.craft.ui.ListView;
 import de.bitbrain.craft.ui.TabPanel;
 import de.myreality.jpersis.MapperManager;
@@ -85,14 +85,9 @@ public class IngameScreen extends AbstractScreen {
 		ListView listView = new ListView();
 		ItemMapper itemMapper = dataManager.getMapper(ItemMapper.class);
 		Collection<Item> items = itemMapper.findAll();
-		int index = 0;
+
 		for (Item item : items) {
-			
-			String text = Bundles.items.get(item.getId());
-			Label label = new Label(text, Styles.LBL_ITEM);
-			Color rarity = item.getRarity().getColor();
-			label.setColor(rarity);
-			listView.addActor(label);
+			listView.addActor(new ElementInfo(new ItemElementAdapter(item)));
 		}
 		
 		listView.setPadding(25f);
