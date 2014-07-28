@@ -96,7 +96,7 @@ public class ListView extends Actor {
 		ScissorStack.calculateScissors(getStage().getCamera(), batch.getTransformMatrix(), clipBounds, scissors); 
 		ScissorStack.pushScissors(scissors); 
 		
-		final float alphaThreshold = 60f;
+		final float alphaThreshold = 80f;
 		
 		
 		for (Actor item : items) {
@@ -108,16 +108,15 @@ public class ListView extends Actor {
 			if (lastY < alphaThreshold) {
 				item.getColor().a = 1f - (alphaThreshold - lastY) / alphaThreshold;
 			}
-			
-			if (lastY > getHeight() - alphaThreshold - padding * 3) {
-				item.getColor().a = (alphaThreshold - getHeight() - lastY) / alphaThreshold;
+			if (lastY > clipBounds.height  - alphaThreshold) {
+
+				item.getColor().a = 1f - (alphaThreshold + (lastY - clipBounds.height)) / (alphaThreshold);
 			}
 			
 			item.draw(batch, parentAlpha);
 			item.setHeight(oldHeight);
 			lastY += item.getHeight() + spacing + padding;
 		}
-		batch.flush();
 		ScissorStack.popScissors();
 	}
 	
