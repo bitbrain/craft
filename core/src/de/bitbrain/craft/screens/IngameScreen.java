@@ -88,10 +88,6 @@ public class IngameScreen extends AbstractScreen {
 		int index = 0;
 		for (Item item : items) {
 			
-			if (index++ % 5 ==0) {
-				continue;
-			}
-			
 			String text = Bundles.items.get(item.getId());
 			Label label = new Label(text, Styles.LBL_ITEM);
 			Color rarity = item.getRarity().getColor();
@@ -99,7 +95,7 @@ public class IngameScreen extends AbstractScreen {
 			listView.addActor(label);
 		}
 		
-		listView.setPadding(15f);
+		listView.setPadding(25f);
 		
 		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);
 		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));

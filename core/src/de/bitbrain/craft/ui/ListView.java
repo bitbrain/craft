@@ -23,9 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 
 /**
  * A list view which provides vertical data presentation with scrolling
@@ -39,14 +41,21 @@ public class ListView extends Actor {
 	private List<Actor> items;
 	
 	private float padding, spacing;
+	
+	private ScrollHandler scrollHandler;
+	
+	private Rectangle scissors = new Rectangle(); 
+	private Rectangle clipBounds = new Rectangle();
 
 	public ListView() {
+		scrollHandler = new ScrollHandler();
 		items = new ArrayList<Actor>();
+		
+		addCaptureListener(scrollHandler);
 	}
 	
 	public void addActor(Actor actor) {
 		items.add(actor);
-		actor.addCaptureListener(new Mover());
 	}
 	
 	public void setPadding(float padding) {
@@ -75,35 +84,72 @@ public class ListView extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
 		
-		float lastY = 25f;
+		clipBounds.x = getX();
+		clipBounds.y = getY();
+		clipBounds.width = getWidth();
+		clipBounds.height = getHeight() - padding * 3;
+		
+		float lastY = scrollHandler.getOffset();
 		setWidth(getParent().getWidth());
-		setHeight(getParent().getHeight() + 50f);
+		setHeight(getParent().getHeight());
+		
+		ScissorStack.calculateScissors(getStage().getCamera(), batch.getTransformMatrix(), clipBounds, scissors); 
+		ScissorStack.pushScissors(scissors); 
+		
+		final float alphaThreshold = 60f;
+		
 		
 		for (Actor item : items) {
-
-			if (item.getY() < 0f || getY() + item.getY() + item.getHeight() > getY() + getHeight()) {
-				break;
-			}
 			
 			float oldHeight = item.getHeight();
 			item.setBounds(getX() + padding, getY() + lastY + padding, getWidth() - padding * 2f, item.getHeight() - padding * 2f);
 			item.getColor().a = getColor().a;
 			
+			if (lastY < alphaThreshold) {
+				item.getColor().a = 1f - (alphaThreshold - lastY) / alphaThreshold;
+			}
+			
+			if (lastY > getHeight() - alphaThreshold - padding * 3) {
+				item.getColor().a = (alphaThreshold - getHeight() - lastY) / alphaThreshold;
+			}
+			
 			item.draw(batch, parentAlpha);
 			item.setHeight(oldHeight);
 			lastY += item.getHeight() + spacing + padding;
 		}
+		batch.flush();
+		ScissorStack.popScissors();
 	}
 	
-	private static class Mover extends ClickListener {
+	
+	private static class ScrollHandler extends InputListener {
+		
+		private float offset;
+		
+		private float clickOffset;
 		
 		/* (non-Javadoc)
-		 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+		 * @see com.badlogic.gdx.scenes.scene2d.InputListener#touchDragged(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int)
 		 */
 		@Override
-		public void clicked(InputEvent event, float x, float y) {
-			super.clicked(event, x, y);
-			System.out.println("Clicked!");
+		public void touchDragged(InputEvent event, float x, float y, int pointer) {
+			super.touchDragged(event, x, y, pointer);
+			offset = y - clickOffset;
+		}
+		
+		
+		/* (non-Javadoc)
+		 * @see com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)
+		 */
+		@Override
+		public boolean touchDown(InputEvent event, float x, float y,
+				int pointer, int button) {
+			clickOffset = y;
+			return true;
+		}
+		
+		public float getOffset() {
+			return offset;
 		}
 	}
 }
