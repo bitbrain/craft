@@ -93,8 +93,10 @@ public class ListView extends Actor {
 		setWidth(getParent().getWidth());
 		setHeight(getParent().getHeight());
 		
-		ScissorStack.calculateScissors(getStage().getCamera(), batch.getTransformMatrix(), clipBounds, scissors); 
-		ScissorStack.pushScissors(scissors); 
+		ScissorStack.calculateScissors(getStage().getCamera(), batch.getTransformMatrix(), clipBounds, scissors);
+		
+		// TODO: Issue #5: Last tab icon disappears when ListView is rendered 
+		//ScissorStack.pushScissors(scissors); 
 		
 		final float alphaThreshold = 80f;
 		
@@ -117,7 +119,8 @@ public class ListView extends Actor {
 			item.setHeight(oldHeight);
 			lastY += item.getHeight() + spacing + padding;
 		}
-		ScissorStack.popScissors();
+		
+		//ScissorStack.popScissors();
 	}
 	
 	
