@@ -35,6 +35,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -223,6 +224,10 @@ public class TabPanel extends Table {
 					 
 					Actor a = event.getTarget();
 					
+					if (a instanceof Image) {
+						a = a.getParent();
+					}
+					
 					if (a instanceof ImageButton) {
 						
 						ImageButton b = (ImageButton)a;
@@ -231,6 +236,8 @@ public class TabPanel extends Table {
 							parentPanel.setTab(buttons.get(b));
 						}					
 					}
+					
+					
 				}
 			});
 			
@@ -268,12 +275,14 @@ public class TabPanel extends Table {
 			ImageButtonStyle style = new ImageButtonStyle(origin);
 			IconManager iconManager = IconManager.getInstance();
 			Icon icon = iconManager.fetch(iconId);
-			icon.width = Gdx.graphics.getHeight() / 15f;
-			icon.height = icon.width;
 			icon.color.a = 0.5f;
 			style.imageUp = icon;		
 			style.imageOver = icon;
 			
+			style.imageUp.setMinHeight(Gdx.graphics.getHeight() / 12f);
+			style.imageUp.setMinWidth(Gdx.graphics.getHeight() / 12f);
+			style.imageOver.setMinHeight(Gdx.graphics.getHeight() / 12f);
+			style.imageOver.setMinWidth(Gdx.graphics.getHeight() / 12f);
 			return style;
 		}
 	}

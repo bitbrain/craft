@@ -20,10 +20,11 @@
 package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
-import de.myreality.jpersis.annotations.IgnoredMethod;
 
 /**
  * List element which shows basic element info
@@ -36,7 +37,10 @@ public class ElementInfo extends Table {
 	
 	
 	public ElementInfo(ElementData data) {
-		
+		this.debug();
+		Label name = new Label(data.getName(), Styles.LBL_ITEM);
+		name.setColor(data.getNameColor());
+		add(name);
 	}
 	
 	

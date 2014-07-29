@@ -205,14 +205,15 @@ public class IconManager {
 			if (sprite.isFlipY()) {
 				sprite.flip(false, true);
 			}
-			super.draw(batch, x, y, width, height);
+			super.draw(batch, x, y, w, h);
 			sprite.setScale(scale);
-			sprite.setBounds(x - width / 2f, y - height / 2.5f, width, height);
+			sprite.setBounds(x, y, w, h);
 			sprite.setColor(color);
-			sprite.setOrigin(width / 2f, height / 2f);
+			sprite.setOrigin(w / 2f, h / 2f);
 			sprite.setRotation(rotation);
 			
 			sprite.draw(batch, color.a);
+			
 		}
 		
 		
