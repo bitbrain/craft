@@ -10,7 +10,10 @@ import de.myreality.jpersis.annotations.Insert;
 import de.myreality.jpersis.annotations.Select;
 import de.myreality.jpersis.annotations.Update;
 
-@DataMapper(model = "de.bitbrain.craft.models.Progress", table="progress", primaryKey = "id")
+@DataMapper(
+		model = "de.bitbrain.craft.models.Progress", 
+		table="progress", 
+		primaryKey = "id")
 public interface ProgressMapper {
 	
 	@Select(condition = "player_id = $1")

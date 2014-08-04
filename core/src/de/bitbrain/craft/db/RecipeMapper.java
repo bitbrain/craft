@@ -10,7 +10,10 @@ import de.myreality.jpersis.annotations.Insert;
 import de.myreality.jpersis.annotations.Select;
 import de.myreality.jpersis.annotations.Update;
 
-@DataMapper(model = "de.bitbrain.craft.models.Recipe", table="recipe", primaryKey = "id")
+@DataMapper(
+		model = "de.bitbrain.craft.models.Recipe", 
+		table="recipe", 
+		primaryKey = "id")
 public interface RecipeMapper {
 
 	@Select
