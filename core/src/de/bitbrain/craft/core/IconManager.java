@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.util.Fadeable;
 
 /**
  * Handles icon management and loads them on time
@@ -42,7 +43,7 @@ import de.bitbrain.craft.Assets;
  * @since 1.0
  * @version 1.0
  */
-public class IconManager {
+public class IconManager implements Fadeable {
 	
 	public static final int BUFFER = 10;
 	
@@ -107,6 +108,7 @@ public class IconManager {
 		}
 	}
 	
+	@Override
 	public void setAlpha(float alpha) {
 		for (Icon icon : icons.values()) {
 			icon.color.a = alpha;
@@ -114,6 +116,7 @@ public class IconManager {
 		this.alpha = alpha;
 	}
 	
+	@Override
 	public float getAlpha() {
 		return alpha;
 		

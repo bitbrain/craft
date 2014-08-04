@@ -34,15 +34,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
-import de.bitbrain.craft.tweens.ParticleRendererTween;
+import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.util.Fadeable;
 
 /**
  * Abstract menu screen
@@ -212,7 +212,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			 .setCallback(this)
 			 .start(tweenManager);
 		
-		Tween.to(particleRenderer, ParticleRendererTween.ALPHA, FADE_INTERVAL)
+		Tween.to((Fadeable)particleRenderer, FadeableTween.DEFAULT, FADE_INTERVAL)
 			 .ease(TweenEquations.easeInOutCubic)
 			 .target(1f)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
@@ -234,7 +234,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			 .setCallback(this)
 			 .start(tweenManager);
 		
-		Tween.to(particleRenderer, ParticleRendererTween.ALPHA, FADE_INTERVAL)
+		Tween.to(particleRenderer, FadeableTween.DEFAULT, FADE_INTERVAL)
 		 	 .ease(TweenEquations.easeInOutCubic)
 		     .target(0f)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)

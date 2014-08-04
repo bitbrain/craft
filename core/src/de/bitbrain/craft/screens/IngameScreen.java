@@ -37,7 +37,7 @@ import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.tweens.IconManagerTween;
+import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.ElementInfo;
 import de.bitbrain.craft.ui.ItemElementAdapter;
 import de.bitbrain.craft.ui.ListView;
@@ -137,7 +137,7 @@ public class IngameScreen extends AbstractScreen {
 	@Override
 	protected void onFadeOut(float parentInterval) {
 		
-		Tween.to(iconManager, IconManagerTween.ALPHA, parentInterval)
+		Tween.to(iconManager, FadeableTween.DEFAULT, parentInterval)
 		.target(0f)
 		.ease(TweenEquations.easeInOutCubic)
 		.start(tweenManager);
@@ -151,7 +151,7 @@ public class IngameScreen extends AbstractScreen {
 	@Override
 	protected void onFadeIn(float parentInterval) {
 		iconManager.setAlpha(0.0f);
-		Tween.to(iconManager, IconManagerTween.ALPHA, parentInterval)
+		Tween.to(iconManager, FadeableTween.DEFAULT, parentInterval)
 		.target(1f)
 		.ease(TweenEquations.easeInOutCubic)
 		.start(tweenManager);
