@@ -42,7 +42,6 @@ import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
-import de.bitbrain.craft.util.Fadeable;
 
 /**
  * Abstract menu screen

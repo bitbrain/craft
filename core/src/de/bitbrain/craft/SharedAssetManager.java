@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -52,13 +53,17 @@ public class SharedAssetManager {
 	}
 	
 	public static void dispose() {
-		getInstance().dispose();
-		instance = null;
+		if (instance != null) {
+			getInstance().dispose();
+			instance = null;
+		}
 	}
 	
 	private static void loadInternal() {
-		instance = new AssetManager();
 		
-		instance.setLoader(ParticleEffect.class, new ParticleLoader(new InternalFileHandleResolver()));
+		if (Gdx.files.isLocalStorageAvailable()) {		
+			instance = new AssetManager();		
+			instance.setLoader(ParticleEffect.class, new ParticleLoader(new InternalFileHandleResolver()));
+		}
 	}
 }
