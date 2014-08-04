@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import de.bitbrain.craft.Assets;
 
@@ -136,9 +137,13 @@ public class IconManager {
 	
 	private void loadIcon(String file) {
 		if (!textures.containsKey(file)) {
-			Texture texture = new Texture(Gdx.files.internal(Assets.DIR_ICONS + file));
-			textures.put(file, texture);
-			icons.get(file).setTexture(texture);
+			try {
+				Texture texture = new Texture(Gdx.files.internal(Assets.DIR_ICONS + file));
+				textures.put(file, texture);
+				icons.get(file).setTexture(texture);
+			} catch (GdxRuntimeException ex) {
+				Gdx.app.error("EXCEPTION", ex.getMessage());
+			}
 		}
 	}
 	

@@ -19,12 +19,11 @@
 
 package de.bitbrain.craft.ui;
 
-import com.badlogic.gdx.graphics.Color;
-
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.ui.ElementInfo.ElementData;
 
 /**
@@ -68,10 +67,10 @@ public class ItemElementAdapter implements ElementData {
 	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getNameColor()
 	 */
 	@Override
-	public Color getNameColor() {
-		return item.getRarity().getColor();
+	public Rarity getRarity() {
+		return item.getRarity();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getName()
 	 */

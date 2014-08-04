@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Color;
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.ui.ElementInfo.ElementData;
 
@@ -69,8 +70,8 @@ public class RecipeElementAdapter implements ElementData {
 	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getNameColor()
 	 */
 	@Override
-	public Color getNameColor() {
-		return Color.WHITE;
+	public Rarity getRarity() {
+		return Rarity.COMMON;
 	}
 
 	/* (non-Javadoc)

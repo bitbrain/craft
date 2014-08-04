@@ -19,43 +19,41 @@
 
 package de.bitbrain.craft.ui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
-import de.bitbrain.craft.models.Item.Rarity;
 
 /**
- * List element which shows basic element info
+ * An icon which also shows rarity and special effects
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ElementInfo extends Table {
+public class RarityIcon extends Actor {
+
+	private Icon icon;
 	
+	public float iconScale;
 	
-	public ElementInfo(ElementData data) {
-		this.debug();
-		Label name = new Label(data.getName(), Styles.LBL_ITEM);
-		name.setColor(data.getRarity().getColor());
+	public RarityIcon(Icon icon) {
+		this.icon = icon;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		icon.x =getX();
+		icon.y = getY();
+		icon.width = getWidth();
+		icon.height = getHeight();
+		icon.color.a = parentAlpha;
 		
-		RarityIcon icon = new RarityIcon(data.getIcon());
-		
-		add(icon);
-		add(name);
+		icon.draw(batch, parentAlpha);
 	}
 	
 	
-	public static interface ElementData {
-		
-		Icon getIcon();
-		
-		String getDescription();
-		
-		Rarity getRarity();
-		
-		String getName();
-	}
 }
