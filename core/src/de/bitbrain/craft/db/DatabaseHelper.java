@@ -45,13 +45,13 @@ public final class DatabaseHelper {
 
 	public static void connect() {
 		FileHandle handle = Gdx.files.external(Settings.DIR_DATA + Settings.DATABASE);
-		boolean empty = false;
+		boolean folderExisted = true;
 		
 		try {
 			handle.file().getParentFile().mkdirs();
 			if (!handle.file().exists()) {
 				handle.file().createNewFile();
-				empty = true;
+				folderExisted = false;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -66,7 +66,7 @@ public final class DatabaseHelper {
 			connector.openConnection();
 
 			// Create a new database if not exists
-			if (empty) {
+			if (!folderExisted) {
 				Statement statement = MapperManager.getInstance().getConnector().getStatement();
 				FileHandle init = Gdx.files.internal(Assets.SQL_INIT);
 				exectuteScript(init.reader(), statement);
