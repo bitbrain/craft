@@ -29,15 +29,18 @@ import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.util.Fadeable;
 
 /**
- * Manages particle effect rendering
+ * Manages particle effect rendering. This renderer manages loops and single particle
+ * effects. It also checks if the particle effect has to be disposed. Furthermore it
+ * is possible to set overall alpha of the renderer.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ParticleRenderer {
+public class ParticleRenderer implements Fadeable {
     
     private Map<ParticleEffect, Boolean> effects;
     
@@ -58,6 +61,7 @@ public class ParticleRenderer {
             return copy;
     }
     
+    @Override
     public void setAlpha(float alpha) {
     	
     	// TODO: Alpha doesn't work for particles here as intended :(
@@ -74,6 +78,7 @@ public class ParticleRenderer {
     	}
     }
     
+    @Override
     public float getAlpha() {
     	return alpha;
     }
