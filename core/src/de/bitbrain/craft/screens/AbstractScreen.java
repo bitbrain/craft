@@ -212,7 +212,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			 .setCallback(this)
 			 .start(tweenManager);
 		
-		Tween.to((Fadeable)particleRenderer, FadeableTween.DEFAULT, FADE_INTERVAL)
+		Tween.to(particleRenderer, FadeableTween.DEFAULT, FADE_INTERVAL)
 			 .ease(TweenEquations.easeInOutCubic)
 			 .target(1f)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
