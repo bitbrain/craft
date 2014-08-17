@@ -50,6 +50,7 @@ public class RarityIcon extends Actor {
 		icon.y = getY();
 		icon.width = getWidth();
 		icon.height = getHeight();
+		icon.color = getColor();
 		icon.color.a = parentAlpha;
 		
 		icon.draw(batch, parentAlpha);

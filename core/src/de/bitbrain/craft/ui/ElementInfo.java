@@ -19,8 +19,8 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
@@ -33,18 +33,22 @@ import de.bitbrain.craft.models.Item.Rarity;
  * @since 1.0
  * @version 1.0
  */
-public class ElementInfo extends Table {
+public class ElementInfo extends HorizontalGroup {
 	
 	
 	public ElementInfo(ElementData data) {
-		this.debug();
+
 		Label name = new Label(data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
-		
+		name.setX(10f);
 		RarityIcon icon = new RarityIcon(data.getIcon());
 		
-		add(icon);
-		add(name);
+		icon.setWidth(name.getHeight() * 2);
+		icon.setHeight(name.getHeight() * 2);
+		
+		
+		addActor(icon);
+		addActor(name);
 	}
 	
 	

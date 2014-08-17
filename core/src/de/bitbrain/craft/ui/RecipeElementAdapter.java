@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft.ui;
 
-import com.badlogic.gdx.graphics.Color;
-
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
