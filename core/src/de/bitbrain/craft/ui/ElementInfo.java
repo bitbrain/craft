@@ -38,14 +38,13 @@ public class ElementInfo extends HorizontalGroup {
 	
 	public ElementInfo(ElementData data) {
 
-		Label name = new Label(data.getName(), Styles.LBL_ITEM);
+		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
 		name.setX(10f);
 		RarityIcon icon = new RarityIcon(data.getIcon());
 		
 		icon.setWidth(name.getHeight() * 2);
 		icon.setHeight(name.getHeight() * 2);
-		
 		
 		addActor(icon);
 		addActor(name);

@@ -28,6 +28,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
@@ -82,15 +84,14 @@ public class IngameScreen extends AbstractScreen {
 		tabPanel.padLeft(Gdx.graphics.getWidth() / 10f);
 		tabPanel.padBottom(Gdx.graphics.getHeight() / 7f);
 		
-		ListView listView = new ListView();
+		VerticalGroup listView = new VerticalGroup();
+		listView.align(Align.left);
 		ItemMapper itemMapper = dataManager.getMapper(ItemMapper.class);
 		Collection<Item> items = itemMapper.findAll();
 
 		for (Item item : items) {
 			listView.addActor(new ElementInfo(new ItemElementAdapter(item)));
 		}
-		
-		listView.setPadding(25f);
 		
 		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);
 		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
