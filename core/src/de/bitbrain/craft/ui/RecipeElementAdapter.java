@@ -79,4 +79,12 @@ public class RecipeElementAdapter implements ElementData {
 	public String getName() {
 		return Bundles.recipes.get(recipe.getId());
 	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getAmount()
+	 */
+	@Override
+	public int getAmount() {
+		return 1;
+	}
 }

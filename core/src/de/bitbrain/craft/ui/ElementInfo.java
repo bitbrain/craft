@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
@@ -40,11 +41,14 @@ public class ElementInfo extends HorizontalGroup {
 		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
 		name.setX(10f);
+		Label amount = new Label(data.getAmount() + " ", Styles.LBL_ITEM);
+		amount.setColor(Color.YELLOW);
 		RarityIcon icon = new RarityIcon(data.getIcon());
 		
 		icon.setWidth(name.getHeight() * 2);
 		icon.setHeight(name.getHeight() * 2);
 		
+		addActor(amount);
 		addActor(icon);
 		addActor(name);
 	}
@@ -58,5 +62,7 @@ public class ElementInfo extends HorizontalGroup {
 		Rarity getRarity();
 		
 		String getName();
+		
+		int getAmount();
 	}
 }

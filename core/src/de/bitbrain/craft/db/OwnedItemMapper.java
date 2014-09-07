@@ -10,7 +10,7 @@ import de.myreality.jpersis.annotations.Update;
 
 @DataMapper(
 		model = "de.bitbrain.craft.models.OwnedItem", 
-		table="owned_item", 
+		table="owned_items", 
 		primaryKey = "id")
 public interface OwnedItemMapper {
 

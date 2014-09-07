@@ -136,6 +136,6 @@ public class CraftGame extends Game {
 			}
 		}
 
-		API.addItem(player.getId(), ItemId.PHIOLE_SMALL);
+		//API.addItem(player.getId(), ItemId.PHIOLE_SMALL);
 	}
 }

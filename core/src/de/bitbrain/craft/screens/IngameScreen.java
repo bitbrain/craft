@@ -19,7 +19,8 @@
 
 package de.bitbrain.craft.screens;
 
-import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -85,13 +86,13 @@ public class IngameScreen extends AbstractScreen {
 		listView.align(Align.left);
 		
 		// API call to get all items
-		Collection<Item> items = API.getOwnedItems(game.getPlayer().getId()).keySet();
+		Map<Item, Integer> itemMap = API.getOwnedItems(game.getPlayer().getId());
 
-		for (Item item : items) {
-			listView.addActor(new ElementInfo(new ItemElementAdapter(item)));
+		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
+			listView.addActor(new ElementInfo(new ItemElementAdapter(entry.getKey(), entry.getValue())));
 		}
 		
-		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", new ScrollView(listView));
+		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);
 		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
 		tabPanel.addTab("tab3", "ico_jewel_diamond_medium.png", new Label("Tab3", Styles.LBL_BROWN));
 		tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));

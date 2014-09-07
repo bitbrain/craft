@@ -39,8 +39,11 @@ public class ItemElementAdapter implements ElementData {
 	
 	private Icon icon;
 	
-	public ItemElementAdapter(Item item) {
+	private int amount;
+	
+	public ItemElementAdapter(Item item, int amount) {
 		this.item = item;
+		this.amount = amount;
 	}
 
 	/* (non-Javadoc)
@@ -77,6 +80,14 @@ public class ItemElementAdapter implements ElementData {
 	@Override
 	public String getName() {
 		return Bundles.items.get(item.getId());
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getAmount()
+	 */
+	@Override
+	public int getAmount() {
+		return amount;
 	}
 
 }

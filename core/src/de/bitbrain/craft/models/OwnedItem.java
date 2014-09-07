@@ -28,7 +28,7 @@ package de.bitbrain.craft.models;
  */
 public class OwnedItem {
 
-	private String id;
+	private int id;
 	
 	private String itemId;
 	
@@ -46,7 +46,7 @@ public class OwnedItem {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -74,7 +74,7 @@ public class OwnedItem {
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
