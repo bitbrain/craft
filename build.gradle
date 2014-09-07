@@ -3,6 +3,7 @@ buildscript {
         mavenCentral()
         mavenLocal()
         maven { url 'https://github.com/steffenschaefer/gwt-gradle-plugin/raw/maven-repo/' }
+	maven { url 'http://mvnrepository.com/artifact/net.engio/mbassador/' }
     }
 
     dependencies {
@@ -95,6 +96,7 @@ project(":core") {
         compile "aurelienribon:tweenengine:6.3.3:sources"
 	compile "org.xerial:sqlite-jdbc:3.7.2"
 	compile "myreality:jpersis:1.0.0"
+	compile "net.engio:mbassador:1.2.0"
         testCompile "junit:junit:4.10"
     }
 }
