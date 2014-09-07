@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.db.DatabaseHelper;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.models.Player;
@@ -129,10 +130,12 @@ public class CraftGame extends Game {
 			player = p;
 		} else {
 			try {
-				player = API.createPlayer("guest");				
+				player = API.createPlayer("guest");
 			} catch (APIException e) {
 				Gdx.app.log("EXCEPTION", e.getMessage());
 			}
 		}
+
+		API.addItem(player.getId(), ItemId.PHIOLE_SMALL);
 	}
 }

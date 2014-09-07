@@ -48,6 +48,10 @@ public final class API {
 	private static ProgressMapper progressMapper = MapperManager.getInstance().getMapper(ProgressMapper.class);
 	private static PlayerMapper playerMapper = MapperManager.getInstance().getMapper(PlayerMapper.class);
 	
+	public static Item getItem(ItemId id) {
+		return itemMapper.findById(id.getId());
+	}
+	
 	/**
 	 * Provides all available items
 	 * 
@@ -99,6 +103,34 @@ public final class API {
 			return player;
 		} else {
 			throw new APIException("Unable to create player. Player with name '" + name + "' already exists.");
+		}
+	}
+	
+	public static Item addItem(int playerId, ItemId id) {
+		return addItem(playerId, id, 1);
+	}
+	
+	public static Item addItem(int playerId, ItemId id, int amount) {
+		
+		Item item = getItem(id);
+		
+		if (item != null) {
+			
+			OwnedItem owned = ownedItemMapper.findById(id.getId(), playerId);
+			
+			if (owned == null) {
+				owned = new OwnedItem();
+				owned.setPlayerId(playerId);
+				owned.setItemId(item.getId());
+				owned.setAmount(amount);
+				ownedItemMapper.insert(owned);
+			} else {
+				owned.setAmount(owned.getAmount() + amount);
+				ownedItemMapper.update(owned);
+			}
+			return item;
+		} else {
+			return null;
 		}
 	}
 	

@@ -17,78 +17,37 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.models;
+package de.bitbrain.craft.core;
 
 /**
- * Object representation of an owned item
+ * Ids of all items
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class OwnedItem {
-
+public enum ItemId {
+	
+	FLUX("item_flux"),
+	ACID_1("item_acid_1"),
+	ACID_2("item_acid_2"),
+	DUST("item_dust"),
+	WATER("item_water"),
+	SULFUR("item_sulfur"),
+	MERCURY("item_mercury"),
+	PHIOLE_SMALL("item_phiole_small"),
+	PHIOLE_MEDIUM("item_phiole_medium"),
+	GRAYSTONE("item_graystone"),
+	XENOCITE("item_xenocite"),
+	BENTAGON("item_bentagon");
+	
 	private String id;
 	
-	private String itemId;
-	
-	private int playerId;
-	
-	private int amount;
-	
-	/**
-	 * @param amount the amount to set
-	 */
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
+	ItemId(String id) {
 		this.id = id;
 	}
 	
-	/**
-	 * @param itemId the itemId to set
-	 */
-	public void setItemId(String itemId) {
-		this.itemId = itemId;
-	}
-	
-	/**
-	 * @param playerId the playerId to set
-	 */
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-	
-	/**
-	 * @return the amount
-	 */
-	public int getAmount() {
-		return amount;
-	}
-	
-	/**
-	 * @return the id
-	 */
 	public String getId() {
 		return id;
-	}
-	
-	/**
-	 * @return the itemId
-	 */
-	public String getItemId() {
-		return itemId;
-	}
-	
-	/**
-	 * @return the playerId
-	 */
-	public int getPlayerId() {
-		return playerId;
 	}
 }
