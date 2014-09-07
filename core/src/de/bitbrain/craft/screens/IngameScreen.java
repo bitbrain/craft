@@ -42,6 +42,7 @@ import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.ElementInfo;
 import de.bitbrain.craft.ui.ItemElementAdapter;
+import de.bitbrain.craft.ui.ScrollView;
 import de.bitbrain.craft.ui.TabPanel;
 import de.myreality.jpersis.MapperManager;
 
@@ -92,7 +93,7 @@ public class IngameScreen extends AbstractScreen {
 			listView.addActor(new ElementInfo(new ItemElementAdapter(item)));
 		}
 		
-		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);
+		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", new ScrollView(listView));
 		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
 		tabPanel.addTab("tab3", "ico_jewel_diamond_medium.png", new Label("Tab3", Styles.LBL_BROWN));
 		tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));

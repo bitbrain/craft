@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -33,7 +34,11 @@ public class ScrollView extends Actor {
 	private Actor content;
 	
 	public ScrollView(Actor content) {
-		this.content = content;
+		if (content != null) {
+			this.content = content;
+		} else {
+			throw new RuntimeException("ScrollView has no content defined (content is null)");
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -44,7 +49,7 @@ public class ScrollView extends Actor {
 		if (getParent() != null) {
 			return getParent().getWidth();
 		} else {
-			return content.getWidth();
+			return super.getWidth();
 		}
 	}
 	
@@ -56,7 +61,7 @@ public class ScrollView extends Actor {
 		if (getParent() != null) {
 			return getParent().getHeight();
 		} else {
-			return content.getHeight();
+			return super.getHeight();
 		}
 	}
 	
@@ -68,7 +73,7 @@ public class ScrollView extends Actor {
 		if (getParent() != null) {
 			return getParent().getX();
 		} else {
-			return content.getX();
+			return super.getX();
 		}
 	}
 	
@@ -80,7 +85,21 @@ public class ScrollView extends Actor {
 		if (getParent() != null) {
 			return getParent().getY();
 		} else {
-			return content.getY();
+			return super.getY();
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);	
+		content.setPosition(getX(), getY());
+		content.setSize(getWidth(), getHeight());
+		System.out.println(getX() + "," + getY() + "  " + getWidth() + "," + getHeight());
+		content.draw(batch, parentAlpha);
+	}
+	
+	
 }

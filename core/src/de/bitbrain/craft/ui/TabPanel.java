@@ -287,8 +287,3 @@ public class TabPanel extends Table {
 		}
 	}
 }
-
-
-
-
-

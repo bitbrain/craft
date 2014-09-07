@@ -35,7 +35,6 @@ import de.bitbrain.craft.models.Item.Rarity;
  */
 public class ElementInfo extends HorizontalGroup {
 	
-	
 	public ElementInfo(ElementData data) {
 
 		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
@@ -49,7 +48,6 @@ public class ElementInfo extends HorizontalGroup {
 		addActor(icon);
 		addActor(name);
 	}
-	
 	
 	public static interface ElementData {
 		
