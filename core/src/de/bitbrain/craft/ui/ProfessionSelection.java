@@ -17,7 +17,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
 package de.bitbrain.craft.ui;
 
 import java.util.ArrayList;
@@ -101,7 +100,6 @@ public class ProfessionSelection extends Table implements EventListener {
 		this.pad(Gdx.graphics.getWidth() / 40f);
 		pack();
 	}	
-	
 
 	/* (non-Javadoc)
 	 * @see com.badlogic.gdx.scenes.scene2d.EventListener#handle(com.badlogic.gdx.scenes.scene2d.Event)
@@ -119,8 +117,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	public void addProfessionSelectListener(ProfessionSelectListener l ) {
 		this.listeners.add(l);
-	}
-	
+	}	
 	
 	/* (non-Javadoc)
 	 * @see com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup#sizeChanged()
@@ -134,7 +131,6 @@ public class ProfessionSelection extends Table implements EventListener {
 		}
 		
 	}
-
 	
 	private void alignSize(Cell<?> cell, ProfessionElement element) {
 		cell.width((Gdx.graphics.getWidth() / 1.2f) / Profession.values().length)
@@ -169,19 +165,16 @@ public class ProfessionSelection extends Table implements EventListener {
 				.delay(0.3f)
 				.setCallbackTriggers(TweenCallback.START)
 				.setCallback(new TweenCallback() {
-
 					@Override
 					public void onEvent(int type, BaseTween<?> source) {
 						Sound s = SharedAssetManager.get(Assets.SND_POP, Sound.class);
 						s.play(1.0f, index / 9.6f + 0.7f, 0.3f);
-					}
-					
+					}					
 				})
 				.target(1.0f)
 				.ease(TweenEquations.easeOutElastic)
 				.start(tweenManager);
-			}
-			
+			}			
 		};
 		
 		Tween.to(element, ActorTween.ALPHA, 0.6f)
@@ -208,10 +201,8 @@ public class ProfessionSelection extends Table implements EventListener {
 		 * @param skin
 		 */
 		public ProfessionElement(String text, TextButtonStyle style, Profession profession) {
-			super(text, style);
-			
-			Tween.registerAccessor(ProfessionBar.class, new ProfessionBarTween());
-			
+			super(text, style);			
+			Tween.registerAccessor(ProfessionBar.class, new ProfessionBarTween());			
 			this.profession = profession;
 			
 			Texture tex = getProfessionTexture(profession);
@@ -219,8 +210,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			
 			if (tex != null) {
 				icon = new Sprite(tex);
-			}
-			
+			}			
 			addCaptureListener(new IconModulator());
 		}
 		
@@ -241,8 +231,7 @@ public class ProfessionSelection extends Table implements EventListener {
 		 */
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
-			super.draw(batch, parentAlpha);
-			
+			super.draw(batch, parentAlpha);			
 			if (icon != null) {
 				icon.setSize(getWidth() / 1.5f, getWidth() / 1.5f);
 				icon.setPosition(getX() + getWidth() / 2 - icon.getWidth() / 2, getY() + getHeight() / 2.5f);
@@ -274,13 +263,11 @@ public class ProfessionSelection extends Table implements EventListener {
 			 */
 			@Override
 			public int getValues(ProfessionBar target, int tweenType,
-					float[] returnValues) {
-				
+					float[] returnValues) {				
 				if (tweenType == PROGRESS) {
 					returnValues[0] = target.progress;
 					return 1;
-				}
-				
+				}				
 				return 0;
 			}
 
@@ -293,10 +280,8 @@ public class ProfessionSelection extends Table implements EventListener {
 				if (tweenType == PROGRESS) {
 					target.progress = newValues[0];
 				}
-			}
-			
-		}
-		
+			}			
+		}		
 		
 		private class ProfessionBar extends Actor {
 			
@@ -341,8 +326,7 @@ public class ProfessionSelection extends Table implements EventListener {
 				level.setFontScale(getHeight() / 30f);
 				level.draw(batch, parentAlpha * alpha);
 			}
-		}
-		
+		}		
 		
 		private class IconModulator extends ClickListener {
 			
@@ -388,10 +372,8 @@ public class ProfessionSelection extends Table implements EventListener {
 				iconAlpha = 0.5f;
 				bar.alpha = 0.5f;
 			}
-		}
-		
-	}
-	
+		}		
+	}	
 	
 	private class ClickNotifier extends ClickListener {
 		
@@ -441,15 +423,10 @@ public class ProfessionSelection extends Table implements EventListener {
 				
 			}
 		}
-		
-		
 	}
-	
 	
 	public static interface ProfessionSelectListener {
 		
 		void onSelect(Profession profession);
 	}
-	
-	
 }

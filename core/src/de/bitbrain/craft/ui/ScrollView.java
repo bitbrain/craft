@@ -19,64 +19,68 @@
 
 package de.bitbrain.craft.ui;
 
-import de.bitbrain.craft.Bundles;
-import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.core.IconManager.Icon;
-import de.bitbrain.craft.models.Item.Rarity;
-import de.bitbrain.craft.models.Recipe;
-import de.bitbrain.craft.ui.ElementInfo.ElementData;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
- * Adapter for recipes as elements
+ * Provides scrolling into vertical and horizontal direction
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class RecipeElementAdapter implements ElementData {
-	
-	private Recipe recipe;
-	
-	private Icon icon;
-	
-	public RecipeElementAdapter(Recipe recipe) {
-		this.recipe = recipe;
-	}
+public class ScrollView extends Actor {
 
+	private Actor content;
+	
+	public ScrollView(Actor content) {
+		this.content = content;
+	}
+	
 	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getIcon()
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#getWidth()
 	 */
 	@Override
-	public Icon getIcon() {
-		if (icon == null) {
-			icon = IconManager.getInstance().fetch(recipe.getIcon());
+	public float getWidth() {
+		if (getParent() != null) {
+			return getParent().getWidth();
+		} else {
+			return content.getWidth();
 		}
-		
-		return icon;
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getDescription()
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#getHeight()
 	 */
 	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+	public float getHeight() {
+		if (getParent() != null) {
+			return getParent().getHeight();
+		} else {
+			return content.getHeight();
+		}
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getNameColor()
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#getX()
 	 */
 	@Override
-	public Rarity getRarity() {
-		return Rarity.COMMON;
+	public float getX() {
+		if (getParent() != null) {
+			return getParent().getX();
+		} else {
+			return content.getX();
+		}
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getName()
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#getX()
 	 */
 	@Override
-	public String getName() {
-		return Bundles.recipes.get(recipe.getId());
+	public float getY() {
+		if (getParent() != null) {
+			return getParent().getY();
+		} else {
+			return content.getY();
+		}
 	}
 }

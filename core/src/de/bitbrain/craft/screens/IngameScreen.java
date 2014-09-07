@@ -42,11 +42,10 @@ import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.ElementInfo;
 import de.bitbrain.craft.ui.ItemElementAdapter;
-import de.bitbrain.craft.ui.ListView;
 import de.bitbrain.craft.ui.TabPanel;
 import de.myreality.jpersis.MapperManager;
 
-/**
+/**Os
  * Displays the main game
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>

@@ -54,6 +54,4 @@ public class RarityIcon extends Actor {
 		icon.rotation = 180f;
 		icon.draw(batch, parentAlpha);
 	}
-	
-	
 }
