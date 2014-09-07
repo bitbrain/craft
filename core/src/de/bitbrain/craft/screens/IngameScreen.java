@@ -35,8 +35,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.controls.IngameControls;
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
@@ -44,7 +44,6 @@ import de.bitbrain.craft.ui.ElementInfo;
 import de.bitbrain.craft.ui.ItemElementAdapter;
 import de.bitbrain.craft.ui.ScrollView;
 import de.bitbrain.craft.ui.TabPanel;
-import de.myreality.jpersis.MapperManager;
 
 /**Os
  * Displays the main game
@@ -56,8 +55,6 @@ import de.myreality.jpersis.MapperManager;
 public class IngameScreen extends AbstractScreen {
 	
 	private IconManager iconManager = IconManager.getInstance();
-	
-	private MapperManager dataManager = MapperManager.getInstance();
 	
 	private TabPanel tabPanel;
 
@@ -86,8 +83,9 @@ public class IngameScreen extends AbstractScreen {
 		
 		VerticalGroup listView = new VerticalGroup();
 		listView.align(Align.left);
-		ItemMapper itemMapper = dataManager.getMapper(ItemMapper.class);
-		Collection<Item> items = itemMapper.findAll();
+		
+		// API call to get all items
+		Collection<Item> items = API.getOwnedItems(game.getPlayer().getId()).keySet();
 
 		for (Item item : items) {
 			listView.addActor(new ElementInfo(new ItemElementAdapter(item)));

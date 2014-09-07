@@ -2,7 +2,7 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
-import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Player;
 import de.myreality.jpersis.annotations.Count;
 import de.myreality.jpersis.annotations.DataMapper;
 import de.myreality.jpersis.annotations.Delete;
@@ -11,34 +11,37 @@ import de.myreality.jpersis.annotations.Select;
 import de.myreality.jpersis.annotations.Update;
 
 @DataMapper(
-		model = "de.bitbrain.craft.models.Item", 
-		table="item", 
+		model = "de.bitbrain.craft.models.Player", 
+		table="player", 
 		primaryKey = "id")
-public interface ItemMapper {
+public interface PlayerMapper {
 
 	@Select
-	Collection<Item> findAll();
+	Collection<Player> findAll();
 	
 	@Select(condition = "id = $1")
-	Item findById(String id);
+	Player findById(int id);
+	
+	@Select(condition = "name = $1")
+	Player findByName(String id);
 	
 	@Insert
-	void insert(Item item);
+	void insert(Player item);
 	
 	@Insert
-	void insert(Collection<Item> items);
+	void insert(Collection<Player> items);
 	
 	@Update
-	void update(Item customer);
+	void update(Player customer);
 
 	@Update
-	void update(Collection<Item> customer);
+	void update(Collection<Player> customer);
 	
 	@Delete
-	void delete(Item item);
+	void delete(Player item);
 	
 	@Delete
-	void delete(Collection<Item> items);
+	void delete(Collection<Player> items);
 	
 	@Count
     int count();

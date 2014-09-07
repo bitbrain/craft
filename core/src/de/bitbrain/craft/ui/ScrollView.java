@@ -97,9 +97,6 @@ public class ScrollView extends Actor {
 		super.draw(batch, parentAlpha);	
 		content.setPosition(getX(), getY());
 		content.setSize(getWidth(), getHeight());
-		System.out.println(getX() + "," + getY() + "  " + getWidth() + "," + getHeight());
 		content.draw(batch, parentAlpha);
 	}
-	
-	
 }

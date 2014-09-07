@@ -20,43 +20,75 @@
 package de.bitbrain.craft.models;
 
 /**
- * Player which owns a game
- * 
+ * Object representation of an owned item
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class Player {
+public class OwnedItem {
 
-	private int id;
+	private String id;
 	
-	private String name;
+	private String itemId;
 	
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
+	private String playerId;
+	
+	private int amount;
 	
 	/**
-	 * @return the name
+	 * @param amount the amount to set
 	 */
-	public String getName() {
-		return name;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
 	/**
-	 * @param name the name to set
+	 * @param itemId the itemId to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+	
+	/**
+	 * @param playerId the playerId to set
+	 */
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
+	}
+	
+	/**
+	 * @return the amount
+	 */
+	public int getAmount() {
+		return amount;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+	
+	/**
+	 * @return the itemId
+	 */
+	public String getItemId() {
+		return itemId;
+	}
+	
+	/**
+	 * @return the playerId
+	 */
+	public String getPlayerId() {
+		return playerId;
 	}
 }
