@@ -21,6 +21,7 @@ package de.bitbrain.craft.util;
 
 import java.lang.reflect.Field;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -46,27 +47,36 @@ public class AssetReflector {
 	}
 	
 	public void load() {
-		for (Field field : Assets.class.getDeclaredFields()) {
-			
-			try {
+		
+		Gdx.app.log("LOAD", "Loading assets...");
+		
+		for (Field field : Assets.class.getDeclaredFields()) {	
+
+			try {				
 				if (field.getName().startsWith("TEX")) {					
 					assetManager.load((String)field.get(null), Texture.class);
+					Gdx.app.log("LOAD", "Texture '" + field.get(null) + "' loaded.");
 				} else if (field.getName().startsWith("FNT")) {					
 					assetManager.load((String)field.get(null), BitmapFont.class);
+					Gdx.app.log("LOAD", "Font '" + field.get(null) + "' loaded.");
 				} else if (field.getName().startsWith("SND")) {					
 					assetManager.load((String)field.get(null), Sound.class);
+					Gdx.app.log("LOAD", "Sound '" + field.get(null) + "' loaded.");
 				} else if (field.getName().startsWith("MSC")) {					
 					assetManager.load((String)field.get(null), Music.class);
+					Gdx.app.log("LOAD", "Music '" + field.get(null) + "' loaded.");
 				} else if (field.getName().startsWith("PRT")) {					
 					assetManager.load((String)field.get(null), ParticleEffect.class);
-				}		
+					Gdx.app.log("LOAD", "Particle Effect '" + field.get(null) + "' loaded.");
+				}
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				Gdx.app.error("ERROR", "Could not load asset.", e);
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				Gdx.app.error("ERROR", "Could not load asset.", e);
 			}
 		}
 		
 		assetManager.finishLoading();
+		Gdx.app.log("INFO", "Done loading assets.");
 	}
 }

@@ -42,15 +42,18 @@ public final class Bundles {
 	
 	static void load() {		
 
+		Gdx.app.log("LOAD", "Loading bundles...");
 		generalHandle = Gdx.files.internal(Assets.BDL_GENERAL);
 		itemHandle = Gdx.files.internal(Assets.BDL_ITEMS);
 		recipesHandle = Gdx.files.internal(Assets.BDL_RECIPES);
 		
 		Locale locale = new Locale("en");		
 		setLocale(locale);
+		Gdx.app.log("INFO", "Done loading bundles.");
 	}
 	
 	public static void setLocale(Locale locale) {
+		Gdx.app.log("INFO", "Set locale to '" + locale + "'");
 		general = I18NBundle.createBundle(generalHandle, locale);
 		items = I18NBundle.createBundle(itemHandle, locale);
 		recipes = I18NBundle.createBundle(recipesHandle, locale);

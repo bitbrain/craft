@@ -44,21 +44,24 @@ import de.myreality.jpersis.db.DatabaseException;
 public final class DatabaseHelper {
 
 	public static void connect() {
+		
 		FileHandle handle = Gdx.files.external(Settings.DIR_DATA + Settings.DATABASE);
 		boolean folderExisted = true;
 		
 		try {
+			Gdx.app.log("INFO", "External directory not found. Creating a new one...");
 			handle.file().getParentFile().mkdirs();
 			if (!handle.file().exists()) {
 				handle.file().createNewFile();
 				folderExisted = false;
 			}
+			Gdx.app.log("INFO", "Successfully created external directory.");
 		} catch (IOException e) {
-			e.printStackTrace();
+			Gdx.app.error("ERROR", "Could not create external directory.", e);
 		}
 		
+		Gdx.app.log("INFO", "Connecting to database...");
 		String databasePath = handle.file().getAbsolutePath();
-
 		DatabaseConnector connector = new SQLiteConnector(databasePath);
 		MapperManager.setDefaultConnector(connector);
 
@@ -73,13 +76,16 @@ public final class DatabaseHelper {
 				init = Gdx.files.internal(Assets.SQL_UPDATE);
 				exectuteScript(init.reader(), statement);
 			}
-			
+			Gdx.app.log("INFO", "Connected to database.");
 		} catch (DatabaseException e) {
 			e.printStackTrace();
+			Gdx.app.error("ERROR", "Could not connect to database.", e);
 		} catch (IOException e) {
 			e.printStackTrace();
+			Gdx.app.error("ERROR", "Could not connect to database.", e);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			Gdx.app.error("ERROR", "Could not create database.", e);
 		}
 	}
 	

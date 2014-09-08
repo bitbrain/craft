@@ -56,8 +56,7 @@ public class CraftGame extends Game {
 	public void create() {
 		
 		Gdx.app.setLogLevel(Settings.LOGLEVEL);
-		
-		showStartupMessage();
+		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
 		
 		loadResources();
 		DatabaseHelper.connect();
@@ -67,9 +66,9 @@ public class CraftGame extends Game {
 		try {
 			PlayerUtils.setCurrentPlayer(initPlayer());
 			TitleScreen screen = new TitleScreen(this);
-			setScreen(screen);	
+			setScreen(screen);
 		} catch (APIException e) {
-			e.printStackTrace();
+			Gdx.app.error("ERROR", "Could not init player.", e);
 			Gdx.app.exit();
 		}
 	}
@@ -93,11 +92,6 @@ public class CraftGame extends Game {
 		}
 	}
 	
-	private void showStartupMessage() {
-		Gdx.app.log("STARTUP", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
-
-	}
-	
 	private void loadResources() {
 		AssetManager mgr = SharedAssetManager.getInstance();		
 		AssetReflector reflector = new AssetReflector(mgr);
@@ -107,10 +101,12 @@ public class CraftGame extends Game {
 	}
 	
 	private void registerTweens() {
+		Gdx.app.log("INFO", "Registering tweens...");
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
 		Tween.registerAccessor(Actor.class, new ActorTween());
 		Tween.registerAccessor(IconManager.class, new FadeableTween());
 		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
+		Gdx.app.log("INFO", "Tweens registered.");
 	}
 	
 	@SuppressWarnings("unused")
