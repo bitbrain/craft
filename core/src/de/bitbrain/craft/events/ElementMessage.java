@@ -17,45 +17,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
-
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import de.bitbrain.craft.core.IconManager.Icon;
+package de.bitbrain.craft.events;
 
 /**
- * An icon which also shows rarity and special effects
+ * Message special for elements
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class RarityIcon extends Actor {
+public class ElementMessage<Model> extends EventMessage<Model> {
+	
+	private int amount;
 
-	private Icon icon;
-	
-	public float iconScale;
-	
-	public RarityIcon(Icon icon) {
-		setSource(icon);
-	}
-	
-	public final void setSource(Icon icon) {
-		this.icon = icon;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	/**
+	 * @param type
+	 * @param model
 	 */
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		icon.x =getX();
-		icon.y = getY();
-		icon.width = getWidth();
-		icon.height = getHeight();
-		icon.color = getColor();
-		icon.rotation = 180f;
-		icon.draw(batch, parentAlpha);
+	public ElementMessage(de.bitbrain.craft.events.EventMessage.MessageType type, Model model, int amount) {
+		super(type, model);
+		this.amount = amount;
+	}
+	
+	public int getAmount() {
+		return amount;
 	}
 }

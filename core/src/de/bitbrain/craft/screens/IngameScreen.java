@@ -39,11 +39,12 @@ import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.ElementInfo;
+import de.bitbrain.craft.ui.ElementInfo.ElementData;
 import de.bitbrain.craft.ui.ItemElementAdapter;
-import de.bitbrain.craft.ui.ScrollView;
 import de.bitbrain.craft.ui.TabPanel;
 
 /**Os
@@ -86,10 +87,12 @@ public class IngameScreen extends AbstractScreen {
 		listView.align(Align.left);
 		
 		// API call to get all items
-		Map<Item, Integer> itemMap = API.getOwnedItems(game.getPlayer().getId());
+		Map<Item, Integer> itemMap = API.getOwnedItems(Player.getCurrent().getId());
 
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
-			listView.addActor(new ElementInfo(new ItemElementAdapter(entry.getKey(), entry.getValue())));
+			ElementData data = new ItemElementAdapter(entry.getKey(), entry.getValue());
+			ElementInfo info = new ElementInfo(data);
+			listView.addActor(info);
 		}
 		
 		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", listView);

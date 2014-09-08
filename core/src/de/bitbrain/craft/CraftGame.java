@@ -31,10 +31,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.db.DatabaseHelper;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.PlayerUtils;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
@@ -51,15 +51,9 @@ import de.myreality.jpersis.db.DatabaseException;
  * @version 1.0
  */
 public class CraftGame extends Game {
-	
-	private Player player;
-	
-	public Player getPlayer() {
-		return player;
-	}
 
 	@Override
-	public void create () {
+	public void create() {
 		
 		Gdx.app.setLogLevel(Settings.LOGLEVEL);
 		
@@ -70,9 +64,14 @@ public class CraftGame extends Game {
 		registerTweens();
 		//loadCursor();
 		Bundles.load();
-		initPlayer();
-		TitleScreen screen = new TitleScreen(this);
-		setScreen(screen);	
+		try {
+			PlayerUtils.setCurrentPlayer(initPlayer());
+			TitleScreen screen = new TitleScreen(this);
+			setScreen(screen);	
+		} catch (APIException e) {
+			e.printStackTrace();
+			Gdx.app.exit();
+		}
 	}
 	
 	@Override
@@ -124,18 +123,12 @@ public class CraftGame extends Game {
         pm.dispose();
 	}
 	
-	private void initPlayer() {
+	private Player initPlayer() throws APIException {
 		Player p = API.getFirstPlayer();
 		if (p != null) {
-			player = p;
+			return p;
 		} else {
-			try {
-				player = API.createPlayer("guest");
-			} catch (APIException e) {
-				Gdx.app.log("EXCEPTION", e.getMessage());
-			}
+			return API.createPlayer("guest");
 		}
-
-		//API.addItem(player.getId(), ItemId.PHIOLE_SMALL);
 	}
 }

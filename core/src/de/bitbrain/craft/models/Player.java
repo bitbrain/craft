@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.models;
 
+import de.myreality.jpersis.annotations.IgnoredMethod;
+
 /**
  * Player which owns a game
  * 
@@ -27,6 +29,8 @@ package de.bitbrain.craft.models;
  * @version 1.0
  */
 public class Player {
+	
+	static Player current = null;
 
 	private int id;
 	
@@ -58,5 +62,15 @@ public class Player {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@IgnoredMethod
+	public static Player getCurrent() {
+		
+		if (current == null) {
+			throw new RuntimeException("Current player is not set.");
+		}
+		
+		return current;
 	}
 }

@@ -60,8 +60,7 @@ public class RecipeElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	/* (non-Javadoc)
@@ -86,5 +85,13 @@ public class RecipeElementAdapter implements ElementData {
 	@Override
 	public int getAmount() {
 		return 1;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getId()
+	 */
+	@Override
+	public String getId() {
+		return recipe.getId();
 	}
 }

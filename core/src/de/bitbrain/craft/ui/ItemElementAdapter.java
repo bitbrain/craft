@@ -90,4 +90,12 @@ public class ItemElementAdapter implements ElementData {
 		return amount;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getId()
+	 */
+	@Override
+	public String getId() {
+		return item.getId();
+	}
+
 }
