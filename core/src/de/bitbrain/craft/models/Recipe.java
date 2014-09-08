@@ -21,6 +21,7 @@ package de.bitbrain.craft.models;
 
 import java.util.List;
 
+import de.bitbrain.craft.util.Identifiable;
 import de.myreality.jpersis.annotations.IgnoredMethod;
 
 /**
@@ -30,7 +31,7 @@ import de.myreality.jpersis.annotations.IgnoredMethod;
  * @since 1.0
  * @version 1.0
  */
-public class Recipe {
+public class Recipe implements Identifiable {
 
 	private String id;
 	
@@ -73,6 +74,7 @@ public class Recipe {
 		return icon;
 	}
 	
+	@Override
 	public String getId() {
 		return id;
 	}

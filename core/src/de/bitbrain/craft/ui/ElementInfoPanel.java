@@ -35,26 +35,26 @@ import de.bitbrain.craft.models.Item.Rarity;
  * @since 1.0
  * @version 1.0
  */
-public class ElementInfo extends HorizontalGroup {
+public class ElementInfoPanel extends HorizontalGroup {
 	
-	private Label amount;
+	private Label amountLabel;
 	
 	private Label name;
 	
 	private RarityIcon icon;
 	
-	public ElementInfo(ElementData data) {
+	public ElementInfoPanel(ElementData data) {
 		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
 		name.setX(10f);
-		Label amount = new Label(data.getAmount() + " ", Styles.LBL_ITEM);
-		amount.setColor(Color.YELLOW);
+		amountLabel = new Label(data.getAmount() + " ", Styles.LBL_ITEM);
+		amountLabel.setColor(Color.YELLOW);
 		RarityIcon icon = new RarityIcon(data.getIcon());
 		
 		icon.setWidth(name.getHeight() * 2);
 		icon.setHeight(name.getHeight() * 2);
 		
-		addActor(amount);
+		addActor(amountLabel);
 		addActor(icon);
 		addActor(name);
 	}
@@ -62,8 +62,12 @@ public class ElementInfo extends HorizontalGroup {
 	public void setData(ElementData data) {
 		name.setText(" " + data.getName());
 		name.setColor(data.getRarity().getColor());
-		amount.setText(data.getAmount() + " ");
+		setAmount(data.getAmount());
 		icon.setSource(data.getIcon());
+	}
+	
+	public void setAmount(int amount) {
+		amountLabel.setText(amount + " ");
 	}
 	
 	public static interface ElementData {

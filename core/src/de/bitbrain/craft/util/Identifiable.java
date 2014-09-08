@@ -17,46 +17,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.events;
+package de.bitbrain.craft.util;
 
-import net.engio.mbassy.bus.MBassador;
-import net.engio.mbassy.bus.config.BusConfiguration;
-import de.bitbrain.craft.events.EventMessage.MessageType;
-import de.bitbrain.craft.util.Identifiable;
+import de.myreality.jpersis.annotations.IgnoredMethod;
 
 /**
- * Event bus implementation
+ * Identifies an object
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class EventBus {
+public interface Identifiable {
 
-	@SuppressWarnings("deprecation")
-	private static MBassador<EventMessage<?> > bus = new MBassador<EventMessage<?> >(BusConfiguration.SyncAsync());
-	
-	private static EventBus instance;
-	
-	static {
-		instance = new EventBus();
-	}
-	
-	private EventBus() { }
-	
-	public static EventBus getInstance() {
-		return instance;
-	}
-	
-	public void subscribe(Object obj) {
-		bus.subscribe(obj);
-	}
-	
-	public void unsubscribe(Object obj) {
-		bus.unsubscribe(obj);
-	}
-	
-	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount) {
-		bus.publish(new ElementMessage<T>(type, item, amount));
-	}
+	@IgnoredMethod
+	String getId();
 }

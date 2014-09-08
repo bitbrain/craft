@@ -21,6 +21,8 @@ package de.bitbrain.craft.models;
 
 import com.badlogic.gdx.graphics.Color;
 
+import de.bitbrain.craft.util.Identifiable;
+
 /**
  * Item which can be used for crafting
  * 
@@ -28,7 +30,7 @@ import com.badlogic.gdx.graphics.Color;
  * @since 1.0
  * @version 1.0
  */
-public class Item {
+public class Item implements Identifiable {
 
 	private String id = "";
 	
@@ -42,6 +44,7 @@ public class Item {
 		return icon;
 	}
 	
+	@Override
 	public String getId() {
 		return id;
 	}

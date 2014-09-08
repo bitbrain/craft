@@ -24,7 +24,7 @@ import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Recipe;
-import de.bitbrain.craft.ui.ElementInfo.ElementData;
+import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
 
 /**
  * Adapter for recipes as elements

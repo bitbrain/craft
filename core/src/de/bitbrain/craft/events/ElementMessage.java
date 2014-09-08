@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.events;
 
+import de.bitbrain.craft.util.Identifiable;
+
 /**
  * Message special for elements
  *
@@ -26,7 +28,7 @@ package de.bitbrain.craft.events;
  * @since 1.0
  * @version 1.0
  */
-public class ElementMessage<Model> extends EventMessage<Model> {
+public class ElementMessage<Model extends Identifiable> extends EventMessage<Model> {
 	
 	private int amount;
 
