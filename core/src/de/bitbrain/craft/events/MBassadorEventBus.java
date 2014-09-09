@@ -31,28 +31,25 @@ import de.bitbrain.craft.util.Identifiable;
  * @since 1.0
  * @version 1.0
  */
-public interface EventBus {
+public final class MBassadorEventBus implements EventBus {
+
+	@SuppressWarnings("deprecation")
+	private MBassador<EventMessage<?> > bus = new MBassador<EventMessage<?> >(BusConfiguration.SyncAsync());	
 	
-	/**
-	 * Subscribes a new object to the bus
-	 * 
-	 * @param obj object to subscribe
-	 */
-	public void subscribe(Object obj);
+	public MBassadorEventBus() { }
 	
-	/**
-	 * Unsubscribes an existing object from this bus
-	 * 
-	 * @param obj object to unsubscribe
-	 */
-	public void unsubscribe(Object obj);
+	@Override
+	public void subscribe(Object obj) {
+		bus.subscribe(obj);
+	}
 	
-	/**
-	 * Fires a new element event
-	 * 
-	 * @param type type of the message
-	 * @param item item to fire
-	 * @param amount amount of items
-	 */
-	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount);
+	@Override	
+	public void unsubscribe(Object obj) {
+		bus.unsubscribe(obj);
+	}
+	
+	@Override
+	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount) {
+		bus.publish(new ElementMessage<T>(type, item, amount));
+	}
 }

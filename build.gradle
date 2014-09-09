@@ -97,6 +97,7 @@ project(":core") {
 	compile "org.xerial:sqlite-jdbc:3.7.2"
 	compile "myreality:jpersis:1.0.0"
 	compile "net.engio:mbassador:1.2.0"
+	compile "com.google.inject:guice:3.0"
         testCompile "junit:junit:4.10"
     }
 }

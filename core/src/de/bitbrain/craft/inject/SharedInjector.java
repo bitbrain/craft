@@ -17,42 +17,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.events;
+package de.bitbrain.craft.inject;
 
-import net.engio.mbassy.bus.MBassador;
-import net.engio.mbassy.bus.config.BusConfiguration;
-import de.bitbrain.craft.events.EventMessage.MessageType;
-import de.bitbrain.craft.util.Identifiable;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
- * Event bus implementation
+ * Shared google injector
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface EventBus {
+public final class SharedInjector {
 	
-	/**
-	 * Subscribes a new object to the bus
-	 * 
-	 * @param obj object to subscribe
-	 */
-	public void subscribe(Object obj);
+	private static Injector injector;
 	
-	/**
-	 * Unsubscribes an existing object from this bus
-	 * 
-	 * @param obj object to unsubscribe
-	 */
-	public void unsubscribe(Object obj);
-	
-	/**
-	 * Fires a new element event
-	 * 
-	 * @param type type of the message
-	 * @param item item to fire
-	 * @param amount amount of items
-	 */
-	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount);
+	static {
+		injector = Guice.createInjector(new CraftModule());
+	}
+
+	public static Injector get() {
+		return injector;
+	}
 }

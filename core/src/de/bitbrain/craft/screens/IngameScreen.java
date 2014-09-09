@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
@@ -41,6 +42,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.EventMessage.MessageType;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
@@ -60,9 +62,13 @@ public class IngameScreen extends AbstractScreen {
 	private IconManager iconManager = IconManager.getInstance();
 	
 	private TabPanel tabPanel;
+	
+	@Inject
+	EventBus eventBus;
 
 	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
+		SharedInjector.get().injectMembers(this);
 	}
 
 	@Override
@@ -138,7 +144,7 @@ public class IngameScreen extends AbstractScreen {
 	}
 	
 	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.AbstractScreen#onFadeIn(float)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#onFadeIn(floast)
 	 */
 	@Override
 	protected void onFadeIn(float parentInterval) {
@@ -158,12 +164,12 @@ public class IngameScreen extends AbstractScreen {
 		
 		// Add data connector
 		ElementInfoConnector itemConnector = new ElementInfoConnector(itemView, Item.class);
-		EventBus.getInstance().subscribe(itemConnector);
+		eventBus.subscribe(itemConnector);
 		
 		// API call to get all items
 		Map<Item, Integer> itemMap = API.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
-			EventBus.getInstance().fireElementEvent(MessageType.ADD, entry.getKey(), entry.getValue());
+			eventBus.fireElementEvent(MessageType.ADD, entry.getKey(), entry.getValue());
 		}
 		
 		return itemView;
