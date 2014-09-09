@@ -34,6 +34,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
@@ -108,6 +109,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		
 		if (stage != null) {
 			stage.draw();
+			onStageDraw(batch, delta);
 			//Table.drawDebug(stage);
 		}
 		
@@ -159,6 +161,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 
 	@Override
 	public void resume() { }
+	
+	public void onStageDraw(Batch batch, float delta) { }
 	
 	@Override
 	public void onEvent(int type, BaseTween<?> source) {

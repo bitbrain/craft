@@ -26,9 +26,11 @@ import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.events.ElementMessage;
-import de.bitbrain.craft.events.EventMessage;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
@@ -49,11 +51,16 @@ public class ElementInfoConnector {
 	
 	private final Map<String, ElementData> dataMap;
 	
+	@Inject
+	private EventBus eventBus;
+	
 	public ElementInfoConnector(WidgetGroup group, Class<?> elementClass) {
+		SharedInjector.get().injectMembers(this);
 		this.group = group;
 		this.elementClass = elementClass;
 		elements = new HashMap<String, ElementInfoPanel>();
 		dataMap = new HashMap<String, ElementData>();
+		eventBus.subscribe(this);
 	}
 	
 	@Handler
@@ -73,11 +80,6 @@ public class ElementInfoConnector {
 				break;
 			}
 		}
-	}
-	
-	@Handler
-	public void onEvent(EventMessage<ElementInfoPanel> message) {
-		System.out.println(message.getType() + " on " + message.getModel());
 	}
 	
 	public void dispose() {

@@ -55,6 +55,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	public ElementInfoPanel(ElementData data) {
 		SharedInjector.get().injectMembers(this);
+		this.data = data;
 		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
 		name.setX(10f);

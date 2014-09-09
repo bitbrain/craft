@@ -25,7 +25,6 @@ import java.util.Map.Entry;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -47,6 +46,7 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
+import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.TabPanel;
 
@@ -66,6 +66,9 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private EventBus eventBus;
 	
+	@Inject
+	private DragDropHandler dragDropHandler;
+	
 	private ElementInfoConnector itemConnector;
 
 	public IngameScreen(Profession profession, CraftGame game) {
@@ -84,20 +87,20 @@ public class IngameScreen extends AbstractScreen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		super.resize(width, height);	
+		boolean init = stage == null;
+		super.resize(width, height);
+		tabPanel.setWidth(width / 2.3f);
+		tabPanel.setHeight(height / 1.2f);
+		tabPanel.padLeft(width / 10f);
+		tabPanel.padBottom(height / 7f);
 
-		tabPanel.setWidth(Gdx.graphics.getWidth() / 2.3f);
-		tabPanel.setHeight(Gdx.graphics.getHeight() / 1.2f);
-
-		tabPanel.padLeft(Gdx.graphics.getWidth() / 10f);
-		tabPanel.padBottom(Gdx.graphics.getHeight() / 7f);
-		
-		tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", generateItemView());
-		tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
-		tabPanel.addTab("tab3", "ico_jewel_diamond_medium.png", new Label("Tab3", Styles.LBL_BROWN));
-		tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));
-		
-		tabPanel.setTab("tab1");
+		if (init) {
+			tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", generateItemView());
+			tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
+			tabPanel.addTab("tab3", "ico_jewel_diamond_medium.png", new Label("Tab3", Styles.LBL_BROWN));
+			tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));		
+			tabPanel.setTab("tab1");
+		}
 	}
 
 	@Override
@@ -105,9 +108,12 @@ public class IngameScreen extends AbstractScreen {
 		return new IngameControls(this, new ScreenViewport(), batch);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#onStageDraw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	 */
 	@Override
-	protected void onDraw(Batch batch, float delta) {
-		
+	public void onStageDraw(Batch batch, float delta) {
+		dragDropHandler.draw(batch, delta);
 	}
 	
 	/* (non-Javadoc)
@@ -168,7 +174,6 @@ public class IngameScreen extends AbstractScreen {
 		
 		// Add data connector
 		itemConnector = new ElementInfoConnector(itemView, Item.class);
-		eventBus.subscribe(itemConnector);
 		
 		// API call to get all items
 		Map<Item, Integer> itemMap = API.getOwnedItems(Player.getCurrent().getId());
@@ -178,5 +183,11 @@ public class IngameScreen extends AbstractScreen {
 		
 		return itemView;
 	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.screens.AbstractScreen#onDraw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	 */
+	@Override
+	protected void onDraw(Batch batch, float delta) { }
 
 }

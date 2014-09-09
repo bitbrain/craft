@@ -19,26 +19,25 @@
 
 package de.bitbrain.craft.inject;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
+import com.google.inject.AbstractModule;
+
+import de.bitbrain.craft.ui.DragDropHandler;
 
 /**
- * Shared google injector
+ * Injection module for craft
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class SharedInjector {
-	
-	private static Injector injector;
-	
-	static {
-		injector = Guice.createInjector(Stage.PRODUCTION, new SingletonModule(), new ObjectModule());
+public class ObjectModule extends AbstractModule {
+
+	/* (non-Javadoc)
+	 * @see com.google.inject.AbstractModule#configure()
+	 */
+	@Override
+	protected void configure() {
+		this.bind(DragDropHandler.class);
 	}
 
-	public static Injector get() {
-		return injector;
-	}
 }

@@ -75,8 +75,7 @@ public class CraftGame extends Game {
 	
 	@Override
 	public void resume() {
-		super.resume();
-		
+		super.resume();		
 		loadResources();
 		DatabaseHelper.connect();
 	}
