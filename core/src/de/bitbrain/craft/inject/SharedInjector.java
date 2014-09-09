@@ -21,6 +21,7 @@ package de.bitbrain.craft.inject;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Stage;
 
 /**
  * Shared google injector
@@ -34,7 +35,7 @@ public final class SharedInjector {
 	private static Injector injector;
 	
 	static {
-		injector = Guice.createInjector(new CraftModule());
+		injector = Guice.createInjector(Stage.PRODUCTION, new SingletonModule());
 	}
 
 	public static Injector get() {

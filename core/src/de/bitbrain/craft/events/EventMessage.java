@@ -20,7 +20,7 @@
 package de.bitbrain.craft.events;
 
 /**
- * Abstract message
+ * General event message which can be send
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -48,6 +48,9 @@ public class EventMessage<Model> {
 	public static enum MessageType {		
 		UPDATE,
 		ADD,
-		REMOVE
+		REMOVE,
+		CLICK,
+		DRAG,
+		DROP
 	}
 }

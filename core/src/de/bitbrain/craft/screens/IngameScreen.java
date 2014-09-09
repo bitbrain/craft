@@ -64,7 +64,9 @@ public class IngameScreen extends AbstractScreen {
 	private TabPanel tabPanel;
 	
 	@Inject
-	EventBus eventBus;
+	private EventBus eventBus;
+	
+	private ElementInfoConnector itemConnector;
 
 	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
@@ -115,6 +117,8 @@ public class IngameScreen extends AbstractScreen {
 	public void dispose() {
 		super.dispose();
 		iconManager.dispose();
+		itemConnector.dispose();
+		eventBus.unsubscribe(itemConnector);
 	}
 	
 	/* (non-Javadoc)
@@ -163,7 +167,7 @@ public class IngameScreen extends AbstractScreen {
 		itemView.align(Align.left);
 		
 		// Add data connector
-		ElementInfoConnector itemConnector = new ElementInfoConnector(itemView, Item.class);
+		itemConnector = new ElementInfoConnector(itemView, Item.class);
 		eventBus.subscribe(itemConnector);
 		
 		// API call to get all items

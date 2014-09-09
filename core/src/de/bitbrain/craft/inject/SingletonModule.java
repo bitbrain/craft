@@ -31,14 +31,14 @@ import de.bitbrain.craft.events.MBassadorEventBus;
  * @since 1.0
  * @version 1.0
  */
-public class CraftModule extends AbstractModule {
+public class SingletonModule extends AbstractModule {
 
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
 	 */
 	@Override
 	protected void configure() {
-		this.bind(EventBus.class).to(MBassadorEventBus.class);
+		this.bind(EventBus.class).to(MBassadorEventBus.class).asEagerSingleton();
 	}
 
 }

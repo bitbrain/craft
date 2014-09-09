@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft.events;
 
-import net.engio.mbassy.bus.MBassador;
-import net.engio.mbassy.bus.config.BusConfiguration;
 import de.bitbrain.craft.events.EventMessage.MessageType;
 import de.bitbrain.craft.util.Identifiable;
 
@@ -55,4 +53,12 @@ public interface EventBus {
 	 * @param amount amount of items
 	 */
 	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount);
+	
+	/**
+	 * Fires a new event
+	 * 
+	 * @param type event type
+	 * @param item element
+	 */
+	public <T> void fireEvent(MessageType type, T item);
 }

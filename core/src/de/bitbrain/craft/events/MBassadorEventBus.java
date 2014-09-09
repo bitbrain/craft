@@ -52,4 +52,12 @@ public final class MBassadorEventBus implements EventBus {
 	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount) {
 		bus.publish(new ElementMessage<T>(type, item, amount));
 	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.events.EventBus#fireEvent(de.bitbrain.craft.events.EventMessage.MessageType, java.lang.Object)
+	 */
+	@Override
+	public <T> void fireEvent(MessageType type, T item) {
+		bus.publish(new EventMessage<T>(type, item));
+	}
 }

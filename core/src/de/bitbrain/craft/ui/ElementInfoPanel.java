@@ -20,12 +20,17 @@
 package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.EventMessage.MessageType;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item.Rarity;
 
 /**
@@ -43,7 +48,13 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	private RarityIcon icon;
 	
+	private ElementData data;
+	
+	@Inject
+	EventBus eventBus;
+	
 	public ElementInfoPanel(ElementData data) {
+		SharedInjector.get().injectMembers(this);
 		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
 		name.setX(10f);
@@ -53,17 +64,23 @@ public class ElementInfoPanel extends HorizontalGroup {
 		
 		icon.setWidth(name.getHeight() * 2);
 		icon.setHeight(name.getHeight() * 2);
-		
 		addActor(amountLabel);
 		addActor(icon);
 		addActor(name);
+		
+		registerEvents();
 	}
 	
 	public void setData(ElementData data) {
+		this.data = data;				
 		name.setText(" " + data.getName());
 		name.setColor(data.getRarity().getColor());
 		setAmount(data.getAmount());
 		icon.setSource(data.getIcon());
+	}
+	
+	public ElementData getData() {
+		return data;
 	}
 	
 	public void setAmount(int amount) {
@@ -83,5 +100,19 @@ public class ElementInfoPanel extends HorizontalGroup {
 		String getName();
 		
 		int getAmount();
+	}
+	
+	private void registerEvents() {
+		final ElementInfoPanel p = this;	
+		addListener(new ClickListener() {
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+			 */
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				super.clicked(event, x, y);
+				eventBus.fireEvent(MessageType.CLICK, p);
+			}
+		});
 	}
 }

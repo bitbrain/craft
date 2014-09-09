@@ -28,6 +28,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 import de.bitbrain.craft.events.ElementMessage;
+import de.bitbrain.craft.events.EventMessage;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
@@ -72,6 +73,17 @@ public class ElementInfoConnector {
 				break;
 			}
 		}
+	}
+	
+	@Handler
+	public void onEvent(EventMessage<ElementInfoPanel> message) {
+		System.out.println(message.getType() + " on " + message.getModel());
+	}
+	
+	public void dispose() {
+		elements.clear();
+		dataMap.clear();
+		group.clear();
 	}
 	
 	private void removeElements(String id, Object model, int amount) {
