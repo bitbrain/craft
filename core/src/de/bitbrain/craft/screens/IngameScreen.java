@@ -57,7 +57,8 @@ import de.bitbrain.craft.ui.TabPanel;
  */
 public class IngameScreen extends AbstractScreen {
 	
-	private IconManager iconManager = IconManager.getInstance();
+	@Inject
+	private IconManager iconManager;
 	
 	private TabPanel tabPanel;
 	

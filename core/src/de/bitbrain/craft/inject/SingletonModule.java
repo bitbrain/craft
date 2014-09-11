@@ -21,6 +21,7 @@ package de.bitbrain.craft.inject;
 
 import com.google.inject.AbstractModule;
 
+import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MBassadorEventBus;
 
@@ -39,6 +40,7 @@ public class SingletonModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(EventBus.class).to(MBassadorEventBus.class).asEagerSingleton();
+		this.bind(IconManager.class).asEagerSingleton();
 	}
 
 }

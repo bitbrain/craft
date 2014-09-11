@@ -19,9 +19,12 @@
 
 package de.bitbrain.craft.ui;
 
+import com.google.inject.Inject;
+
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
@@ -41,7 +44,11 @@ public class ItemElementAdapter implements ElementData {
 	
 	private int amount;
 	
+	@Inject
+	private IconManager iconManager;
+	
 	public ItemElementAdapter(Item item, int amount) {
+		SharedInjector.get().injectMembers(this);
 		this.item = item;
 		this.amount = amount;
 	}
@@ -52,7 +59,7 @@ public class ItemElementAdapter implements ElementData {
 	@Override
 	public Icon getIcon() {
 		if (icon == null) {
-			icon = IconManager.getInstance().fetch(item.getIcon());
+			icon = iconManager.fetch(item.getIcon());
 		}
 		
 		return icon;

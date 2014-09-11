@@ -48,10 +48,8 @@ public class IconManager implements Fadeable {
 	public static final int BUFFER = 10;
 	
 	private static Sprite loadingSprite;	
-	private static IconManager instance;	
 	
 	static {
-		instance = new IconManager();
 		loadingSprite = new Sprite(new Texture(Gdx.files.internal("images/icons/ico_loading.png")));
 		loadingSprite.flip(false, true);
 	}
@@ -64,7 +62,7 @@ public class IconManager implements Fadeable {
 	
 	private float alpha = 1.0f;
 	
-	private IconManager() { 
+	public IconManager() { 
 		icons = new HashMap<String, Icon>();
 		references = new HashMap<String, Integer>();
 		textures = new HashMap<String, Texture>();
@@ -132,11 +130,6 @@ public class IconManager implements Fadeable {
 		icons.clear();
 		textures.clear();
 	}
-	
-	public static IconManager getInstance() {
-		return instance;
-	}
-	
 	
 	private void loadIcon(String file) {
 		if (!textures.containsKey(file)) {

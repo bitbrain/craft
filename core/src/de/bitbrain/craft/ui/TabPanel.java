@@ -40,6 +40,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
@@ -47,6 +48,7 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 
 /**
@@ -71,8 +73,12 @@ public class TabPanel extends Table {
 	private TweenManager tweenManager;
 	
 	private Set<TabListener> listeners;
+	
+	@Inject
+	private IconManager iconManager;
 
-	public TabPanel(TweenManager tweenManager) {	
+	public TabPanel(TweenManager tweenManager) {
+		SharedInjector.get().injectMembers(this);
 		this.tweenManager = tweenManager;
 		listeners = new HashSet<TabListener>();
 		tabs = new HashMap<String, Actor>();
@@ -171,7 +177,7 @@ public class TabPanel extends Table {
 		void onChange(Actor before, Actor next);
 	}
 	
-	private static class TabControl extends Table {
+	private class TabControl extends Table {
 		
 		private Map<ImageButton, String> buttons;
 		private Map<String, ImageButton> ids;
@@ -273,7 +279,6 @@ public class TabPanel extends Table {
 			}
 			
 			ImageButtonStyle style = new ImageButtonStyle(origin);
-			IconManager iconManager = IconManager.getInstance();
 			Icon icon = iconManager.fetch(iconId);
 			icon.color.a = 0.5f;
 			style.imageUp = icon;		

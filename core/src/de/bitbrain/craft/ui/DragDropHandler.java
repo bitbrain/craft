@@ -26,6 +26,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.events.Event.MessageType;
 import de.bitbrain.craft.inject.SharedInjector;
 
 /**
@@ -41,7 +42,7 @@ public class DragDropHandler {
 	
 	@Inject
 	private EventBus eventBus;
-	
+
 	public DragDropHandler() {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
@@ -60,7 +61,11 @@ public class DragDropHandler {
 	
 	@Handler
 	public void onEvent(MouseEvent<?> message) {
-		if (message.getModel() instanceof ElementInfoPanel) {
+		
+		if (message.getType() == MessageType.MOUSEUP) {
+			// DROP IT!
+			System.out.println("DROP IT!");
+		} else if (message.getModel() instanceof ElementInfoPanel) {
 			ElementInfoPanel panel = (ElementInfoPanel) message.getModel();
 			System.out.println(message.getType() + " on " + panel.getData().getId() + " at " + message.getMouseX() + "|" + message.getMouseY());
 		}
