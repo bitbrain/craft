@@ -49,11 +49,8 @@ public class InputEventProcessor extends Stage {
 	 */
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		boolean handled = super.mouseMoved(screenX, screenY);
-		
-		if (!handled)
-			eventBus.fireMouseEvent(MessageType.MOUSEMOVE, this, screenX, screenY);
-		
+		super.mouseMoved(screenX, screenY);
+		eventBus.fireMouseEvent(MessageType.MOUSEMOVE, this, screenX, screenY);		
 		return true;
 	}
 	
@@ -62,11 +59,8 @@ public class InputEventProcessor extends Stage {
 	 */
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		boolean handled = super.touchDragged(screenX, screenY, pointer);
-		
-		if (!handled)
-			eventBus.fireMouseEvent(MessageType.MOUSEDRAG, this, screenX, screenY);
-		
+		super.touchDragged(screenX, screenY, pointer);
+		eventBus.fireMouseEvent(MessageType.MOUSEDRAG, this, screenX, screenY);		
 		return true;
 	}
 	
@@ -75,11 +69,9 @@ public class InputEventProcessor extends Stage {
 	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		boolean handled = super.touchDown(screenX, screenY, pointer, button);
-		if (!handled)
-			eventBus.fireMouseEvent(MessageType.MOUSEDOWN, this, screenX, screenY);
-		
-		return handled;
+		super.touchDown(screenX, screenY, pointer, button);
+		eventBus.fireMouseEvent(MessageType.MOUSEDOWN, this, screenX, screenY);		
+		return true;
 	}
 	
 	/* (non-Javadoc)
@@ -87,11 +79,8 @@ public class InputEventProcessor extends Stage {
 	 */
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		boolean handled = super.touchUp(screenX, screenY, pointer, button);
-		
-		if (!handled)
-			eventBus.fireMouseEvent(MessageType.MOUSEUP, this, screenX, screenY);
-		
+		super.touchUp(screenX, screenY, pointer, button);
+		eventBus.fireMouseEvent(MessageType.MOUSEUP, this, screenX, screenY);		
 		return true;
 	}
 	
@@ -100,12 +89,9 @@ public class InputEventProcessor extends Stage {
 	 */
 	@Override
 	public boolean keyDown(int keyCode) {
-		boolean handled = super.keyDown(keyCode);
-		
-		if (!handled)
-			eventBus.fireKeyEvent(MessageType.KEYDOWN, keyCode);
-		
-		return handled;
+		super.keyDown(keyCode);
+		eventBus.fireKeyEvent(MessageType.KEYDOWN, keyCode);	
+		return true;
 	}
 	
 	/* (non-Javadoc)
@@ -113,11 +99,8 @@ public class InputEventProcessor extends Stage {
 	 */
 	@Override
 	public boolean keyUp(int keyCode) {
-		boolean handled = super.keyUp(keyCode);
-		
-		if (!handled)
-			eventBus.fireKeyEvent(MessageType.KEYUP, keyCode);
-			
-		return handled;
+		super.keyUp(keyCode);
+		eventBus.fireKeyEvent(MessageType.KEYUP, keyCode);			
+		return true;
 	}
 }

@@ -110,7 +110,9 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		
 		if (inputProcessor != null) {
 			inputProcessor.draw();
+			batch.begin();
 			onStageDraw(batch, delta);
+			batch.end();
 			//Table.drawDebug(stage);
 		}
 		

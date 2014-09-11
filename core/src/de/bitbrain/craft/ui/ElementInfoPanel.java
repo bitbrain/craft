@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Styles;
@@ -105,14 +106,21 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	private void registerEvents() {
 		final ElementInfoPanel p = this;	
-		addListener(new ClickListener() {
+		addListener(new DragListener() {
 			/* (non-Javadoc)
-			 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.DragListener#dragStart(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int)
 			 */
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				eventBus.fireMouseEvent(MessageType.CLICK, p, x, y);
+			public void dragStart(InputEvent event, float x, float y,
+					int pointer) {
+				eventBus.fireMouseEvent(MessageType.MOUSEDRAG, p, x, y);
+			}
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.utils.DragListener#dragStop(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int)
+			 */
+			@Override
+			public void dragStop(InputEvent event, float x, float y, int pointer) {
+				eventBus.fireMouseEvent(MessageType.MOUSEDROP, p, x, y);
 			}
 		});
 	}
