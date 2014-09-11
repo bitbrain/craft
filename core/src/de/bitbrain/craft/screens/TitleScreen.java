@@ -33,7 +33,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Bundles;
@@ -41,7 +40,6 @@ import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
-import de.bitbrain.craft.controls.TitleControls;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
@@ -70,7 +68,7 @@ public class TitleScreen extends AbstractScreen {
 	@Override
 	protected void onCreateStage(Stage stage) {
 		btnPlay = new TextButton(Bundles.general.get(Bundles.START), Styles.BTN_GREEN);	
-		
+
 		final TitleScreen tempScreen = this;
 		
 		btnPlay.addCaptureListener(new ClickListener() {
@@ -166,14 +164,6 @@ public class TitleScreen extends AbstractScreen {
 		lblCredits.setX(Gdx.graphics.getWidth() / 2 - (lblCredits.getWidth() * lblCredits.getFontScaleX()) / 2);
 		lblCredits.setY(Gdx.graphics.getHeight() / 15f);
 		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.MenuScreen#createStage()
-	 */
-	@Override
-	protected Stage createStage(int width, int height, Batch batch) {
-		return new TitleControls(new ScreenViewport(), batch);
 	}
 
 	/* (non-Javadoc)

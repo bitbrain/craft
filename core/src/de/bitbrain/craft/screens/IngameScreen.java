@@ -40,7 +40,7 @@ import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.events.EventBus;
-import de.bitbrain.craft.events.EventMessage.MessageType;
+import de.bitbrain.craft.events.Event.MessageType;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
@@ -50,7 +50,7 @@ import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.TabPanel;
 
-/**Os
+/**
  * Displays the main game
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
@@ -87,7 +87,7 @@ public class IngameScreen extends AbstractScreen {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		boolean init = stage == null;
+		boolean init = inputProcessor == null;
 		super.resize(width, height);
 		tabPanel.setWidth(width / 2.3f);
 		tabPanel.setHeight(height / 1.2f);
@@ -101,11 +101,6 @@ public class IngameScreen extends AbstractScreen {
 			tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));		
 			tabPanel.setTab("tab1");
 		}
-	}
-
-	@Override
-	protected Stage createStage(int width, int height, Batch batch) {
-		return new IngameControls(this, new ScreenViewport(), batch);
 	}
 
 	/* (non-Javadoc)

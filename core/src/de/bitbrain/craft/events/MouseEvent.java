@@ -19,29 +19,29 @@
 
 package de.bitbrain.craft.events;
 
-import de.bitbrain.craft.util.Identifiable;
-
 /**
- * Message special for elements
+ * Event which occurs on mouse interaction
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ElementMessage<Model extends Identifiable> extends EventMessage<Model> {
+public class MouseEvent<Model> extends Event<Model>{
 	
-	private int amount;
+	private float x, y;
 
-	/**
-	 * @param type
-	 * @param model
-	 */
-	public ElementMessage(de.bitbrain.craft.events.EventMessage.MessageType type, Model model, int amount) {
+	public MouseEvent(de.bitbrain.craft.events.Event.MessageType type,
+			Model model, float x, float y) {
 		super(type, model);
-		this.amount = amount;
+		this.x = x;
+		this.y = y;
 	}
 	
-	public int getAmount() {
-		return amount;
+	public float getMouseX() {
+		return x;
+	}
+	
+	public float getMouseY() {
+		return y;
 	}
 }

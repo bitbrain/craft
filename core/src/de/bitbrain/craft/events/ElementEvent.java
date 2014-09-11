@@ -17,24 +17,31 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.controls;
+package de.bitbrain.craft.events;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import de.bitbrain.craft.util.Identifiable;
 
 /**
- * Controls for {@see de.bitbrain.craft.screens.TitleScreen}
+ * Message special for elements
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class TitleControls extends Stage {
+public class ElementEvent<Model extends Identifiable> extends Event<Model> {
 	
-	public TitleControls(Viewport viewport, Batch batch) {
-		super(viewport, batch);
+	private int amount;
+
+	/**
+	 * @param type
+	 * @param model
+	 */
+	public ElementEvent(de.bitbrain.craft.events.Event.MessageType type, Model model, int amount) {
+		super(type, model);
+		this.amount = amount;
 	}
 	
-	
+	public int getAmount() {
+		return amount;
+	}
 }

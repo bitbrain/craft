@@ -28,7 +28,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.events.ElementMessage;
+import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
@@ -64,7 +64,7 @@ public class ElementInfoConnector {
 	}
 	
 	@Handler
-	public void onEvent(ElementMessage<?> message) {
+	public void onEvent(ElementEvent<?> message) {
 		// Only do something if message fit to this connector type
 		if (message.getModel().getClass().equals(elementClass)) {
 			switch (message.getType()) {

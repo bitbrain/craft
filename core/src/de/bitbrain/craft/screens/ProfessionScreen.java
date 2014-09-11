@@ -67,11 +67,6 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	}
 
 	@Override
-	protected Stage createStage(int width, int height, Batch batch) {
-		return new ProfessionSelectionControls(this, new ScreenViewport(), batch);
-	}
-
-	@Override
 	protected void onDraw(Batch batch, float delta) {
 	}
 

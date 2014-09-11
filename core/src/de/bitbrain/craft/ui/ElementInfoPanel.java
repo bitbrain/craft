@@ -29,7 +29,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.EventBus;
-import de.bitbrain.craft.events.EventMessage.MessageType;
+import de.bitbrain.craft.events.Event.MessageType;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item.Rarity;
 
@@ -112,7 +112,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				eventBus.fireEvent(MessageType.CLICK, p);
+				eventBus.fireMouseEvent(MessageType.CLICK, p, x, y);
 			}
 		});
 	}

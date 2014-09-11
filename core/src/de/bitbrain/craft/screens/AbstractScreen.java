@@ -34,11 +34,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
@@ -59,9 +60,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	protected Batch batch;
 	
-	protected OrthographicCamera camera;		
-	
-	protected Stage stage;
+	protected OrthographicCamera camera;
 	
 	protected TweenManager tweenManager;
 	
@@ -70,6 +69,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	private Screen nextScreen;
 	
 	protected ParticleRenderer particleRenderer;
+	
+	protected InputEventProcessor inputProcessor;
 	
 	public static final float FADE_INTERVAL = 0.7f;	
 	
@@ -91,8 +92,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 
 		tweenManager.update(delta);
 		
-		if (stage != null)
-			stage.act(delta);
+		if (inputProcessor != null)
+			inputProcessor.act(delta);
 		
 		camera.update();			
 		batch.setProjectionMatrix(camera.combined);
@@ -107,8 +108,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			onDraw(batch, delta);
 		batch.end();
 		
-		if (stage != null) {
-			stage.draw();
+		if (inputProcessor != null) {
+			inputProcessor.draw();
 			onStageDraw(batch, delta);
 			//Table.drawDebug(stage);
 		}
@@ -121,15 +122,15 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	@Override
 	public void resize(int width, int height) {
 		
-		if (stage == null) {
-			stage = createStage(width, height, batch);
-			onCreateStage(stage);
+		if (inputProcessor == null) {
+			inputProcessor = new InputEventProcessor(new ScreenViewport(), batch);
+			onCreateStage(inputProcessor);
 			
 			background.setColor(1f, 1f, 1f, 0f);
 			
 			onFadeIn(FADE_INTERVAL);
 		} else {		
-			stage.getViewport().update(width, height, true);
+			inputProcessor.getViewport().update(width, height, true);
 		}
 		
 		camera.setToOrtho(true, width, height);
@@ -190,17 +191,15 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	protected abstract void onCreateStage(Stage stage);
 	
-	protected abstract Stage createStage(int width, int height, Batch batch);
-	
 	protected abstract void onDraw(Batch batch, float delta);
 	
 	protected abstract void onShow();
 	
 	protected void onFadeIn(float parentInterval) {
 		
-		if (stage != null && stage.getRoot() != null) {
-			stage.getRoot().setColor(1f, 1f, 1f, 0.0f);
-			Tween.to(stage.getRoot(), ActorTween.ALPHA, parentInterval)
+		if (inputProcessor != null && inputProcessor.getRoot() != null) {
+			inputProcessor.getRoot().setColor(1f, 1f, 1f, 0.0f);
+			Tween.to(inputProcessor.getRoot(), ActorTween.ALPHA, parentInterval)
 			     .ease(TweenEquations.easeInOutCubic)
 			     .target(1f)
 			     .start(tweenManager);
@@ -223,8 +222,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			 .start(tweenManager);
 	}	
 	protected void onFadeOut(float parentInterval) { 
-		if (stage != null && stage.getRoot() != null) {
-			Tween.to(stage.getRoot(), ActorTween.ALPHA, parentInterval)
+		if (inputProcessor != null && inputProcessor.getRoot() != null) {
+			Tween.to(inputProcessor.getRoot(), ActorTween.ALPHA, parentInterval)
 			     .ease(TweenEquations.easeInOutCubic)
 			     .target(0f)
 			     .start(tweenManager);
@@ -247,7 +246,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	protected void onUpdate(float delta) { }
 	
 	protected void afterFadeIn(float parentInterval) {
-		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(inputProcessor);
 	}
 	protected void afterFadeOut(float parentInterval) {		
 		particleRenderer.clear();

@@ -25,7 +25,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.events.EventBus;
-import de.bitbrain.craft.events.EventMessage;
+import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 
 /**
@@ -59,10 +59,10 @@ public class DragDropHandler {
 	}
 	
 	@Handler
-	public void onEvent(EventMessage<?> message) {
+	public void onEvent(MouseEvent<?> message) {
 		if (message.getModel() instanceof ElementInfoPanel) {
 			ElementInfoPanel panel = (ElementInfoPanel) message.getModel();
-			System.out.println(message.getType() + " on " + panel.getData().getId());
+			System.out.println(message.getType() + " on " + panel.getData().getId() + " at " + message.getMouseX() + "|" + message.getMouseY());
 		}
 	}
 }

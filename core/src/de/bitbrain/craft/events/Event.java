@@ -26,13 +26,13 @@ package de.bitbrain.craft.events;
  * @since 1.0
  * @version 1.0
  */
-public class EventMessage<Model> {
+public class Event<Model> {
 	
 	private MessageType type;
 	
 	private Model model;
 	
-	public EventMessage(MessageType type, Model model) {
+	public Event(MessageType type, Model model) {
 		this.type = type;
 		this.model = model;
 	}
@@ -50,7 +50,10 @@ public class EventMessage<Model> {
 		ADD,
 		REMOVE,
 		CLICK,
-		DRAG,
-		DROP
+		MOUSEDOWN,
+		MOUSEUP,
+		MOUSEMOVE,
+		MOUSEDRAG,
+		MOUSEDROP
 	}
 }
