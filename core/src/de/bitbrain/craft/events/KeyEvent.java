@@ -19,43 +19,30 @@
 
 package de.bitbrain.craft.events;
 
+import com.badlogic.gdx.Input;
+
 /**
- * General event message which can be send
+ * Event for keys
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class Event<Model> {
+public class KeyEvent extends Event<Input> {
 	
-	private MessageType type;
-	
-	private Model model;
-	
-	public Event(MessageType type, Model model) {
-		this.type = type;
-		this.model = model;
+	private int key;
+
+	/**
+	 * @param type
+	 * @param model
+	 */
+	public KeyEvent(de.bitbrain.craft.events.Event.MessageType type, Input model, int key) {
+		super(type, model);
+		this.key = key;
 	}
 	
-	public MessageType getType() {
-		return type;
-	}
-	
-	public Model getModel() {
-		return model;
+	public int getKey() {
+		return key;
 	}
 
-	public static enum MessageType {		
-		UPDATE,
-		ADD,
-		REMOVE,
-		CLICK,
-		MOUSEDOWN,
-		MOUSEUP,
-		MOUSEMOVE,
-		MOUSEDRAG,
-		MOUSEDROP,
-		KEYDOWN,
-		KEYUP
-	}
 }

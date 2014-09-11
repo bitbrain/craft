@@ -55,12 +55,20 @@ public interface EventBus {
 	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount);
 	
 	/**
-	 * Fires a new event
+	 * Fires a new mouse event
 	 * 
 	 * @param type event type
 	 * @param item element
 	 */
 	public <T> void fireMouseEvent(MessageType type, T item, float x, float y);
+	
+	/**
+	 * Fires a new key event
+	 * 
+	 * @param type event type
+	 * @param item element
+	 */
+	public void fireKeyEvent(MessageType type, int key);
 	
 	/**
 	 * Fires a new event

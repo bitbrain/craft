@@ -21,6 +21,9 @@ package de.bitbrain.craft.events;
 
 import net.engio.mbassy.bus.MBassador;
 import net.engio.mbassy.bus.config.BusConfiguration;
+
+import com.badlogic.gdx.Gdx;
+
 import de.bitbrain.craft.events.Event.MessageType;
 import de.bitbrain.craft.util.Identifiable;
 
@@ -67,5 +70,13 @@ public final class MBassadorEventBus implements EventBus {
 	@Override
 	public <T> void fireMouseEvent(MessageType type, T item, float x, float y) {
 		bus.publish(new MouseEvent<T>(type, item, x, y));
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.events.EventBus#fireKeyEvent(de.bitbrain.craft.events.Event.MessageType, java.lang.Object, int)
+	 */
+	@Override
+	public void fireKeyEvent(MessageType type, int key) {
+		bus.publish(new KeyEvent(type, Gdx.input, key));
 	}
 }

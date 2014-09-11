@@ -31,16 +31,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
-import de.bitbrain.craft.controls.IngameControls;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;

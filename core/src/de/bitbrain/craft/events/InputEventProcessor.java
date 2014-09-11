@@ -94,4 +94,30 @@ public class InputEventProcessor extends Stage {
 		
 		return true;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Stage#keyDown(int)
+	 */
+	@Override
+	public boolean keyDown(int keyCode) {
+		boolean handled = super.keyDown(keyCode);
+		
+		if (!handled)
+			eventBus.fireKeyEvent(MessageType.KEYDOWN, keyCode);
+		
+		return handled;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Stage#keyUp(int)
+	 */
+	@Override
+	public boolean keyUp(int keyCode) {
+		boolean handled = super.keyUp(keyCode);
+		
+		if (!handled)
+			eventBus.fireKeyEvent(MessageType.KEYUP, keyCode);
+			
+		return handled;
+	}
 }
