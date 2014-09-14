@@ -50,6 +50,7 @@ import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.Event.MessageType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 
@@ -182,7 +183,7 @@ public class TabPanel extends Table {
 		void onChange(Actor before, Actor next);
 	}
 	
-	private class TabControl extends Table {
+	public class TabControl extends Table {
 		
 		private Map<ImageButton, String> buttons;
 		private Map<String, ImageButton> ids;
@@ -213,6 +214,7 @@ public class TabPanel extends Table {
 			ImageButtonStyle activeStyle = generateStyle(iconId, true);
 			
 			final ImageButton button = new ImageButton(style);
+			final TabControl control = this;
 			button.padBottom(15f);
 			button.addCaptureListener(new ButtonSoundListener(Assets.SND_TAB));
 			
@@ -243,9 +245,8 @@ public class TabPanel extends Table {
 						
 						ImageButton b = (ImageButton)a;
 						
-						if (!isActive(buttons.get(b))) {
-							
-							eventBus.fireEvent(MessageType.CLICK, parentPanel);
+						if (!isActive(buttons.get(b))) {							
+							eventBus.fireEvent(new MouseEvent<TabControl>(MessageType.CLICK, control, x, y));
 							parentPanel.setTab(buttons.get(b));
 						}					
 					}

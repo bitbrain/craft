@@ -37,6 +37,7 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
+import de.bitbrain.craft.ui.TabPanel.TabControl;
 
 /**
  * Handler which handles drag and drop. This handler is capable of
@@ -142,6 +143,8 @@ public class DragDropHandler {
 			} else if (event.getType() == MessageType.MOUSEDROP) {
 				drops.put(panel.getData().getId(), true);
 			}
+		} else if (event.getModel() instanceof TabControl) {
+			clear();
 		}
 	}
 	
