@@ -23,10 +23,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import de.bitbrain.craft.CraftGame;
-import de.bitbrain.craft.controls.ProfessionSelectionControls;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
 import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;

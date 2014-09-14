@@ -20,7 +20,6 @@
 package de.bitbrain.craft.events;
 
 import de.bitbrain.craft.events.Event.MessageType;
-import de.bitbrain.craft.util.Identifiable;
 
 /**
  * Event bus implementation
@@ -46,29 +45,11 @@ public interface EventBus {
 	public void unsubscribe(Object obj);
 	
 	/**
-	 * Fires a new element event
+	 * Fires an event
 	 * 
-	 * @param type type of the message
-	 * @param item item to fire
-	 * @param amount amount of items
+	 * @param event
 	 */
-	public <T extends Identifiable> void fireElementEvent(MessageType type, T item, int amount);
-	
-	/**
-	 * Fires a new mouse event
-	 * 
-	 * @param type event type
-	 * @param item element
-	 */
-	public <T> void fireMouseEvent(MessageType type, T item, float x, float y);
-	
-	/**
-	 * Fires a new key event
-	 * 
-	 * @param type event type
-	 * @param item element
-	 */
-	public void fireKeyEvent(MessageType type, int key);
+	public <T> void fireEvent(Event<T> event);
 	
 	/**
 	 * Fires a new event

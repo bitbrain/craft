@@ -39,7 +39,8 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
 
 /**
- * Handler which handles drag and drop
+ * Handler which handles drag and drop. This handler is capable of
+ * handling multiple drag&drops. It reacts to any mouse and element events.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -47,16 +48,22 @@ import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
  */
 public class DragDropHandler {
 	
+	// Default icon size
 	private static final float ICON_SIZE = 64f;
 	
+	// Determines if enabled or not
 	private boolean enabled;
 	
+	// Contains all icons to draw
 	private final Map<String, Icon> icons;
 	
+	// Contains all current locations and their sources
 	private final Map<String, Vector2> locations, sources;
 	
+	// Contains values to determine if an item has been dropped
 	private final Map<String, Boolean> drops;
 	
+	// Temporary direction variable for target
 	private Vector2 target;
 	
 	@Inject
@@ -84,31 +91,40 @@ public class DragDropHandler {
 				
 				target.x = Gdx.input.getX();
 				target.y = getScreenY();
+				float speed = 10f;
 
 				if (drops.get(entry.getKey())) {
 					target.x = sources.get(entry.getKey()).x;
 					target.y = sources.get(entry.getKey()).y;
-					
+					speed = 6f;
 					// Check if near, then drop everything
-					if (target.sub(location).len() < 25f) {
+					if (target.cpy().sub(location).len() < ICON_SIZE / 2f) {
 						remove(entry.getKey());
 						break;
 					}
 				}
 				
 				// Move the location towards the mouse
-				location.x += (target.x - location.x) * delta * 10f;
-				location.y += (target.y - location.y) * delta * 10f; 
+				location.x += (target.x - location.x) * delta * speed;
+				location.y += (target.y - location.y) * delta * speed; 
 				
 				// Apply location
 				Icon icon = entry.getValue();
 				icon.x = location.x - ICON_SIZE / 2f;
 				icon.y = location.y - ICON_SIZE / 2f;
+				icon.rotation = 0f;
 				icon.width = ICON_SIZE;
 				icon.height = ICON_SIZE;
 				icon.draw(batch, 1f);
 			}
 		}
+	}
+	
+	public void clear() {
+		icons.clear();
+		drops.clear();
+		locations.clear();
+		sources.clear();
 	}
 	
 	@Handler
@@ -130,7 +146,7 @@ public class DragDropHandler {
 	}
 	
 	private float getScreenY() {
-		return Gdx.graphics.getHeight() - Gdx.input.getY();
+		return Gdx.input.getY();
 	}
 	
 	private void add(ElementInfoPanel panel) {
@@ -147,6 +163,4 @@ public class DragDropHandler {
 		drops.remove(id);
 		sources.remove(id);
 	}
-	
-	
 }

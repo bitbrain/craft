@@ -23,14 +23,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
-import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item.Rarity;
 
@@ -113,14 +113,14 @@ public class ElementInfoPanel extends HorizontalGroup {
 			@Override
 			public void dragStart(InputEvent event, float x, float y,
 					int pointer) {
-				eventBus.fireMouseEvent(MessageType.MOUSEDRAG, p, x, y);
+				eventBus.fireEvent(new MouseEvent<ElementInfoPanel>(MessageType.MOUSEDRAG, p, x, y));
 			}
 			/* (non-Javadoc)
 			 * @see com.badlogic.gdx.scenes.scene2d.utils.DragListener#dragStop(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int)
 			 */
 			@Override
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireMouseEvent(MessageType.MOUSEDROP, p, x, y);
+				eventBus.fireEvent(new MouseEvent<ElementInfoPanel>(MessageType.MOUSEDROP, p, x, y));
 			}
 		});
 	}

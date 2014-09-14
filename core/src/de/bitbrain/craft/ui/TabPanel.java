@@ -48,6 +48,8 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 
@@ -76,6 +78,9 @@ public class TabPanel extends Table {
 	
 	@Inject
 	private IconManager iconManager;
+	
+	@Inject 
+	private EventBus eventBus;
 
 	public TabPanel(TweenManager tweenManager) {
 		SharedInjector.get().injectMembers(this);
@@ -239,6 +244,8 @@ public class TabPanel extends Table {
 						ImageButton b = (ImageButton)a;
 						
 						if (!isActive(buttons.get(b))) {
+							
+							eventBus.fireEvent(MessageType.CLICK, parentPanel);
 							parentPanel.setTab(buttons.get(b));
 						}					
 					}
