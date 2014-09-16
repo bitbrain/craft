@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -36,6 +39,7 @@ import de.bitbrain.craft.events.Event.MessageType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
 import de.bitbrain.craft.ui.TabPanel.TabControl;
 
@@ -59,7 +63,7 @@ public class DragDropHandler {
 	private final Map<String, Icon> icons;
 	
 	// Contains all current locations and their sources
-	private final Map<String, Vector2> locations, sources;
+	private final Map<String, Vector2> locations, sources, sizes;
 	
 	// Contains values to determine if an item has been dropped
 	private final Map<String, Boolean> drops;
@@ -69,6 +73,9 @@ public class DragDropHandler {
 	
 	@Inject
 	private EventBus eventBus;
+	
+	@Inject
+	private TweenManager tweenManager;
 
 	public DragDropHandler() {
 		SharedInjector.get().injectMembers(this);
@@ -76,6 +83,7 @@ public class DragDropHandler {
 		locations = new HashMap<String, Vector2>();
 		sources = new HashMap<String, Vector2>();
 		drops = new HashMap<String, Boolean>();
+		sizes = new HashMap<String, Vector2>();
 		target = new Vector2();
 		eventBus.subscribe(this);
 		enabled = true;
@@ -89,7 +97,7 @@ public class DragDropHandler {
 		if (enabled) {
 			for (Entry<String, Icon> entry : icons.entrySet()) {
 				Vector2 location = locations.get(entry.getKey());
-				
+				Vector2 size = sizes.get(entry.getKey());
 				target.x = Gdx.input.getX();
 				target.y = getScreenY();
 				float speed = 10f;
@@ -99,7 +107,7 @@ public class DragDropHandler {
 					target.y = sources.get(entry.getKey()).y;
 					speed = 6f;
 					// Check if near, then drop everything
-					if (target.cpy().sub(location).len() < ICON_SIZE / 2f) {
+					if (target.cpy().sub(location).len() < ICON_SIZE) {
 						remove(entry.getKey());
 						break;
 					}
@@ -111,11 +119,11 @@ public class DragDropHandler {
 				
 				// Apply location
 				Icon icon = entry.getValue();
-				icon.x = location.x - ICON_SIZE / 2f;
-				icon.y = location.y - ICON_SIZE / 2f;
+				icon.x = location.x - size.x / 2f;
+				icon.y = location.y - size.y / 2f;
 				icon.rotation = 0f;
-				icon.width = ICON_SIZE;
-				icon.height = ICON_SIZE;
+				icon.width = size.x;
+				icon.height = size.y;
 				icon.draw(batch, 1f);
 			}
 		}
@@ -142,6 +150,15 @@ public class DragDropHandler {
 				add(panel);
 			} else if (event.getType() == MessageType.MOUSEDROP) {
 				drops.put(panel.getData().getId(), true);
+				tweenManager.killTarget(sizes.get(panel.getData().getId()));
+				Tween.to(sizes.get(panel.getData().getId()), VectorTween.X, 0.3f)
+				.target(0)
+				.ease(TweenEquations.easeInOutCubic)
+				.start(tweenManager);
+				Tween.to(sizes.get(panel.getData().getId()), VectorTween.Y, 0.3f)
+					.target(0)
+					.ease(TweenEquations.easeInOutCubic)
+					.start(tweenManager);
 			}
 		} else if (event.getModel() instanceof TabControl) {
 			clear();
@@ -158,6 +175,15 @@ public class DragDropHandler {
 		locations.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		drops.put(data.getId(), false);
 		sources.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
+		sizes.put(data.getId(), new Vector2());
+		Tween.to(sizes.get(data.getId()), VectorTween.X, 0.5f)
+			.target(ICON_SIZE)
+			.ease(TweenEquations.easeInOutCubic)
+			.start(tweenManager);
+		Tween.to(sizes.get(data.getId()), VectorTween.Y, 0.5f)
+			.target(ICON_SIZE)
+			.ease(TweenEquations.easeInOutCubic)
+			.start(tweenManager);
 	}
 	
 	private void remove(String id) {
@@ -165,5 +191,7 @@ public class DragDropHandler {
 		locations.remove(id);
 		drops.remove(id);
 		sources.remove(id);
+		tweenManager.killTarget(sizes.get(id));
+		sizes.remove(id);
 	}
 }

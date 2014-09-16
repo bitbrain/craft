@@ -26,6 +26,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.bitbrain.craft.core.API;
@@ -39,6 +40,7 @@ import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.util.AssetReflector;
 import de.myreality.jpersis.MapperManager;
 import de.myreality.jpersis.db.DatabaseException;
@@ -105,6 +107,7 @@ public class CraftGame extends Game {
 		Tween.registerAccessor(Actor.class, new ActorTween());
 		Tween.registerAccessor(IconManager.class, new FadeableTween());
 		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
+		Tween.registerAccessor(Vector2.class, new VectorTween());
 		Gdx.app.log("INFO", "Tweens registered.");
 	}
 	

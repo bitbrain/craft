@@ -19,8 +19,12 @@
 
 package de.bitbrain.craft.inject;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.google.inject.AbstractModule;
 
+import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.ui.DragDropHandler;
 
 /**
@@ -38,6 +42,9 @@ public class ObjectModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		this.bind(DragDropHandler.class);
+		this.bind(Batch.class).to(SpriteBatch.class);
+		this.bind(OrthographicCamera.class);
+		this.bind(ParticleRenderer.class);
 	}
 
 }

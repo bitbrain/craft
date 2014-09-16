@@ -32,15 +32,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.graphics.ParticleRenderer;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -58,16 +59,20 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	private Sprite background;
 	
+	@Inject
 	protected Batch batch;
 	
+	@Inject
 	protected OrthographicCamera camera;
 	
+	@Inject
 	protected TweenManager tweenManager;
 	
 	private boolean fadeIn  = true;
 	
 	private Screen nextScreen;
 	
+	@Inject
 	protected ParticleRenderer particleRenderer;
 	
 	protected InputEventProcessor inputProcessor;
@@ -75,6 +80,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	public static final float FADE_INTERVAL = 0.7f;	
 	
 	public AbstractScreen(CraftGame game) {
+		SharedInjector.get().injectMembers(this);
 		this.game = game;		
 	}
 	
@@ -142,10 +148,6 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	@Override
 	public final void show() {
 		fadeIn = true;
-		camera = new OrthographicCamera();	
-		batch = new SpriteBatch();
-		tweenManager = new TweenManager();
-		particleRenderer = new ParticleRenderer();
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
 		background.flip(false, true);
 		

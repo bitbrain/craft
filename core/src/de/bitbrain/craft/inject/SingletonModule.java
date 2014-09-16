@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.inject;
 
+import aurelienribon.tweenengine.TweenManager;
+
 import com.google.inject.AbstractModule;
 
 import de.bitbrain.craft.core.IconManager;
@@ -41,6 +43,7 @@ public class SingletonModule extends AbstractModule {
 	protected void configure() {
 		this.bind(EventBus.class).to(MBassadorEventBus.class).asEagerSingleton();
 		this.bind(IconManager.class).asEagerSingleton();
+		this.bind(TweenManager.class).asEagerSingleton();
 	}
 
 }
