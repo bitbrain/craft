@@ -24,7 +24,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -149,16 +151,13 @@ public class DragDropHandler {
 			if (event.getType() == MessageType.MOUSEDRAG) {
 				add(panel);
 			} else if (event.getType() == MessageType.MOUSEDROP) {
-				drops.put(panel.getData().getId(), true);
-				tweenManager.killTarget(sizes.get(panel.getData().getId()));
-				Tween.to(sizes.get(panel.getData().getId()), VectorTween.X, 0.3f)
-				.target(0)
-				.ease(TweenEquations.easeInOutCubic)
-				.start(tweenManager);
-				Tween.to(sizes.get(panel.getData().getId()), VectorTween.Y, 0.3f)
-					.target(0)
-					.ease(TweenEquations.easeInOutCubic)
-					.start(tweenManager);
+				String id = panel.getData().getId();
+				drops.put(id, true);
+				tweenManager.killTarget(sizes.get(id));
+				animateVector(sizes.get(id), 0.3f, 0f, new TweenCallback() {
+					@Override 
+					public void onEvent(int type, BaseTween<?> source) {} // do nothing
+				});
 			}
 		} else if (event.getModel() instanceof TabControl) {
 			clear();
@@ -170,20 +169,18 @@ public class DragDropHandler {
 	}
 	
 	private void add(ElementInfoPanel panel) {
-		ElementData data = panel.getData();
+		final ElementData data = panel.getData();
 		icons.put(data.getId(), data.getIcon());
 		locations.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		drops.put(data.getId(), false);
 		sources.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		sizes.put(data.getId(), new Vector2());
-		Tween.to(sizes.get(data.getId()), VectorTween.X, 0.5f)
-			.target(ICON_SIZE)
-			.ease(TweenEquations.easeInOutCubic)
-			.start(tweenManager);
-		Tween.to(sizes.get(data.getId()), VectorTween.Y, 0.5f)
-			.target(ICON_SIZE)
-			.ease(TweenEquations.easeInOutCubic)
-			.start(tweenManager);
+		animateVector(sizes.get(data.getId()), 1.0f, ICON_SIZE, new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				animateDragging(sizes.get(data.getId()));
+			}			
+		});
 	}
 	
 	private void remove(String id) {
@@ -193,5 +190,31 @@ public class DragDropHandler {
 		sources.remove(id);
 		tweenManager.killTarget(sizes.get(id));
 		sizes.remove(id);
+	}
+	
+	private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
+		Tween.to(vec, VectorTween.X, time)
+			 .target(target)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .start(tweenManager);
+		Tween.to(vec, VectorTween.Y, time)
+			 .target(target)
+			 .ease(TweenEquations.easeInOutCubic)
+			 .setCallback(callback)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .start(tweenManager);
+	}
+	
+	private void animateDragging(Vector2 vec) {
+		Tween.to(vec, VectorTween.X, 0.4f)
+			 .target(ICON_SIZE + ICON_SIZE / 2.5f)
+			 .repeatYoyo(Tween.INFINITY, 0f)
+			 .ease(TweenEquations.easeNone)
+			 .start(tweenManager);
+		Tween.to(vec, VectorTween.Y, 0.4f)
+			 .target(ICON_SIZE + ICON_SIZE / 2.5f)
+			 .repeatYoyo(Tween.INFINITY, 0f)
+			 .ease(TweenEquations.easeNone)
+			 .start(tweenManager);
 	}
 }

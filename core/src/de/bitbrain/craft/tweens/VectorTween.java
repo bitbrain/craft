@@ -9,7 +9,7 @@ public class VectorTween implements TweenAccessor<Vector2> {
 	public static final int X = 1;
 
 	public static final int Y = 2;
-
+	
 	@Override
 	public int getValues(Vector2 target, int tweenType, float[] returnValues) {
 		switch (tweenType) {
