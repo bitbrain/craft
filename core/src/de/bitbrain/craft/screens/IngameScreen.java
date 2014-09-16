@@ -39,6 +39,7 @@ import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.KeyEvent;
@@ -76,12 +77,14 @@ public class IngameScreen extends AbstractScreen {
 	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
 		SharedInjector.get().injectMembers(this);
+		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));
 	}
 
 	@Override
 	protected void onCreateStage(Stage stage) {
 		tabPanel = new TabPanel(tweenManager);
 		stage.addActor(tabPanel);
+		stage.addActor(professionView);
 	}
 	
 	/* (non-Javadoc)
@@ -95,6 +98,11 @@ public class IngameScreen extends AbstractScreen {
 		tabPanel.setHeight(height / 1.2f);
 		tabPanel.padLeft(width / 10f);
 		tabPanel.padBottom(height / 7f);
+		
+		professionView.setWidth(width - tabPanel.getWidth() / 0.82f);
+		professionView.setHeight(tabPanel.getHeight());
+		professionView.setY(height / 7f);
+		professionView.setX(tabPanel.getWidth() + width / 12f);
 
 		if (init) {
 			tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", generateItemView());
