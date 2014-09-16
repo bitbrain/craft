@@ -36,7 +36,7 @@ public class ElementEvent<Model extends Identifiable> extends Event<Model> {
 	 * @param type
 	 * @param model
 	 */
-	public ElementEvent(de.bitbrain.craft.events.Event.MessageType type, Model model, int amount) {
+	public ElementEvent(de.bitbrain.craft.events.Event.EventType type, Model model, int amount) {
 		super(type, model);
 		this.amount = amount;
 	}

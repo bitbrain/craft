@@ -33,7 +33,6 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
-import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
 
 /** Connects element info to the database
  *

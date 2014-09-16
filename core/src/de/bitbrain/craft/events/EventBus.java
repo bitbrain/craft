@@ -19,7 +19,7 @@
 
 package de.bitbrain.craft.events;
 
-import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.Event.EventType;
 
 /**
  * Event bus implementation
@@ -57,5 +57,5 @@ public interface EventBus {
 	 * @param type event type
 	 * @param item element
 	 */
-	public <T> void fireEvent(MessageType type, T item);
+	public <T> void fireEvent(EventType type, T item);
 }

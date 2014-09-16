@@ -27,7 +27,6 @@ import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
-import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
 
 /**
  * Adapter for items in order to show them as elements

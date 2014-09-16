@@ -28,16 +28,16 @@ package de.bitbrain.craft.events;
  */
 public class Event<Model> {
 	
-	private MessageType type;
+	private EventType type;
 	
 	private Model model;
 	
-	public Event(MessageType type, Model model) {
+	public Event(EventType type, Model model) {
 		this.type = type;
 		this.model = model;
 	}
 	
-	public MessageType getType() {
+	public EventType getType() {
 		return type;
 	}
 	
@@ -45,7 +45,7 @@ public class Event<Model> {
 		return model;
 	}
 
-	public static enum MessageType {		
+	public static enum EventType {		
 		UPDATE,
 		ADD,
 		REMOVE,

@@ -36,7 +36,7 @@ public class KeyEvent extends Event<Input> {
 	 * @param type
 	 * @param model
 	 */
-	public KeyEvent(de.bitbrain.craft.events.Event.MessageType type, Input model, int key) {
+	public KeyEvent(de.bitbrain.craft.events.Event.EventType type, Input model, int key) {
 		super(type, model);
 		this.key = key;
 	}

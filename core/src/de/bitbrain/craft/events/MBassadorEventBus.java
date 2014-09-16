@@ -21,7 +21,7 @@ package de.bitbrain.craft.events;
 
 import net.engio.mbassy.bus.MBassador;
 import net.engio.mbassy.bus.config.BusConfiguration;
-import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.Event.EventType;
 
 /**
  * Event bus implementation
@@ -51,7 +51,7 @@ public final class MBassadorEventBus implements EventBus {
 	 * @see de.bitbrain.craft.events.EventBus#fireEvent(de.bitbrain.craft.events.EventMessage.MessageType, java.lang.Object)
 	 */
 	@Override
-	public <T> void fireEvent(MessageType type, T item) {
+	public <T> void fireEvent(EventType type, T item) {
 		fireEvent(new Event<T>(type, item));
 	}
 	

@@ -25,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.inject.SharedInjector;
 
 /**
@@ -51,7 +51,7 @@ public class InputEventProcessor extends Stage {
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		super.mouseMoved(screenX, screenY);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(MessageType.MOUSEMOVE, this, screenX, screenY));	
+		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEMOVE, this, screenX, screenY));	
 		return true;
 	}
 	
@@ -61,7 +61,7 @@ public class InputEventProcessor extends Stage {
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		super.touchDragged(screenX, screenY, pointer);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(MessageType.MOUSEDRAG, this, screenX, screenY));		
+		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEDRAG, this, screenX, screenY));		
 		return true;
 	}
 	
@@ -71,7 +71,7 @@ public class InputEventProcessor extends Stage {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		super.touchDown(screenX, screenY, pointer, button);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(MessageType.MOUSEDOWN, this, screenX, screenY));		
+		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEDOWN, this, screenX, screenY));		
 		return true;
 	}
 	
@@ -81,7 +81,7 @@ public class InputEventProcessor extends Stage {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		super.touchUp(screenX, screenY, pointer, button);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(MessageType.MOUSEUP, this, screenX, screenY));		
+		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEUP, this, screenX, screenY));		
 		return true;
 	}
 	
@@ -91,7 +91,7 @@ public class InputEventProcessor extends Stage {
 	@Override
 	public boolean keyDown(int keyCode) {
 		super.keyDown(keyCode);
-		eventBus.fireEvent(new KeyEvent(MessageType.KEYDOWN, Gdx.input, keyCode));	
+		eventBus.fireEvent(new KeyEvent(EventType.KEYDOWN, Gdx.input, keyCode));	
 		return true;
 	}
 	
@@ -101,7 +101,7 @@ public class InputEventProcessor extends Stage {
 	@Override
 	public boolean keyUp(int keyCode) {
 		super.keyUp(keyCode);
-		eventBus.fireEvent(new KeyEvent(MessageType.KEYUP, Gdx.input, keyCode));		
+		eventBus.fireEvent(new KeyEvent(EventType.KEYUP, Gdx.input, keyCode));		
 		return true;
 	}
 }

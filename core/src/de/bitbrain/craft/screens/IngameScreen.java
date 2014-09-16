@@ -38,7 +38,7 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.events.ElementEvent;
-import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
@@ -174,7 +174,7 @@ public class IngameScreen extends AbstractScreen {
 		// API call to get all items
 		Map<Item, Integer> itemMap = API.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
-			eventBus.fireEvent(new ElementEvent<Item>(MessageType.ADD, entry.getKey(), entry.getValue()));
+			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}
 		
 		return itemView;

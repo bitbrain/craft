@@ -48,7 +48,7 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
-import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -246,7 +246,7 @@ public class TabPanel extends Table {
 						ImageButton b = (ImageButton)a;
 						
 						if (!isActive(buttons.get(b))) {							
-							eventBus.fireEvent(new MouseEvent<TabControl>(MessageType.CLICK, control, x, y));
+							eventBus.fireEvent(new MouseEvent<TabControl>(EventType.CLICK, control, x, y));
 							parentPanel.setTab(buttons.get(b));
 						}					
 					}

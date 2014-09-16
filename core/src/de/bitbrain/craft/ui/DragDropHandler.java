@@ -37,12 +37,13 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.ElementEvent;
-import de.bitbrain.craft.events.Event.MessageType;
+import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.tweens.VectorTween;
-import de.bitbrain.craft.ui.ElementInfoPanel.ElementData;
 import de.bitbrain.craft.ui.TabPanel.TabControl;
 
 /**
@@ -141,17 +142,20 @@ public class DragDropHandler {
 	@Handler
 	public void onEvent(ElementEvent<?> event) {
 		// ON ITEM REMOVE: Remove it from this handler
+		if (event.getType().equals(EventType.REMOVE)) {
+			remove(event.getModel().getId());
+		}
 	}
 	
 	@Handler
 	public void onEvent(MouseEvent<?> event) {
-		if (event.getModel() instanceof ElementInfoPanel) {			
-			ElementInfoPanel panel = (ElementInfoPanel) event.getModel();
+		if (event.getModel() instanceof ElementData) {			
+			ElementData data = (ElementData) event.getModel();
 			
-			if (event.getType() == MessageType.MOUSEDRAG) {
-				add(panel);
-			} else if (event.getType() == MessageType.MOUSEDROP) {
-				String id = panel.getData().getId();
+			if (event.getType() == EventType.MOUSEDRAG) {
+				add(data);
+			} else if (event.getType() == EventType.MOUSEDROP) {
+				String id = data.getId();
 				drops.put(id, true);
 				tweenManager.killTarget(sizes.get(id));
 				animateVector(sizes.get(id), 0.3f, 0f, new TweenCallback() {
@@ -168,8 +172,7 @@ public class DragDropHandler {
 		return Gdx.input.getY();
 	}
 	
-	private void add(ElementInfoPanel panel) {
-		final ElementData data = panel.getData();
+	private void add(final ElementData data) {
 		icons.put(data.getId(), data.getIcon());
 		locations.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		drops.put(data.getId(), false);
@@ -184,12 +187,14 @@ public class DragDropHandler {
 	}
 	
 	private void remove(String id) {
-		icons.remove(id);
-		locations.remove(id);
-		drops.remove(id);
-		sources.remove(id);
-		tweenManager.killTarget(sizes.get(id));
-		sizes.remove(id);
+		if (icons.containsKey(id)) {
+			icons.remove(id);
+			locations.remove(id);
+			drops.remove(id);
+			sources.remove(id);
+			tweenManager.killTarget(sizes.get(id));
+			sizes.remove(id);
+		}
 	}
 	
 	private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
