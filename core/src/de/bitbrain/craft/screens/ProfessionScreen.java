@@ -19,12 +19,16 @@
 
 package de.bitbrain.craft.screens;
 
+import net.engio.mbassy.listener.Handler;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import de.bitbrain.craft.CraftGame;
+import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
 import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
@@ -79,6 +83,13 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	@Override
 	public void onSelect(Profession profession) {
 		setScreen(new IngameScreen(profession, game));
+	}
+	
+	@Handler
+	void onEvent(KeyEvent event) {
+		if (event.getKey() == Keys.ESCAPE) {
+			setScreen(new TitleScreen(game));
+		}
 	}
 
 }

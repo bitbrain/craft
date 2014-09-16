@@ -41,8 +41,6 @@ import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.TabPanel.TabControl;
 
@@ -57,7 +55,7 @@ import de.bitbrain.craft.ui.TabPanel.TabControl;
 public class DragDropHandler {
 	
 	// Default icon size
-	private static final float ICON_SIZE = 64f;
+	private static final float ICON_SIZE = 90f;
 	
 	// Determines if enabled or not
 	private boolean enabled;
@@ -108,7 +106,7 @@ public class DragDropHandler {
 				if (drops.get(entry.getKey())) {
 					target.x = sources.get(entry.getKey()).x;
 					target.y = sources.get(entry.getKey()).y;
-					speed = 6f;
+					speed = 3f;
 					// Check if near, then drop everything
 					if (target.cpy().sub(location).len() < ICON_SIZE) {
 						remove(entry.getKey());
@@ -158,7 +156,7 @@ public class DragDropHandler {
 				String id = data.getId();
 				drops.put(id, true);
 				tweenManager.killTarget(sizes.get(id));
-				animateVector(sizes.get(id), 0.3f, 0f, new TweenCallback() {
+				animateVector(sizes.get(id), 0.7f, 0f, new TweenCallback() {
 					@Override 
 					public void onEvent(int type, BaseTween<?> source) {} // do nothing
 				});
@@ -178,7 +176,7 @@ public class DragDropHandler {
 		drops.put(data.getId(), false);
 		sources.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		sizes.put(data.getId(), new Vector2());
-		animateVector(sizes.get(data.getId()), 1.0f, ICON_SIZE, new TweenCallback() {
+		animateVector(sizes.get(data.getId()), 0.5f, ICON_SIZE, new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 				animateDragging(sizes.get(data.getId()));
@@ -212,12 +210,12 @@ public class DragDropHandler {
 	
 	private void animateDragging(Vector2 vec) {
 		Tween.to(vec, VectorTween.X, 0.4f)
-			 .target(ICON_SIZE + ICON_SIZE / 2.5f)
+			 .target(ICON_SIZE - ICON_SIZE / 2.5f)
 			 .repeatYoyo(Tween.INFINITY, 0f)
 			 .ease(TweenEquations.easeNone)
 			 .start(tweenManager);
 		Tween.to(vec, VectorTween.Y, 0.4f)
-			 .target(ICON_SIZE + ICON_SIZE / 2.5f)
+			 .target(ICON_SIZE - ICON_SIZE / 2.5f)
 			 .repeatYoyo(Tween.INFINITY, 0f)
 			 .ease(TweenEquations.easeNone)
 			 .start(tweenManager);

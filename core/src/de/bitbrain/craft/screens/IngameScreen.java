@@ -22,9 +22,11 @@ package de.bitbrain.craft.screens;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.engio.mbassy.listener.Handler;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -39,7 +41,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
-import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
@@ -47,6 +49,7 @@ import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
+import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.TabPanel;
 
 /**
@@ -64,12 +67,11 @@ public class IngameScreen extends AbstractScreen {
 	private TabPanel tabPanel;
 	
 	@Inject
-	private EventBus eventBus;
-	
-	@Inject
 	private DragDropHandler dragDropHandler;
 	
 	private ElementInfoConnector itemConnector;
+	
+	private ProfessionView professionView;
 
 	public IngameScreen(Profession profession, CraftGame game) {
 		super(game);
@@ -185,5 +187,12 @@ public class IngameScreen extends AbstractScreen {
 	 */
 	@Override
 	protected void onDraw(Batch batch, float delta) { }
+	
+	@Handler
+	void onEvent(KeyEvent event) {
+		if (event.getKey() == Keys.ESCAPE) {
+			setScreen(new ProfessionScreen(game));
+		}
+	}
 
 }

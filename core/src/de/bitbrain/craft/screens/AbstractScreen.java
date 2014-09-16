@@ -39,6 +39,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -75,13 +76,17 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	@Inject
 	protected ParticleRenderer particleRenderer;
 	
+	@Inject
+	protected EventBus eventBus;
+	
 	protected InputEventProcessor inputProcessor;
 	
 	public static final float FADE_INTERVAL = 0.7f;	
 	
 	public AbstractScreen(CraftGame game) {
 		SharedInjector.get().injectMembers(this);
-		this.game = game;		
+		this.game = game;
+		eventBus.subscribe(this);
 	}
 	
 	public void setBackground(Sprite background) {
@@ -187,7 +192,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	public void setScreen(Screen screen) {		
 		Gdx.input.setInputProcessor(null);
 		nextScreen = screen;
-		onFadeOut(FADE_INTERVAL);		
+		onFadeOut(FADE_INTERVAL);
+		eventBus.unsubscribe(this);
 	}
 	
 	public CraftGame getGame() {

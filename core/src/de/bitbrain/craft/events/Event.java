@@ -50,6 +50,7 @@ public class Event<Model> {
 		ADD,
 		REMOVE,
 		CLICK,
+		CRAFTED,
 		MOUSEDOWN,
 		MOUSEUP,
 		MOUSEMOVE,
