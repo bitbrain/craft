@@ -72,4 +72,11 @@ public interface ElementData {
 	 * @return element amount
 	 */
 	int getAmount();
+	
+	/**
+	 * amount of the data
+	 * 
+	 * @param amount
+	 */
+	void setAmount(int amount);
 }

@@ -148,7 +148,7 @@ public class DragDropHandler {
 	@Handler
 	public void onEvent(MouseEvent<?> event) {
 		if (event.getModel() instanceof ElementData) {			
-			ElementData data = (ElementData) event.getModel();
+			final ElementData data = (ElementData) event.getModel();
 			
 			if (event.getType() == EventType.MOUSEDRAG) {
 				add(data);

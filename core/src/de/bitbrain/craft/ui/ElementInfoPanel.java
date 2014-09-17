@@ -84,6 +84,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	}
 	
 	public void setAmount(int amount) {
+		data.setAmount(amount);
 		amountLabel.setText(amount + " ");
 	}
 	

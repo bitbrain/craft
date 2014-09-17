@@ -189,7 +189,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		}
 	}
 	
-	public void setScreen(Screen screen) {		
+	public void setScreen(Screen screen) {
+		eventBus.unsubscribe(inputProcessor);
 		Gdx.input.setInputProcessor(null);
 		nextScreen = screen;
 		onFadeOut(FADE_INTERVAL);

@@ -19,13 +19,23 @@
 
 package de.bitbrain.craft.ui;
 
+import net.engio.mbassy.listener.Handler;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
+import de.bitbrain.craft.events.Event.EventType;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Player;
 
 /**
  * General view component for professions
@@ -38,7 +48,12 @@ public class ProfessionView extends Actor {
 	
 	private ProfessionLogic professionLogic;
 	
+	@Inject
+	private EventBus eventBus;
+	
 	public ProfessionView(ProfessionLogic professionLogic) {
+		SharedInjector.get().injectMembers(this);
+		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
 	}
 
@@ -50,5 +65,23 @@ public class ProfessionView extends Actor {
 		super.draw(batch, parentAlpha);
 		Texture texture = SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class);
 		batch.draw(texture, getX(), getY(), getWidth(),	getHeight());
+	}
+	
+	@Handler
+	public void onEvent(MouseEvent<?> event) {
+		if (event.getType().equals(EventType.MOUSEDROP) &&
+			event.getModel() instanceof ElementData) {
+			ElementData data = (ElementData) event.getModel();
+			if (API.isItemId(data.getId())) {
+				Item item = API.getItem(data.getId());
+				
+				if (professionLogic.add(item)) {
+					// Item accepted, remove it from system
+					API.removeItem(Player.getCurrent().getId(), item.getId(), 1);
+				}
+			} else if (API.isRecipeId(data.getId())) {
+				
+			}
+		}
 	}
 }

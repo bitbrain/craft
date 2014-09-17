@@ -28,6 +28,10 @@ import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
 import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.db.RecipeMapper;
+import de.bitbrain.craft.events.ElementEvent;
+import de.bitbrain.craft.events.Event.EventType;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
@@ -49,7 +53,11 @@ public final class API {
 	private static PlayerMapper playerMapper = MapperManager.getInstance().getMapper(PlayerMapper.class);
 	
 	public static Item getItem(ItemId id) {
-		return itemMapper.findById(id.getId());
+		return getItem(id.getId());
+	}
+	
+	public static Item getItem(String id) {
+		return itemMapper.findById(id);
 	}
 	
 	/**
@@ -134,6 +142,31 @@ public final class API {
 		}
 	}
 	
+	public static boolean removeItem(int playerId, String id, int amount) {
+		
+		OwnedItem owned = ownedItemMapper.findById(id, playerId);
+		int count = owned.getAmount() - amount;
+		if (owned != null && count >= 0) {
+			Item item = itemMapper.findById(id);
+			try {
+			if (count > 0) {
+				owned.setAmount(count);
+				ownedItemMapper.update(owned);
+			} else {
+				ownedItemMapper.delete(owned);
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			EventBus bus = SharedInjector.get().getInstance(EventBus.class);
+			bus.fireEvent(new ElementEvent<Item>(EventType.REMOVE, item, amount));
+
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Is thrown when an API error occurs
 	 * 
@@ -149,5 +182,26 @@ public final class API {
 		public APIException(String message) {
 			super(message);
 		}
+	}
+	
+	/**
+	 * Determines if id is valid item ID
+	 * 
+	 * @param id item ID
+	 * @return true when id is valid
+	 */
+	public static boolean isItemId(String id) {
+		return id.startsWith("item_");		
+	}
+	
+	
+	/**
+	 * Determines if id is valid recipe ID
+	 * 
+	 * @param id recipe ID
+	 * @return true when id is valid
+	 */
+	public static boolean isRecipeId(String id) {
+		return id.startsWith("recipe_");		
 	}
 }

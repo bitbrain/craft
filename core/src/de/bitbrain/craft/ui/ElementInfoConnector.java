@@ -90,10 +90,10 @@ public class ElementInfoConnector {
 	private void removeElements(String id, Object model, int amount) {
 
 		ElementData data = dataMap.get(id);
-		
 		if (data != null) {	
 			int newAmount = data.getAmount() - amount;
 			if (newAmount < 1) {
+				group.removeActor(elements.get(id));
 				elements.remove(id);
 				dataMap.remove(id);
 			} else {

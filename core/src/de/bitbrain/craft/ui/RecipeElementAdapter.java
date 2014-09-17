@@ -100,4 +100,12 @@ public class RecipeElementAdapter implements ElementData {
 	public String getId() {
 		return recipe.getId();
 	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementData#setAmount(int)
+	 */
+	@Override
+	public void setAmount(int amount) {
+		// do nothing
+	}
 }

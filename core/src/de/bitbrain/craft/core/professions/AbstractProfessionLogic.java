@@ -36,7 +36,8 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
 	 */
 	@Override
 	public boolean add(Item item) {
-		return false;
+		System.out.println("Dropped item " + item.getId());
+		return true;
 	}
 	
 	/* (non-Javadoc)

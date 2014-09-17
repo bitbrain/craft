@@ -104,4 +104,12 @@ public class ItemElementAdapter implements ElementData {
 		return item.getId();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementData#setAmount(int)
+	 */
+	@Override
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
 }

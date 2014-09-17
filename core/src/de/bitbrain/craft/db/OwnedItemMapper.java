@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import de.bitbrain.craft.models.OwnedItem;
 import de.myreality.jpersis.annotations.DataMapper;
+import de.myreality.jpersis.annotations.Delete;
 import de.myreality.jpersis.annotations.Insert;
 import de.myreality.jpersis.annotations.Select;
 import de.myreality.jpersis.annotations.Update;
@@ -25,4 +26,7 @@ public interface OwnedItemMapper {
 	
 	@Insert
 	void insert(OwnedItem ownedItem);
+	
+	@Delete
+	void delete(OwnedItem ownedItem);
 }
