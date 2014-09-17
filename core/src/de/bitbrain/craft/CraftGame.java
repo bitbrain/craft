@@ -28,12 +28,14 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DatabaseHelper;
 import de.bitbrain.craft.graphics.ParticleRenderer;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.PlayerUtils;
 import de.bitbrain.craft.screens.TitleScreen;
@@ -53,6 +55,9 @@ import de.myreality.jpersis.db.DatabaseException;
  * @version 1.0
  */
 public class CraftGame extends Game {
+	
+	@Inject
+	private API api;
 
 	@Override
 	public void create() {
@@ -61,7 +66,8 @@ public class CraftGame extends Game {
 		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
 		
 		loadResources();
-		DatabaseHelper.connect();
+		DatabaseHelper.connect();		
+		SharedInjector.get().injectMembers(this);
 		registerTweens();
 		//loadCursor();
 		Bundles.load();
@@ -122,11 +128,11 @@ public class CraftGame extends Game {
 	}
 	
 	private Player initPlayer() throws APIException {
-		Player p = API.getFirstPlayer();
+		Player p = api.getFirstPlayer();
 		if (p != null) {
 			return p;
 		} else {
-			return API.createPlayer("guest");
+			return api.createPlayer("guest");
 		}
 	}
 }

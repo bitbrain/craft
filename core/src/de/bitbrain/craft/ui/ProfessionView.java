@@ -51,6 +51,9 @@ public class ProfessionView extends Actor {
 	@Inject
 	private EventBus eventBus;
 	
+	@Inject
+	private API api;
+	
 	public ProfessionView(ProfessionLogic professionLogic) {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
@@ -72,14 +75,14 @@ public class ProfessionView extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP) &&
 			event.getModel() instanceof ElementData) {
 			ElementData data = (ElementData) event.getModel();
-			if (API.isItemId(data.getId())) {
-				Item item = API.getItem(data.getId());
+			if (api.isItemId(data.getId())) {
+				Item item = api.getItem(data.getId());
 				
 				if (professionLogic.add(item)) {
 					// Item accepted, remove it from system
-					API.removeItem(Player.getCurrent().getId(), item.getId(), 1);
+					api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
 				}
-			} else if (API.isRecipeId(data.getId())) {
+			} else if (api.isRecipeId(data.getId())) {
 				
 			}
 		}

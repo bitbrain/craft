@@ -17,31 +17,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.inject;
+package de.bitbrain.craft.core;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
-
-import de.bitbrain.craft.core.APIModule;
+import com.google.inject.AbstractModule;
 
 /**
- * Shared google injector
+ * Module which provides API features
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class SharedInjector {
-	
-	private static Injector injector;
-	
-	static {
-		injector = Guice.createInjector(Stage.PRODUCTION, 
-				new SingletonModule(), new ObjectModule(), new APIModule());
+public class APIModule extends AbstractModule {
+
+	/* (non-Javadoc)
+	 * @see com.google.inject.AbstractModule#configure()
+	 */
+	@Override
+	protected void configure() {
+		bind(API.class).to(SimpleAPI.class).asEagerSingleton();
 	}
 
-	public static Injector get() {
-		return injector;
-	}
 }

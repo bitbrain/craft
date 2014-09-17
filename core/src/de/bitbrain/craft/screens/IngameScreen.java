@@ -70,6 +70,9 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private DragDropHandler dragDropHandler;
 	
+	@Inject
+	private API api;
+	
 	private ElementInfoConnector itemConnector;
 	
 	private ProfessionView professionView;
@@ -182,7 +185,7 @@ public class IngameScreen extends AbstractScreen {
 		itemConnector = new ElementInfoConnector(itemView, Item.class);
 		
 		// API call to get all items
-		Map<Item, Integer> itemMap = API.getOwnedItems(Player.getCurrent().getId());
+		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}

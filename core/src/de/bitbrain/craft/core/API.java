@@ -20,54 +20,42 @@
 package de.bitbrain.craft.core;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
-import de.bitbrain.craft.db.ItemMapper;
-import de.bitbrain.craft.db.OwnedItemMapper;
-import de.bitbrain.craft.db.PlayerMapper;
-import de.bitbrain.craft.db.ProgressMapper;
-import de.bitbrain.craft.db.RecipeMapper;
-import de.bitbrain.craft.events.ElementEvent;
-import de.bitbrain.craft.events.Event.EventType;
-import de.bitbrain.craft.events.EventBus;
-import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
-import de.myreality.jpersis.MapperManager;
 
 /**
- * General API interface
+ * Overall craft API interface
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class API {
-
-	private static ItemMapper itemMapper = MapperManager.getInstance().getMapper(ItemMapper.class);
-	private static OwnedItemMapper ownedItemMapper = MapperManager.getInstance().getMapper(OwnedItemMapper.class);
-	private static RecipeMapper recipeMapper = MapperManager.getInstance().getMapper(RecipeMapper.class);
-	private static ProgressMapper progressMapper = MapperManager.getInstance().getMapper(ProgressMapper.class);
-	private static PlayerMapper playerMapper = MapperManager.getInstance().getMapper(PlayerMapper.class);
+public interface API {
 	
-	public static Item getItem(ItemId id) {
-		return getItem(id.getId());
-	}
+	/**
+	 * Returns the item with the given ID
+	 * 
+	 * @param id item indicator
+	 * @return found item. Is null if nothing can be found
+	 */
+	Item getItem(ItemId id);
 	
-	public static Item getItem(String id) {
-		return itemMapper.findById(id);
-	}
+	/**
+	 * Returns the item with the given (string) ID
+	 * 
+	 * @param id id string indicator
+	 * @return found item. Is null if nothing can be found
+	 */
+	Item getItem(String id);
 	
 	/**
 	 * Provides all available items
 	 * 
 	 * @return a collection of all items
 	 */
-	public static Collection<Item> getAllItems() {
-		return itemMapper.findAll();
-	}
+	Collection<Item> getAllItems();
 	
 	/**
 	 * Provides all items which are owned by the given player
@@ -75,101 +63,72 @@ public final class API {
 	 * @param playerId id of the player
 	 * @return owned items by player
 	 */
-	public static Map<Item, Integer> getOwnedItems(int playerId) {
-		
-		Collection<OwnedItem> owned = ownedItemMapper.findAllByPlayerId(playerId);
-		Map<Item, Integer> items = new HashMap<Item, Integer>();
-		
-		for	(OwnedItem own : owned) {
-			Item item = itemMapper.findById(own.getItemId());
-			items.put(item, own.getAmount());
-		}
-		
-		return items;
-	}
+	Map<Item, Integer> getOwnedItems(int playerId);
+	
+	/**
+	 * Adds a single new item and provides it
+	 * 
+	 * @param playerId id of the items owner
+	 * @param id id of the item
+	 * @return newly added item
+	 */
+	Item addItem(int playerId, ItemId id) ;
+	
+	/**
+	 * Adds multiple items and provides it
+	 * 
+	 * @param playerId id of the player
+	 * @param id id of the item
+	 * @param amount number of items to add
+	 * @return newly added items
+	 */
+	Item addItem(int playerId, ItemId id, int amount);
+	
+	/**
+	 * Removes the item from a player
+	 * 
+	 * @param playerId owner of the item
+	 * @param id item string id
+	 * @param amount 
+	 * @return returns true if removed and false if not.
+	 */
+	boolean removeItem(int playerId, String id, int amount);
+	
+	/**
+	 * Determines if id is valid item ID
+	 * 
+	 * @param id item ID
+	 * @return true when id is valid
+	 */
+	boolean isItemId(String id) ;
+	
+	
+	/**
+	 * Determines if id is valid recipe ID
+	 * 
+	 * @param id recipe ID
+	 * @return true when id is valid
+	 */
+	boolean isRecipeId(String id);
 	
 	/**
 	 * Returns the first found player
 	 * 
 	 * @return first found player
 	 */
-	public static Player getFirstPlayer() {
-		Collection<Player> players = playerMapper.findAll();
-		
-		if (players.size() > 0) {
-			return players.iterator().next();
-		} else {
-			return null;
-		}
-	}
-	
-	public static Player createPlayer(String name) throws APIException {		
-		if (playerMapper.findByName(name) == null) {
-			Player player = new Player();
-			player.setName(name);
-			playerMapper.insert(player);
-			return player;
-		} else {
-			throw new APIException("Unable to create player. Player with name '" + name + "' already exists.");
-		}
-	}
-	
-	public static Item addItem(int playerId, ItemId id) {
-		return addItem(playerId, id, 1);
-	}
-	
-	public static Item addItem(int playerId, ItemId id, int amount) {
-		
-		Item item = getItem(id);
-		
-		if (item != null) {
-			
-			OwnedItem owned = ownedItemMapper.findById(id.getId(), playerId);
-			
-			if (owned == null) {
-				owned = new OwnedItem();
-				owned.setPlayerId(playerId);
-				owned.setItemId(item.getId());
-				owned.setAmount(amount);
-				ownedItemMapper.insert(owned);
-			} else {
-				owned.setAmount(owned.getAmount() + amount);
-				ownedItemMapper.update(owned);
-			}
-			return item;
-		} else {
-			return null;
-		}
-	}
-	
-	public static boolean removeItem(int playerId, String id, int amount) {
-		
-		OwnedItem owned = ownedItemMapper.findById(id, playerId);
-		int count = owned.getAmount() - amount;
-		if (owned != null && count >= 0) {
-			Item item = itemMapper.findById(id);
-			try {
-			if (count > 0) {
-				owned.setAmount(count);
-				ownedItemMapper.update(owned);
-			} else {
-				ownedItemMapper.delete(owned);
-			}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			EventBus bus = SharedInjector.get().getInstance(EventBus.class);
-			bus.fireEvent(new ElementEvent<Item>(EventType.REMOVE, item, amount));
-
-			return true;
-		} else {
-			return false;
-		}
-	}
+	Player getFirstPlayer();
 	
 	/**
-	 * Is thrown when an API error occurs
+	 * Creates a new player in the datastore and provides it
 	 * 
+	 * @param name name of the new player
+	 * @return newly created player
+	 * @throws APIException Is thrown if player already exists
+	 */
+	Player createPlayer(String name) throws APIException;
+	
+	/**
+	 * Is thrown as an API error occurs
 	 *
 	 * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
 	 * @since 1.0
@@ -182,26 +141,5 @@ public final class API {
 		public APIException(String message) {
 			super(message);
 		}
-	}
-	
-	/**
-	 * Determines if id is valid item ID
-	 * 
-	 * @param id item ID
-	 * @return true when id is valid
-	 */
-	public static boolean isItemId(String id) {
-		return id.startsWith("item_");		
-	}
-	
-	
-	/**
-	 * Determines if id is valid recipe ID
-	 * 
-	 * @param id recipe ID
-	 * @return true when id is valid
-	 */
-	public static boolean isRecipeId(String id) {
-		return id.startsWith("recipe_");		
 	}
 }
