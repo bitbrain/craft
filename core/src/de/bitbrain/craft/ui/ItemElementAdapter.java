@@ -69,7 +69,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getDescription() {
-		return "TODO";
+		return "item description";
 	}
 
 	/* (non-Javadoc)

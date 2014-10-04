@@ -108,8 +108,9 @@ public class ElementInfoPanel extends HorizontalGroup {
 		Label description = new Label(data.getDescription(), Styles.LBL_TEXT);		
 		description.setColor(Assets.CLR_INACTIVE);		
 		description.getColor().a = 0.5f;
+		description.setWrap(true);
 		layout.addActor(name);
-		HorizontalGroup descContainer = new HorizontalGroup();
+		VerticalGroup descContainer = new VerticalGroup();
 		descContainer.padTop(20f);
 		descContainer.addActor(description);
 		layout.addActor(descContainer);

@@ -51,6 +51,7 @@ import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
+import de.bitbrain.craft.ui.ScrollView;
 import de.bitbrain.craft.ui.TabPanel;
 
 /**
@@ -178,7 +179,7 @@ public class IngameScreen extends AbstractScreen {
 		
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill();
-		
+		itemView.padLeft(10f);
 		// Add data connector
 		itemConnector = new ElementInfoConnector(itemView, Item.class);
 		
@@ -188,7 +189,7 @@ public class IngameScreen extends AbstractScreen {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}
 		
-		return itemView;
+		return new ScrollView(itemView);
 	}
 
 	/* (non-Javadoc)
