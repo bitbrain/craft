@@ -21,13 +21,10 @@ package de.bitbrain.craft.ui;
 
 import net.engio.mbassy.listener.Handler;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event.EventType;

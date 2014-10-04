@@ -52,7 +52,7 @@ public class RarityIcon extends Actor {
 	
 	public RarityIcon(ElementData data) {
 		setSource(data);
-		amount = new Label("1", Styles.LBL_ITEM);
+		amount = new Label("1", Styles.LBL_TEXT);
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_ICON_BACKGROUND, Texture.class));
 	}
 	

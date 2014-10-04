@@ -58,9 +58,8 @@ public class ElementInfoPanel extends HorizontalGroup {
 	public ElementInfoPanel(ElementData data) {		
 		SharedInjector.get().injectMembers(this);
 		this.data = data;
-		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
+		Label name = new Label("  " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
-		name.setX(30f);
 		RarityIcon icon = new RarityIcon(data);		
 		icon.setWidth(name.getHeight() * 4);
 		icon.setHeight(name.getHeight() * 4);

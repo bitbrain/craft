@@ -41,6 +41,7 @@ public final class Styles {
 	public static final TextButtonStyle BTN_PROFESSION     = new TextButtonStyle();
 	public static final LabelStyle LBL_BROWN 		  = new LabelStyle();
 	public static final LabelStyle LBL_ITEM 		  = new LabelStyle();
+	public static final LabelStyle LBL_TEXT 		  = new LabelStyle();
 	public static final ImageButtonStyle BTN_TAB				  = new ImageButtonStyle();
 	public static final ImageButtonStyle BTN_TAB_ACTIVE 		  = new ImageButtonStyle();
 	static void load() {
@@ -54,7 +55,7 @@ public final class Styles {
 		BTN_PROFESSION.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DOWN_V, Texture.class)));
 		BTN_PROFESSION.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_HOVER_V, Texture.class)));
 		BTN_PROFESSION.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class)));
-		BTN_PROFESSION.fontColor = Assets.CLR_YELLOW_SAND_A;
+		BTN_PROFESSION.fontColor = Assets.CLR_INACTIVE;
 		BTN_PROFESSION.downFontColor = Assets.CLR_YELLOW_SAND;
 		BTN_PROFESSION.overFontColor = Assets.CLR_YELLOW_SAND;
 		
@@ -62,7 +63,10 @@ public final class Styles {
 		LBL_BROWN.font =  SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
 		
 		LBL_ITEM.fontColor = new Color(Color.WHITE);
-		LBL_ITEM.font =  SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
+		LBL_ITEM.font =  SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
+		
+		LBL_TEXT.fontColor = new Color(Color.WHITE);
+		LBL_TEXT.font =  SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
 		
 		BTN_TAB.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB, Texture.class)));
 		BTN_TAB_ACTIVE.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB_ACTIVE, Texture.class)));

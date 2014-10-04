@@ -98,7 +98,8 @@ public final class Assets {
 	
 	public static final Color CLR_GREEN_GRASS 			= Color.valueOf("b8d41c");
 	public static final Color CLR_GREEN_GRASS_LIGHT 	= Color.valueOf("c7e03d");
-	public static final Color CLR_BROWN_TEAK 			= Color.valueOf("6a2b05");
+	public static final Color CLR_BROWN_TEAK 			= Color.valueOf("6a1f2d");
+	public static final Color CLR_INACTIVE   			= Color.valueOf("d5601a");
 	public static final Color CLR_YELLOW_SAND 			= Color.valueOf("dcc77d");
 	public static final Color CLR_YELLOW_SAND_A 		= Color.valueOf("dcc77d99");
 	public static final Color CLR_BLUE_SKY				= Color.valueOf("84f2ff");

@@ -257,9 +257,10 @@ public class TabPanel extends Table {
 			
 			for (Cell<?> c : cells.values()) {
 				c.width((parentPanel.getWidth()) / cells.size());
-				c.padRight(2f);
-				c.padLeft(2f);
-				c.height(parentPanel.getHeight() - (parentPanel.getHeight() / HEIGHT_DIV));
+				c.padBottom(5f);
+				c.padRight(5f);
+				c.padLeft(5f);
+				c.height(parentPanel.getHeight() - (parentPanel.getHeight() / HEIGHT_DIV) - 15f);
 			}
 		}
 		
@@ -291,10 +292,10 @@ public class TabPanel extends Table {
 			style.imageUp = icon;		
 			style.imageOver = icon;
 			
-			style.imageUp.setMinHeight(Gdx.graphics.getHeight() / 12f);
-			style.imageUp.setMinWidth(Gdx.graphics.getHeight() / 12f);
-			style.imageOver.setMinHeight(Gdx.graphics.getHeight() / 12f);
-			style.imageOver.setMinWidth(Gdx.graphics.getHeight() / 12f);
+			style.imageUp.setMinHeight(Gdx.graphics.getHeight() / 10f);
+			style.imageUp.setMinWidth(Gdx.graphics.getHeight() / 10f);
+			style.imageOver.setMinHeight(Gdx.graphics.getHeight() / 10f);
+			style.imageOver.setMinWidth(Gdx.graphics.getHeight() / 10f);
 			return style;
 		}
 	}
