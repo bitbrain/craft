@@ -19,13 +19,18 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -41,8 +46,6 @@ import de.bitbrain.craft.inject.SharedInjector;
  */
 public class ElementInfoPanel extends HorizontalGroup {
 	
-	private Label amountLabel;
-	
 	private Label name;
 	
 	private RarityIcon icon;
@@ -52,22 +55,19 @@ public class ElementInfoPanel extends HorizontalGroup {
 	@Inject
 	EventBus eventBus;
 	
-	public ElementInfoPanel(ElementData data) {
+	public ElementInfoPanel(ElementData data) {		
 		SharedInjector.get().injectMembers(this);
 		this.data = data;
 		Label name = new Label(" " + data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());
-		name.setX(10f);
-		amountLabel = new Label(data.getAmount() + " ", Styles.LBL_ITEM);
-		amountLabel.setColor(Color.YELLOW);
-		RarityIcon icon = new RarityIcon(data.getIcon());
-		
-		icon.setWidth(name.getHeight() * 2);
-		icon.setHeight(name.getHeight() * 2);
-		addActor(amountLabel);
+		name.setX(30f);
+		RarityIcon icon = new RarityIcon(data);		
+		icon.setWidth(name.getHeight() * 4);
+		icon.setHeight(name.getHeight() * 4);
+		pad(10f);
 		addActor(icon);
 		addActor(name);
-		
+		fill();
 		registerEvents();
 	}
 	
@@ -76,7 +76,17 @@ public class ElementInfoPanel extends HorizontalGroup {
 		name.setText(" " + data.getName());
 		name.setColor(data.getRarity().getColor());
 		setAmount(data.getAmount());
-		icon.setSource(data.getIcon());
+		icon.setSource(data);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		Texture texture = SharedAssetManager.get(Assets.TEX_PANEL_ITEM, Texture.class);
+		batch.draw(texture, getX(), getY(), getWidth(), getHeight());		
+		super.draw(batch, parentAlpha);
 	}
 	
 	public ElementData getData() {
@@ -85,7 +95,6 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	public void setAmount(int amount) {
 		data.setAmount(amount);
-		amountLabel.setText(amount + " ");
 	}
 	
 	private void registerEvents() {

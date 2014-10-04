@@ -3,12 +3,12 @@ package de.bitbrain.craft.db;
 import java.util.Collection;
 
 import de.bitbrain.craft.models.Player;
-import de.myreality.jpersis.annotations.Count;
-import de.myreality.jpersis.annotations.DataMapper;
-import de.myreality.jpersis.annotations.Delete;
-import de.myreality.jpersis.annotations.Insert;
-import de.myreality.jpersis.annotations.Select;
-import de.myreality.jpersis.annotations.Update;
+import de.bitbrain.jpersis.annotations.Count;
+import de.bitbrain.jpersis.annotations.DataMapper;
+import de.bitbrain.jpersis.annotations.Delete;
+import de.bitbrain.jpersis.annotations.Insert;
+import de.bitbrain.jpersis.annotations.Select;
+import de.bitbrain.jpersis.annotations.Update;
 
 @DataMapper(
 		model = "de.bitbrain.craft.models.Player", 

@@ -19,9 +19,16 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
 
 /**
@@ -32,30 +39,55 @@ import de.bitbrain.craft.core.IconManager.Icon;
  * @version 1.0
  */
 public class RarityIcon extends Actor {
-
-	private Icon icon;
+	
+	private static final float PADDING = 6f;
 	
 	public float iconScale;
 	
-	public RarityIcon(Icon icon) {
-		setSource(icon);
+	private ElementData data;
+	
+	private Sprite background;
+	
+	private Label amount;
+	
+	public RarityIcon(ElementData data) {
+		setSource(data);
+		amount = new Label("1", Styles.LBL_ITEM);
+		background = new Sprite(SharedAssetManager.get(Assets.TEX_ICON_BACKGROUND, Texture.class));
 	}
 	
-	public final void setSource(Icon icon) {
-		this.icon = icon;
+	public final void setSource(ElementData data) {
+		this.data = data;
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
 	 */
 	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		icon.x =getX();
-		icon.y = getY();
-		icon.width = getWidth();
-		icon.height = getHeight();
+	public void draw(Batch batch, float parentAlpha) {		
+			
+		float iconScale = 0.8f;
+		
+		// background
+		background.setPosition(getX(), getY());
+		background.setSize(getWidth(), getHeight());
+		background.setColor(Color.RED);
+		background.draw(batch, parentAlpha);
+		
+		// Icon
+		Icon icon = data.getIcon();
+		icon.width = getWidth() * iconScale;
+		icon.height = getHeight() * iconScale;
+		icon.x = getX() + (getWidth() - icon.width) / 2;
+		icon.y = getY() + (getHeight() - icon.height) / 2;
 		icon.color = getColor();
 		icon.rotation = 180f;
 		icon.draw(batch, parentAlpha);
+		
+		// Amount
+		amount.setText(String.valueOf(data.getAmount()));
+		amount.setX(getX() + getWidth() - amount.getPrefWidth() - PADDING);
+		amount.setY(getY() + PADDING);
+		amount.draw(batch, parentAlpha);
 	}
 }

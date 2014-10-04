@@ -256,9 +256,9 @@ public class TabPanel extends Table {
 			});
 			
 			for (Cell<?> c : cells.values()) {
-				c.width((parentPanel.getWidth() / 1.2f) / cells.size());
-				c.padRight(4f);
-				c.padLeft(4f);
+				c.width((parentPanel.getWidth()) / cells.size());
+				c.padRight(2f);
+				c.padLeft(2f);
 				c.height(parentPanel.getHeight() - (parentPanel.getHeight() / HEIGHT_DIV));
 			}
 		}
@@ -275,7 +275,6 @@ public class TabPanel extends Table {
 			}
 			active = tab;
 			active.setStyle(activeStyles.get(active));
-			cells.get(active).padBottom(Gdx.graphics.getHeight() / 21.2f);
 		}
 		
 		private ImageButtonStyle generateStyle(String iconId, boolean active) {

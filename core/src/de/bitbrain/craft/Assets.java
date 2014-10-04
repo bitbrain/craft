@@ -91,6 +91,9 @@ public final class Assets {
 	public static final String TEX_PANEL_MEDIUM_BOX 	= DIR_IMAGES + "panel_medium_box.png";
 	public static final String TEX_PANEL_TAB			 	= DIR_IMAGES + "panel_tab.png";
 	public static final String TEX_PANEL_TAB_ACTIVE		= DIR_IMAGES + "panel_tab_active.png";
+	public static final String TEX_PANEL_ITEM			= DIR_IMAGES + "item_background.png";
+	public static final String TEX_ICON_BACKGROUND   	= DIR_IMAGES + "icon_background.png";
+	
 	// ---------- COLORS ----------
 	
 	public static final Color CLR_GREEN_GRASS 			= Color.valueOf("b8d41c");

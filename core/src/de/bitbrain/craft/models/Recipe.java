@@ -22,7 +22,7 @@ package de.bitbrain.craft.models;
 import java.util.List;
 
 import de.bitbrain.craft.util.Identifiable;
-import de.myreality.jpersis.annotations.IgnoredMethod;
+import de.bitbrain.jpersis.annotations.IgnoredMethod;
 
 /**
  * Recipe which describes how to make items out of other items

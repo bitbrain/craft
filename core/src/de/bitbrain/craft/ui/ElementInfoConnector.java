@@ -25,6 +25,7 @@ import java.util.Map;
 import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.google.inject.Inject;
 
@@ -42,11 +43,15 @@ import de.bitbrain.craft.models.Recipe;
  */
 public class ElementInfoConnector {
 	
+	private final static float SPACING = 10f;
+	
 	private final WidgetGroup group;
 	
 	private final Class<?> elementClass;
 	
 	private final Map<String, ElementInfoPanel> elements;
+	
+	private final Map<String, Actor> spacings;
 	
 	private final Map<String, ElementData> dataMap;
 	
@@ -59,6 +64,7 @@ public class ElementInfoConnector {
 		this.elementClass = elementClass;
 		elements = new HashMap<String, ElementInfoPanel>();
 		dataMap = new HashMap<String, ElementData>();
+		spacings = new HashMap<String, Actor>();
 		eventBus.subscribe(this);
 	}
 	
@@ -87,6 +93,18 @@ public class ElementInfoConnector {
 		group.clear();
 	}
 	
+	private Actor addSpacing(String id) {
+		Actor spacing = new Actor();
+		spacing.setWidth(group.getWidth());
+		spacing.setHeight(SPACING);
+		spacings.put(id, spacing);
+		return spacing;
+	}
+	
+	private Actor removeSpacing(String id) {
+		return spacings.remove(id);
+	}
+	
 	private void removeElements(String id, Object model, int amount) {
 
 		ElementData data = dataMap.get(id);
@@ -94,6 +112,7 @@ public class ElementInfoConnector {
 			int newAmount = data.getAmount() - amount;
 			if (newAmount < 1) {
 				group.removeActor(elements.get(id));
+				group.removeActor(removeSpacing(id));
 				elements.remove(id);
 				dataMap.remove(id);
 			} else {
@@ -119,6 +138,8 @@ public class ElementInfoConnector {
 		if (!elements.containsKey(id)) {
 			ElementInfoPanel panel = new ElementInfoPanel(data);
 			elements.put(id, panel);
+
+			group.addActor(addSpacing(id));
 			group.addActor(panel);
 			Gdx.app.log("INFO", "Attached element with id='" + id + "' to " + group);
 		} else {

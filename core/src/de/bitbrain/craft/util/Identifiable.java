@@ -19,7 +19,7 @@
 
 package de.bitbrain.craft.util;
 
-import de.myreality.jpersis.annotations.IgnoredMethod;
+import de.bitbrain.jpersis.annotations.IgnoredMethod;
 
 /**
  * Identifies an object

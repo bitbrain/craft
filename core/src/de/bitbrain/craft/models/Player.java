@@ -19,7 +19,7 @@
 
 package de.bitbrain.craft.models;
 
-import de.myreality.jpersis.annotations.IgnoredMethod;
+import de.bitbrain.jpersis.annotations.IgnoredMethod;
 
 /**
  * Player which owns a game

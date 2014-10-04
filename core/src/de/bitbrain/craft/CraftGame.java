@@ -44,8 +44,8 @@ import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.util.AssetReflector;
-import de.myreality.jpersis.MapperManager;
-import de.myreality.jpersis.db.DatabaseException;
+import de.bitbrain.jpersis.MapperManager;
+import de.bitbrain.jpersis.db.DatabaseException;
 
 /**
  * Main game file which handles all screens

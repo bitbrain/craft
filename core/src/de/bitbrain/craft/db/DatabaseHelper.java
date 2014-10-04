@@ -30,9 +30,10 @@ import com.badlogic.gdx.files.FileHandle;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Settings;
-import de.myreality.jpersis.MapperManager;
-import de.myreality.jpersis.db.DatabaseConnector;
-import de.myreality.jpersis.db.DatabaseException;
+import de.bitbrain.jpersis.MapperManager;
+import de.bitbrain.jpersis.db.DatabaseConnector;
+import de.bitbrain.jpersis.db.DatabaseException;
+import de.bitbrain.jpersis.db.SQLiteConnector;
 
 /**
  * Helper for database connection

@@ -33,7 +33,7 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
-import de.myreality.jpersis.MapperManager;
+import de.bitbrain.jpersis.MapperManager;
 
 /**
  * General API interface
@@ -154,8 +154,9 @@ class SimpleAPI implements API {
 			Item item = itemMapper.findById(id);
 			try {
 			if (count > 0) {
+				ownedItemMapper.delete(owned);
 				owned.setAmount(count);
-				ownedItemMapper.update(owned);
+				ownedItemMapper.insert(owned);
 			} else {
 				ownedItemMapper.delete(owned);
 			}

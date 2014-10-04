@@ -24,7 +24,7 @@ import java.util.Collection;
 import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
-import de.myreality.jpersis.MapperManager;
+import de.bitbrain.jpersis.MapperManager;
 
 /**
  * 

@@ -98,9 +98,7 @@ public class IngameScreen extends AbstractScreen {
 		boolean init = inputProcessor == null;
 		super.resize(width, height);
 		tabPanel.setWidth(width / 2.3f);
-		tabPanel.setHeight(height / 1.2f);
-		tabPanel.padLeft(width / 10f);
-		tabPanel.padBottom(height / 7f);
+		tabPanel.setHeight(height);
 		
 		professionView.setWidth(width - tabPanel.getWidth() / 0.82f);
 		professionView.setHeight(tabPanel.getHeight());
@@ -179,7 +177,7 @@ public class IngameScreen extends AbstractScreen {
 	private Actor generateItemView() {
 		
 		VerticalGroup itemView = new VerticalGroup();
-		itemView.align(Align.left);
+		itemView.align(Align.left).fill();
 		
 		// Add data connector
 		itemConnector = new ElementInfoConnector(itemView, Item.class);

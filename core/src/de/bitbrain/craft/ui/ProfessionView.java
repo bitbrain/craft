@@ -66,8 +66,8 @@ public class ProfessionView extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		Texture texture = SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class);
-		batch.draw(texture, getX(), getY(), getWidth(),	getHeight());
+		//Texture texture = SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class);
+		//batch.draw(texture, getX(), getY(), getWidth(),	getHeight());
 	}
 	
 	@Handler
