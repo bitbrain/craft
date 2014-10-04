@@ -20,10 +20,13 @@
 package de.bitbrain.craft.util;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 
 /**
- * provides color calculation for images
+ * Provides color calculation for images, based on:
+ * http://charlesleifer.com/blog/using-python-and-k-means-to-find-the-dominant-colors-in-images/
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -31,13 +34,14 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public class ColorCalculator {
 	
-	private Texture texture;
-	
-	public ColorCalculator(Texture texture) {
-		this.texture = texture;
-	}
-	
-	public Color getColor() {
-		return null;
+	public Color getColor(Texture texture) {
+		Color color = new Color(Color.WHITE);
+		TextureData data = texture.getTextureData();
+		data.prepare();
+		Pixmap map = data.consumePixmap();
+		
+		map.dispose();
+		
+		return color;
 	}
 }

@@ -30,6 +30,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.util.ColorCalculator;
 
 /**
  * An icon which also shows rarity and special effects
@@ -50,14 +51,28 @@ public class RarityIcon extends Actor {
 	
 	private Label amount;
 	
+	private ColorCalculator colorCalculator;
+	
+	private Icon icon;
+	
+	private Color backgroundColor = new Color(Color.WHITE);
+	
 	public RarityIcon(ElementData data) {
 		setSource(data);
 		amount = new Label("1", Styles.LBL_TEXT);
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_ICON_BACKGROUND, Texture.class));
+		colorCalculator = new ColorCalculator();
+		icon = data.getIcon();
 	}
 	
 	public final void setSource(ElementData data) {
 		this.data = data;
+	}
+	
+	private void updateBackground() {
+		if (icon != data.getIcon() || !icon.color.equals(data.getIcon().color)) {
+			backgroundColor = colorCalculator.getColor(icon.getTexture());
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -67,15 +82,15 @@ public class RarityIcon extends Actor {
 	public void draw(Batch batch, float parentAlpha) {		
 			
 		float iconScale = 0.8f;
+		updateBackground();
 		
 		// background
 		background.setPosition(getX(), getY());
 		background.setSize(getWidth(), getHeight());
-		background.setColor(Color.RED);
+		background.setColor(backgroundColor);
 		background.draw(batch, parentAlpha);
 		
 		// Icon
-		Icon icon = data.getIcon();
 		icon.width = getWidth() * iconScale;
 		icon.height = getHeight() * iconScale;
 		icon.x = getX() + (getWidth() - icon.width) / 2;

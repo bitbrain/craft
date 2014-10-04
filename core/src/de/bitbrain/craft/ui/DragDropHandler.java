@@ -176,7 +176,7 @@ public class DragDropHandler {
 		drops.put(data.getId(), false);
 		sources.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		sizes.put(data.getId(), new Vector2());
-		animateVector(sizes.get(data.getId()), 0.5f, ICON_SIZE, new TweenCallback() {
+		animateVector(sizes.get(data.getId()), 1f, ICON_SIZE, new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 				animateDragging(sizes.get(data.getId()));
@@ -198,26 +198,26 @@ public class DragDropHandler {
 	private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
 		Tween.to(vec, VectorTween.X, time)
 			 .target(target)
-			 .ease(TweenEquations.easeInOutCubic)
+			 .ease(TweenEquations.easeOutElastic)
 			 .start(tweenManager);
 		Tween.to(vec, VectorTween.Y, time)
 			 .target(target)
-			 .ease(TweenEquations.easeInOutCubic)
+			 .ease(TweenEquations.easeOutElastic)
 			 .setCallback(callback)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
 			 .start(tweenManager);
 	}
 	
 	private void animateDragging(Vector2 vec) {
-		Tween.to(vec, VectorTween.X, 0.4f)
-			 .target(ICON_SIZE - ICON_SIZE / 2.5f)
+		Tween.to(vec, VectorTween.X, 1.0f)
+			 .target(ICON_SIZE + ICON_SIZE / 4.2f)
 			 .repeatYoyo(Tween.INFINITY, 0f)
-			 .ease(TweenEquations.easeNone)
+			 .ease(TweenEquations.easeOutBack)
 			 .start(tweenManager);
-		Tween.to(vec, VectorTween.Y, 0.4f)
-			 .target(ICON_SIZE - ICON_SIZE / 2.5f)
+		Tween.to(vec, VectorTween.Y, 1.0f)
+			 .target(ICON_SIZE + ICON_SIZE / 4.2f)
 			 .repeatYoyo(Tween.INFINITY, 0f)
-			 .ease(TweenEquations.easeNone)
+			 .ease(TweenEquations.easeOutBack)
 			 .start(tweenManager);
 	}
 }

@@ -167,6 +167,10 @@ public class IconManager implements Fadeable {
 			}
 		}
 		
+		public Texture getTexture() {
+			return sprite.getTexture();
+		}
+		
 		public void draw(Batch batch, float alphaModulation) {
 			sprite.setScale(scale);
 			sprite.setBounds(x, y, width, height);
