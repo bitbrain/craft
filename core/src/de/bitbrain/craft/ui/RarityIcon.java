@@ -40,7 +40,7 @@ import de.bitbrain.craft.core.IconManager.Icon;
  */
 public class RarityIcon extends Actor {
 	
-	private static final float PADDING = 6f;
+	private static final float PADDING = 8f;
 	
 	public float iconScale;
 	
