@@ -67,7 +67,6 @@ public class ElementInfoPanel extends HorizontalGroup {
 		addActor(icon);
 		addActor(generateRight(data));
 		fill().pad(10f);
-		invalidate();
 		registerEvents(this);
 	}
 	

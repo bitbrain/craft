@@ -21,6 +21,9 @@ package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Provides scrolling into vertical and horizontal direction
@@ -87,6 +90,14 @@ public class ScrollView extends Actor {
 		} else {
 			return super.getY();
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#hit(float, float, boolean)
+	 */
+	@Override
+	public Actor hit(float x, float y, boolean touchable) {
+		return content.hit(x, y, touchable);
 	}
 	
 	/* (non-Javadoc)
