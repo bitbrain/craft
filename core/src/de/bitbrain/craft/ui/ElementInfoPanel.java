@@ -26,8 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
@@ -50,26 +50,25 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	private Label name;
 	
-	private RarityIcon icon;
+	private ElementIcon icon;
 	
 	private ElementData data;
 	
 	@Inject
 	EventBus eventBus;
 	
-	public ElementInfoPanel(ElementData data) {		
+	public ElementInfoPanel(ElementData data) {
 		SharedInjector.get().injectMembers(this);
 		this.data = data;
-		Label name = new Label(data.getName(), Styles.LBL_ITEM);
-		name.setColor(data.getRarity().getColor());
-		RarityIcon icon = new RarityIcon(data);		
+		this.name = new Label(data.getName(), Styles.LBL_ITEM);
+		ElementIcon icon = new ElementIcon(data);		
 		icon.setWidth(name.getHeight() * 4);
-		icon.setHeight(name.getHeight() * 4);
-		pad(10f);
+		icon.setHeight(name.getHeight() * 4);		
 		addActor(icon);
 		addActor(generateRight(data));
-		fill();
-		registerEvents();
+		fill().pad(10f);
+		invalidate();
+		registerEvents(this);
 	}
 	
 	public void setData(ElementData data) {
@@ -86,7 +85,8 @@ public class ElementInfoPanel extends HorizontalGroup {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		Texture texture = SharedAssetManager.get(Assets.TEX_PANEL_ITEM, Texture.class);
-		batch.draw(texture, getX(), getY(), getWidth(), getHeight());		
+		batch.setColor(1f, 1f, 1f, parentAlpha);
+		batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);
 	}
 	
@@ -103,7 +103,6 @@ public class ElementInfoPanel extends HorizontalGroup {
 		layout.align(Align.left);
 		layout.padLeft(15f);
 		layout.padTop(10f);
-		Label name = new Label(data.getName(), Styles.LBL_ITEM);
 		name.setColor(data.getRarity().getColor());		
 		Label description = new Label(data.getDescription(), Styles.LBL_TEXT);		
 		description.setColor(Assets.CLR_INACTIVE);		
@@ -117,8 +116,8 @@ public class ElementInfoPanel extends HorizontalGroup {
 		return layout;
 	}
 	
-	private void registerEvents() {
-		addListener(new DragListener() {
+	private void registerEvents(Actor actor) {
+		actor.addListener(new DragListener() {
 			@Override
 			public void dragStart(InputEvent event, float x, float y, int pointer) {
 				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
@@ -128,5 +127,6 @@ public class ElementInfoPanel extends HorizontalGroup {
 				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
 			}
 		});
+		System.out.println(getPrefWidth() + "|" + getPrefHeight());
 	}
 }

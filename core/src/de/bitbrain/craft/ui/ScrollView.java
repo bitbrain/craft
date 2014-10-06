@@ -94,9 +94,9 @@ public class ScrollView extends Actor {
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);	
+		super.draw(batch, parentAlpha);
 		content.setPosition(getX(), getY());
 		content.setSize(getWidth(), getHeight());
-		content.draw(batch, parentAlpha);
+		content.draw(batch, getColor().a * parentAlpha);
 	}
 }

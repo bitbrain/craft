@@ -143,14 +143,12 @@ public class TabPanel extends Table {
 			}
 			
 			if (current != null) {
-				current.getColor().a = 0f;
-				
+				current.getColor().a = 0f;				
 				tweenManager.killTarget(current);
 			}
 			
 			content.setActor(actor);
 			tabControl.setTab(id);
-			
 			Tween.to(actor, ActorTween.ALPHA, 0.5f)
 				.target(1f)
 				.ease(TweenEquations.easeOutQuad)

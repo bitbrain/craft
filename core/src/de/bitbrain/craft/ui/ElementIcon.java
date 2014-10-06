@@ -39,7 +39,7 @@ import de.bitbrain.craft.util.ColorCalculator;
  * @since 1.0
  * @version 1.0
  */
-public class RarityIcon extends Actor {
+public class ElementIcon extends Actor {
 	
 	private static final float PADDING = 8f;
 	
@@ -57,12 +57,13 @@ public class RarityIcon extends Actor {
 	
 	private Color backgroundColor = new Color(Color.WHITE);
 	
-	public RarityIcon(ElementData data) {
+	public ElementIcon(ElementData data) {
 		setSource(data);
 		amount = new Label("1", Styles.LBL_TEXT);
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_ICON_BACKGROUND, Texture.class));
 		colorCalculator = new ColorCalculator();
 		icon = data.getIcon();
+		updateBackground();
 	}
 	
 	public final void setSource(ElementData data) {
@@ -70,9 +71,7 @@ public class RarityIcon extends Actor {
 	}
 	
 	private void updateBackground() {
-		if (icon != data.getIcon() || !icon.color.equals(data.getIcon().color)) {
-			backgroundColor = colorCalculator.getColor(icon.getTexture());
-		}
+		backgroundColor = colorCalculator.getColor(icon.getTexture());		
 	}
 	
 	/* (non-Javadoc)
@@ -82,7 +81,10 @@ public class RarityIcon extends Actor {
 	public void draw(Batch batch, float parentAlpha) {		
 			
 		float iconScale = 0.8f;
-		updateBackground();
+
+		if (icon != data.getIcon() || !icon.color.equals(data.getIcon().color)) {
+			updateBackground();
+		}
 		
 		// background
 		background.setPosition(getX(), getY());
