@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.inject;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,6 +45,7 @@ public class ObjectModule extends AbstractModule {
 		this.bind(DragDropHandler.class);
 		this.bind(Batch.class).to(SpriteBatch.class);
 		this.bind(OrthographicCamera.class);
+		this.bind(Camera.class).to(OrthographicCamera.class);
 		this.bind(ParticleRenderer.class);
 	}
 

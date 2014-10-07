@@ -21,7 +21,6 @@ package de.bitbrain.craft;
 
 import aurelienribon.tweenengine.Tween;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -54,7 +53,7 @@ import de.bitbrain.jpersis.db.DatabaseException;
  * @since 1.0
  * @version 1.0
  */
-public class CraftGame extends Game {
+public class CraftGame extends GuiceGame {
 	
 	@Inject
 	private API api;

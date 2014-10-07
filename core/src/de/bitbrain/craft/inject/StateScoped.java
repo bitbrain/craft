@@ -19,29 +19,21 @@
 
 package de.bitbrain.craft.inject;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import de.bitbrain.craft.core.APIModule;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import com.google.inject.ScopeAnnotation;
 
 /**
- * Shared google injector
+ * Scope annotation for state base injection
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class SharedInjector {
-	
-	private static Injector injector;
-	
-	static {
-		injector = Guice.createInjector(Stage.PRODUCTION, 
-				new StateModule(), new SingletonModule(), new ObjectModule(), new APIModule());
-	}
-
-	public static Injector get() {
-		return injector;
-	}
-}
+@Target({ TYPE, METHOD }) @Retention(RUNTIME) @ScopeAnnotation
+public @interface StateScoped {}

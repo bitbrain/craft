@@ -19,11 +19,14 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
+import com.google.inject.Inject;
+
+import de.bitbrain.craft.inject.SharedInjector;
 
 /**
  * Provides scrolling into vertical and horizontal direction
@@ -37,6 +40,7 @@ public class ScrollView extends Actor {
 	private Actor content;
 	
 	public ScrollView(Actor content) {
+		SharedInjector.get().injectMembers(this);
 		if (content != null) {
 			this.content = content;
 		} else {

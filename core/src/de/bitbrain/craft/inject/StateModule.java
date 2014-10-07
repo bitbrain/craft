@@ -19,29 +19,31 @@
 
 package de.bitbrain.craft.inject;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
+import com.google.inject.AbstractModule;
+import com.google.inject.name.Names;
 
-import de.bitbrain.craft.core.APIModule;
+import de.bitbrain.craft.CraftGame;
 
 /**
- * Shared google injector
+ * Module to provide screen injection
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class SharedInjector {
-	
-	private static Injector injector;
-	
-	static {
-		injector = Guice.createInjector(Stage.PRODUCTION, 
-				new StateModule(), new SingletonModule(), new ObjectModule(), new APIModule());
+public class StateModule extends AbstractModule {
+
+	/* (non-Javadoc)
+	 * @see com.google.inject.AbstractModule#configure()
+	 */
+	@Override
+	protected void configure() {
+		StateScope scope = new StateScope();
+	    bindScope(StateScoped.class, scope);
+	    bind(StateScope.class)
+	        .annotatedWith(Names.named("stateScope"))
+	        .toInstance(scope);
+	    bind(CraftGame.class).asEagerSingleton();
 	}
 
-	public static Injector get() {
-		return injector;
-	}
 }
