@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -119,11 +120,11 @@ public class ElementInfoPanel extends HorizontalGroup {
 		actor.addListener(new DragListener() {
 			@Override
 			public void dragStart(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
+				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), Gdx.input.getX(), Gdx.input.getY()));
 			}
 			@Override
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
+				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), Gdx.input.getX(), Gdx.input.getY()));
 			}
 		});
 		System.out.println(getPrefWidth() + "|" + getPrefHeight());

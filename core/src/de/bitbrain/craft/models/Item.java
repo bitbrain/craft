@@ -82,9 +82,9 @@ public class Item implements Identifiable {
 	}
 	
 	public static enum Rarity {
-		COMMON("ffffff"),
+		COMMON("dddddd"),
 		RARE("00ff00"),
-		SUPERIOR("0000ff"),
+		SUPERIOR("2211cc"),
 		EPIC("5500ff"),
 		UNIQUE("ff6600"),
 		LEGENDARY("ff00ff");

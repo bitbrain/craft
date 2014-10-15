@@ -19,10 +19,22 @@
 
 package de.bitbrain.craft.inject;
 
+import aurelienribon.tweenengine.TweenManager;
+
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
 import de.bitbrain.craft.CraftGame;
+import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.MBassadorEventBus;
+import de.bitbrain.craft.graphics.ParticleRenderer;
+import de.bitbrain.craft.screens.IngameScreen;
+import de.bitbrain.craft.screens.ProfessionScreen;
+import de.bitbrain.craft.screens.TitleScreen;
+import de.bitbrain.craft.ui.DragDropHandler;
 
 /**
  * Module to provide screen injection
@@ -43,7 +55,16 @@ public class StateModule extends AbstractModule {
 	    bind(StateScope.class)
 	        .annotatedWith(Names.named("stateScope"))
 	        .toInstance(scope);
+	    bind(DragDropHandler.class);
+		bind(OrthographicCamera.class);
+		bind(Camera.class).to(OrthographicCamera.class);
+		bind(ParticleRenderer.class);
+		bind(EventBus.class).to(MBassadorEventBus.class);
+		bind(IconManager.class).asEagerSingleton();
+		bind(TweenManager.class).asEagerSingleton();
 	    bind(CraftGame.class).asEagerSingleton();
+	    bind(TitleScreen.class);
+	    bind(ProfessionScreen.class);
+	    bind(IngameScreen.class);
 	}
-
 }

@@ -32,6 +32,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.google.inject.Inject;
@@ -42,7 +43,6 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.graphics.ParticleRenderer;
-import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -56,11 +56,8 @@ import de.bitbrain.craft.tweens.SpriteTween;
  */
 public abstract class AbstractScreen implements Screen, TweenCallback {
 	
-	protected CraftGame game;
-	
 	private Sprite background;
 	
-	@Inject
 	protected Batch batch;
 	
 	@Inject
@@ -79,15 +76,12 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	@Inject
 	protected EventBus eventBus;
 	
+	@Inject
+	private CraftGame game;
+	
 	protected InputEventProcessor inputProcessor;
 	
 	public static final float FADE_INTERVAL = 0.7f;	
-	
-	public AbstractScreen(CraftGame game) {
-		SharedInjector.get().injectMembers(this);
-		this.game = game;
-		eventBus.subscribe(this);
-	}
 	
 	public void setBackground(Sprite background) {
 		this.background = background;
@@ -152,7 +146,9 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 
 	@Override
 	public final void show() {
+		eventBus.subscribe(this);
 		fadeIn = true;
+		batch = new SpriteBatch();
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
 		background.flip(false, true);
 		
@@ -165,7 +161,9 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	}
 
 	@Override
-	public void hide() { }
+	public void hide() { 
+		eventBus.unsubscribe(this);
+	}
 
 	@Override
 	public void pause() { }
@@ -263,5 +261,4 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	protected void afterFadeOut(float parentInterval) {		
 		particleRenderer.clear();
 	}
-
 }

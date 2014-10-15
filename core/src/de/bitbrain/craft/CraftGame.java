@@ -34,7 +34,6 @@ import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DatabaseHelper;
 import de.bitbrain.craft.graphics.ParticleRenderer;
-import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.PlayerUtils;
 import de.bitbrain.craft.screens.TitleScreen;
@@ -57,22 +56,23 @@ public class CraftGame extends GuiceGame {
 	
 	@Inject
 	private API api;
+	
+	@Inject
+	private TitleScreen screen;
 
 	@Override
-	public void create() {
-		
+	public void create() {		
 		Gdx.app.setLogLevel(Settings.LOGLEVEL);
 		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
 		
 		loadResources();
-		DatabaseHelper.connect();		
-		SharedInjector.get().injectMembers(this);
+		DatabaseHelper.connect();
+		
 		registerTweens();
 		//loadCursor();
 		Bundles.load();
 		try {
 			PlayerUtils.setCurrentPlayer(initPlayer());
-			TitleScreen screen = new TitleScreen(this);
 			setScreen(screen);
 		} catch (APIException e) {
 			Gdx.app.error("ERROR", "Could not init player.", e);

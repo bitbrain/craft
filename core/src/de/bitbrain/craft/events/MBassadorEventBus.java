@@ -22,6 +22,7 @@ package de.bitbrain.craft.events;
 import net.engio.mbassy.bus.MBassador;
 import net.engio.mbassy.bus.config.BusConfiguration;
 import de.bitbrain.craft.events.Event.EventType;
+import de.bitbrain.craft.inject.StateScoped;
 
 /**
  * Event bus implementation
@@ -30,6 +31,7 @@ import de.bitbrain.craft.events.Event.EventType;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public final class MBassadorEventBus implements EventBus {
 
 	@SuppressWarnings("deprecation")

@@ -35,7 +35,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
@@ -51,7 +50,6 @@ import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
-import de.bitbrain.craft.ui.ScrollView;
 import de.bitbrain.craft.ui.TabPanel;
 
 /**
@@ -77,10 +75,8 @@ public class IngameScreen extends AbstractScreen {
 	private ElementInfoConnector itemConnector;
 	
 	private ProfessionView professionView;
-
-	public IngameScreen(Profession profession, CraftGame game) {
-		super(game);
-		SharedInjector.get().injectMembers(this);
+	
+	public void init(Profession profession) {
 		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));
 	}
 
@@ -186,10 +182,11 @@ public class IngameScreen extends AbstractScreen {
 		// API call to get all items
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
+			System.out.println(eventBus + " in IngameScreen");
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}
 		
-		return new ScrollView(itemView);
+		return itemView;
 	}
 
 	/* (non-Javadoc)
@@ -201,7 +198,7 @@ public class IngameScreen extends AbstractScreen {
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
-			setScreen(new ProfessionScreen(game));
+			setScreen(SharedInjector.get().getInstance(ProfessionScreen.class));
 		}
 	}
 

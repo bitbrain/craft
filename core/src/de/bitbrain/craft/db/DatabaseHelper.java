@@ -43,9 +43,8 @@ import de.bitbrain.jpersis.db.SQLiteConnector;
  * @version 1.0
  */
 public final class DatabaseHelper {
-
-	public static void connect() {
-		
+	
+	public static boolean setConnector() {
 		FileHandle handle = Gdx.files.external(Settings.DIR_DATA + Settings.DATABASE);
 		boolean folderExisted = true;
 		
@@ -65,9 +64,13 @@ public final class DatabaseHelper {
 		String databasePath = handle.file().getAbsolutePath();
 		DatabaseConnector connector = new SQLiteConnector(databasePath);
 		MapperManager.setDefaultConnector(connector);
+		return folderExisted;
+	}
 
+	public static void connect() {		
 		try {
-			connector.openConnection();
+			boolean folderExisted = setConnector();
+			MapperManager.getInstance().getConnector().openConnection();
 
 			// Create a new database if not exists
 			if (!folderExisted) {

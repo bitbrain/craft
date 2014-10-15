@@ -26,9 +26,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.events.KeyEvent;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
 import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
@@ -44,10 +46,9 @@ import de.bitbrain.craft.util.DirectPlayerDataProvider;
 public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
 	
 	private ProfessionSelection selection;
-
-	public ProfessionScreen(CraftGame game) {
-		super(game);
-	}
+	
+	@Inject
+	private CraftGame game;
 
 	@Override
 	protected void onCreateStage(Stage stage) {
@@ -82,13 +83,15 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	 */
 	@Override
 	public void onSelect(Profession profession) {
-		setScreen(new IngameScreen(profession, game));
+		IngameScreen screen = SharedInjector.get().getInstance(IngameScreen.class);
+		screen.init(profession);
+		setScreen(screen);
 	}
 	
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
-			setScreen(new TitleScreen(game));
+			setScreen(SharedInjector.get().getInstance(TitleScreen.class));
 		}
 	}
 

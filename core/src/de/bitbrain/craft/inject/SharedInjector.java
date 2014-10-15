@@ -37,8 +37,7 @@ public final class SharedInjector {
 	private static Injector injector;
 	
 	static {
-		injector = Guice.createInjector(Stage.PRODUCTION, 
-				new StateModule(), new SingletonModule(), new ObjectModule(), new APIModule());
+		injector = Guice.createInjector(Stage.PRODUCTION, new StateModule(), new APIModule());
 	}
 
 	public static Injector get() {

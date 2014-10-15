@@ -47,12 +47,7 @@ public class IconManager implements Fadeable {
 	
 	public static final int BUFFER = 10;
 	
-	private static Sprite loadingSprite;	
-	
-	static {
-		loadingSprite = new Sprite(new Texture(Gdx.files.internal("images/icons/ico_loading.png")));
-		loadingSprite.flip(false, true);
-	}
+	private static Sprite loadingSprite;
 	
 	private Map<String, Icon> icons;	
 	private Map<String, Integer> references;	
@@ -162,7 +157,11 @@ public class IconManager implements Fadeable {
 			if (texture != null) {
 				this.sprite = new Sprite(texture);
 				sprite.flip(false, true);
-			} else {
+			} else {				
+				if (loadingSprite == null) {
+					loadingSprite = new Sprite(new Texture(Gdx.files.internal("images/icons/ico_loading.png")));
+					loadingSprite.flip(false, true);
+				}				
 				this.sprite = loadingSprite;
 			}
 		}

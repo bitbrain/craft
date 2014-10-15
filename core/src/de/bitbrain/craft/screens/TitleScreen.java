@@ -36,10 +36,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Bundles;
-import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
@@ -58,10 +58,6 @@ public class TitleScreen extends AbstractScreen {
 	
 	private Label lblCredits;
 
-	public TitleScreen(CraftGame game) {
-		super(game);
-	}
-
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.screens.MenuScreen#onCreateStage(com.badlogic.gdx.scenes.scene2d.Stage)
 	 */
@@ -76,7 +72,8 @@ public class TitleScreen extends AbstractScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				tempScreen.setScreen(new ProfessionScreen(tempScreen.game));
+				ProfessionScreen screen = SharedInjector.get().getInstance(ProfessionScreen.class);
+				tempScreen.setScreen(screen);
 			}
 			
 			/* (non-Javadoc)

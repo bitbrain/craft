@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.Settings;
+import de.bitbrain.craft.inject.SharedInjector;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -15,6 +16,6 @@ public class DesktopLauncher {
 		config.title = Settings.NAME + " v. " + Settings.VERSION;
 		config.addIcon("images/ic_launcher.png", Files.FileType.Internal);
 		
-		new LwjglApplication(new CraftGame(), config);
+		new LwjglApplication(SharedInjector.get().getInstance(CraftGame.class), config);
 	}
 }

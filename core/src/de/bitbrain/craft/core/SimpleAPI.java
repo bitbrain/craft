@@ -44,12 +44,24 @@ import de.bitbrain.jpersis.MapperManager;
  */
 class SimpleAPI implements API {
 
-	private ItemMapper itemMapper = MapperManager.getInstance().getMapper(ItemMapper.class);
-	private OwnedItemMapper ownedItemMapper = MapperManager.getInstance().getMapper(OwnedItemMapper.class);
-	private PlayerMapper playerMapper = MapperManager.getInstance().getMapper(PlayerMapper.class);
+	private ItemMapper itemMapper;
+	private OwnedItemMapper ownedItemMapper;
+	private PlayerMapper playerMapper;
+	
+	private boolean initialized = false;
+	
+	private void init() {
+		if (!initialized) {
+			itemMapper = MapperManager.getInstance().getMapper(ItemMapper.class);
+			ownedItemMapper = MapperManager.getInstance().getMapper(OwnedItemMapper.class);
+			playerMapper = MapperManager.getInstance().getMapper(PlayerMapper.class);
+			initialized = true;
+		}
+	}
 	
 	@Override
 	public Item getItem(ItemId id) {
+		init();
 		return getItem(id.getId());
 	}
 	
@@ -64,6 +76,7 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Collection<Item> getAllItems() {
+		init();
 		return itemMapper.findAll();
 	}
 	
@@ -75,7 +88,7 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Map<Item, Integer> getOwnedItems(int playerId) {
-		
+		init();
 		Collection<OwnedItem> owned = ownedItemMapper.findAllByPlayerId(playerId);
 		Map<Item, Integer> items = new HashMap<Item, Integer>();
 		
@@ -94,6 +107,7 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Player getFirstPlayer() {
+		init();
 		Collection<Player> players = playerMapper.findAll();
 		
 		if (players.size() > 0) {
@@ -105,6 +119,7 @@ class SimpleAPI implements API {
 	
 	@Override
 	public Player createPlayer(String name) throws APIException {		
+		init();
 		if (playerMapper.findByName(name) == null) {
 			Player player = new Player();
 			player.setName(name);
@@ -117,12 +132,13 @@ class SimpleAPI implements API {
 	
 	@Override
 	public Item addItem(int playerId, ItemId id) {
+		init();
 		return addItem(playerId, id, 1);
 	}
 	
 	@Override
 	public Item addItem(int playerId, ItemId id, int amount) {
-		
+		init();
 		Item item = getItem(id);
 		
 		if (item != null) {
@@ -147,7 +163,7 @@ class SimpleAPI implements API {
 	
 	@Override
 	public boolean removeItem(int playerId, String id, int amount) {
-		
+		init();
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
 		int count = owned.getAmount() - amount;
 		if (owned != null && count >= 0) {
@@ -180,6 +196,7 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public boolean isItemId(String id) {
+		init();
 		return id.startsWith("item_");		
 	}
 	
@@ -192,6 +209,7 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public boolean isRecipeId(String id) {
+		init();
 		return id.startsWith("recipe_");		
 	}
 }
