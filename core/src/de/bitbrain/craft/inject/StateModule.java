@@ -60,8 +60,8 @@ public class StateModule extends AbstractModule {
 		bind(Camera.class).to(OrthographicCamera.class);
 		bind(ParticleRenderer.class);
 		bind(EventBus.class).to(MBassadorEventBus.class);
-		bind(IconManager.class).asEagerSingleton();
-		bind(TweenManager.class).asEagerSingleton();
+		bind(IconManager.class);
+		bind(TweenManager.class);
 	    bind(CraftGame.class).asEagerSingleton();
 	    bind(TitleScreen.class);
 	    bind(ProfessionScreen.class);

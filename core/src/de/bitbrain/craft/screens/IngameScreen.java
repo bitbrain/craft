@@ -43,6 +43,7 @@ import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
@@ -59,10 +60,8 @@ import de.bitbrain.craft.ui.TabPanel;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class IngameScreen extends AbstractScreen {
-	
-	@Inject
-	private IconManager iconManager;
 	
 	private TabPanel tabPanel;
 	
@@ -75,6 +74,9 @@ public class IngameScreen extends AbstractScreen {
 	private ElementInfoConnector itemConnector;
 	
 	private ProfessionView professionView;
+	
+	@Inject
+	private IconManager iconManager;
 	
 	public void init(Profession profession) {
 		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));

@@ -40,6 +40,7 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
@@ -50,6 +51,7 @@ import de.bitbrain.craft.tweens.SpriteTween;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class TitleScreen extends AbstractScreen {
 	
 	private Sprite logo;	

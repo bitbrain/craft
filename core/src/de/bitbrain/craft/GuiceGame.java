@@ -46,18 +46,10 @@ public abstract class GuiceGame extends Game {
 	@Inject
 	@Named("stateScope")
 	StateScope scope;
-
-	@Inject
-	private Injector injector;
 	
 	public GuiceGame() {
 		states = new HashMap<Integer, Screen>();
 		current = null;
-	}
-	
-	public void register(int id, Class<? extends Screen> screenClass) {
-		scope.enter(screenClass);
-		states.put(id, injector.getInstance(screenClass));
 	}
 
 	/*

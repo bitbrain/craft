@@ -26,11 +26,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.google.inject.Inject;
 
-import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
 import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
@@ -43,12 +42,10 @@ import de.bitbrain.craft.util.DirectPlayerDataProvider;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
 	
 	private ProfessionSelection selection;
-	
-	@Inject
-	private CraftGame game;
 
 	@Override
 	protected void onCreateStage(Stage stage) {

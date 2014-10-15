@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.util.Fadeable;
 
 /**

@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 
@@ -41,6 +42,7 @@ import de.bitbrain.craft.models.Recipe;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class ElementInfoConnector {
 	
 	private final static float SPACING = 10f;
