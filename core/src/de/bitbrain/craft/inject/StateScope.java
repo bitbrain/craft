@@ -64,10 +64,7 @@ public class StateScope implements Scope {
 				}				
 				if (!objects.containsKey(key.getTypeLiteral())) {
 					objects.put(key.getTypeLiteral(), unscoped.get());
-				}
-				
-				System.out.println(state + "> Provide for " + key + ": " + objects.get(key.getTypeLiteral()));
-				
+				}				
 				return (T) objects.get(key.getTypeLiteral());
 			}
 		};

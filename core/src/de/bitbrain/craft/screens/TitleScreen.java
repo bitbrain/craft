@@ -39,7 +39,6 @@ import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
-import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -74,8 +73,7 @@ public class TitleScreen extends AbstractScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				System.out.println(SharedInjector.get().getInstance(ProfessionScreen.class));
-				tempScreen.setScreen(SharedInjector.get().getInstance(ProfessionScreen.class));
+				tempScreen.setScreen(ProfessionScreen.class);
 			}
 			
 			/* (non-Javadoc)

@@ -19,15 +19,12 @@
 
 package de.bitbrain.craft;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.name.Named;
 
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScope;
 
 /**
@@ -39,8 +36,6 @@ import de.bitbrain.craft.inject.StateScope;
  */
 public abstract class GuiceGame extends Game {
 
-	private Map<Integer, Screen> states;
-
 	private Screen current;
 
 	@Inject
@@ -48,7 +43,6 @@ public abstract class GuiceGame extends Game {
 	StateScope scope;
 	
 	public GuiceGame() {
-		states = new HashMap<Integer, Screen>();
 		current = null;
 	}
 
@@ -57,22 +51,13 @@ public abstract class GuiceGame extends Game {
 	 * 
 	 * @see com.badlogic.gdx.Game#setScreen(com.badlogic.gdx.Screen)
 	 */
-	@Override
-	public final void setScreen(Screen screen) {
-		
+	public final void setScreen(Class<? extends Screen> screenClass) {		
 		if (current != null) {
 			scope.leave();
 		}
-		
+		scope.enter(screenClass);
+		Screen screen = SharedInjector.get().getInstance(screenClass);
+		super.setScreen(screen);
 		current = screen;
-		
-		if (current != null) {
-			scope.enter(screen.getClass());
-			super.setScreen(screen);
-		}
-	}
-	
-	public final void setScreen(int id) {
-		setScreen(states.get(id));
 	}
 }

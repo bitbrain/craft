@@ -90,6 +90,7 @@ public class DragDropHandler {
 		sizes = new HashMap<String, Vector2>();
 		target = new Vector2();
 		enabled = true;
+		eventBus.subscribe(this);
 	}
 
 	public void setEnabled(boolean enabled) {

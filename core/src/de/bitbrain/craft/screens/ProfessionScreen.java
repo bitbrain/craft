@@ -44,12 +44,6 @@ import de.bitbrain.craft.util.DirectPlayerDataProvider;
 public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
 	
 	private ProfessionSelection selection;
-	
-	@Inject
-	private IngameScreen ingameScreen;
-	
-	@Inject
-	private TitleScreen titleScreen;
 
 	@Override
 	protected void onCreateStage(Stage stage) {
@@ -84,14 +78,13 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	 */
 	@Override
 	public void onSelect(Profession profession) {
-		ingameScreen.init(profession);
-		setScreen(ingameScreen);
+		setScreen(IngameScreen.class);
 	}
 	
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
-			setScreen(titleScreen);
+			setScreen(TitleScreen.class);
 		}
 	}
 }

@@ -68,7 +68,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	private boolean fadeIn  = true;
 	
-	private Screen nextScreen;
+	private Class<? extends Screen> nextScreen;
 	
 	@Inject
 	protected ParticleRenderer particleRenderer;
@@ -187,7 +187,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		}
 	}
 	
-	public void setScreen(Screen screen) {
+	public void setScreen(Class<? extends Screen> screen) {
 		eventBus.unsubscribe(inputProcessor);
 		Gdx.input.setInputProcessor(null);
 		nextScreen = screen;

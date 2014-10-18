@@ -79,7 +79,6 @@ public class IconManager implements Fadeable {
 	}
 
 	public Icon fetch(String file) {
-		System.out.println("Fetch icon: " + file + " by " + this);
 		if (icons.containsKey(file)) {
 			return icons.get(file);
 		} else {

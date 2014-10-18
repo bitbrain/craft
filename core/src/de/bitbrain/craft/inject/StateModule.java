@@ -56,13 +56,13 @@ public class StateModule extends AbstractModule {
 	    bind(StateScope.class)
 	        .annotatedWith(Names.named("stateScope"))
 	        .toInstance(scope);
-		bind(OrthographicCamera.class);
-		bind(Camera.class).to(OrthographicCamera.class);
+		bind(OrthographicCamera.class).in(StateScoped.class);
+		bind(Camera.class).to(OrthographicCamera.class).in(StateScoped.class);
 		bind(ParticleRenderer.class);
 		bind(EventBus.class).to(MBassadorEventBus.class);
 	    bind(DragDropHandler.class);
 		bind(IconManager.class);
-		bind(TweenManager.class);
+		bind(TweenManager.class).in(StateScoped.class);
 	    bind(CraftGame.class).asEagerSingleton();
 	    bind(TitleScreen.class);
 	    bind(IngameScreen.class);

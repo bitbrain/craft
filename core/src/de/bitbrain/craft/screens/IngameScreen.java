@@ -22,6 +22,8 @@ package de.bitbrain.craft.screens;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
+
 import net.engio.mbassy.listener.Handler;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -75,11 +77,9 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private IconManager iconManager;
 	
-	@Inject
-	private ProfessionScreen professionScreen;
-	
-	public void init(Profession profession) {
-		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));
+	@PostConstruct	
+	public void init() {
+		professionView = new ProfessionView(ProfessionLogicFactory.create(Profession.ALCHEMIST));
 	}
 
 	@Override
@@ -87,7 +87,6 @@ public class IngameScreen extends AbstractScreen {
 		tabPanel = new TabPanel(tweenManager);
 		stage.addActor(tabPanel);
 		stage.addActor(professionView);
-		System.out.println("IconManager is: " + iconManager + " in IngameScreen");
 	}
 	
 	/* (non-Javadoc)
@@ -200,7 +199,7 @@ public class IngameScreen extends AbstractScreen {
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
-			setScreen(professionScreen);
+			setScreen(ProfessionScreen.class);
 		}
 	}
 }

@@ -68,7 +68,6 @@ public class ElementInfoConnector {
 		dataMap = new HashMap<String, ElementData>();
 		spacings = new HashMap<String, Actor>();
 		eventBus.subscribe(this);
-		System.out.println(eventBus + " in ElementInfo");
 	}
 	
 	@Handler
