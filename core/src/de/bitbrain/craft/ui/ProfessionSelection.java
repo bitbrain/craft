@@ -49,11 +49,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.ButtonSoundListener;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -75,8 +77,11 @@ public class ProfessionSelection extends Table implements EventListener {
 	
 	private PlayerDataProvider playerDataProvider;
 	
-	public ProfessionSelection(PlayerDataProvider playerDataProvider, TweenManager tweenManager) {
-		
+	@Inject
+	private TweenManager tweenManager;
+	
+	public ProfessionSelection(PlayerDataProvider playerDataProvider) {
+		SharedInjector.get().injectMembers(this);
 		listeners = new ArrayList<ProfessionSelectListener>();
 		this.playerDataProvider = playerDataProvider;
 		

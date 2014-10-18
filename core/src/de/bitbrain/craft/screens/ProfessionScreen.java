@@ -26,7 +26,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.google.inject.Inject;
 
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Profession;
@@ -48,7 +47,7 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	@Override
 	protected void onCreateStage(Stage stage) {
 		// TODO: Fix player ID here
-		selection = new ProfessionSelection(new DirectPlayerDataProvider(1), tweenManager);		
+		selection = new ProfessionSelection(new DirectPlayerDataProvider(1));		
 		selection.addProfessionSelectListener(this);
 		selection.align(Align.center);
 		stage.addActor(selection);

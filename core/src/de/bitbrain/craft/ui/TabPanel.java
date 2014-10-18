@@ -24,6 +24,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
@@ -51,7 +53,6 @@ import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
-import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ActorTween;
 
 /**
@@ -73,19 +74,19 @@ public class TabPanel extends Table {
 	
 	private Sprite background;
 	
-	private TweenManager tweenManager;
-	
 	private Set<TabListener> listeners;
 	
 	@Inject
 	private IconManager iconManager;
 	
+	@Inject
+	private TweenManager tweenManager;
+	
 	@Inject 
 	private EventBus eventBus;
 
-	public TabPanel(TweenManager tweenManager) {
-		SharedInjector.get().injectMembers(this);
-		this.tweenManager = tweenManager;
+	@PostConstruct
+	public void init() {
 		listeners = new HashSet<TabListener>();
 		tabs = new HashMap<String, Actor>();
 		content = add();

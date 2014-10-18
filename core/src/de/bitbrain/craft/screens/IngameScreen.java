@@ -62,8 +62,6 @@ import de.bitbrain.craft.ui.TabPanel;
  */
 public class IngameScreen extends AbstractScreen {
 	
-	private TabPanel tabPanel;
-	
 	@Inject
 	private DragDropHandler dragDropHandler;
 	
@@ -77,6 +75,9 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private IconManager iconManager;
 	
+	@Inject
+	private TabPanel tabPanel;
+	
 	@PostConstruct	
 	public void init() {
 		professionView = new ProfessionView(ProfessionLogicFactory.create(Profession.ALCHEMIST));
@@ -84,7 +85,6 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		tabPanel = new TabPanel(tweenManager);
 		stage.addActor(tabPanel);
 		stage.addActor(professionView);
 	}
