@@ -44,40 +44,42 @@ import de.bitbrain.craft.util.Fadeable;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class IconManager implements Fadeable {
-	
+
 	public static final int BUFFER = 10;
-	
+
 	private static Sprite loadingSprite;
-	
-	private Map<String, Icon> icons;	
-	private Map<String, Integer> references;	
+
+	private Map<String, Icon> icons;
+	private Map<String, Integer> references;
 	private Map<String, Texture> textures;
-	
+
 	private Queue<String> requests;
-	
+
 	private float alpha = 1.0f;
-	
-	public IconManager() { 
+
+	public IconManager() {
 		icons = new HashMap<String, Icon>();
 		references = new HashMap<String, Integer>();
 		textures = new HashMap<String, Texture>();
 		requests = new LinkedList<String>();
 	}
-	
+
 	public void update() {
-		
+
 		for (int i = 0; i < BUFFER; ++i) {
-			
+
 			if (requests.isEmpty()) {
 				break;
 			}
-			
+
 			loadIcon(requests.poll());
 		}
 	}
-	
-	public Icon fetch(String file) {		
+
+	public Icon fetch(String file) {
+		System.out.println("Fetch icon: " + file + " by " + this);
 		if (icons.containsKey(file)) {
 			return icons.get(file);
 		} else {
@@ -88,7 +90,7 @@ public class IconManager implements Fadeable {
 			return icon;
 		}
 	}
-	
+
 	public void free(String file) {
 		if (references.containsKey(file)) {
 			if (references.get(file) > 1) {
@@ -101,7 +103,7 @@ public class IconManager implements Fadeable {
 			}
 		}
 	}
-	
+
 	@Override
 	public void setAlpha(float alpha) {
 		for (Icon icon : icons.values()) {
@@ -109,28 +111,29 @@ public class IconManager implements Fadeable {
 		}
 		this.alpha = alpha;
 	}
-	
+
 	@Override
 	public float getAlpha() {
 		return alpha;
-		
+
 	}
-	
+
 	public void dispose() {
-		
+
 		for (Texture t : textures.values()) {
 			t.dispose();
 		}
-		
+
 		references.clear();
 		icons.clear();
 		textures.clear();
 	}
-	
+
 	private void loadIcon(String file) {
 		if (!textures.containsKey(file)) {
 			try {
-				Texture texture = new Texture(Gdx.files.internal(Assets.DIR_ICONS + file));
+				Texture texture = new Texture(
+						Gdx.files.internal(Assets.DIR_ICONS + file));
 				textures.put(file, texture);
 				icons.get(file).setTexture(texture);
 			} catch (GdxRuntimeException ex) {
@@ -138,51 +141,55 @@ public class IconManager implements Fadeable {
 			}
 		}
 	}
-	
-	
-	
+
 	public static class Icon extends BaseDrawable implements TransformDrawable {
-		
+
 		public float scale = 1.0f;
 		public float x, y, width, height;
 		public float rotation;
 		public Color color = new Color(Color.WHITE);
-		
+
 		private Sprite sprite;
-		
+
 		Icon() {
 			setTexture(null);
 		}
-		
+
 		void setTexture(Texture texture) {
 			if (texture != null) {
 				this.sprite = new Sprite(texture);
 				sprite.flip(false, true);
-			} else {				
+			} else {
 				if (loadingSprite == null) {
-					loadingSprite = new Sprite(new Texture(Gdx.files.internal("images/icons/ico_loading.png")));
+					loadingSprite = new Sprite(new Texture(
+							Gdx.files.internal("images/icons/ico_loading.png")));
 					loadingSprite.flip(false, true);
-				}				
+				}
 				this.sprite = loadingSprite;
 			}
 		}
-		
+
 		public Texture getTexture() {
 			return sprite.getTexture();
 		}
-		
+
 		public void draw(Batch batch, float alphaModulation) {
 			sprite.setScale(scale);
 			sprite.setBounds(x, y, width, height);
 			sprite.setColor(color);
 			sprite.setOrigin(width / 2f, height / 2f);
 			sprite.setRotation(rotation);
-			
+
 			sprite.draw(batch, alphaModulation);
 		}
 
-		/* (non-Javadoc)
-		 * @see com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable#draw(com.badlogic.gdx.graphics.g2d.Batch, float, float, float, float, float, float, float, float, float)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.badlogic.gdx.scenes.scene2d.utils.TransformDrawable#draw(com.
+		 * badlogic.gdx.graphics.g2d.Batch, float, float, float, float, float,
+		 * float, float, float, float)
 		 */
 		@SuppressWarnings("deprecation")
 		@Override
@@ -197,16 +204,18 @@ public class IconManager implements Fadeable {
 			sprite.setColor(Color.tmp.set(color).mul(batch.getColor()));
 			sprite.draw(batch);
 			sprite.setColor(color);
-			
+
 		}
-		
-		/* (non-Javadoc)
-		 * @see com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable#draw(com.badlogic.gdx.graphics.g2d.Batch, float, float, float, float)
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable#draw(com.badlogic
+		 * .gdx.graphics.g2d.Batch, float, float, float, float)
 		 */
 		@Override
-		public void draw(Batch batch, float x, float y, float w,
-				float h) {
-			
+		public void draw(Batch batch, float x, float y, float w, float h) {
 			if (sprite.isFlipY()) {
 				sprite.flip(false, true);
 			}
@@ -216,11 +225,7 @@ public class IconManager implements Fadeable {
 			sprite.setColor(color);
 			sprite.setOrigin(w / 2f, h / 2f);
 			sprite.setRotation(rotation);
-			
 			sprite.draw(batch, color.a);
-			
 		}
-		
-		
 	}
 }

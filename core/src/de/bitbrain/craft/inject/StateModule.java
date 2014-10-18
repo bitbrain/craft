@@ -50,21 +50,22 @@ public class StateModule extends AbstractModule {
 	 */
 	@Override
 	protected void configure() {
+		install(PostConstructModule.INSTANCE);
 		StateScope scope = new StateScope();
 	    bindScope(StateScoped.class, scope);
 	    bind(StateScope.class)
 	        .annotatedWith(Names.named("stateScope"))
 	        .toInstance(scope);
-	    bind(DragDropHandler.class);
 		bind(OrthographicCamera.class);
 		bind(Camera.class).to(OrthographicCamera.class);
 		bind(ParticleRenderer.class);
 		bind(EventBus.class).to(MBassadorEventBus.class);
+	    bind(DragDropHandler.class);
 		bind(IconManager.class);
 		bind(TweenManager.class);
 	    bind(CraftGame.class).asEagerSingleton();
 	    bind(TitleScreen.class);
-	    bind(ProfessionScreen.class);
 	    bind(IngameScreen.class);
+	    bind(ProfessionScreen.class);
 	}
 }

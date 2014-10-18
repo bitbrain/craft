@@ -74,8 +74,8 @@ public class TitleScreen extends AbstractScreen {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				ProfessionScreen screen = SharedInjector.get().getInstance(ProfessionScreen.class);
-				tempScreen.setScreen(screen);
+				System.out.println(SharedInjector.get().getInstance(ProfessionScreen.class));
+				tempScreen.setScreen(SharedInjector.get().getInstance(ProfessionScreen.class));
 			}
 			
 			/* (non-Javadoc)

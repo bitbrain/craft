@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.PostConstruct;
+
 import net.engio.mbassy.listener.Handler;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -40,7 +42,7 @@ import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
-import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.TabPanel.TabControl;
 
@@ -52,6 +54,7 @@ import de.bitbrain.craft.ui.TabPanel.TabControl;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class DragDropHandler {
 	
 	// Default icon size
@@ -61,13 +64,13 @@ public class DragDropHandler {
 	private boolean enabled;
 	
 	// Contains all icons to draw
-	private final Map<String, Icon> icons;
+	private Map<String, Icon> icons;
 	
 	// Contains all current locations and their sources
-	private final Map<String, Vector2> locations, sources, sizes;
+	private Map<String, Vector2> locations, sources, sizes;
 	
 	// Contains values to determine if an item has been dropped
-	private final Map<String, Boolean> drops;
+	private Map<String, Boolean> drops;
 	
 	// Temporary direction variable for target
 	private Vector2 target;
@@ -77,16 +80,15 @@ public class DragDropHandler {
 	
 	@Inject
 	private TweenManager tweenManager;
-
-	public DragDropHandler() {
-		SharedInjector.get().injectMembers(this);
+	
+	@PostConstruct
+	public void init() {
 		icons = new HashMap<String, Icon>();
 		locations = new HashMap<String, Vector2>();
 		sources = new HashMap<String, Vector2>();
 		drops = new HashMap<String, Boolean>();
 		sizes = new HashMap<String, Vector2>();
 		target = new Vector2();
-		eventBus.subscribe(this);
 		enabled = true;
 	}
 

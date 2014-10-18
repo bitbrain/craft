@@ -56,7 +56,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	private ElementData data;
 	
 	@Inject
-	EventBus eventBus;
+	private EventBus eventBus;
 	
 	public ElementInfoPanel(ElementData data) {
 		SharedInjector.get().injectMembers(this);
@@ -127,6 +127,5 @@ public class ElementInfoPanel extends HorizontalGroup {
 				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), Gdx.input.getX(), Gdx.input.getY()));
 			}
 		});
-		System.out.println(getPrefWidth() + "|" + getPrefHeight());
 	}
 }

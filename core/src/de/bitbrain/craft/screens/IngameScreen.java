@@ -42,8 +42,6 @@ import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
@@ -60,7 +58,6 @@ import de.bitbrain.craft.ui.TabPanel;
  * @since 1.0
  * @version 1.0
  */
-@StateScoped
 public class IngameScreen extends AbstractScreen {
 	
 	private TabPanel tabPanel;
@@ -78,6 +75,9 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private IconManager iconManager;
 	
+	@Inject
+	private ProfessionScreen professionScreen;
+	
 	public void init(Profession profession) {
 		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));
 	}
@@ -87,6 +87,7 @@ public class IngameScreen extends AbstractScreen {
 		tabPanel = new TabPanel(tweenManager);
 		stage.addActor(tabPanel);
 		stage.addActor(professionView);
+		System.out.println("IconManager is: " + iconManager + " in IngameScreen");
 	}
 	
 	/* (non-Javadoc)
@@ -184,7 +185,6 @@ public class IngameScreen extends AbstractScreen {
 		// API call to get all items
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
-			System.out.println(eventBus + " in IngameScreen");
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}
 		
@@ -200,8 +200,7 @@ public class IngameScreen extends AbstractScreen {
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
-			setScreen(SharedInjector.get().getInstance(ProfessionScreen.class));
+			setScreen(professionScreen);
 		}
 	}
-
 }

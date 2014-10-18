@@ -195,10 +195,6 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		eventBus.unsubscribe(this);
 	}
 	
-	public CraftGame getGame() {
-		return game;
-	}
-	
 	protected abstract void onCreateStage(Stage stage);
 	
 	protected abstract void onDraw(Batch batch, float delta);

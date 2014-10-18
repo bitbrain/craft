@@ -31,6 +31,7 @@ import de.bitbrain.craft.inject.StateScoped;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public final class MBassadorEventBus implements EventBus {
 
 	@SuppressWarnings("deprecation")
