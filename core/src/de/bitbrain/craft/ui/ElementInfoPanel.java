@@ -58,6 +58,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	private EventBus eventBus;
 	
 	public ElementInfoPanel(ElementData data) {
+		try {
 		SharedInjector.get().injectMembers(this);
 		this.data = data;
 		this.name = new Label(data.getName(), Styles.LBL_ITEM);
@@ -68,6 +69,9 @@ public class ElementInfoPanel extends HorizontalGroup {
 		addActor(generateRight(data));
 		fill().pad(10f);
 		registerEvents(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void setData(ElementData data) {

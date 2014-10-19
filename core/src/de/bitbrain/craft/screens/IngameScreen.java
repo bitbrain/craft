@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.screens;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -32,12 +33,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
@@ -47,6 +46,7 @@ import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
@@ -68,7 +68,7 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private API api;
 	
-	private ElementInfoConnector itemConnector;
+	private ElementInfoConnector itemConnector, recipeConnector;
 	
 	private ProfessionView professionView;
 	
@@ -78,9 +78,11 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private TabPanel tabPanel;
 	
+	private Profession profession = Profession.ALCHEMIST;
+	
 	@PostConstruct	
 	public void init() {
-		professionView = new ProfessionView(ProfessionLogicFactory.create(Profession.ALCHEMIST));
+		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));
 	}
 
 	@Override
@@ -106,9 +108,7 @@ public class IngameScreen extends AbstractScreen {
 
 		if (init) {
 			tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", generateItemView());
-			tabPanel.addTab("tab2", "ico_jewel_diamond_medium.png", new Label("Tab2", Styles.LBL_BROWN));
-			tabPanel.addTab("tab3", "ico_jewel_diamond_medium.png", new Label("Tab3", Styles.LBL_BROWN));
-			tabPanel.addTab("tab4", "ico_jewel_diamond_medium.png", new Label("Tab4", Styles.LBL_BROWN));		
+			tabPanel.addTab("tab2", "ico_recipe.png", generateRecipeView());
 			tabPanel.setTab("tab1");
 		}
 	}
@@ -129,8 +129,8 @@ public class IngameScreen extends AbstractScreen {
 		super.dispose();
 		iconManager.dispose();
 		itemConnector.dispose();
+		recipeConnector.dispose();
 		dragDropHandler.clear();
-		eventBus.unsubscribe(itemConnector);
 	}
 	
 	/* (non-Javadoc)
@@ -178,16 +178,30 @@ public class IngameScreen extends AbstractScreen {
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill();
 		itemView.padLeft(10f);
-		// Add data connector
 		itemConnector = new ElementInfoConnector(itemView, Item.class);
 		
-		// API call to get all items
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}
 		
 		return itemView;
+	}
+	
+	private Actor generateRecipeView() {
+		
+		VerticalGroup recipeView = new VerticalGroup();
+		recipeView.align(Align.left).fill();
+		recipeView.padLeft(10f);		
+		recipeConnector = new ElementInfoConnector(recipeView, Recipe.class);
+		
+		Collection<Recipe> recipes = api.getRecipes(profession);
+		
+		for (Recipe recipe : recipes) {
+			eventBus.fireEvent(new ElementEvent<Recipe>(EventType.ADD, recipe, -1));
+		}
+		
+		return recipeView;
 	}
 
 	/* (non-Javadoc)

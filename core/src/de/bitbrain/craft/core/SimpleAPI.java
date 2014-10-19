@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +34,8 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.jpersis.MapperManager;
 
 /**
@@ -98,6 +101,23 @@ class SimpleAPI implements API {
 		}
 		
 		return items;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.core.API#getRecipes(de.bitbrain.craft.models.Profession)
+	 */
+	@Override
+	public Collection<Recipe> getRecipes(Profession profession) {
+		// TODO
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+		Recipe recipe = new Recipe();
+		recipe.setDescription("A basic recipe");
+		recipe.setName("Acid 1");
+		recipe.setId("recipe_xenocite");
+		recipe.setProductId("");
+		recipe.setIcon("ico_xenocite.png");
+		recipes.add(recipe);		
+		return recipes;
 	}
 	
 	/**

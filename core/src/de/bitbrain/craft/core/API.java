@@ -24,6 +24,8 @@ import java.util.Map;
 
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Recipe;
 
 /**
  * Overall craft API interface
@@ -93,6 +95,14 @@ public interface API {
 	 * @return returns true if removed and false if not.
 	 */
 	boolean removeItem(int playerId, String id, int amount);
+	
+	/**
+	 * Returns all recipes of the profession
+	 * 
+	 * @param profession the profession
+	 * @return collection of recipes
+	 */
+	Collection<Recipe> getRecipes(Profession profession);
 	
 	/**
 	 * Determines if id is valid item ID

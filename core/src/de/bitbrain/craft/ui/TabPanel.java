@@ -92,8 +92,7 @@ public class TabPanel extends Table {
 		content = add();
 		this.row();
 		tabControl = new TabControl(this);
-		menu = add(tabControl);
-		
+		menu = add(tabControl);		
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));
 		content.pad(Gdx.graphics.getHeight() / 30f);
 	}
@@ -131,23 +130,18 @@ public class TabPanel extends Table {
 	}
 	
 	public void setTab(String id) {
-		Actor actor = tabs.get(id);
-		
-		if (actor != null) {		
-			
-			Actor current = content.getActor();
-			
+		Actor actor = tabs.get(id);		
+		if (actor != null) {			
+			Actor current = content.getActor();			
 			if (actor != current) {
 				for (TabListener l : listeners) {
 					l.onChange(current, actor);
 				}
-			}
-			
+			}			
 			if (current != null) {
 				current.getColor().a = 0f;				
 				tweenManager.killTarget(current);
-			}
-			
+			}			
 			content.setActor(actor);
 			tabControl.setTab(id);
 			Tween.to(actor, ActorTween.ALPHA, 0.5f)
@@ -190,8 +184,7 @@ public class TabPanel extends Table {
 		private Map<ImageButton, ImageButtonStyle> activeStyles;
 		private Map<ImageButton, Cell<?>> cells;
 		
-		private TabPanel parentPanel;
-		
+		private TabPanel parentPanel;		
 		private ImageButton active;
 		
 		public TabControl(TabPanel panel) {

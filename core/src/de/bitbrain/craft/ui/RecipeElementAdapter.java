@@ -66,7 +66,7 @@ public class RecipeElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getDescription() {
-		return "";
+		return "Recipe";
 	}
 
 	/* (non-Javadoc)
@@ -74,7 +74,7 @@ public class RecipeElementAdapter implements ElementData {
 	 */
 	@Override
 	public Rarity getRarity() {
-		return Rarity.COMMON;
+		return Rarity.RARE;
 	}
 
 	/* (non-Javadoc)
@@ -90,7 +90,7 @@ public class RecipeElementAdapter implements ElementData {
 	 */
 	@Override
 	public int getAmount() {
-		return 1;
+		return -1;
 	}
 
 	/* (non-Javadoc)

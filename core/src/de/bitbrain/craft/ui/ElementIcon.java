@@ -102,9 +102,11 @@ public class ElementIcon extends Actor {
 		icon.draw(batch, parentAlpha);
 		
 		// Amount
-		amount.setText(String.valueOf(data.getAmount()));
-		amount.setX(getX() + getWidth() - amount.getPrefWidth() - PADDING);
-		amount.setY(getY() + PADDING);
-		amount.draw(batch, parentAlpha);
+		if (data.getAmount() > -1) {
+			amount.setText(String.valueOf(data.getAmount()));
+			amount.setX(getX() + getWidth() - amount.getPrefWidth() - PADDING);
+			amount.setY(getY() + PADDING);
+			amount.draw(batch, parentAlpha);
+		}
 	}
 }
