@@ -27,6 +27,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
+import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelection;
@@ -84,6 +86,7 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
 			setScreen(TitleScreen.class);
+			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
 		}
 	}
 }

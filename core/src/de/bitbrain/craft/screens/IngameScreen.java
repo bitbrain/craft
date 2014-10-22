@@ -37,6 +37,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
@@ -214,6 +216,7 @@ public class IngameScreen extends AbstractScreen {
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE) {
 			setScreen(ProfessionScreen.class);
+			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
 		}
 	}
 }

@@ -33,6 +33,8 @@ import com.badlogic.gdx.utils.StreamUtils;
 
 /** See <a href="http://www.badlogicgames.com/wordpress/?p=1255">http://www.badlogicgames.com/wordpress/?p=1255</a>
  * @author mzechner */
+
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ParticleEffect implements Disposable {
 	private final Array<ParticleEmitter> emitters;
 	private BoundingBox bounds;

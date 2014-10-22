@@ -49,13 +49,20 @@ public final class DatabaseHelper {
 		boolean folderExisted = true;
 		
 		try {
-			Gdx.app.log("INFO", "External directory not found. Creating a new one...");
-			handle.file().getParentFile().mkdirs();
+			if (!handle.file().getParentFile().exists()) {
+				Gdx.app.log("INFO", "External directory not found. Creating a new one...");
+				handle.file().getParentFile().mkdirs();
+				Gdx.app.log("INFO", "Successfully created external directory.");
+			} else {
+				Gdx.app.log("INFO", "External directory found.");
+			}
 			if (!handle.file().exists()) {
+				Gdx.app.log("INFO", "Datasource not found Create a new one..");
 				handle.file().createNewFile();
 				folderExisted = false;
+			} else {
+				Gdx.app.log("INFO", "Datasource found.");
 			}
-			Gdx.app.log("INFO", "Successfully created external directory.");
 		} catch (IOException e) {
 			Gdx.app.error("ERROR", "Could not create external directory.", e);
 		}

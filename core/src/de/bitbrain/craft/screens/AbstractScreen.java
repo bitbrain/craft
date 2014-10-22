@@ -56,19 +56,11 @@ import de.bitbrain.craft.tweens.SpriteTween;
  */
 public abstract class AbstractScreen implements Screen, TweenCallback {
 	
-	private Sprite background;
-	
-	protected Batch batch;
-	
 	@Inject
 	protected OrthographicCamera camera;
 	
 	@Inject
 	protected TweenManager tweenManager;
-	
-	private boolean fadeIn  = true;
-	
-	private Class<? extends Screen> nextScreen;
 	
 	@Inject
 	protected ParticleRenderer particleRenderer;
@@ -79,7 +71,15 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	@Inject
 	private CraftGame game;
 	
+	private boolean fadeIn  = true;
+	
+	private Class<? extends Screen> nextScreen;
+	
 	protected InputEventProcessor inputProcessor;
+	
+	private Sprite background;
+	
+	protected Batch batch;
 	
 	public static final float FADE_INTERVAL = 0.7f;	
 	

@@ -17,28 +17,33 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft;
+package de.bitbrain.craft.audio;
 
-import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
+import de.bitbrain.craft.SharedAssetManager;
 
 /**
- * Settings file
+ * Utility class for sound playback
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class Settings {
+public final class SoundUtils {
 
-	public static final int WIDTH = 1020;	
-	public static final int HEIGHT = 600;
+	public static void play(String id, float volume, float pitch) {
+		Sound sound = SharedAssetManager.get(id, Sound.class);
+		
+		if (sound != null) {
+			sound.play(volume, pitch, 1.0f);
+		} else {
+			Gdx.app.error("ERROR", "[SoundUtils] Sound with id='" + id + "' not found.");
+		}
+	}
 	
-	public static final String VERSION = "0.5";	
-	public static final String NAME = "Craft";
-	public static final String PHASE = "dev";
-	
-	public static final String DIR_DATA = ".craft/";
-	public static final String DATABASE = "game.db";
-	
-	public static final int LOGLEVEL = Application.LOG_DEBUG;
+	public static void play(String id) {
+		play(id, 1.0f, 1.0f);
+	}
 }

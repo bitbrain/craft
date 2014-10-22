@@ -47,7 +47,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
-import de.bitbrain.craft.audio.ButtonSoundListener;
+import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.Event.EventType;
@@ -208,7 +208,6 @@ public class TabPanel extends Table {
 			final ImageButton button = new ImageButton(style);
 			final TabControl control = this;
 			button.padBottom(15f);
-			button.addCaptureListener(new ButtonSoundListener(Assets.SND_TAB));
 			
 			buttons.put(button, id);
 			cells.put(button, add(button));
@@ -226,6 +225,8 @@ public class TabPanel extends Table {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					super.clicked(event, x, y);
+					
+					SoundUtils.play(Assets.SND_TAB, 0.7f, 1.4f);
 					 
 					Actor a = event.getTarget();
 					

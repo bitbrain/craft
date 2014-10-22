@@ -38,13 +38,13 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
-import de.bitbrain.craft.audio.ButtonSoundListener;
+import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
- * Title screen of the game
+ * Title screen of the gameO
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -74,6 +74,7 @@ public class TitleScreen extends AbstractScreen {
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
 				tempScreen.setScreen(ProfessionScreen.class);
+				SoundUtils.play(Assets.SND_BEEP, 1.0f, 1.2f);
 			}
 			
 			/* (non-Javadoc)
@@ -125,8 +126,6 @@ public class TitleScreen extends AbstractScreen {
 			}
 			
 		});
-		
-		btnPlay.addCaptureListener(new ButtonSoundListener());
 		
 		stage.addActor(btnPlay);
 		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
