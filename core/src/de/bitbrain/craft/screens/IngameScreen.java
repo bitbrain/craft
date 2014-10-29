@@ -53,7 +53,9 @@ import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
+import de.bitbrain.craft.ui.RecipeView;
 import de.bitbrain.craft.ui.TabPanel;
+import de.bitbrain.craft.ui.Tabs;
 
 /**
  * Displays the main game
@@ -70,15 +72,18 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private API api;
 	
-	private ElementInfoConnector itemConnector, recipeConnector;
-	
-	private ProfessionView professionView;
-	
 	@Inject
 	private IconManager iconManager;
 	
 	@Inject
 	private TabPanel tabPanel;
+	
+	@Inject 
+	private RecipeView recipeView;
+	
+	private ElementInfoConnector itemConnector, recipeConnector;
+	
+	private ProfessionView professionView;
 	
 	private Profession profession = Profession.ALCHEMIST;
 	
@@ -101,17 +106,16 @@ public class IngameScreen extends AbstractScreen {
 		boolean init = inputProcessor == null;
 		super.resize(width, height);
 		tabPanel.setWidth(width / 2.3f);
-		tabPanel.setHeight(height);
-		
+		tabPanel.setHeight(height);		
 		professionView.setWidth(width - tabPanel.getWidth() / 0.82f);
 		professionView.setHeight(tabPanel.getHeight());
 		professionView.setY(height / 7f);
 		professionView.setX(tabPanel.getWidth() + width / 12f);
-
 		if (init) {
-			tabPanel.addTab("tab1", "ico_jewel_diamond_medium.png", generateItemView());
-			tabPanel.addTab("tab2", "ico_recipe.png", generateRecipeView());
-			tabPanel.setTab("tab1");
+			tabPanel.addTab(Tabs.ITEMS, "ico_jewel_diamond_medium.png", generateItemView());
+			tabPanel.addTab(Tabs.RECIPES, "ico_recipe.png", generateRecipeView());
+			tabPanel.addTab(Tabs.RECIPE, "ico_recipe.png", recipeView);
+			tabPanel.setTab(Tabs.ITEMS);
 		}
 	}
 
@@ -180,29 +184,23 @@ public class IngameScreen extends AbstractScreen {
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill();
 		itemView.padLeft(10f);
-		itemConnector = new ElementInfoConnector(itemView, Item.class);
-		
+		itemConnector = new ElementInfoConnector(itemView, Item.class);		
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
-		}
-		
+		}		
 		return itemView;
 	}
 	
-	private Actor generateRecipeView() {
-		
+	private Actor generateRecipeView() {		
 		VerticalGroup recipeView = new VerticalGroup();
 		recipeView.align(Align.left).fill();
 		recipeView.padLeft(10f);		
-		recipeConnector = new ElementInfoConnector(recipeView, Recipe.class);
-		
-		Collection<Recipe> recipes = api.getRecipes(profession);
-		
+		recipeConnector = new ElementInfoConnector(recipeView, Recipe.class);		
+		Collection<Recipe> recipes = api.getRecipes(profession);		
 		for (Recipe recipe : recipes) {
 			eventBus.fireEvent(new ElementEvent<Recipe>(EventType.ADD, recipe, -1));
-		}
-		
+		}		
 		return recipeView;
 	}
 

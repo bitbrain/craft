@@ -53,6 +53,7 @@ import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 
 /**
@@ -62,6 +63,7 @@ import de.bitbrain.craft.tweens.ActorTween;
  * @since 1.0
  * @version 1.0
  */
+@StateScoped
 public class TabPanel extends Table {
 	
 	private static final float HEIGHT_DIV = 1.2f;

@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -28,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
@@ -59,16 +59,16 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	public ElementInfoPanel(ElementData data) {
 		try {
-		SharedInjector.get().injectMembers(this);
-		this.data = data;
-		this.name = new Label(data.getName(), Styles.LBL_ITEM);
-		ElementIcon icon = new ElementIcon(data);		
-		icon.setWidth(name.getHeight() * 4);
-		icon.setHeight(name.getHeight() * 4);		
-		addActor(icon);
-		addActor(generateRight(data));
-		fill().pad(10f);
-		registerEvents(this);
+			SharedInjector.get().injectMembers(this);
+			this.data = data;
+			this.name = new Label(data.getName(), Styles.LBL_ITEM);
+			ElementIcon icon = new ElementIcon(data);		
+			icon.setWidth(name.getHeight() * 4);
+			icon.setHeight(name.getHeight() * 4);		
+			addActor(icon);
+			addActor(generateRight(data));
+			fill().pad(10f);
+			registerEvents(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,6 @@ public class ElementInfoPanel extends HorizontalGroup {
 		Label description = new Label(data.getDescription(), Styles.LBL_TEXT);		
 		description.setColor(Assets.CLR_INACTIVE);		
 		description.getColor().a = 0.5f;
-		description.setWrap(true);
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
 		descContainer.padTop(20f);
@@ -123,11 +122,17 @@ public class ElementInfoPanel extends HorizontalGroup {
 		actor.addListener(new DragListener() {
 			@Override
 			public void dragStart(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), Gdx.input.getX(), Gdx.input.getY()));
+				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
 			}
 			@Override
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), Gdx.input.getX(), Gdx.input.getY()));
+				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
+			}
+		});
+		actor.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.CLICK, getData(), x, y));
 			}
 		});
 	}
