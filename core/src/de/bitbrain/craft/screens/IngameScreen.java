@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.screens;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -33,6 +32,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
@@ -48,7 +48,6 @@ import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
@@ -113,7 +112,6 @@ public class IngameScreen extends AbstractScreen {
 		professionView.setX(tabPanel.getWidth() + width / 12f);
 		if (init) {
 			tabPanel.addTab(Tabs.RECIPE, "ico_recipe.png", recipeView);
-			tabPanel.addTab(Tabs.RECIPES, "ico_recipes.png", generateRecipeView());
 			tabPanel.addTab(Tabs.ITEMS, "ico_jewel_diamond_medium.png", generateItemView());
 			tabPanel.setTab(Tabs.RECIPE);
 		}
@@ -179,8 +177,7 @@ public class IngameScreen extends AbstractScreen {
 		super.onFadeIn(parentInterval);
 	}
 	
-	private Actor generateItemView() {
-		
+	private Actor generateItemView() {		
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill();
 		itemView.padLeft(10f);
@@ -189,19 +186,7 @@ public class IngameScreen extends AbstractScreen {
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}		
-		return itemView;
-	}
-	
-	private Actor generateRecipeView() {		
-		VerticalGroup recipeView = new VerticalGroup();
-		recipeView.align(Align.left).fill();
-		recipeView.padLeft(10f);		
-		recipeConnector = new ElementInfoConnector(recipeView, Recipe.class);		
-		Collection<Recipe> recipes = api.getRecipes(profession);		
-		for (Recipe recipe : recipes) {
-			eventBus.fireEvent(new ElementEvent<Recipe>(EventType.ADD, recipe, -1));
-		}		
-		return recipeView;
+		return new ScrollPane(itemView);
 	}
 
 	/* (non-Javadoc)
