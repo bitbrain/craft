@@ -84,7 +84,6 @@ public class CraftGame extends GuiceGame {
 	public void resume() {
 		super.resume();		
 		loadResources();
-		DatabaseHelper.connect();
 	}
 	
 	@Override
@@ -100,8 +99,7 @@ public class CraftGame extends GuiceGame {
 	
 	private void loadResources() {
 		AssetManager mgr = SharedAssetManager.getInstance();		
-		AssetReflector reflector = new AssetReflector(mgr);
-		
+		AssetReflector reflector = new AssetReflector(mgr);		
 		reflector.load();		
 		Styles.load();
 	}

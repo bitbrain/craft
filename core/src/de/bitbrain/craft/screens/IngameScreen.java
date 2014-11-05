@@ -112,10 +112,10 @@ public class IngameScreen extends AbstractScreen {
 		professionView.setY(height / 7f);
 		professionView.setX(tabPanel.getWidth() + width / 12f);
 		if (init) {
-			tabPanel.addTab(Tabs.ITEMS, "ico_jewel_diamond_medium.png", generateItemView());
-			tabPanel.addTab(Tabs.RECIPES, "ico_recipe.png", generateRecipeView());
 			tabPanel.addTab(Tabs.RECIPE, "ico_recipe.png", recipeView);
-			tabPanel.setTab(Tabs.ITEMS);
+			tabPanel.addTab(Tabs.RECIPES, "ico_recipes.png", generateRecipeView());
+			tabPanel.addTab(Tabs.ITEMS, "ico_jewel_diamond_medium.png", generateItemView());
+			tabPanel.setTab(Tabs.RECIPE);
 		}
 	}
 

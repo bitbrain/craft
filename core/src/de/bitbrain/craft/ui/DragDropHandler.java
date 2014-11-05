@@ -37,6 +37,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager.Icon;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
@@ -80,6 +81,9 @@ public class DragDropHandler {
 	
 	@Inject
 	private TweenManager tweenManager;
+	
+	@Inject
+	private API api;
 	
 	@PostConstruct
 	public void init() {
