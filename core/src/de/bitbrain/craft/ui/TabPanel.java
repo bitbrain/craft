@@ -41,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.inject.Inject;
 
@@ -89,14 +90,23 @@ public class TabPanel extends Table {
 
 	@PostConstruct
 	public void init() {
+		debug();
+		align(Align.top);
 		listeners = new HashSet<TabListener>();
 		tabs = new HashMap<String, Actor>();
-		content = add();
-		this.row();
+		content = add().align(Align.left | Align.top).pad(20f);
 		tabControl = new TabControl(this);
 		menu = add(tabControl);		
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));
-		content.pad(Gdx.graphics.getHeight() / 30f);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.scenes.scene2d.Actor#setWidth(float)
+	 */
+	@Override
+	public void setWidth(float width) {
+		content.width(width);
+		super.setWidth(width + menu.getActorWidth());
 	}
 	
 	/* (non-Javadoc)
@@ -105,18 +115,8 @@ public class TabPanel extends Table {
 	@Override
 	public void setHeight(float height) {
 		super.setHeight(height);
-		content.height(height / HEIGHT_DIV);
-		menu.height(height - content.getPrefHeight());
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Actor#setWidth(float)
-	 */
-	@Override
-	public void setWidth(float width) {
-		super.setWidth(width);
-		content.width(width);
-		menu.width(width);
+		content.height(height);
+		menu.height(height);
 	}
 	
 	public void addTab(String id, String iconId, Actor actor) {
@@ -159,10 +159,10 @@ public class TabPanel extends Table {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		background.setBounds(
-				getX() + getPadLeft() / 2f - content.getPadLeft(), 
-				getY() + content.getActorY() - content.getPadBottom(), 
-				getWidth() + content.getPadRight() * 2, 
-				content.getPrefHeight() + content.getPadTop() * 2);
+				content.getActorX(),
+				content.getActorY(),
+				content.getActorWidth() + content.getPadRight(),
+				content.getActorHeight() + content.getPadTop());
 		background.draw(batch, parentAlpha);
 		super.draw(batch, parentAlpha);
 	}
@@ -190,6 +190,7 @@ public class TabPanel extends Table {
 		private ImageButton active;
 		
 		public TabControl(TabPanel panel) {
+			align(Align.top);
 			this.parentPanel = panel;
 			buttons = new HashMap<ImageButton, String>();
 			ids = new HashMap<String, ImageButton>();
@@ -212,7 +213,7 @@ public class TabPanel extends Table {
 			button.padBottom(15f);
 			
 			buttons.put(button, id);
-			cells.put(button, add(button));
+			cells.put(button, add(button).row().padTop(10f));
 			ids.put(id, button);
 			
 			styles.put(button, style);
@@ -249,14 +250,6 @@ public class TabPanel extends Table {
 					
 				}
 			});
-			
-			for (Cell<?> c : cells.values()) {
-				c.width((parentPanel.getWidth()) / cells.size());
-				c.padBottom(5f);
-				c.padRight(5f);
-				c.padLeft(5f);
-				c.height(parentPanel.getHeight() - (parentPanel.getHeight() / HEIGHT_DIV) - 15f);
-			}
 		}
 		
 		void setTab(String id) {
@@ -267,7 +260,6 @@ public class TabPanel extends Table {
 			
 			if (active != null) {
 				active.setStyle(styles.get(active));
-				cells.get(active).padBottom(0f);
 			}
 			active = tab;
 			active.setStyle(activeStyles.get(active));

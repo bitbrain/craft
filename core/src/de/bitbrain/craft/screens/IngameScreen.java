@@ -38,6 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.IconManager;
@@ -104,8 +105,9 @@ public class IngameScreen extends AbstractScreen {
 	public void resize(int width, int height) {
 		boolean init = inputProcessor == null;
 		super.resize(width, height);
-		tabPanel.setWidth(width / 2.3f);
-		tabPanel.setHeight(height);		
+		tabPanel.setWidth(width / 2.1f);
+		tabPanel.setHeight(height);
+		
 		professionView.setWidth(width - tabPanel.getWidth() / 0.82f);
 		professionView.setHeight(tabPanel.getHeight());
 		professionView.setY(height / 7f);

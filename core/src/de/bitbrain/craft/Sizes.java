@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft;
 
+import com.badlogic.gdx.Gdx;
+
 /**
  * Contains all sizes
  *
@@ -39,5 +41,9 @@ public final class Sizes {
 	public static float craftViewPadding() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public static float globalPadding() {
+		return Gdx.graphics.getHeight() / 20f;
 	}
 }
