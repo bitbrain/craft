@@ -47,6 +47,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.IconManager;
@@ -94,7 +95,7 @@ public class TabPanel extends Table {
 		align(Align.top);
 		listeners = new HashSet<TabListener>();
 		tabs = new HashMap<String, Actor>();
-		content = add().align(Align.left | Align.top).pad(20f);
+		content = add().align(Align.left | Align.top).pad(Sizes.tabPadding());
 		tabControl = new TabControl(this);
 		menu = add(tabControl);		
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));

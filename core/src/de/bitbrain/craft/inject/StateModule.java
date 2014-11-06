@@ -32,6 +32,7 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MBassadorEventBus;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.screens.IngameScreen;
+import de.bitbrain.craft.screens.LoadingScreen;
 import de.bitbrain.craft.screens.ProfessionScreen;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.ui.DragDropHandler;
@@ -64,6 +65,7 @@ public class StateModule extends AbstractModule {
 		bind(IconManager.class);
 		bind(TweenManager.class).in(StateScoped.class);
 	    bind(CraftGame.class).asEagerSingleton();
+	    bind(LoadingScreen.class);
 	    bind(TitleScreen.class);
 	    bind(IngameScreen.class);
 	    bind(ProfessionScreen.class);

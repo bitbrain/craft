@@ -39,7 +39,7 @@ public class SharedAssetManager {
 	
 	private SharedAssetManager() { }
 	
-	static AssetManager getInstance() {
+	public static AssetManager getInstance() {
 		
 		if (instance == null) {
 			loadInternal();

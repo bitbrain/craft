@@ -182,7 +182,6 @@ public class IngameScreen extends AbstractScreen {
 	private Actor generateItemView() {		
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill();
-		itemView.padLeft(10f);
 		itemConnector = new ElementInfoConnector(itemView, Item.class);		
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {

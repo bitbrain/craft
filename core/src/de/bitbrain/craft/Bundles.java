@@ -40,7 +40,7 @@ public final class Bundles {
 	private static FileHandle itemHandle;
 	private static FileHandle recipesHandle;
 	
-	static void load() {		
+	public static void load() {		
 
 		Gdx.app.log("LOAD", "Loading bundles...");
 		generalHandle = Gdx.files.internal(Assets.BDL_GENERAL);

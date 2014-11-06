@@ -22,8 +22,6 @@ import javax.annotation.PostConstruct;
 
 import net.engio.mbassy.listener.Handler;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -31,8 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
@@ -84,17 +80,6 @@ public class RecipeView extends VerticalGroup {
 				content.addActor(generateTop(data));
 			}
 		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
-	 */
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		Texture texture = SharedAssetManager.get(Assets.TEX_PANEL_ITEM, Texture.class);
-		batch.setColor(1f, 1f, 1f, parentAlpha);
-		batch.draw(texture, getX() + 10f, getY() + 10f, getWidth() - 10f, getHeight() - 20f);
-		super.draw(batch, parentAlpha);
 	}
 	
 	private Actor generateTop(ElementData data) {

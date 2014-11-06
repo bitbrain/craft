@@ -19,29 +19,10 @@
 
 package de.bitbrain.craft;
 
-import aurelienribon.tweenengine.Tween;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.API.APIException;
-import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.db.DatabaseHelper;
-import de.bitbrain.craft.graphics.ParticleRenderer;
-import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.models.PlayerUtils;
-import de.bitbrain.craft.screens.TitleScreen;
-import de.bitbrain.craft.tweens.ActorTween;
-import de.bitbrain.craft.tweens.FadeableTween;
-import de.bitbrain.craft.tweens.SpriteTween;
-import de.bitbrain.craft.tweens.VectorTween;
-import de.bitbrain.craft.util.AssetReflector;
+import de.bitbrain.craft.screens.LoadingScreen;
 import de.bitbrain.jpersis.MapperManager;
 import de.bitbrain.jpersis.db.DatabaseException;
 
@@ -55,81 +36,22 @@ import de.bitbrain.jpersis.db.DatabaseException;
 public class CraftGame extends GuiceGame {
 	
 	@Inject
-	private API api;
-	
-	@Inject
-	private TitleScreen screen;
+	private LoadingScreen screen;
 
 	@Override
 	public void create() {		
 		Gdx.app.setLogLevel(Settings.LOGLEVEL);
 		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
-		
-		loadResources();
-		DatabaseHelper.connect();
-		
-		registerTweens();
-		//loadCursor();
-		Bundles.load();
-		try {
-			PlayerUtils.setCurrentPlayer(initPlayer());
-			setScreen(screen);
-		} catch (APIException e) {
-			Gdx.app.error("ERROR", "Could not init player.", e);
-			Gdx.app.exit();
-		}
-	}
-	
-	@Override
-	public void resume() {
-		super.resume();		
-		loadResources();
+		setScreen(screen);
 	}
 	
 	@Override
 	public void dispose() {
-		SharedAssetManager.dispose();
-		
+		SharedAssetManager.dispose();		
 		try {
 			MapperManager.getInstance().getConnector().closeConnection();
 		} catch (DatabaseException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();		
-		AssetReflector reflector = new AssetReflector(mgr);		
-		reflector.load();		
-		Styles.load();
-	}
-	
-	private void registerTweens() {
-		Gdx.app.log("INFO", "Registering tweens...");
-		Tween.registerAccessor(Sprite.class, new SpriteTween());
-		Tween.registerAccessor(Actor.class, new ActorTween());
-		Tween.registerAccessor(IconManager.class, new FadeableTween());
-		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
-		Tween.registerAccessor(Vector2.class, new VectorTween());
-		Gdx.app.log("INFO", "Tweens registered.");
-	}
-	
-	@SuppressWarnings("unused")
-	private void loadCursor() {
-		Pixmap pm = new Pixmap(Gdx.files.internal("images/cursor.png"));
-        int xHotSpot = pm.getWidth() / 2;
-        int yHotSpot = pm.getHeight() / 2;
-        
-        Gdx.input.setCursorImage(pm, xHotSpot, yHotSpot);
-        pm.dispose();
-	}
-	
-	private Player initPlayer() throws APIException {
-		Player p = api.getFirstPlayer();
-		if (p != null) {
-			return p;
-		} else {
-			return api.createPlayer("guest");
 		}
 	}
 }

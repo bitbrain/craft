@@ -132,15 +132,11 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		
 		if (inputProcessor == null) {
 			inputProcessor = new InputEventProcessor(new ScreenViewport(), batch);
-			onCreateStage(inputProcessor);
-			
-			background.setColor(1f, 1f, 1f, 0f);
-			
+			onCreateStage(inputProcessor);			
+			background.setColor(1f, 1f, 1f, 0f);			
 			onFadeIn(FADE_INTERVAL);
-		} else {		
-			inputProcessor.getViewport().update(width, height, true);
 		}
-		
+		inputProcessor.getViewport().update(width, height, true);		
 		camera.setToOrtho(true, width, height);
 	}
 

@@ -44,7 +44,7 @@ public final class Styles {
 	public static final LabelStyle LBL_TEXT 		  = new LabelStyle();
 	public static final ImageButtonStyle BTN_TAB				  = new ImageButtonStyle();
 	public static final ImageButtonStyle BTN_TAB_ACTIVE 		  = new ImageButtonStyle();
-	static void load() {
+	public static void load() {
 		BTN_GREEN.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
 		BTN_GREEN.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class)));
 		BTN_GREEN.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_BUTTON_GREEN_DARK, Texture.class)));

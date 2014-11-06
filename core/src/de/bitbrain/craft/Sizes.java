@@ -34,6 +34,10 @@ public final class Sizes {
 		return 20f;
 	}
 	
+	public static float tabPadding() {
+		return Gdx.graphics.getHeight() / 25f;
+	}
+	
 	public static float craftViewWidth() {
 		return 300f;
 	}
