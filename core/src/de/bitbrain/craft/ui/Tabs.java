@@ -22,7 +22,5 @@ public class Tabs {
 
 	public static final String ITEMS = "items";
 	
-	public static final String RECIPES = "recipes";
-	
 	public static final String RECIPE = "recipe";
 }

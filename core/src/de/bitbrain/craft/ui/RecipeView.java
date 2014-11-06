@@ -72,19 +72,25 @@ public class RecipeView extends VerticalGroup {
 	public void onEvent(MouseEvent<?> event) {
 		if (event.getModel() instanceof ElementData && event.getType() == EventType.CLICK) {
 			ElementData tmpData = (ElementData) event.getModel();
-			if (api.isRecipeId(tmpData.getId())) {
+			if (api.isItemId(tmpData.getId())) {
 				tabPanel.setTab(Tabs.RECIPE);
 			}
-			if (data == null) {
-				data = tmpData;
+			if (data == null || !isModified()) {
+				data = tmpData.copy();
+				content.clear();
 				content.addActor(generateTop(data));
 			}
 		}
 	}
 	
+	private boolean isModified() {
+		return false;
+	}
+	
 	private Actor generateTop(ElementData data) {
 		HorizontalGroup group = new HorizontalGroup();
 		group.align(Align.left);
+		data.setAmount(-1);
 		ElementIcon icon = new ElementIcon(data);
 		group.addActor(icon);
 		HorizontalGroup wrapper = new HorizontalGroup();

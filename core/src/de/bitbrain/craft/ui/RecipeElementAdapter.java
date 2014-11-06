@@ -108,4 +108,12 @@ public class RecipeElementAdapter implements ElementData {
 	public void setAmount(int amount) {
 		// do nothing
 	}
+
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementData#copy()
+	 */
+	@Override
+	public ElementData copy() {
+		return new RecipeElementAdapter(recipe);
+	}
 }

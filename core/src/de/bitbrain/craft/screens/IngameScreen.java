@@ -187,7 +187,13 @@ public class IngameScreen extends AbstractScreen {
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
 		}		
-		return new ScrollPane(itemView);
+		return generateScrollPane(itemView);
+	}
+	
+	private ScrollPane generateScrollPane(Actor actor) {
+		ScrollPane pane = new ScrollPane(actor);
+		pane.setCancelTouchFocus(false);
+		return pane;
 	}
 
 	/* (non-Javadoc)

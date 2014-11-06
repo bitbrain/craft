@@ -33,7 +33,7 @@ public final class Settings {
 	public static final int WIDTH = 1020;	
 	public static final int HEIGHT = 600;
 	
-	public static final String VERSION = "0.5";	
+	public static final String VERSION = "0.5.1";	
 	public static final String NAME = "Craft";
 	public static final String PHASE = "dev";
 	

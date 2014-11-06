@@ -79,4 +79,11 @@ public interface ElementData {
 	 * @param amount
 	 */
 	void setAmount(int amount);
+	
+	/**
+	 * Creates a copy of this data
+	 * 
+	 * @return
+	 */
+	ElementData copy();
 }

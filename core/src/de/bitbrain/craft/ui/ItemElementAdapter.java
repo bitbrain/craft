@@ -112,4 +112,12 @@ public class ItemElementAdapter implements ElementData {
 		this.amount = amount;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.bitbrain.craft.ui.ElementData#copy()
+	 */
+	@Override
+	public ElementData copy() {
+		return new ItemElementAdapter(item, amount);
+	}
+
 }
