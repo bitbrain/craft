@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -62,7 +63,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 			SharedInjector.get().injectMembers(this);
 			this.data = data;
 			this.name = new Label(data.getName(), Styles.LBL_ITEM);
-			ElementIcon icon = new ElementIcon(data);		
+			icon = new ElementIcon(data);		
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);		
 			addActor(icon);
@@ -119,7 +120,8 @@ public class ElementInfoPanel extends HorizontalGroup {
 	}
 	
 	private void registerEvents(Actor actor) {
-		actor.addListener(new DragListener() {
+		// Allow dragging for icons only
+		icon.addListener(new DragListener() {
 			@Override
 			public void dragStart(InputEvent event, float x, float y, int pointer) {
 				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
@@ -129,10 +131,21 @@ public class ElementInfoPanel extends HorizontalGroup {
 				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
 			}
 		});
+		icon.addCaptureListener(new InputListener() {
+			/* (non-Javadoc)
+			 * @see com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			 */
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
 		actor.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.CLICK, getData(), x, y));
+				event.stop();
 			}
 		});
 	}
