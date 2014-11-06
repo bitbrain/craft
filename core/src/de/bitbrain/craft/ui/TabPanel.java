@@ -68,8 +68,6 @@ import de.bitbrain.craft.tweens.ActorTween;
 @StateScoped
 public class TabPanel extends Table {
 	
-	private static final float HEIGHT_DIV = 1.2f;
-	
 	private Cell<?> content, menu;
 	
 	private Map<String, Actor> tabs;
@@ -91,7 +89,6 @@ public class TabPanel extends Table {
 
 	@PostConstruct
 	public void init() {
-		debug();
 		align(Align.top);
 		listeners = new HashSet<TabListener>();
 		tabs = new HashMap<String, Actor>();
@@ -126,6 +123,7 @@ public class TabPanel extends Table {
 		tabControl.addTab(id, iconId);
 		setTab(id);
 		actor.getColor().a = 0f;
+		this.invalidateHierarchy();
 	}
 	
 	public void addListener(TabListener listener) {
