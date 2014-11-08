@@ -140,7 +140,6 @@ public class ElementInfoConnector {
 		if (!elements.containsKey(id)) {
 			ElementInfoPanel panel = new ElementInfoPanel(data);
 			elements.put(id, panel);
-
 			group.addActor(addSpacing(id));
 			group.addActor(panel);
 			Gdx.app.log("INFO", "Attached element with id='" + id + "' to " + group);

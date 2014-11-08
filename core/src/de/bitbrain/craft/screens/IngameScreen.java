@@ -181,7 +181,7 @@ public class IngameScreen extends AbstractScreen {
 	
 	private Actor generateItemView() {		
 		VerticalGroup itemView = new VerticalGroup();
-		itemView.align(Align.left).fill();
+		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
 		itemConnector = new ElementInfoConnector(itemView, Item.class);		
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
@@ -193,6 +193,7 @@ public class IngameScreen extends AbstractScreen {
 	private ScrollPane generateScrollPane(Actor actor) {
 		ScrollPane pane = new ScrollPane(actor);
 		pane.setCancelTouchFocus(false);
+		pane.setScrollingDisabled(true, false);
 		return pane;
 	}
 
