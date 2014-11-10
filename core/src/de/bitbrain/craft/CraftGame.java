@@ -23,8 +23,6 @@ import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.screens.LoadingScreen;
-import de.bitbrain.jpersis.MapperManager;
-import de.bitbrain.jpersis.db.DatabaseException;
 
 /**
  * Main game file which handles all screens
@@ -47,11 +45,6 @@ public class CraftGame extends GuiceGame {
 	
 	@Override
 	public void dispose() {
-		SharedAssetManager.dispose();		
-		try {
-			MapperManager.getInstance().getConnector().closeConnection();
-		} catch (DatabaseException e) {
-			e.printStackTrace();
-		}
+		SharedAssetManager.dispose();
 	}
 }

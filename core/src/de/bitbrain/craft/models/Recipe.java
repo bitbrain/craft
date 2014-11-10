@@ -22,7 +22,8 @@ package de.bitbrain.craft.models;
 import java.util.List;
 
 import de.bitbrain.craft.util.Identifiable;
-import de.bitbrain.jpersis.annotations.IgnoredMethod;
+import de.bitbrain.jpersis.annotations.Ignored;
+import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
  * Recipe which describes how to make items out of other items
@@ -33,8 +34,10 @@ import de.bitbrain.jpersis.annotations.IgnoredMethod;
  */
 public class Recipe implements Identifiable {
 
+	@PrimaryKey
 	private String id;
 	
+	@Ignored
 	private List<String> itemIds;
 	
 	private String productId;
@@ -57,7 +60,6 @@ public class Recipe implements Identifiable {
 		this.id = id;
 	}
 	
-	@IgnoredMethod
 	public void setItemIds(List<String> items) {
 		this.itemIds = items;
 	}
@@ -87,7 +89,6 @@ public class Recipe implements Identifiable {
 		this.productId = product;
 	}
 	
-	@IgnoredMethod
 	public List<String> getItemIds() {
 		return itemIds;
 	}

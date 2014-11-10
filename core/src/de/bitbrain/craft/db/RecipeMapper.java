@@ -4,16 +4,13 @@ import java.util.Collection;
 
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.jpersis.annotations.Count;
-import de.bitbrain.jpersis.annotations.DataMapper;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;
+import de.bitbrain.jpersis.annotations.Mapper;
 import de.bitbrain.jpersis.annotations.Select;
 import de.bitbrain.jpersis.annotations.Update;
 
-@DataMapper(
-		model = "de.bitbrain.craft.models.Recipe", 
-		table="recipe", 
-		primaryKey = "id")
+@Mapper("de.bitbrain.craft.models.Recipe")
 public interface RecipeMapper {
 
 	@Select
@@ -42,5 +39,4 @@ public interface RecipeMapper {
 	
 	@Count
     int count();
-	
 }

@@ -24,6 +24,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import com.google.inject.Inject;
+
 import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
@@ -36,7 +40,7 @@ import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Recipe;
-import de.bitbrain.jpersis.MapperManager;
+import de.bitbrain.jpersis.JPersis;
 
 /**
  * General API interface
@@ -51,20 +55,18 @@ class SimpleAPI implements API {
 	private OwnedItemMapper ownedItemMapper;
 	private PlayerMapper playerMapper;
 	
-	private boolean initialized = false;
+	@Inject
+	private JPersis jpersis;
 	
-	private void init() {
-		if (!initialized) {
-			itemMapper = MapperManager.getInstance().getMapper(ItemMapper.class);
-			ownedItemMapper = MapperManager.getInstance().getMapper(OwnedItemMapper.class);
-			playerMapper = MapperManager.getInstance().getMapper(PlayerMapper.class);
-			initialized = true;
-		}
+	@PostConstruct
+	public void init() {
+		itemMapper = jpersis.map(ItemMapper.class);
+		ownedItemMapper = jpersis.map(OwnedItemMapper.class);
+		playerMapper = jpersis.map(PlayerMapper.class);
 	}
 	
 	@Override
 	public Item getItem(ItemId id) {
-		init();
 		return getItem(id.getId());
 	}
 	
@@ -79,7 +81,6 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Collection<Item> getAllItems() {
-		init();
 		return itemMapper.findAll();
 	}
 	
@@ -91,7 +92,6 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Map<Item, Integer> getOwnedItems(int playerId) {
-		init();
 		Collection<OwnedItem> owned = ownedItemMapper.findAllByPlayerId(playerId);
 		Map<Item, Integer> items = new HashMap<Item, Integer>();
 		
@@ -127,7 +127,6 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Player getFirstPlayer() {
-		init();
 		Collection<Player> players = playerMapper.findAll();
 		
 		if (players.size() > 0) {
@@ -138,8 +137,7 @@ class SimpleAPI implements API {
 	}
 	
 	@Override
-	public Player createPlayer(String name) throws APIException {		
-		init();
+	public Player createPlayer(String name) throws APIException {
 		if (playerMapper.findByName(name) == null) {
 			Player player = new Player();
 			player.setName(name);
@@ -152,13 +150,11 @@ class SimpleAPI implements API {
 	
 	@Override
 	public Item addItem(int playerId, ItemId id) {
-		init();
 		return addItem(playerId, id, 1);
 	}
 	
 	@Override
 	public Item addItem(int playerId, ItemId id, int amount) {
-		init();
 		Item item = getItem(id);
 		
 		if (item != null) {
@@ -183,7 +179,6 @@ class SimpleAPI implements API {
 	
 	@Override
 	public boolean removeItem(int playerId, String id, int amount) {
-		init();
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
 		int count = owned.getAmount() - amount;
 		if (owned != null && count >= 0) {
@@ -216,7 +211,6 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public boolean isItemId(String id) {
-		init();
 		return id.startsWith("item_");		
 	}
 	
@@ -229,7 +223,6 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public boolean isRecipeId(String id) {
-		init();
 		return id.startsWith("recipe_");		
 	}
 }

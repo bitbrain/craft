@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.util;
 
-import de.bitbrain.jpersis.annotations.IgnoredMethod;
 
 /**
  * Identifies an object
@@ -30,6 +29,5 @@ import de.bitbrain.jpersis.annotations.IgnoredMethod;
  */
 public interface Identifiable {
 
-	@IgnoredMethod
 	String getId();
 }

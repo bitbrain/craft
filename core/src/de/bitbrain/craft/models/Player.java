@@ -19,7 +19,8 @@
 
 package de.bitbrain.craft.models;
 
-import de.bitbrain.jpersis.annotations.IgnoredMethod;
+import de.bitbrain.jpersis.annotations.PrimaryKey;
+
 
 /**
  * Player which owns a game
@@ -32,6 +33,7 @@ public class Player {
 	
 	static Player current = null;
 
+	@PrimaryKey(true)
 	private int id;
 	
 	private String name;
@@ -64,7 +66,6 @@ public class Player {
 		this.name = name;
 	}
 	
-	@IgnoredMethod
 	public static Player getCurrent() {
 		
 		if (current == null) {

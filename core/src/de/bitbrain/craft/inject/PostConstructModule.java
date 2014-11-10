@@ -61,12 +61,16 @@ public enum PostConstructModule implements Module, TypeListener {
             public void afterInjection(final I injectee) {
                 // alle postconstruct Methoden (nie null) ausführen.
                 for (final Method postConstructMethod : injectee.getClass().getMethods()) {
+                	boolean accessable = postConstructMethod.isAccessible();
                     try {
+                    	postConstructMethod.setAccessible(true);
                     	if (postConstructMethod.getAnnotation(PostConstruct.class) != null) {
                     		postConstructMethod.invoke(injectee);
                     	}
                     } catch (final Exception e) {
                         throw new RuntimeException(e);
+                    } finally {
+                    	postConstructMethod.setAccessible(accessable);
                     }
                 }
             }

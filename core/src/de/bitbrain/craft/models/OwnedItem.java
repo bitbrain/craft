@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.models;
 
+import de.bitbrain.jpersis.annotations.PrimaryKey;
+
 /**
  * Object representation of an owned item
  *
@@ -28,6 +30,7 @@ package de.bitbrain.craft.models;
  */
 public class OwnedItem {
 
+	@PrimaryKey(true)
 	private int id;
 	
 	private String itemId;

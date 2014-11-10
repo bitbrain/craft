@@ -24,10 +24,12 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.name.Names;
 
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MBassadorEventBus;
 import de.bitbrain.craft.graphics.ParticleRenderer;
@@ -36,6 +38,7 @@ import de.bitbrain.craft.screens.LoadingScreen;
 import de.bitbrain.craft.screens.ProfessionScreen;
 import de.bitbrain.craft.screens.TitleScreen;
 import de.bitbrain.craft.ui.DragDropHandler;
+import de.bitbrain.jpersis.JPersis;
 
 /**
  * Module to provide screen injection
@@ -45,6 +48,8 @@ import de.bitbrain.craft.ui.DragDropHandler;
  * @version 1.0
  */
 public class StateModule extends AbstractModule {
+	
+	private JPersis jpersis;
 
 	/* (non-Javadoc)
 	 * @see com.google.inject.AbstractModule#configure()
@@ -70,4 +75,14 @@ public class StateModule extends AbstractModule {
 	    bind(IngameScreen.class);
 	    bind(ProfessionScreen.class);
 	}
+	
+	@Provides
+	public JPersis provideJPersis() {
+		if (jpersis == null) {
+			jpersis = new JPersis(DriverProvider.getDriver());
+		}
+		return jpersis;
+	}
+	
+	
 }

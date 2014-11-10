@@ -4,16 +4,13 @@ import java.util.Collection;
 
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.jpersis.annotations.Count;
-import de.bitbrain.jpersis.annotations.DataMapper;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;
+import de.bitbrain.jpersis.annotations.Mapper;
 import de.bitbrain.jpersis.annotations.Select;
 import de.bitbrain.jpersis.annotations.Update;
 
-@DataMapper(
-		model = "de.bitbrain.craft.models.Item", 
-		table="item", 
-		primaryKey = "id")
+@Mapper("de.bitbrain.craft.models.Item")
 public interface ItemMapper {
 
 	@Select

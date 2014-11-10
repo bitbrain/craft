@@ -40,7 +40,7 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.db.DatabaseHelper;
+import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.PlayerUtils;
@@ -135,8 +135,8 @@ public class LoadingScreen implements Screen {
 	}
 	
 	private void loadGame() {
-		loadResources();
-		DatabaseHelper.connect();		
+		DriverProvider.initialize();
+		loadResources();	
 		registerTweens();
 		//loadCursor();
 		Bundles.load();
@@ -170,8 +170,7 @@ public class LoadingScreen implements Screen {
 	private void loadCursor() {
 		Pixmap pm = new Pixmap(Gdx.files.internal("images/cursor.png"));
         int xHotSpot = pm.getWidth() / 2;
-        int yHotSpot = pm.getHeight() / 2;
-        
+        int yHotSpot = pm.getHeight() / 2;        
         Gdx.input.setCursorImage(pm, xHotSpot, yHotSpot);
         pm.dispose();
 	}

@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.models;
 
+import de.bitbrain.jpersis.annotations.PrimaryKey;
+
 /**
  * Progress of a given player
  *
@@ -28,6 +30,7 @@ package de.bitbrain.craft.models;
  */
 public class Progress {
 
+	@PrimaryKey(true)
 	private int id;
 	
 	private int level;

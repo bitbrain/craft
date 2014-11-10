@@ -21,10 +21,13 @@ package de.bitbrain.craft.util;
 
 import java.util.Collection;
 
+import com.google.inject.Inject;
+
 import de.bitbrain.craft.db.ProgressMapper;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
-import de.bitbrain.jpersis.MapperManager;
+import de.bitbrain.jpersis.JPersis;
 
 /**
  * 
@@ -39,7 +42,11 @@ public class DirectPlayerDataProvider implements PlayerDataProvider {
 	
 	private int playerID;
 	
-	public DirectPlayerDataProvider(int playerID) {		
+	@Inject
+	private JPersis jpersis;
+	
+	public DirectPlayerDataProvider(int playerID) {
+			SharedInjector.get().injectMembers(this);
 			this.playerID = playerID;
 	}
 
@@ -79,7 +86,7 @@ public class DirectPlayerDataProvider implements PlayerDataProvider {
 
 	public void refresh() {
 		if (progress == null) {
-			ProgressMapper mapper = MapperManager.getInstance().getMapper(ProgressMapper.class);		
+			ProgressMapper mapper = jpersis.map(ProgressMapper.class);		
 			progress = mapper.progressOfPlayer(playerID);	
 		}
 	}
