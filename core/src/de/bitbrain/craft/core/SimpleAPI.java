@@ -119,7 +119,7 @@ class SimpleAPI implements API {
 		recipe.setName("Acid 1");
 		recipe.setId("recipe_xenocite");
 		recipe.setProductId("");
-		recipe.setIcon("ico_xenocite.png");
+		recipe.setIcon(Icon.XENOCITE);
 		recipes.add(recipe);		
 		return recipes;
 	}

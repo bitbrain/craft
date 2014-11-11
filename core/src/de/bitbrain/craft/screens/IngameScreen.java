@@ -41,6 +41,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
@@ -113,8 +114,8 @@ public class IngameScreen extends AbstractScreen {
 		professionView.setY(height / 7f);
 		professionView.setX(tabPanel.getWidth() + width / 12f);
 		if (init) {
-			tabPanel.addTab(Tabs.RECIPE, "ico_recipe.png", recipeView);
-			tabPanel.addTab(Tabs.ITEMS, "ico_jewel_diamond_medium.png", generateItemView());
+			tabPanel.addTab(Tabs.RECIPE, Icon.RECIPE, recipeView);
+			tabPanel.addTab(Tabs.ITEMS, Icon.JEWEL_DIAMOND_MEDIUM, generateItemView());
 			tabPanel.setTab(Tabs.RECIPE);
 		}
 	}

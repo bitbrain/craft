@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Recipe;
@@ -39,7 +39,7 @@ public class RecipeElementAdapter implements ElementData {
 	
 	private Recipe recipe;
 	
-	private Icon icon;
+	private IconDrawable icon;
 	
 	@Inject 
 	IconManager iconManager;
@@ -53,7 +53,7 @@ public class RecipeElementAdapter implements ElementData {
 	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getIcon()
 	 */
 	@Override
-	public Icon getIcon() {
+	public IconDrawable getIcon() {
 		if (icon == null) {
 			icon = iconManager.fetch(recipe.getIcon());
 		}

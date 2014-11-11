@@ -38,7 +38,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -65,7 +65,7 @@ public class DragDropHandler {
 	private boolean enabled;
 	
 	// Contains all icons to draw
-	private Map<String, Icon> icons;
+	private Map<String, IconDrawable> icons;
 	
 	// Contains all current locations and their sources
 	private Map<String, Vector2> locations, sources, sizes;
@@ -87,7 +87,7 @@ public class DragDropHandler {
 	
 	@PostConstruct
 	public void init() {
-		icons = new HashMap<String, Icon>();
+		icons = new HashMap<String, IconDrawable>();
 		locations = new HashMap<String, Vector2>();
 		sources = new HashMap<String, Vector2>();
 		drops = new HashMap<String, Boolean>();
@@ -103,7 +103,7 @@ public class DragDropHandler {
 	
 	public void draw(Batch batch, float delta) {
 		if (enabled) {
-			for (Entry<String, Icon> entry : icons.entrySet()) {
+			for (Entry<String, IconDrawable> entry : icons.entrySet()) {
 				Vector2 location = locations.get(entry.getKey());
 				Vector2 size = sizes.get(entry.getKey());
 				target.x = Gdx.input.getX();
@@ -126,7 +126,7 @@ public class DragDropHandler {
 				location.y += (target.y - location.y) * delta * speed; 
 				
 				// Apply location
-				Icon icon = entry.getValue();
+				IconDrawable icon = entry.getValue();
 				icon.x = location.x - size.x / 2f;
 				icon.y = location.y - size.y / 2f;
 				icon.rotation = 0f;

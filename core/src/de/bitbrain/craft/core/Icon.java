@@ -17,73 +17,43 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
-
-import de.bitbrain.craft.core.IconManager.IconDrawable;
-import de.bitbrain.craft.models.Item.Rarity;
+package de.bitbrain.craft.core;
 
 /**
- * UI representation of game data
+ * Contains all supported icons
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface ElementData {
+public enum Icon {
 	
-	/**
-	 * ID of the element
-	 * 
-	 * @return element id
-	 */
-	String getId();
+	FLUX,
+	ACID_1,
+	ACID_2,
+	DUST,
+	WATER,
+	SULFUR,
+	MERCURY,
+	PHIOLE_SMALL,
+	PHIOLE_MEDIUM,
+	GRAYSTONE,
+	BENTAGON,
+	DARKSTONE,
+	MOLTEN_SAND, 
+	RECIPE, 
+	JEWEL_DIAMOND_MEDIUM,
+	XENOCITE;
 	
-	/**
-	 * Icon of the element
-	 * 
-	 * @return element icon
-	 */
-	IconDrawable getIcon();
 	
-	/**
-	 * Description of the element
-	 * 
-	 * @return element description
-	 */
-	String getDescription();
+	public final String EXTENSION = ".png";
 	
-	/**
-	 * Rarity of the element
-	 * 
-	 * @return element rarity
-	 */
-	Rarity getRarity();
+	public String getId() {
+		return "ico_" + name().toLowerCase();
+	}
 	
-	/**
-	 * Name of the element
-	 * 
-	 * @return element name
-	 */
-	String getName();
-	
-	/**
-	 * Amount of the element
-	 * 
-	 * @return element amount
-	 */
-	int getAmount();
-	
-	/**
-	 * amount of the data
-	 * 
-	 * @param amount
-	 */
-	void setAmount(int amount);
-	
-	/**
-	 * Creates a copy of this data
-	 * 
-	 * @return
-	 */
-	ElementData copy();
+	public String getFile() {
+		return getId() + ".png";
+	}
 }
+

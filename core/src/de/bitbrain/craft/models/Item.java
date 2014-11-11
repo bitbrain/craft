@@ -21,6 +21,7 @@ package de.bitbrain.craft.models;
 
 import com.badlogic.gdx.graphics.Color;
 
+import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.util.Identifiable;
 
 /**
@@ -34,13 +35,13 @@ public class Item implements Identifiable {
 
 	private String id = "";
 	
-	private String icon = "";
+	private Icon icon;
 	
 	private Rarity rarity = Rarity.COMMON;
 	
 	private int level = 1;
 	
-	public String getIcon() {
+	public Icon getIcon() {
 		return icon;
 	}
 	
@@ -57,7 +58,7 @@ public class Item implements Identifiable {
 		return rarity;
 	}
 	
-	public void setIcon(String icon) {
+	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
 	

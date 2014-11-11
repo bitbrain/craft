@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
-import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.util.ColorCalculator;
 
 /**
@@ -53,7 +53,7 @@ public class ElementIcon extends Actor {
 	
 	private ColorCalculator colorCalculator;
 	
-	private Icon icon;
+	private IconDrawable icon;
 	
 	private Color backgroundColor = new Color(Color.WHITE);
 	

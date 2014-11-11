@@ -51,19 +51,19 @@ public class IconManager implements Fadeable {
 
 	private static Sprite loadingSprite;
 
-	private Map<String, Icon> icons;
+	private Map<String, IconDrawable> icons;
 	private Map<String, Integer> references;
 	private Map<String, Texture> textures;
 
-	private Queue<String> requests;
+	private Queue<Icon> requests;
 
 	private float alpha = 1.0f;
 
 	public IconManager() {
-		icons = new HashMap<String, Icon>();
+		icons = new HashMap<String, IconDrawable>();
 		references = new HashMap<String, Integer>();
 		textures = new HashMap<String, Texture>();
-		requests = new LinkedList<String>();
+		requests = new LinkedList<Icon>();
 	}
 
 	public void update() {
@@ -78,15 +78,16 @@ public class IconManager implements Fadeable {
 		}
 	}
 
-	public Icon fetch(String file) {
+	public IconDrawable fetch(Icon icon) {
+		String file = icon.getFile();
 		if (icons.containsKey(file)) {
 			return icons.get(file);
 		} else {
 			references.put(file, 1);
-			requests.add(file);
-			Icon icon = new Icon();
-			icons.put(file, icon);
-			return icon;
+			requests.add(icon);
+			IconDrawable iconDrawable = new IconDrawable();
+			icons.put(file, iconDrawable);
+			return iconDrawable;
 		}
 	}
 
@@ -105,7 +106,7 @@ public class IconManager implements Fadeable {
 
 	@Override
 	public void setAlpha(float alpha) {
-		for (Icon icon : icons.values()) {
+		for (IconDrawable icon : icons.values()) {
 			icon.color.a = alpha;
 		}
 		this.alpha = alpha;
@@ -128,7 +129,8 @@ public class IconManager implements Fadeable {
 		textures.clear();
 	}
 
-	private void loadIcon(String file) {
+	private void loadIcon(Icon icon) {
+		String file = icon.getFile();
 		if (!textures.containsKey(file)) {
 			try {
 				Texture texture = new Texture(
@@ -141,7 +143,7 @@ public class IconManager implements Fadeable {
 		}
 	}
 
-	public static class Icon extends BaseDrawable implements TransformDrawable {
+	public static class IconDrawable extends BaseDrawable implements TransformDrawable {
 
 		public float scale = 1.0f;
 		public float x, y, width, height;
@@ -150,7 +152,7 @@ public class IconManager implements Fadeable {
 
 		private Sprite sprite;
 
-		Icon() {
+		IconDrawable() {
 			setTexture(null);
 		}
 

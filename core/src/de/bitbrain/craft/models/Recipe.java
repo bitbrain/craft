@@ -21,6 +21,7 @@ package de.bitbrain.craft.models;
 
 import java.util.List;
 
+import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.util.Identifiable;
 import de.bitbrain.jpersis.annotations.Ignored;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
@@ -46,13 +47,13 @@ public class Recipe implements Identifiable {
 	
 	private String description;
 	
-	private String icon;
+	private Icon icon;
 	
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	
-	public void setIcon(String icon) {
+	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
 	
@@ -72,7 +73,7 @@ public class Recipe implements Identifiable {
 		return description;
 	}
 	
-	public String getIcon() {
+	public Icon getIcon() {
 		return icon;
 	}
 	

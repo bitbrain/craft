@@ -50,8 +50,9 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
+import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.core.IconManager.Icon;
+import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
@@ -117,10 +118,10 @@ public class TabPanel extends Table {
 		menu.height(height);
 	}
 	
-	public void addTab(String id, String iconId, Actor actor) {
+	public void addTab(String id, Icon icon, Actor actor) {
 		tabs.remove(id);		
 		tabs.put(id, actor);
-		tabControl.addTab(id, iconId);
+		tabControl.addTab(id, icon);
 		setTab(id);
 		actor.getColor().a = 0f;
 		this.invalidateHierarchy();
@@ -202,10 +203,10 @@ public class TabPanel extends Table {
 			return ids.get(id).equals(active);
 		}
 		
-		public void addTab(String id, String iconId) {
+		public void addTab(String id, Icon icon) {
 			
-			ImageButtonStyle style = generateStyle(iconId, false);
-			ImageButtonStyle activeStyle = generateStyle(iconId, true);
+			ImageButtonStyle style = generateStyle(icon, false);
+			ImageButtonStyle activeStyle = generateStyle(icon, true);
 			
 			final ImageButton button = new ImageButton(style);
 			final TabControl control = this;
@@ -264,7 +265,7 @@ public class TabPanel extends Table {
 			active.setStyle(activeStyles.get(active));
 		}
 		
-		private ImageButtonStyle generateStyle(String iconId, boolean active) {
+		private ImageButtonStyle generateStyle(Icon icon, boolean active) {
 			
 			ImageButtonStyle origin = Styles.BTN_TAB;
 			
@@ -273,10 +274,10 @@ public class TabPanel extends Table {
 			}
 			
 			ImageButtonStyle style = new ImageButtonStyle(origin);
-			Icon icon = iconManager.fetch(iconId);
-			icon.color.a = 0.5f;
-			style.imageUp = icon;		
-			style.imageOver = icon;
+			IconDrawable iconDrawable = iconManager.fetch(icon);
+			iconDrawable.color.a = 0.5f;
+			style.imageUp = iconDrawable;		
+			style.imageOver = iconDrawable;
 			
 			style.imageUp.setMinHeight(Gdx.graphics.getHeight() / 10f);
 			style.imageUp.setMinWidth(Gdx.graphics.getHeight() / 10f);
