@@ -41,6 +41,17 @@ public class Progress {
 	
 	private int playerId;
 	
+	public Progress() {
+		
+	}
+	
+	public Progress(int playerId, Profession profession) {
+		this.playerId = playerId;
+		this.profession = profession;
+		this.xp = 0;
+		this.level = 1;
+	}
+	
 	/**
 	 * @return the id
 	 */

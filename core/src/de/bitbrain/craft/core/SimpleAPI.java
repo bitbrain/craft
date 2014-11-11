@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
+import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -39,6 +40,7 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.jpersis.JPersis;
 
@@ -54,6 +56,7 @@ class SimpleAPI implements API {
 	private ItemMapper itemMapper;
 	private OwnedItemMapper ownedItemMapper;
 	private PlayerMapper playerMapper;
+	private ProgressMapper progressMapper;
 	
 	@Inject
 	private JPersis jpersis;
@@ -63,6 +66,7 @@ class SimpleAPI implements API {
 		itemMapper = jpersis.map(ItemMapper.class);
 		ownedItemMapper = jpersis.map(OwnedItemMapper.class);
 		playerMapper = jpersis.map(PlayerMapper.class);
+		progressMapper = jpersis.map(ProgressMapper.class);
 	}
 	
 	@Override
@@ -127,8 +131,7 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Player getFirstPlayer() {
-		Collection<Player> players = playerMapper.findAll();
-		
+		Collection<Player> players = playerMapper.findAll();		
 		if (players.size() > 0) {
 			return players.iterator().next();
 		} else {
@@ -142,6 +145,12 @@ class SimpleAPI implements API {
 			Player player = new Player();
 			player.setName(name);
 			playerMapper.insert(player);
+			
+			// Add professions
+			for (Profession profession : Profession.values()) {
+				progressMapper.insert(new Progress(player.getId(), profession));
+			}
+			
 			return player;
 		} else {
 			throw new APIException("Unable to create player. Player with name '" + name + "' already exists.");

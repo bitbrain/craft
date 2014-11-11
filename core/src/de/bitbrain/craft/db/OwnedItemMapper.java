@@ -19,11 +19,11 @@ public interface OwnedItemMapper {
 	OwnedItem findById(String itemId, int playerId);
 	
 	@Update
-	void update(OwnedItem ownedItem);
+	boolean update(OwnedItem ownedItem);
 	
 	@Insert
-	void insert(OwnedItem ownedItem);
+	boolean insert(OwnedItem ownedItem);
 	
 	@Delete
-	void delete(OwnedItem ownedItem);
+	boolean delete(OwnedItem ownedItem);
 }

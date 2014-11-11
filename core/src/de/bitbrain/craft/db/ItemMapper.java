@@ -20,22 +20,22 @@ public interface ItemMapper {
 	Item findById(String id);
 	
 	@Insert
-	void insert(Item item);
+	boolean insert(Item item);
 	
 	@Insert
-	void insert(Collection<Item> items);
+	boolean insert(Collection<Item> items);
 	
 	@Update
-	void update(Item customer);
+	boolean update(Item customer);
 
 	@Update
-	void update(Collection<Item> customer);
+	boolean update(Collection<Item> customer);
 	
 	@Delete
-	void delete(Item item);
+	boolean delete(Item item);
 	
 	@Delete
-	void delete(Collection<Item> items);
+	boolean delete(Collection<Item> items);
 	
 	@Count
     int count();

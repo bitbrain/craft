@@ -23,22 +23,22 @@ public interface PlayerMapper {
 	Player findByName(String id);
 	
 	@Insert
-	void insert(Player item);
+	boolean insert(Player item);
 	
 	@Insert
-	void insert(Collection<Player> items);
+	boolean insert(Collection<Player> items);
 	
 	@Update
-	void update(Player customer);
+	boolean update(Player customer);
 
 	@Update
-	void update(Collection<Player> customer);
+	boolean update(Collection<Player> customer);
 	
 	@Delete
-	void delete(Player item);
+	boolean delete(Player item);
 	
 	@Delete
-	void delete(Collection<Player> items);
+	boolean delete(Collection<Player> items);
 	
 	@Count
     int count();

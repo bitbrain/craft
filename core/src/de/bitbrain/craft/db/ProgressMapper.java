@@ -17,14 +17,14 @@ public interface ProgressMapper {
 	Collection<Progress> progressOfPlayer(int id);
 	
 	@Insert
-	void insert(Progress progress);
+	boolean insert(Progress progress);
 	
 	@Insert
-	void insert(Collection<Item> items);
+	boolean insert(Collection<Item> items);
 
 	@Update
-	void update(Progress progress);
+	boolean update(Progress progress);
 	
 	@Delete
-	void delete(Progress progress);	
+	boolean delete(Progress progress);	
 }

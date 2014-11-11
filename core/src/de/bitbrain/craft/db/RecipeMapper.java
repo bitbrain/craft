@@ -20,22 +20,22 @@ public interface RecipeMapper {
 	Recipe findById(int id);
 	
 	@Insert
-	void insert(Recipe item);
+	boolean insert(Recipe item);
 	
 	@Insert
-	void insert(Collection<Recipe> items);
+	boolean insert(Collection<Recipe> items);
 	
 	@Update
-	void update(Recipe customer);
+	boolean update(Recipe customer);
 
 	@Update
-	void update(Collection<Recipe> customer);
+	boolean update(Collection<Recipe> customer);
 	
 	@Delete
-	void delete(Recipe item);
+	boolean delete(Recipe item);
 	
 	@Delete
-	void delete(Collection<Recipe> items);
+	boolean delete(Collection<Recipe> items);
 	
 	@Count
     int count();
