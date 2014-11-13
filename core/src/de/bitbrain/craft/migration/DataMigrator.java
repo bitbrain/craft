@@ -28,6 +28,8 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.db.MigrationMapper;
 import de.bitbrain.craft.inject.PostConstruct;
+import de.bitbrain.craft.migration.jobs.ItemMigrationJob;
+import de.bitbrain.craft.migration.jobs.OwnedItemMigrationJob;
 import de.bitbrain.craft.models.Migration;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.PlayerUtils;
@@ -86,7 +88,7 @@ public final class DataMigrator {
 			for (Method m : methods) {
 				if (m.isAnnotationPresent(Migrate.class)) {
 					Migrate migrate = m.getAnnotation(Migrate.class);
-					migrateSingle(migrate.value(), o, m);
+					migrateSingle(c.getName() + "::" + migrate.value(), o, m);
 				}
 			}
 		}
@@ -131,17 +133,17 @@ public final class DataMigrator {
 	
 	private boolean migrationExists(String migrationId) {
 		Player p = Player.getCurrent();
-		return migrationMapper.findByPlayerId(p.getId(), Migrations.RELEASE_ITEMS) != null;
+		return migrationMapper.findByPlayerId(p.getId(), migrationId) != null;
 	}
 	
 	private void addMigration(String migrationId) {
 		Player p = Player.getCurrent();
-		migrationMapper.insert(new Migration(Migrations.RELEASE_ITEMS, p.getId()));
+		migrationMapper.insert(new Migration(migrationId, p.getId()));
 	}
 	
 	private Class<?>[] getMigrators() {
 		return new Class<?>[]{
-				ItemMigrationJob.class
+				ItemMigrationJob.class, OwnedItemMigrationJob.class
 		};
 	}
 	

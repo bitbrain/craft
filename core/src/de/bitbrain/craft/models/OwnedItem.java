@@ -39,6 +39,16 @@ public class OwnedItem {
 	
 	private int amount;
 	
+	public OwnedItem() {
+		
+	}
+	
+	public OwnedItem(String itemId, int playerId, int amount) {
+		this.itemId = itemId;
+		this.playerId = playerId;
+		this.amount = amount;
+	}
+	
 	/**
 	 * @param amount the amount to set
 	 */

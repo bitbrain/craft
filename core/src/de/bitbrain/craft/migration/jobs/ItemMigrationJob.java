@@ -16,12 +16,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-package de.bitbrain.craft.migration;
+package de.bitbrain.craft.migration.jobs;
 
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.db.ItemMapper;
+import de.bitbrain.craft.migration.Migrate;
+import de.bitbrain.craft.migration.Migrations;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.jpersis.JPersis;
@@ -35,8 +37,8 @@ import de.bitbrain.jpersis.JPersis;
  */
 public class ItemMigrationJob {
 
-	@Migrate(Migrations.RELEASE_ITEMS)
-	public void migrateItems(JPersis jpersis, API api) {
+	@Migrate(Migrations.RELEASE)
+	public void migrateItemsRelease(JPersis jpersis, API api) {
 		ItemMapper itemMapper = jpersis.map(ItemMapper.class);
 		itemMapper.insert(new Item(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON));
 		itemMapper.insert(new Item(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON));

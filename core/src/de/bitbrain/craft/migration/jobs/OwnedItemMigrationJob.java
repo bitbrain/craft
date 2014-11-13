@@ -16,17 +16,29 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-package de.bitbrain.craft.migration;
+package de.bitbrain.craft.migration.jobs;
 
+import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemId;
+import de.bitbrain.craft.migration.Migrate;
+import de.bitbrain.craft.migration.Migrations;
+import de.bitbrain.craft.models.Player;
+import de.bitbrain.jpersis.JPersis;
 
 /**
- * Contains migrations
+ * Migrates data at the beginning for new users
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public final class Migrations {
-	
-	public static final String RELEASE = "release_items";
+public class OwnedItemMigrationJob {
+
+	@Migrate(Migrations.RELEASE)
+	public void migrateOwnedItemsRelease(JPersis jpersis, API api) {
+		Player p = Player.getCurrent();
+		api.addItem(p.getId(), ItemId.ACID_1, 10);
+		api.addItem(p.getId(), ItemId.ACID_2, 20);
+	}
+
 }
