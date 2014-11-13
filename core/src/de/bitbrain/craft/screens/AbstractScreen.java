@@ -132,6 +132,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		
 		if (inputProcessor == null) {
 			inputProcessor = new InputEventProcessor(new ScreenViewport(), batch);
+			Gdx.input.setCatchBackKey(true);
 			onCreateStage(inputProcessor);			
 			background.setColor(1f, 1f, 1f, 0f);			
 			onFadeIn(FADE_INTERVAL);
@@ -186,6 +187,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	public void setScreen(Class<? extends Screen> screen) {
 		eventBus.unsubscribe(inputProcessor);
 		Gdx.input.setInputProcessor(null);
+		Gdx.input.setCatchBackKey(true);
 		nextScreen = screen;
 		onFadeOut(FADE_INTERVAL);
 		eventBus.unsubscribe(this);
@@ -249,6 +251,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	protected void afterFadeIn(float parentInterval) {
 		Gdx.input.setInputProcessor(inputProcessor);
+		Gdx.input.setCatchBackKey(true);
 	}
 	protected void afterFadeOut(float parentInterval) {		
 		particleRenderer.clear();

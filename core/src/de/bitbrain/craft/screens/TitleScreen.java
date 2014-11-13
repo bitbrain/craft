@@ -20,10 +20,12 @@
 
 package de.bitbrain.craft.screens;
 
+import net.engio.mbassy.listener.Handler;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -39,6 +41,7 @@ import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
+import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -223,4 +226,10 @@ public class TitleScreen extends AbstractScreen {
 		.start(tweenManager);
 	}
 	
+	@Handler
+	void onEvent(KeyEvent event) {
+		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
+			Gdx.app.exit();
+		}
+	}
 }	

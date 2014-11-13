@@ -84,7 +84,7 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	
 	@Handler
 	void onEvent(KeyEvent event) {
-		if (event.getKey() == Keys.ESCAPE) {
+		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
 			setScreen(TitleScreen.class);
 			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
 		}

@@ -22,6 +22,7 @@ package de.bitbrain.craft.db;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.files.FileHandle;
 
 import de.bitbrain.craft.Settings;
@@ -58,7 +59,11 @@ public final class DriverProvider {
 		private Driver driver;
 		
 		public void load(String path) {
-			driver = new SQLiteDriver(path);
+			if (Gdx.app.getType().equals(ApplicationType.Android)) {
+				driver = new SQLDroidDriver(path);
+			} else {
+				driver = new SQLiteDriver(path);
+			}
 		}
 		
 		public boolean isLoaded() {

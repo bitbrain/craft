@@ -17,44 +17,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft;
+package de.bitbrain.craft.inject;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.google.inject.Inject;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import de.bitbrain.craft.screens.LoadingScreen;
-import de.bitbrain.craft.util.AssetReflector;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
 /**
- * Main game file which handles all screens
- * 
+ * Annotates method which should be called after construction
+ *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class CraftGame extends GuiceGame {
-	
-	@Inject
-	private LoadingScreen screen;
-
-	@Override
-	public void create() {		
-		Gdx.app.setLogLevel(Settings.LOGLEVEL);
-		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
-		setScreen(screen);
-	}
-	
-	@Override
-	public void resume() {
-		super.resume();
-		AssetManager mgr = SharedAssetManager.getInstance();		
-		AssetReflector reflector = new AssetReflector(mgr);		
-		reflector.load();
-	}
-	
-	@Override
-	public void dispose() {
-		SharedAssetManager.dispose();
-	}
-}
+@Target({ METHOD }) @Retention(RUNTIME)
+public @interface PostConstruct {}

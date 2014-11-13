@@ -21,8 +21,6 @@ package de.bitbrain.craft.inject;
 
 import java.lang.reflect.Method;
 
-import javax.annotation.PostConstruct;
-
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
@@ -59,7 +57,6 @@ public enum PostConstructModule implements Module, TypeListener {
  
             @Override
             public void afterInjection(final I injectee) {
-                // alle postconstruct Methoden (nie null) ausführen.
                 for (final Method postConstructMethod : injectee.getClass().getMethods()) {
                 	boolean accessable = postConstructMethod.isAccessible();
                     try {

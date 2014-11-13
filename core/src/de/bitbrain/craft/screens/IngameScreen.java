@@ -22,8 +22,6 @@ package de.bitbrain.craft.screens;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.PostConstruct;
-
 import net.engio.mbassy.listener.Handler;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -47,6 +45,7 @@ import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.KeyEvent;
+import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
@@ -206,7 +205,7 @@ public class IngameScreen extends AbstractScreen {
 	
 	@Handler
 	void onEvent(KeyEvent event) {
-		if (event.getKey() == Keys.ESCAPE) {
+		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
 			setScreen(ProfessionScreen.class);
 			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
 		}

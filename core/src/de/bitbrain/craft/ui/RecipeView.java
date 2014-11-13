@@ -18,8 +18,6 @@
  */
 package de.bitbrain.craft.ui;
 
-import javax.annotation.PostConstruct;
-
 import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,6 +32,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.inject.PostConstruct;
 
 /**
  * Provides the view of a single recipe. This view is blocked by default. If a
