@@ -33,6 +33,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
@@ -105,13 +107,13 @@ public class IngameScreen extends AbstractScreen {
 	public void resize(int width, int height) {
 		boolean init = inputProcessor == null;
 		super.resize(width, height);
-		tabPanel.setWidth(width / 2.1f);
-		tabPanel.setHeight(height);
+		tabPanel.setWidth(Sizes.worldWidth() / 2.2f);
+		tabPanel.setHeight(Sizes.worldHeight() / 1.2f);
 		
 		professionView.setWidth(width - tabPanel.getWidth() / 0.82f);
 		professionView.setHeight(tabPanel.getHeight());
-		professionView.setY(height / 7f);
-		professionView.setX(tabPanel.getWidth() + width / 12f);
+		professionView.setY(Sizes.worldHeight() / 7f);
+		professionView.setX(tabPanel.getWidth() + Sizes.worldWidth() / 12f);
 		if (init) {
 			tabPanel.addTab(Tabs.RECIPE, Icon.RECIPE, recipeView);
 			tabPanel.addTab(Tabs.ITEMS, Icon.JEWEL_DIAMOND_MEDIUM, generateItemView());
@@ -202,6 +204,11 @@ public class IngameScreen extends AbstractScreen {
 	 */
 	@Override
 	protected void onDraw(Batch batch, float delta) { }
+	
+	@Override
+	protected Viewport createViewport() {
+		return new FillViewport(800, 600);
+	}
 	
 	@Handler
 	void onEvent(KeyEvent event) {

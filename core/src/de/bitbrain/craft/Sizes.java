@@ -29,13 +29,21 @@ import com.badlogic.gdx.Gdx;
  * @version 1.0
  */
 public final class Sizes {
+	
+	public static int worldWidth() {
+		return 800;
+	}
+	
+	public static int worldHeight() {
+		return 600;
+	}
 
 	public static float borderPadding() {
 		return 20f;
 	}
 	
 	public static float tabPadding() {
-		return Gdx.graphics.getHeight() / 25f;
+		return worldHeight() / 25f;
 	}
 	
 	public static float craftViewWidth() {
@@ -47,7 +55,11 @@ public final class Sizes {
 		return 0;
 	}
 	
+	public static int dragIconSize() {
+		return  worldHeight() / 6;
+	}
+	
 	public static float globalPadding() {
-		return Gdx.graphics.getHeight() / 20f;
+		return  worldHeight() / 20f;
 	}
 }

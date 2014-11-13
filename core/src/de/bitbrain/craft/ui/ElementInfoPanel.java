@@ -65,7 +65,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 			this.name = new Label(data.getName(), Styles.LBL_ITEM);
 			icon = new ElementIcon(data);		
 			icon.setWidth(name.getHeight() * 4);
-			icon.setHeight(name.getHeight() * 4);		
+			icon.setHeight(name.getHeight() * 4);
 			addActor(icon);
 			addActor(generateRight(data));
 			fill().pad(10f);
@@ -106,15 +106,17 @@ public class ElementInfoPanel extends HorizontalGroup {
 		VerticalGroup layout = new VerticalGroup();
 		layout.align(Align.left);
 		layout.padLeft(15f);
-		layout.padTop(10f);
-		name.setColor(data.getRarity().getColor());		
-		Label description = new Label(data.getDescription(), Styles.LBL_TEXT);		
+		layout.padTop(15f);
+		name.setColor(data.getRarity().getColor());
+		name.setFontScale(0.85f);
+		Label description = new Label(data.getDescription(), Styles.LBL_TEXT);
+		description.setFontScale(0.7f);
 		description.setColor(Assets.CLR_INACTIVE);		
 		description.getColor().a = 0.5f;
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
-		descContainer.padTop(20f);
 		descContainer.addActor(description);
+		descContainer.padTop(15f);
 		layout.addActor(descContainer);
 		return layout;
 	}

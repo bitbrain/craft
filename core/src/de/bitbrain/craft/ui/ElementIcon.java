@@ -41,8 +41,6 @@ import de.bitbrain.craft.util.ColorCalculator;
  */
 public class ElementIcon extends Actor {
 	
-	private static final float PADDING = 8f;
-	
 	public float iconScale;
 	
 	private ElementData data;
@@ -104,9 +102,13 @@ public class ElementIcon extends Actor {
 		// Amount
 		if (data.getAmount() > -1) {
 			amount.setText(String.valueOf(data.getAmount()));
-			amount.setX(getX() + getWidth() - amount.getPrefWidth() - PADDING);
-			amount.setY(getY() + PADDING);
+			amount.setX(getX() + getWidth() - amount.getPrefWidth() - getPadding());
+			amount.setY(getY() + getPadding());
 			amount.draw(batch, parentAlpha);
 		}
+	}
+	
+	private float getPadding() {
+		return 12f;
 	}
 }

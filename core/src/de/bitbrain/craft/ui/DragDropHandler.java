@@ -35,6 +35,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
@@ -55,9 +56,6 @@ import de.bitbrain.craft.ui.TabPanel.TabControl;
  */
 @StateScoped
 public class DragDropHandler {
-	
-	// Default icon size
-	private static final float ICON_SIZE = 90f;
 	
 	// Determines if enabled or not
 	private boolean enabled;
@@ -103,14 +101,14 @@ public class DragDropHandler {
 				Vector2 size = sizes.get(entry.getKey());
 				target.x = Gdx.input.getX();
 				target.y = getScreenY();
-				float speed = 10f;
+				float speed = 15f;
 
 				if (drops.get(entry.getKey())) {
 					target.x = sources.get(entry.getKey()).x;
 					target.y = sources.get(entry.getKey()).y;
 					speed = 3f;
 					// Check if near, then drop everything
-					if (target.cpy().sub(location).len() < ICON_SIZE) {
+					if (target.cpy().sub(location).len() <  Sizes.dragIconSize()) {
 						remove(entry.getKey());
 						break;
 					}
@@ -178,7 +176,7 @@ public class DragDropHandler {
 		drops.put(data.getId(), false);
 		sources.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
 		sizes.put(data.getId(), new Vector2());
-		animateVector(sizes.get(data.getId()), 1f, ICON_SIZE, new TweenCallback() {
+		animateVector(sizes.get(data.getId()), 1f,  Sizes.dragIconSize(), new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 				animateDragging(sizes.get(data.getId()));
@@ -212,12 +210,12 @@ public class DragDropHandler {
 	
 	private void animateDragging(Vector2 vec) {
 		Tween.to(vec, VectorTween.X, 1.0f)
-			 .target(ICON_SIZE + ICON_SIZE / 4.2f)
+			 .target( Sizes.dragIconSize() +  Sizes.dragIconSize() / 3.2f)
 			 .repeatYoyo(Tween.INFINITY, 0f)
 			 .ease(TweenEquations.easeOutBack)
 			 .start(tweenManager);
 		Tween.to(vec, VectorTween.Y, 1.0f)
-			 .target(ICON_SIZE + ICON_SIZE / 4.2f)
+			 .target( Sizes.dragIconSize() +  Sizes.dragIconSize() / 3.2f)
 			 .repeatYoyo(Tween.INFINITY, 0f)
 			 .ease(TweenEquations.easeOutBack)
 			 .start(tweenManager);

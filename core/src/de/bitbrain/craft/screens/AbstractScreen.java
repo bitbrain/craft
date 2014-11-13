@@ -35,6 +35,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
@@ -131,7 +132,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	public void resize(int width, int height) {
 		
 		if (inputProcessor == null) {
-			inputProcessor = new InputEventProcessor(new ScreenViewport(), batch);
+			inputProcessor = new InputEventProcessor(createViewport(), batch);
 			Gdx.input.setCatchBackKey(true);
 			onCreateStage(inputProcessor);			
 			background.setColor(1f, 1f, 1f, 0f);			
@@ -198,6 +199,10 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	protected abstract void onDraw(Batch batch, float delta);
 	
 	protected abstract void onShow();
+	
+	protected Viewport createViewport() {
+		return new ScreenViewport();
+	}
 	
 	protected void onFadeIn(float parentInterval) {
 		
