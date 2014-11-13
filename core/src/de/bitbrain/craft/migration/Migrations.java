@@ -16,36 +16,17 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
+package de.bitbrain.craft.migration;
 
-package de.bitbrain.craft.core;
 
 /**
- * Ids of all items
+ * Contains migrations
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public enum ItemId {
+public final class Migrations {
 	
-	FLUX,
-	ACID_1,
-	ACID_2,
-	DUST,
-	WATER,
-	SULFUR,
-	MERCURY,
-	PHIOLE_SMALL,
-	PHIOLE_MEDIUM,
-	GRAYSTONE,
-	BENTAGON,
-	DARKSTONE,
-	MOLTEN_SAND, 
-	RECIPE, 
-	JEWEL_DIAMOND_MEDIUM,
-	XENOCITE;
-	
-	public String getId() {
-		return "item_" + name().toLowerCase();
-	}
+	public static final String RELEASE_ITEMS = "release_items";
 }

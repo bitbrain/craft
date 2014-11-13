@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.Color;
 
 import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.util.Identifiable;
+import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
  * Item which can be used for crafting
@@ -33,13 +34,22 @@ import de.bitbrain.craft.util.Identifiable;
  */
 public class Item implements Identifiable {
 
+	@PrimaryKey(false)
 	private String id = "";
 	
 	private Icon icon;
 	
 	private Rarity rarity = Rarity.COMMON;
 	
-	private int level = 1;
+	public Item() {
+		
+	}
+	
+	public Item(String id, Icon icon, Rarity rarity) {
+		this.id = id;
+		this.icon = icon;
+		this.rarity = rarity;
+	}
 	
 	public Icon getIcon() {
 		return icon;
@@ -48,10 +58,6 @@ public class Item implements Identifiable {
 	@Override
 	public String getId() {
 		return id;
-	}
-	
-	public int getLevel() {
-		return level;
 	}
 	
 	public Rarity getRarity() {
@@ -65,21 +71,9 @@ public class Item implements Identifiable {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
 	
 	public void setRarity(Rarity rarity) {
 		this.rarity = rarity;
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return id + ", " + icon + ", " + level + ", " + rarity;
 	}
 	
 	public static enum Rarity {

@@ -33,6 +33,7 @@ import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MBassadorEventBus;
 import de.bitbrain.craft.graphics.ParticleRenderer;
+import de.bitbrain.craft.migration.DataMigrator;
 import de.bitbrain.craft.screens.IngameScreen;
 import de.bitbrain.craft.screens.LoadingScreen;
 import de.bitbrain.craft.screens.ProfessionScreen;
@@ -74,6 +75,7 @@ public class StateModule extends AbstractModule {
 	    bind(TitleScreen.class);
 	    bind(IngameScreen.class);
 	    bind(ProfessionScreen.class);
+	    bind(DataMigrator.class);
 	}
 	
 	@Provides

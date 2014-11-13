@@ -16,36 +16,45 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
+package de.bitbrain.craft.models;
 
-package de.bitbrain.craft.core;
+import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
- * Ids of all items
- *
+ * Migration model for data migration
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public enum ItemId {
+public class Migration {
 	
-	FLUX,
-	ACID_1,
-	ACID_2,
-	DUST,
-	WATER,
-	SULFUR,
-	MERCURY,
-	PHIOLE_SMALL,
-	PHIOLE_MEDIUM,
-	GRAYSTONE,
-	BENTAGON,
-	DARKSTONE,
-	MOLTEN_SAND, 
-	RECIPE, 
-	JEWEL_DIAMOND_MEDIUM,
-	XENOCITE;
+	@PrimaryKey(true)
+	private int id;
 	
-	public String getId() {
-		return "item_" + name().toLowerCase();
+	private String version;
+	
+	private int playerId;
+	
+	public Migration() {
+		
 	}
+	
+	public Migration(String version, int playerId) {
+		this.version = version;
+		this.playerId = playerId;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public int getPlayerId() {
+		return playerId;
+	}
+	
+	public String getVersion() {
+		return version;
+	}
+
 }

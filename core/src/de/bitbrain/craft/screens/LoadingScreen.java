@@ -38,12 +38,10 @@ import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.graphics.ParticleRenderer;
-import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.models.PlayerUtils;
+import de.bitbrain.craft.migration.DataMigrator;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -60,7 +58,7 @@ import de.bitbrain.craft.util.AssetReflector;
 public class LoadingScreen implements Screen {
 	
 	@Inject
-	private API api;
+	private DataMigrator migrator;
 	
 	@Inject
 	private TitleScreen screen;
@@ -140,13 +138,8 @@ public class LoadingScreen implements Screen {
 		registerTweens();
 		//loadCursor();
 		Bundles.load();
-		try {
-			PlayerUtils.setCurrentPlayer(initPlayer());
-			game.setScreen(screen);
-		} catch (APIException e) {
-			Gdx.app.error("ERROR", "Could not init player.", e);
-			Gdx.app.exit();
-		}
+		migrator.migrate();
+		game.setScreen(screen);
 	}
 	
 	private void loadResources() {
@@ -173,14 +166,5 @@ public class LoadingScreen implements Screen {
         int yHotSpot = pm.getHeight() / 2;        
         Gdx.input.setCursorImage(pm, xHotSpot, yHotSpot);
         pm.dispose();
-	}
-	
-	private Player initPlayer() throws APIException {
-		Player p = api.getFirstPlayer();
-		if (p != null) {
-			return p;
-		} else {
-			return api.createPlayer("guest");
-		}
 	}
 }
