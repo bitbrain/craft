@@ -18,21 +18,16 @@
  */
 package de.bitbrain.craft.migration;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.API.APIException;
-import de.bitbrain.craft.core.Icon;
-import de.bitbrain.craft.core.ItemId;
-import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.db.MigrationMapper;
 import de.bitbrain.craft.inject.PostConstruct;
-import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Migration;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.PlayerUtils;
@@ -55,22 +50,18 @@ public final class DataMigrator {
 	
 	private MigrationMapper migrationMapper;
 	
-	private ItemMapper itemMapper;
-	
-	private List<MigrationJob> jobs = new ArrayList<MigrationJob>();
+	private Class<?>[] targets;
 	
 	@PostConstruct
 	public void initMigrator() {
 		migrationMapper = jpersis.map(MigrationMapper.class);
-		itemMapper = jpersis.map(ItemMapper.class);
+		targets = getMigrators();
 	}
 
 	public void migrate() {
 		try {
-
 			Gdx.app.log("LOAD", "Load game data..");
 			migratePlayer();
-			migrateItems();
 			migrateAll();
 		} catch (APIException e) {
 			Gdx.app.error("ERROR", "Unable to migrate data. " + e.getMessage());
@@ -88,42 +79,53 @@ public final class DataMigrator {
 		PlayerUtils.setCurrentPlayer(p);
 	}
 	
-	private void migrateItems() {
-		jobs.add(new MigrationJob() {
-			public void migrate() {
-				itemMapper.insert(new Item(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE));
-				itemMapper.insert(new Item(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR));
-				itemMapper.insert(new Item(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE));
-				itemMapper.insert(new Item(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE));
-				itemMapper.insert(new Item(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC));
-				itemMapper.insert(new Item(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE));
-				itemMapper.insert(new Item(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON));
-				itemMapper.insert(new Item(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE));
+	private void migrateAll() {
+		for (Class<?> c : targets) {
+			Object o = createMigrator(c);
+			Method[] methods = o.getClass().getDeclaredMethods();
+			for (Method m : methods) {
+				if (m.isAnnotationPresent(Migrate.class)) {
+					Migrate migrate = m.getAnnotation(Migrate.class);
+					migrateSingle(migrate.value(), o, m);
+				}
 			}
-			@Override
-			public String getId() {
-				return Migrations.RELEASE_ITEMS;
-			}
-		});
+		}
 	}
 	
-	private void migrateAll() {
-		for (MigrationJob job : jobs) {
-			if (!migrationExists(job.getId())) {
-				Gdx.app.log("INFO", "Migration '" + job.getId() + "' Did not happen. Migrate data..");
-				job.migrate();
-				addMigration(job.getId());
-				Gdx.app.log("INFO", "Success migrating data for migration '" + job.getId() + "'!");
-			} else {
-				Gdx.app.log("INFO", "Migration '" + job.getId() + "' found.");
+	private Object createMigrator(Class<?> c) {
+		try {
+			return c.getConstructor().newInstance();
+		} catch (InstantiationException e) {
+			throw new MigrateException(e);
+		} catch (IllegalAccessException e) {
+			throw new MigrateException(e);
+		} catch (IllegalArgumentException e) {
+			throw new MigrateException(e);
+		} catch (InvocationTargetException e) {
+			throw new MigrateException(e);
+		} catch (NoSuchMethodException e) {
+			throw new MigrateException(e);
+		} catch (SecurityException e) {
+			throw new MigrateException(e);
+		}
+	}
+	
+	private void migrateSingle(String id, Object o, Method m) {
+		if (!migrationExists(id)) {
+			Gdx.app.log("INFO", "Migration '" + id + "' Did not happen. Migrate data..");
+			try {
+				m.invoke(o, jpersis, api);
+			} catch (IllegalAccessException e) {
+				throw new MigrateException(e);
+			} catch (IllegalArgumentException e) {
+				throw new MigrateException(e);
+			} catch (InvocationTargetException e) {
+				throw new MigrateException(e);
 			}
+			addMigration(id);
+			Gdx.app.log("INFO", "Success migrating data for migration '" + id + "'!");
+		} else {
+			Gdx.app.log("INFO", "Migration '" + id + "' found.");
 		}
 	}
 	
@@ -137,10 +139,18 @@ public final class DataMigrator {
 		migrationMapper.insert(new Migration(Migrations.RELEASE_ITEMS, p.getId()));
 	}
 	
-	private interface MigrationJob {
+	private Class<?>[] getMigrators() {
+		return new Class<?>[]{
+				ItemMigrationJob.class
+		};
+	}
+	
+	private class MigrateException extends RuntimeException {
 		
-		String getId();
-		
-		void migrate();
+		private static final long serialVersionUID = 1L;
+
+		public MigrateException(Throwable t) {
+			super(t);
+		}
 	}
 }
