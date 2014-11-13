@@ -18,6 +18,9 @@
  */
 package de.bitbrain.craft.migration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
@@ -54,6 +57,8 @@ public final class DataMigrator {
 	
 	private ItemMapper itemMapper;
 	
+	private List<MigrationJob> jobs = new ArrayList<MigrationJob>();
+	
 	@PostConstruct
 	public void initMigrator() {
 		migrationMapper = jpersis.map(MigrationMapper.class);
@@ -66,6 +71,7 @@ public final class DataMigrator {
 			Gdx.app.log("LOAD", "Load game data..");
 			migratePlayer();
 			migrateItems();
+			migrateAll();
 		} catch (APIException e) {
 			Gdx.app.error("ERROR", "Unable to migrate data. " + e.getMessage());
 		}
@@ -83,30 +89,58 @@ public final class DataMigrator {
 	}
 	
 	private void migrateItems() {
-		Player p = Player.getCurrent();
-		if (!migrationExists(Migrations.RELEASE_ITEMS)) {
-			Gdx.app.log("INFO", "Items for migration '" + Migrations.RELEASE_ITEMS + "' do not exist. Create new ones..");
-			itemMapper.insert(new Item(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE));
-			itemMapper.insert(new Item(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR));
-			itemMapper.insert(new Item(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE));
-			itemMapper.insert(new Item(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE));
-			itemMapper.insert(new Item(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC));
-			itemMapper.insert(new Item(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE));
-			itemMapper.insert(new Item(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON));
-			itemMapper.insert(new Item(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE));
-			migrationMapper.insert(new Migration(Migrations.RELEASE_ITEMS, p.getId()));
+		jobs.add(new MigrationJob() {
+			public void migrate() {
+				itemMapper.insert(new Item(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE));
+				itemMapper.insert(new Item(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR));
+				itemMapper.insert(new Item(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE));
+				itemMapper.insert(new Item(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE));
+				itemMapper.insert(new Item(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC));
+				itemMapper.insert(new Item(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE));
+				itemMapper.insert(new Item(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON));
+				itemMapper.insert(new Item(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE));
+			}
+			@Override
+			public String getId() {
+				return Migrations.RELEASE_ITEMS;
+			}
+		});
+	}
+	
+	private void migrateAll() {
+		for (MigrationJob job : jobs) {
+			if (!migrationExists(job.getId())) {
+				Gdx.app.log("INFO", "Migration '" + job.getId() + "' Did not happen. Migrate data..");
+				job.migrate();
+				addMigration(job.getId());
+				Gdx.app.log("INFO", "Success migrating data for migration '" + job.getId() + "'!");
+			} else {
+				Gdx.app.log("INFO", "Migration '" + job.getId() + "' found.");
+			}
 		}
 	}
 	
 	private boolean migrationExists(String migrationId) {
 		Player p = Player.getCurrent();
 		return migrationMapper.findByPlayerId(p.getId(), Migrations.RELEASE_ITEMS) != null;
+	}
+	
+	private void addMigration(String migrationId) {
+		Player p = Player.getCurrent();
+		migrationMapper.insert(new Migration(Migrations.RELEASE_ITEMS, p.getId()));
+	}
+	
+	private interface MigrationJob {
+		
+		String getId();
+		
+		void migrate();
 	}
 }
