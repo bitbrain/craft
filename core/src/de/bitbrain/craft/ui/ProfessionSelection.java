@@ -32,7 +32,6 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,6 +52,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -103,7 +103,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			animateElement(index, element, tweenManager);
 		}
 
-		this.pad(Gdx.graphics.getWidth() / 40f);
+		this.pad(Sizes.worldWidth() / 20f);
 		pack();
 	}
 
@@ -146,9 +146,9 @@ public class ProfessionSelection extends Table implements EventListener {
 
 	private void alignSize(Cell<?> cell, ProfessionElement element) {
 		cell.width(
-				(Gdx.graphics.getWidth() / 1.2f) / Profession.values().length)
-				.height(Gdx.graphics.getHeight() / 1.2f)
-				.pad(Gdx.graphics.getWidth() / 70f);
+				(Sizes.worldWidth() / 1.2f) / Profession.values().length)
+				.height(Sizes.worldHeight() / 1.6f)
+				.pad(Sizes.worldWidth() / 70f);
 		element.getLabel().setFontScale(element.getWidth() / 280f);
 		element.padTop(element.getHeight() / 2.1f);
 	}

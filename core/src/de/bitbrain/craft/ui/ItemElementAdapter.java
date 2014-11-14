@@ -69,7 +69,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getDescription() {
-		return "item description";
+		return Bundles.items.get(item.getId() + "_description");
 	}
 
 	/* (non-Javadoc)

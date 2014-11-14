@@ -26,8 +26,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Profession;
@@ -61,8 +64,8 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		selection.setWidth(Gdx.graphics.getWidth());
-		selection.setHeight(Gdx.graphics.getHeight());
+		selection.setWidth(Sizes.worldWidth());
+		selection.setHeight(Sizes.worldHeight());
 	}
 
 	@Override
@@ -80,6 +83,11 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	@Override
 	public void onSelect(Profession profession) {
 		setScreen(IngameScreen.class);
+	}
+	
+	@Override
+	protected Viewport createViewport() {
+		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
 	}
 	
 	@Handler

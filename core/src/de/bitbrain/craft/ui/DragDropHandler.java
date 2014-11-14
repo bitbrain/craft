@@ -99,7 +99,7 @@ public class DragDropHandler {
 			for (Entry<String, IconDrawable> entry : icons.entrySet()) {
 				Vector2 location = locations.get(entry.getKey());
 				Vector2 size = sizes.get(entry.getKey());
-				target.x = Gdx.input.getX();
+				target.x = Sizes.worldMouseX();
 				target.y = getScreenY();
 				float speed = 15f;
 
@@ -123,8 +123,8 @@ public class DragDropHandler {
 				icon.x = location.x - size.x / 2f;
 				icon.y = location.y - size.y / 2f;
 				icon.rotation = 0f;
-				icon.width = size.x;
-				icon.height = size.y;
+				icon.width = size.x * Sizes.worldScreenFactorX();
+				icon.height = size.y* Sizes.worldScreenFactorY();
 				icon.draw(batch, 1f);
 			}
 		}
@@ -167,14 +167,14 @@ public class DragDropHandler {
 	}
 	
 	private float getScreenY() {
-		return Gdx.input.getY();
+		return Sizes.worldMouseY();
 	}
 	
 	private void add(final ElementData data) {
 		icons.put(data.getId(), data.getIcon());
-		locations.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
+		locations.put(data.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
 		drops.put(data.getId(), false);
-		sources.put(data.getId(), new Vector2(Gdx.input.getX(), getScreenY()));
+		sources.put(data.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
 		sizes.put(data.getId(), new Vector2());
 		animateVector(sizes.get(data.getId()), 1f,  Sizes.dragIconSize(), new TweenCallback() {
 			@Override

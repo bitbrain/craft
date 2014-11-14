@@ -28,9 +28,8 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -44,7 +43,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
@@ -67,24 +65,24 @@ import de.bitbrain.craft.tweens.ActorTween;
  */
 @StateScoped
 public class TabPanel extends Table {
-	
+
 	private Cell<?> content, menu;
-	
+
 	private Map<String, Actor> tabs;
-	
+
 	private TabControl tabControl;
-	
-	private Sprite background;
-	
+
+	private NinePatch background;
+
 	private Set<TabListener> listeners;
-	
+
 	@Inject
 	private IconManager iconManager;
-	
+
 	@Inject
 	private TweenManager tweenManager;
-	
-	@Inject 
+
+	@Inject
 	private EventBus eventBus;
 
 	@PostConstruct
@@ -94,11 +92,14 @@ public class TabPanel extends Table {
 		tabs = new HashMap<String, Actor>();
 		content = add().align(Align.left | Align.top).pad(Sizes.tabPadding());
 		tabControl = new TabControl(this);
-		menu = add(tabControl);		
-		background = new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_MEDIUM_BOX, Texture.class));
+		menu = add(tabControl);
+		background = Styles.ninePatch(Assets.TEX_PANEL_9patch,
+				Sizes.panelRadius());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.scenes.scene2d.Actor#setWidth(float)
 	 */
 	@Override
@@ -106,8 +107,10 @@ public class TabPanel extends Table {
 		content.width(width);
 		super.setWidth(width + menu.getActorWidth());
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.scenes.scene2d.Actor#setHeight(float)
 	 */
 	@Override
@@ -116,172 +119,174 @@ public class TabPanel extends Table {
 		content.height(height);
 		menu.height(height);
 	}
-	
+
 	public void addTab(String id, Icon icon, Actor actor) {
-		tabs.remove(id);		
+		tabs.remove(id);
 		tabs.put(id, actor);
 		tabControl.addTab(id, icon);
 		setTab(id);
 		actor.getColor().a = 0f;
 		this.invalidateHierarchy();
 	}
-	
+
 	public void addListener(TabListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public void setTab(String id) {
-		Actor actor = tabs.get(id);		
-		if (actor != null) {			
-			Actor current = content.getActor();			
+		Actor actor = tabs.get(id);
+		if (actor != null) {
+			Actor current = content.getActor();
 			if (actor != current) {
 				for (TabListener l : listeners) {
 					l.onChange(current, actor);
 				}
-			}			
+			}
 			if (current != null) {
-				current.getColor().a = 0f;				
+				current.getColor().a = 0f;
 				tweenManager.killTarget(current);
-			}			
+			}
 			content.setActor(actor);
 			tabControl.setTab(id);
-			Tween.to(actor, ActorTween.ALPHA, 0.5f)
-				.target(1f)
-				.ease(TweenEquations.easeOutQuad)
-				.start(tweenManager);
+			Tween.to(actor, ActorTween.ALPHA, 0.5f).target(1f)
+					.ease(TweenEquations.easeOutQuad).start(tweenManager);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.ui.Table#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.badlogic.gdx.scenes.scene2d.ui.Table#draw(com.badlogic.gdx.graphics
+	 * .g2d.Batch, float)
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		background.setBounds(
-				content.getActorX(),
-				content.getActorY(),
+		background.draw(batch, content.getActorX(), content.getActorY(),
 				content.getActorWidth() + content.getPadRight(),
 				content.getActorHeight() + content.getPadTop());
-		background.draw(batch, parentAlpha);
 		super.draw(batch, parentAlpha);
 	}
-	
+
 	public static class TabStyle {
-		
-		public String text;		
+
+		public String text;
 		public Sprite icon;
 	}
-	
+
 	public static interface TabListener {
-		
+
 		void onChange(Actor before, Actor next);
 	}
-	
+
 	public class TabControl extends Table {
-		
+
 		private Map<ImageButton, String> buttons;
 		private Map<String, ImageButton> ids;
 		private Map<ImageButton, ImageButtonStyle> styles;
 		private Map<ImageButton, ImageButtonStyle> activeStyles;
 		private Map<ImageButton, Cell<?>> cells;
-		
-		private TabPanel parentPanel;		
+
+		private TabPanel parentPanel;
 		private ImageButton active;
-		
+
 		public TabControl(TabPanel panel) {
 			align(Align.top);
 			this.parentPanel = panel;
 			buttons = new HashMap<ImageButton, String>();
 			ids = new HashMap<String, ImageButton>();
-			cells = new HashMap<ImageButton, Cell<?>>();	
+			cells = new HashMap<ImageButton, Cell<?>>();
 			styles = new HashMap<ImageButton, ImageButton.ImageButtonStyle>();
 			activeStyles = new HashMap<ImageButton, ImageButton.ImageButtonStyle>();
 		}
-		
+
 		public boolean isActive(String id) {
 			return ids.get(id).equals(active);
 		}
-		
+
 		public void addTab(String id, Icon icon) {
-			
+
 			ImageButtonStyle style = generateStyle(icon, false);
 			ImageButtonStyle activeStyle = generateStyle(icon, true);
-			
+
 			final ImageButton button = new ImageButton(style);
 			final TabControl control = this;
-			button.padBottom(15f);
-			
+
 			buttons.put(button, id);
 			cells.put(button, add(button).row().padTop(10f));
 			ids.put(id, button);
-			
+
 			styles.put(button, style);
 			activeStyles.put(button, activeStyle);
-			
+
 			setTab(button);
-			
+
 			button.addCaptureListener(new ClickListener() {
-				/* (non-Javadoc)
-				 * @see com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see
+				 * com.badlogic.gdx.scenes.scene2d.utils.ClickListener#clicked
+				 * (com.badlogic.gdx.scenes.scene2d.InputEvent, float, float)
 				 */
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					super.clicked(event, x, y);
-					
+
 					SoundUtils.play(Assets.SND_TAB, 0.7f, 1.4f);
-					 
+
 					Actor a = event.getTarget();
-					
+
 					if (a instanceof Image) {
 						a = a.getParent();
 					}
-					
+
 					if (a instanceof ImageButton) {
-						
-						ImageButton b = (ImageButton)a;
-						
-						if (!isActive(buttons.get(b))) {							
-							eventBus.fireEvent(new MouseEvent<TabControl>(EventType.CLICK, control, x, y));
+
+						ImageButton b = (ImageButton) a;
+
+						if (!isActive(buttons.get(b))) {
+							eventBus.fireEvent(new MouseEvent<TabControl>(
+									EventType.CLICK, control, x, y));
 							parentPanel.setTab(buttons.get(b));
-						}					
+						}
 					}
-					
-					
+
 				}
 			});
 		}
-		
+
 		void setTab(String id) {
 			setTab(ids.get(id));
 		}
-		
+
 		private void setTab(ImageButton tab) {
-			
+
 			if (active != null) {
 				active.setStyle(styles.get(active));
 			}
 			active = tab;
 			active.setStyle(activeStyles.get(active));
 		}
-		
+
 		private ImageButtonStyle generateStyle(Icon icon, boolean active) {
-			
+
 			ImageButtonStyle origin = Styles.BTN_TAB;
-			
+
 			if (active) {
 				origin = Styles.BTN_TAB_ACTIVE;
 			}
-			
+
 			ImageButtonStyle style = new ImageButtonStyle(origin);
 			IconDrawable iconDrawable = iconManager.fetch(icon);
 			iconDrawable.color.a = 0.5f;
-			style.imageUp = iconDrawable;		
+			style.imageUp = iconDrawable;
 			style.imageOver = iconDrawable;
-			
-			style.imageUp.setMinHeight(Gdx.graphics.getHeight() / 10f);
-			style.imageUp.setMinWidth(Gdx.graphics.getHeight() / 10f);
-			style.imageOver.setMinHeight(Gdx.graphics.getHeight() / 10f);
-			style.imageOver.setMinWidth(Gdx.graphics.getHeight() / 10f);
+
+			style.imageUp.setMinHeight(60);
+			style.imageUp.setMinWidth(60);
+			style.imageOver.setMinHeight(60);
+			style.imageOver.setMinWidth(60);
 			return style;
 		}
 	}

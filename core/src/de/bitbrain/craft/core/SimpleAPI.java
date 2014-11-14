@@ -193,11 +193,10 @@ class SimpleAPI implements API {
 			Item item = itemMapper.findById(id);
 			try {
 			if (count > 0) {
-				ownedItemMapper.delete(owned);
 				owned.setAmount(count);
-				ownedItemMapper.insert(owned);
+				//ownedItemMapper.update(owned);
 			} else {
-				ownedItemMapper.delete(owned);
+				//ownedItemMapper.delete(owned);
 			}
 			} catch (Exception e) {
 				e.printStackTrace();

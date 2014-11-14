@@ -55,11 +55,31 @@ public final class Sizes {
 		return 0;
 	}
 	
+	public static int panelRadius() {
+		return 38;
+	}
+	
 	public static int dragIconSize() {
 		return  worldHeight() / 6;
 	}
 	
 	public static float globalPadding() {
 		return  worldHeight() / 20f;
+	}
+	
+	public static float worldMouseX() {
+		return Gdx.input.getX();
+	}
+	
+	public static float worldMouseY() {
+		return Gdx.input.getY();
+	}
+	
+	public static float worldScreenFactorX() {
+		return (float)Gdx.graphics.getWidth() / (float)worldWidth();
+	}
+	
+	public static float worldScreenFactorY() {
+		return (float)Gdx.graphics.getHeight() / (float)worldHeight();
 	}
 }

@@ -22,10 +22,12 @@ package de.bitbrain.craft;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 /**
@@ -52,9 +54,9 @@ public final class Styles {
 		BTN_GREEN.downFontColor = Assets.CLR_GREEN_GRASS_LIGHT;
 		
 		BTN_PROFESSION.font = SharedAssetManager.get(Assets.FNT_LARGER, BitmapFont.class);
-		BTN_PROFESSION.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_DOWN_V, Texture.class)));
-		BTN_PROFESSION.over = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_HOVER_V, Texture.class)));
-		BTN_PROFESSION.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_V, Texture.class)));
+		BTN_PROFESSION.down = new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_HIGHLIGHT_9patch, Sizes.panelRadius()));
+		BTN_PROFESSION.over = new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_HIGHLIGHT_9patch, Sizes.panelRadius()));
+		BTN_PROFESSION.up = new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
 		BTN_PROFESSION.fontColor = Assets.CLR_INACTIVE;
 		BTN_PROFESSION.downFontColor = Assets.CLR_YELLOW_SAND;
 		BTN_PROFESSION.overFontColor = Assets.CLR_YELLOW_SAND;
@@ -68,8 +70,12 @@ public final class Styles {
 		LBL_TEXT.fontColor = new Color(Color.WHITE);
 		LBL_TEXT.font =  SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
 		
-		BTN_TAB.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB, Texture.class)));
-		BTN_TAB_ACTIVE.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(Assets.TEX_PANEL_TAB_ACTIVE, Texture.class)));
+		BTN_TAB.up =  new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
+		BTN_TAB_ACTIVE.up =  new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
 		
+	}
+	
+	public static NinePatch ninePatch(String textureId, int radius) {
+		return new NinePatch(SharedAssetManager.get(textureId, Texture.class), radius, radius, radius, radius);
 	}
 }

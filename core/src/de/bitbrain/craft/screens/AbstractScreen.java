@@ -116,6 +116,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		
 		if (inputProcessor != null) {
 			inputProcessor.draw();
+			camera.update();
 			batch.begin();
 			batch.setProjectionMatrix(camera.combined);
 			onStageDraw(batch, delta);
@@ -138,8 +139,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			background.setColor(1f, 1f, 1f, 0f);			
 			onFadeIn(FADE_INTERVAL);
 		}
-		inputProcessor.getViewport().update(width, height, true);		
-		camera.setToOrtho(true, width, height);
+		inputProcessor.getViewport().update(getWorldWidth(width), getWorldHeight(height), true);		
+		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
 	}
 
 	@Override
@@ -199,6 +200,14 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	protected abstract void onDraw(Batch batch, float delta);
 	
 	protected abstract void onShow();
+	
+	protected int getWorldWidth(int screenWidth) {
+		return screenWidth;
+	}
+	
+	protected int getWorldHeight(int screenHeight) {
+		return screenHeight;
+	}
 	
 	protected Viewport createViewport() {
 		return new ScreenViewport();
