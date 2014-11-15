@@ -70,8 +70,8 @@ public final class Styles {
 		LBL_TEXT.fontColor = new Color(Color.WHITE);
 		LBL_TEXT.font =  SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
 		
-		BTN_TAB.up =  new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
-		BTN_TAB_ACTIVE.up =  new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
+		BTN_TAB.up =  new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_TAB_9patch, Sizes.panelRadius()));
+		BTN_TAB_ACTIVE.up =  new NinePatchDrawable(ninePatch(Assets.TEX_PANEL_TAB_ACTIVE_9patch, Sizes.panelRadius()));
 		
 	}
 	

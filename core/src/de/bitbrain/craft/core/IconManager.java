@@ -194,6 +194,7 @@ public class IconManager implements Fadeable {
 			this.offsetX = iconDrawable.offsetX;
 			this.offsetY = iconDrawable.offsetY;
 			this.loader = iconDrawable.loader;
+			this.color = iconDrawable.color;
 		}
 
 		void setTexture(Texture texture) {

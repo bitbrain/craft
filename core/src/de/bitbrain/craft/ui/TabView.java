@@ -22,6 +22,7 @@ package de.bitbrain.craft.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -33,12 +34,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
@@ -93,6 +94,7 @@ public class TabView extends Table {
 			}			
 			Tab newTab = tabs.get(tab);
 			left.getActor().setActor(newTab.getContent());
+			newTab.getContent().setWidth(left.getActorWidth());
 			activeTabId = tab;
 		}
 	}
@@ -152,12 +154,6 @@ public class TabView extends Table {
 		right = add(tabGroup);
 	}
 	
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		
-		super.draw(batch, parentAlpha);
-	}
-	
 	private ImageButtonStyle generateTabStyle(Icon icon, boolean active) {
 		ImageButtonStyle origin = Styles.BTN_TAB;
 		if (active) {
@@ -166,7 +162,7 @@ public class TabView extends Table {
 		ImageButtonStyle style = new ImageButtonStyle(origin);
 		IconDrawable iconDrawable = iconManager.fetch(icon);
 		iconDrawable.setOffsetX(-Sizes.panelRadius() - 1f);
-		iconDrawable.color.a = 0.5f;
+		iconDrawable.color.a = 0.8f;
 		style.imageUp = iconDrawable;
 		style.imageOver = iconDrawable;
 		style.imageUp.setMinHeight(70);
@@ -214,6 +210,14 @@ public class TabView extends Table {
 		
 		public Actor getContent() {
 			return content;
+		}
+		
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			super.draw(batch, parentAlpha);
+			batch.setColor(1f, 1f, 1f, parentAlpha);
+			Texture texture = SharedAssetManager.get(Assets.TEX_TAB_GRADIENT, Texture.class);
+			batch.draw(texture, getX() + OFFSET - 1, getY(), getWidth() - OFFSET + 1, getHeight() - 1);
 		}
 		
 	}
