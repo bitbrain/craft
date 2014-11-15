@@ -19,18 +19,32 @@
 
 package de.bitbrain.craft.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.Icon;
+import de.bitbrain.craft.core.IconManager;
+import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.StateScoped;
 
 /**
@@ -43,17 +57,27 @@ import de.bitbrain.craft.inject.StateScoped;
 @StateScoped
 public class TabView extends Table {
 	
-	public static final int TAB_WIDTH = 100;
+	public static final int TAB_SIZE = 70;
 	
-	private Cell<Container> left;
+	private Cell<Container<Actor>> left;
 	
-	private Cell<Container>  right;
+	private Cell<Group> right;
+	
+	private Group tabGroup;
+	
+	private Map<String, Tab> tabs;
+	
+	private String activeTabId = "";
+	
+	@Inject
+	private IconManager iconManager;
 	
 	public TabView() {
-		debug();
+		tabs = new HashMap<String, Tab>();
 		generateLeft();
 		generateRight();
 		bottom();
+		left();
 	}
 	
 	/**
@@ -62,7 +86,15 @@ public class TabView extends Table {
 	 * @param tab
 	 */
 	public void setTab(String tab) {
-		
+		if (tabs.containsKey(tab) && !tab.equals(activeTabId)) {			
+			if (!activeTabId.isEmpty()) {
+				Tab oldTab = tabs.get(activeTabId);
+				oldTab.setActive(false);
+			}			
+			Tab newTab = tabs.get(tab);
+			left.getActor().setActor(newTab.getContent());
+			activeTabId = tab;
+		}
 	}
 	
 	/**
@@ -73,14 +105,29 @@ public class TabView extends Table {
 	 * @param actor Content actor
 	 */
 	public void addTab(String id, Icon icon, Actor content) {
-		
+		if (!id.isEmpty() && !tabs.containsKey(id)) {
+			final Tab tab = new Tab(id, content, generateTabStyle(icon, false), generateTabStyle(icon, true));
+			tabs.put(id,  tab);
+			tabGroup.addActor(tab);
+			setTab(id);
+			tab.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					super.clicked(event, x, y);
+					if (activeTabId != tab.getId()) {
+						SoundUtils.play(Assets.SND_TAB, 0.7f, 0.9f);
+					}
+					setTab(tab.getId());
+				}
+			});
+		}
 	}
 	
 	@Override
 	public void setWidth(float width) {
 		super.setWidth(width);
-		left.width(width - TAB_WIDTH);
-		left.getActor().setWidth(width - TAB_WIDTH);
+		left.width(width - TAB_SIZE);
+		left.getActor().setWidth(width - TAB_SIZE);
 	}
 	
 	@Override
@@ -93,10 +140,16 @@ public class TabView extends Table {
 	}
 	
 	private void generateLeft() {
-		Container c = new Container();
+		Container<Actor> c = new Container();
 		c.setBackground(new NinePatchDrawable(Styles.ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius())));
 		left = add(c);
 
+	}
+	
+	private void generateRight() {
+		tabGroup = new VerticalGroup();
+		tabGroup.setWidth(TAB_SIZE);
+		right = add(tabGroup);
 	}
 	
 	@Override
@@ -105,10 +158,63 @@ public class TabView extends Table {
 		super.draw(batch, parentAlpha);
 	}
 	
-	private void generateRight() {
-		Container c = new Container();
-		c.setBackground(new NinePatchDrawable(Styles.ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius())));
-		right = add(c);
-		right.fillY();
+	private ImageButtonStyle generateTabStyle(Icon icon, boolean active) {
+		ImageButtonStyle origin = Styles.BTN_TAB;
+		if (active) {
+			origin = Styles.BTN_TAB_ACTIVE;
+		}
+		ImageButtonStyle style = new ImageButtonStyle(origin);
+		IconDrawable iconDrawable = iconManager.fetch(icon);
+		iconDrawable.setOffsetX(-Sizes.panelRadius() - 1);
+		iconDrawable.color.a = 0.5f;
+		style.imageUp = iconDrawable;
+		style.imageOver = iconDrawable;
+		style.imageUp.setMinHeight(70);
+		style.imageUp.setMinWidth(70);
+		style.imageOver.setMinHeight(70);
+		style.imageOver.setMinWidth(70);
+		return style;
+	}
+	
+	public static class Tab extends ImageButton {
+		
+		private static final float OFFSET = Sizes.panelRadius() - 1f;
+		
+		private Actor content;
+		
+		private ImageButtonStyle otherStyle;
+		
+		private String id;
+
+		public Tab(String id, Actor content, ImageButtonStyle style, ImageButtonStyle active) {
+			super(style);
+			this.id = id;
+			this.content = content;
+			otherStyle = active;
+		}
+		
+		@Override
+		public Image getImage() {
+			Image img = super.getImage();
+			return img;
+		}
+		
+		public String getId() {
+			return id;
+		}
+		
+		@Override
+		public float getX() {
+			return super.getX() - OFFSET;
+		}
+		
+		public void setActive(boolean active) {
+			
+		}
+		
+		public Actor getContent() {
+			return content;
+		}
+		
 	}
 }

@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,10 +36,12 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.models.Player;
 
 /**
  * List element which shows basic element info
@@ -58,10 +61,16 @@ public class ElementInfoPanel extends HorizontalGroup {
 	@Inject
 	private EventBus eventBus;
 	
+	@Inject
+	private API api;
+	
+	private boolean craftable;
+	
 	public ElementInfoPanel(ElementData data) {
 		try {
 			SharedInjector.get().injectMembers(this);
 			this.data = data;
+			craftable = isElementCraftable();
 			this.name = new Label(data.getName(), Styles.LBL_ITEM);
 			icon = new ElementIcon(data);		
 			icon.setWidth(name.getHeight() * 4);
@@ -81,6 +90,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 		name.setColor(data.getRarity().getColor());
 		setAmount(data.getAmount());
 		icon.setSource(data);
+		craftable = isElementCraftable();
 	}
 	
 	/* (non-Javadoc)
@@ -102,6 +112,10 @@ public class ElementInfoPanel extends HorizontalGroup {
 		data.setAmount(amount);
 	}
 	
+	private boolean isElementCraftable() {
+		return api.canCraft(Player.getCurrent(), data.getId());
+	}
+	
 	private Actor generateRight(ElementData data) {
 		VerticalGroup layout = new VerticalGroup();
 		layout.align(Align.left);
@@ -109,9 +123,16 @@ public class ElementInfoPanel extends HorizontalGroup {
 		layout.padTop(15f);
 		name.setColor(data.getRarity().getColor());
 		name.setFontScale(0.85f);
-		Label description = new Label(data.getDescription(), Styles.LBL_TEXT);
+		
+		String textDescription = "Click to craft";
+		Color colorDescription = Assets.CLR_INACTIVE;
+		if (!craftable) {
+			textDescription = "Can not craft";
+			colorDescription = Color.RED;
+		}		
+		Label description = new Label(textDescription, Styles.LBL_TEXT);
 		description.setFontScale(0.7f);
-		description.setColor(Assets.CLR_INACTIVE);		
+		description.setColor(colorDescription);	
 		description.getColor().a = 0.5f;
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
@@ -126,11 +147,15 @@ public class ElementInfoPanel extends HorizontalGroup {
 		icon.addListener(new DragListener() {
 			@Override
 			public void dragStart(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
+				if (data.getAmount() > 0) {
+					eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
+				}
 			}
 			@Override
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
+				if (data.getAmount() > 0) {
+					eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
+				}
 			}
 		});
 		icon.addCaptureListener(new InputListener() {
@@ -146,8 +171,9 @@ public class ElementInfoPanel extends HorizontalGroup {
 		actor.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				eventBus.fireEvent(new MouseEvent<ElementData>(EventType.CLICK, getData(), x, y));
-				event.stop();
+				if (craftable) {
+					eventBus.fireEvent(new MouseEvent<ElementData>(EventType.CLICK, getData(), x, y));
+				}
 			}
 		});
 	}

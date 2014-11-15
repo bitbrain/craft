@@ -147,10 +147,10 @@ public class ProfessionSelection extends Table implements EventListener {
 	private void alignSize(Cell<?> cell, ProfessionElement element) {
 		cell.width(
 				(Sizes.worldWidth() / 1.2f) / Profession.values().length)
-				.height(Sizes.worldHeight() / 1.3f)
+				.height(Sizes.worldHeight() / 1.5f)
 				.pad(Sizes.worldWidth() / 70f);
 		element.getLabel().setFontScale(element.getWidth() / 280f);
-		element.padTop(element.getHeight() / 2.1f);
+		element.padTop(element.getHeight() / 2.3f);
 	}
 
 	private void animateElement(final int index,

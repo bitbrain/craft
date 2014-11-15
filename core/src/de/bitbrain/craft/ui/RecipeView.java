@@ -45,7 +45,7 @@ import de.bitbrain.craft.inject.PostConstruct;
 public class RecipeView extends VerticalGroup {
 
 	@Inject
-	private TabPanel tabPanel;
+	private TabView tabPanel;
 	
 	@Inject
 	private EventBus eventBus;

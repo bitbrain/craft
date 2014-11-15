@@ -42,6 +42,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
@@ -56,8 +57,8 @@ import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.RecipeView;
-import de.bitbrain.craft.ui.TabPanel;
 import de.bitbrain.craft.ui.TabView;
+import de.bitbrain.craft.ui.Tabs;
 
 /**
  * Displays the main game
@@ -76,9 +77,6 @@ public class IngameScreen extends AbstractScreen {
 	
 	@Inject
 	private IconManager iconManager;
-	
-	@Inject
-	private TabPanel tabPanel;
 	
 	@Inject
 	private TabView tabView;
@@ -103,16 +101,20 @@ public class IngameScreen extends AbstractScreen {
 		stage.addActor(container);
 		stage.addActor(tabView);
 		stage.addActor(professionView);
+		
+		tabView.addTab(Tabs.RECIPE, Icon.RECIPE, recipeView);
+		tabView.addTab(Tabs.ITEMS, Icon.JEWEL_DIAMOND_MEDIUM, generateItemView());
+		tabView.setTab(Tabs.RECIPE);
 	}
 	
 	@Override
 	public void resize(int width, int height) {
 		final float paddingFactor = 1.1f;
 		super.resize(width, height);
-		tabView.setWidth(Sizes.worldWidth() / 2f * Sizes.worldScreenFactorX());
-		tabView.setHeight(Sizes.worldHeight() / paddingFactor * Sizes.worldScreenFactorY());
-		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor) * Sizes.worldScreenFactorX()) / 2f);
-		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor) * Sizes.worldScreenFactorY()) / 2f);
+		tabView.setWidth(Sizes.worldWidth() / 2f);
+		tabView.setHeight(Sizes.worldHeight() / paddingFactor);
+		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 	}
 
 	/* (non-Javadoc)

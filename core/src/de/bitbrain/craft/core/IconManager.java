@@ -146,7 +146,7 @@ public class IconManager implements Fadeable {
 	public static class IconDrawable extends BaseDrawable implements TransformDrawable {
 
 		public float scale = 1.0f;
-		public float x, y, width, height;
+		public float x, y, width, height, offsetX, offsetY;
 		public float rotation;
 		public Color color = new Color(Color.WHITE);
 
@@ -169,6 +169,14 @@ public class IconManager implements Fadeable {
 				this.sprite = loadingSprite;
 			}
 		}
+		
+		public void setOffsetX(float x) {
+			offsetX = x;
+		}
+		
+		public void setoffsetY(float y) {
+			offsetY = y;
+		}
 
 		public Texture getTexture() {
 			return sprite.getTexture();
@@ -176,7 +184,7 @@ public class IconManager implements Fadeable {
 
 		public void draw(Batch batch, float alphaModulation) {
 			sprite.setScale(scale);
-			sprite.setBounds(x, y, width, height);
+			sprite.setBounds(x + offsetX, y + offsetY, width, height);
 			sprite.setColor(color);
 			sprite.setOrigin(width / 2f, height / 2f);
 			sprite.setRotation(rotation);
@@ -197,6 +205,8 @@ public class IconManager implements Fadeable {
 		public void draw(Batch batch, float x, float y, float originX,
 				float originY, float width, float height, float scaleX,
 				float scaleY, float rotation) {
+			x += offsetX;
+			y += offsetY;
 			sprite.setOrigin(originX, originY);
 			sprite.setRotation(rotation);
 			sprite.setScale(scaleX, scaleY);
@@ -220,6 +230,8 @@ public class IconManager implements Fadeable {
 			if (sprite.isFlipY()) {
 				sprite.flip(false, true);
 			}
+			x += offsetX;
+			y += offsetY;
 			super.draw(batch, x, y, w, h);
 			sprite.setScale(scale);
 			sprite.setBounds(x, y, w, h);

@@ -56,7 +56,7 @@ public final class Sizes {
 	}
 	
 	public static int panelRadius() {
-		return 38;
+		return 15;
 	}
 	
 	public static int dragIconSize() {

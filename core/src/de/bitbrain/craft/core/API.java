@@ -137,6 +137,16 @@ public interface API {
 	 */
 	Player createPlayer(String name) throws APIException;
 	
+
+	/**
+	 * Determines if the player can craft the given item 
+	 * 
+	 * @param player
+	 * @param itemId
+	 * @return
+	 */
+	boolean canCraft(Player player, String itemId);
+	
 	/**
 	 * Is thrown as an API error occurs
 	 *

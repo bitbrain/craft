@@ -30,7 +30,6 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
@@ -44,7 +43,7 @@ import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.VectorTween;
-import de.bitbrain.craft.ui.TabPanel.TabControl;
+import de.bitbrain.craft.ui.TabView.Tab;
 
 /**
  * Handler which handles drag and drop. This handler is capable of
@@ -161,7 +160,7 @@ public class DragDropHandler {
 					public void onEvent(int type, BaseTween<?> source) {} // do nothing
 				});
 			}
-		} else if (event.getModel() instanceof TabControl) {
+		} else if (event.getModel() instanceof Tab) {
 			clear();
 		}
 	}
