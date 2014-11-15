@@ -165,7 +165,7 @@ public class TabView extends Table {
 		}
 		ImageButtonStyle style = new ImageButtonStyle(origin);
 		IconDrawable iconDrawable = iconManager.fetch(icon);
-		iconDrawable.setOffsetX(-Sizes.panelRadius() - 1);
+		iconDrawable.setOffsetX(-Sizes.panelRadius() - 1f);
 		iconDrawable.color.a = 0.5f;
 		style.imageUp = iconDrawable;
 		style.imageOver = iconDrawable;

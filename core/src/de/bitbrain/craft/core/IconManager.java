@@ -81,13 +81,13 @@ public class IconManager implements Fadeable {
 	public IconDrawable fetch(Icon icon) {
 		String file = icon.getFile();
 		if (icons.containsKey(file)) {
-			return icons.get(file);
+			return new IconDrawable(icons.get(file));
 		} else {
 			references.put(file, 1);
 			requests.add(icon);
 			IconDrawable iconDrawable = new IconDrawable();
 			icons.put(file, iconDrawable);
-			return iconDrawable;
+			return new IconDrawable(iconDrawable);
 		}
 	}
 
@@ -142,23 +142,21 @@ public class IconManager implements Fadeable {
 			}
 		}
 	}
-
-	public static class IconDrawable extends BaseDrawable implements TransformDrawable {
-
-		public float scale = 1.0f;
-		public float x, y, width, height, offsetX, offsetY;
-		public float rotation;
-		public Color color = new Color(Color.WHITE);
-
+	
+	private static class TextureLoader {
+		
 		private Sprite sprite;
-
-		IconDrawable() {
-			setTexture(null);
+		
+		public Sprite getSprite() {
+			if (sprite == null) {
+				setTexture(null);
+			}
+			return sprite;
+			
 		}
-
 		void setTexture(Texture texture) {
 			if (texture != null) {
-				this.sprite = new Sprite(texture);
+				sprite = new Sprite(texture);
 				sprite.flip(false, true);
 			} else {
 				if (loadingSprite == null) {
@@ -166,7 +164,41 @@ public class IconManager implements Fadeable {
 							Gdx.files.internal("images/icons/ico_loading.png")));
 					loadingSprite.flip(false, true);
 				}
-				this.sprite = loadingSprite;
+				sprite = loadingSprite;
+			}
+		}
+	}
+
+	public static class IconDrawable extends BaseDrawable implements TransformDrawable {
+
+		public float scale = 1.0f;
+		public float x, y, width, height, offsetX, offsetY;
+		public float rotation;
+		public Color color = new Color(Color.WHITE);
+		private TextureLoader loader;
+
+		IconDrawable() {
+			setTexture(null);
+			loader = new TextureLoader();
+		}
+		
+		
+
+		public IconDrawable(IconDrawable iconDrawable) {
+			this.scale = iconDrawable.scale;
+			this.x = iconDrawable.x;
+			this.y = iconDrawable.y;
+			this.rotation = iconDrawable.rotation;
+			this.width =iconDrawable. width;
+			this.height = iconDrawable.height;
+			this.offsetX = iconDrawable.offsetX;
+			this.offsetY = iconDrawable.offsetY;
+			this.loader = iconDrawable.loader;
+		}
+
+		void setTexture(Texture texture) {
+			if (loader != null) {
+				loader.setTexture(texture);
 			}
 		}
 		
@@ -179,17 +211,16 @@ public class IconManager implements Fadeable {
 		}
 
 		public Texture getTexture() {
-			return sprite.getTexture();
+			return loader.getSprite().getTexture();
 		}
 
 		public void draw(Batch batch, float alphaModulation) {
-			sprite.setScale(scale);
-			sprite.setBounds(x + offsetX, y + offsetY, width, height);
-			sprite.setColor(color);
-			sprite.setOrigin(width / 2f, height / 2f);
-			sprite.setRotation(rotation);
-
-			sprite.draw(batch, alphaModulation);
+			loader.getSprite().setScale(scale);
+			loader.getSprite().setBounds(x + offsetX, y + offsetY, width, height);
+			loader.getSprite().setColor(color);
+			loader.getSprite().setOrigin(width / 2f, height / 2f);
+			loader.getSprite().setRotation(rotation);
+			loader.getSprite().draw(batch, alphaModulation);
 		}
 
 		/*
@@ -207,14 +238,14 @@ public class IconManager implements Fadeable {
 				float scaleY, float rotation) {
 			x += offsetX;
 			y += offsetY;
-			sprite.setOrigin(originX, originY);
-			sprite.setRotation(rotation);
-			sprite.setScale(scaleX, scaleY);
-			sprite.setBounds(x, y, width, height);
-			Color color = sprite.getColor();
-			sprite.setColor(Color.tmp.set(color).mul(batch.getColor()));
-			sprite.draw(batch);
-			sprite.setColor(color);
+			loader.getSprite().setOrigin(originX, originY);
+			loader.getSprite().setRotation(rotation);
+			loader.getSprite().setScale(scaleX, scaleY);
+			loader.getSprite().setBounds(x, y, width, height);
+			Color color = loader.sprite.getColor();
+			loader.getSprite().setColor(Color.tmp.set(color).mul(batch.getColor()));
+			loader.getSprite().draw(batch);
+			loader.getSprite().setColor(color);
 
 		}
 
@@ -227,18 +258,18 @@ public class IconManager implements Fadeable {
 		 */
 		@Override
 		public void draw(Batch batch, float x, float y, float w, float h) {
-			if (sprite.isFlipY()) {
-				sprite.flip(false, true);
+			if (loader.getSprite().isFlipY()) {
+				loader.getSprite().flip(false, true);
 			}
 			x += offsetX;
 			y += offsetY;
 			super.draw(batch, x, y, w, h);
-			sprite.setScale(scale);
-			sprite.setBounds(x, y, w, h);
-			sprite.setColor(color);
-			sprite.setOrigin(w / 2f, h / 2f);
-			sprite.setRotation(rotation);
-			sprite.draw(batch, color.a);
+			loader.getSprite().setScale(scale);
+			loader.getSprite().setBounds(x, y, w, h);
+			loader.getSprite().setColor(color);
+			loader.getSprite().setOrigin(w / 2f, h / 2f);
+			loader.getSprite().setRotation(rotation);
+			loader.getSprite().draw(batch, color.a);
 		}
 	}
 }

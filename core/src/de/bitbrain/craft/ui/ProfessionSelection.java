@@ -147,9 +147,9 @@ public class ProfessionSelection extends Table implements EventListener {
 	private void alignSize(Cell<?> cell, ProfessionElement element) {
 		cell.width(
 				(Sizes.worldWidth() / 1.2f) / Profession.values().length)
-				.height(Sizes.worldHeight() / 1.5f)
+				.height(Sizes.worldHeight() / 1.3f)
 				.pad(Sizes.worldWidth() / 70f);
-		element.getLabel().setFontScale(element.getWidth() / 280f);
+		element.getLabel().setFontScale(element.getWidth() / 270f);
 		element.padTop(element.getHeight() / 2.3f);
 	}
 
@@ -248,15 +248,15 @@ public class ProfessionSelection extends Table implements EventListener {
 		public void draw(Batch batch, float parentAlpha) {
 			super.draw(batch, parentAlpha);
 			if (icon != null) {
-				icon.setSize(getWidth() / 1.5f, getWidth() / 1.5f);
+				icon.setSize(getWidth() / 1.3f, getWidth() / 1.3f);
 				icon.setPosition(getX() + getWidth() / 2 - icon.getWidth() / 2,
 						getY() + getHeight() / 2.5f);
 				icon.setOrigin(icon.getWidth() / 2f, icon.getHeight() / 2f);
 				icon.draw(batch, parentAlpha * iconAlpha * getColor().a);
 			}
 			bar.setColor(getColor());
-			bar.setWidth(getWidth() / 1.6f);
-			bar.setHeight(getHeight() / 12f);
+			bar.setWidth(getWidth() / 1.4f);
+			bar.setHeight(getHeight() / 11f);
 			bar.setX(getX() + getWidth() / 2f - bar.getWidth() / 2f);
 			bar.setY(getY() + getHeight() / 7.5f);
 			bar.draw(batch, parentAlpha);

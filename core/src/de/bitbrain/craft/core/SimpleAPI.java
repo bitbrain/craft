@@ -238,6 +238,6 @@ class SimpleAPI implements API {
 
 	@Override
 	public boolean canCraft(Player player, String itemId) {
-		return false;
+		return true;
 	}
 }
