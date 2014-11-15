@@ -19,17 +19,25 @@
 
 package de.bitbrain.craft.ui;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
+import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.tweens.ValueTween;
 import de.bitbrain.craft.util.ColorCalculator;
+import de.bitbrain.craft.util.ValueProvider;
 
 /**
  * An icon which also shows rarity and special effects
@@ -38,7 +46,7 @@ import de.bitbrain.craft.util.ColorCalculator;
  * @since 1.0
  * @version 1.0
  */
-public class ElementIcon extends Actor {
+public class ElementIcon extends Actor implements ValueProvider {
 	
 	public float iconScale;
 	
@@ -54,17 +62,32 @@ public class ElementIcon extends Actor {
 	
 	private Color backgroundColor = new Color(Color.WHITE);
 	
+	private int currentAmount;
+	
+	@Inject
+	private TweenManager tweenManager;
+	
 	public ElementIcon(ElementData data) {
+		Tween.registerAccessor(ElementIcon.class, new ValueTween());
+		SharedInjector.get().injectMembers(this);
 		setSource(data);
 		amount = new Label("1", Styles.LBL_TEXT);
 		background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 		colorCalculator = new ColorCalculator();
 		icon = data.getIcon();
+		icon.rotation = 0f;
 		updateBackground();
 	}
 	
 	public final void setSource(ElementData data) {
 		this.data = data;
+		currentAmount = 0;
+		tweenManager.killTarget(this);
+		Tween.to(this, ValueTween.VALUE, 1f)
+			 .delay(0.3f)
+	         .target(this.data.getAmount())
+	         .ease(TweenEquations.easeOutQuart)
+	         .start(tweenManager);
 	}
 	
 	private void updateBackground() {
@@ -98,7 +121,7 @@ public class ElementIcon extends Actor {
 		
 		// Amount
 		if (data.getAmount() > -1) {
-			amount.setText(String.valueOf(data.getAmount()));
+			amount.setText(String.valueOf(currentAmount));
 			amount.setX(getX() + getWidth() - amount.getPrefWidth() - getPadding());
 			amount.setY(getY() + getPadding());
 			amount.draw(batch, parentAlpha);
@@ -107,5 +130,15 @@ public class ElementIcon extends Actor {
 	
 	private float getPadding() {
 		return 12f;
+	}
+
+	@Override
+	public int getValue() {
+		return currentAmount;
+	}
+
+	@Override
+	public void setValue(int value) {
+		currentAmount = value;
 	}
 }

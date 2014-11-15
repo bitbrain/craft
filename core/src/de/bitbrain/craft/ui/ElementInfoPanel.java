@@ -79,8 +79,9 @@ public class ElementInfoPanel extends HorizontalGroup {
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);
 			addActor(icon);
-			addActor(generateRight(data));
-			fill().pad(10f);
+			Actor right = generateRight(data);
+			addActor(right);
+			pad(10f);
 			registerEvents(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,6 +102,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		setWidth(getParent().getWidth() - Sizes.borderPadding() * 2);
 		background.getColor().a = parentAlpha;
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);

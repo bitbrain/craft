@@ -22,6 +22,10 @@ package de.bitbrain.craft.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -47,6 +51,7 @@ import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.StateScoped;
+import de.bitbrain.craft.tweens.ActorTween;
 
 /**
  * Responsive tab view which can be extendable
@@ -73,6 +78,9 @@ public class TabView extends Table {
 	@Inject
 	private IconManager iconManager;
 	
+	@Inject
+	private TweenManager tweenManager;
+	
 	public TabView() {
 		tabs = new HashMap<String, Tab>();
 		generateLeft();
@@ -90,13 +98,20 @@ public class TabView extends Table {
 		if (tabs.containsKey(tab) && !tab.equals(activeTabId)) {			
 			if (!activeTabId.isEmpty()) {
 				Tab oldTab = tabs.get(activeTabId);
+				oldTab.getContent().getColor().a = 0f;
 				oldTab.setActive(false);
+				tweenManager.killTarget(oldTab.getContent());
 			}			
 			Tab newTab = tabs.get(tab);
-			left.getActor().setActor(newTab.getContent());
+			Actor actor = newTab.getContent();
+			left.getActor().setActor(actor);
 			newTab.getContent().setWidth(left.getActorWidth());
 			newTab.setActive(true);
 			activeTabId = tab;
+			Tween.to(actor, ActorTween.ALPHA, 0.5f)
+				 .target(1f)
+				 .ease(TweenEquations.easeOutQuad)
+				 .start(tweenManager);
 		}
 	}
 	

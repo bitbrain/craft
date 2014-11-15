@@ -44,8 +44,10 @@ import de.bitbrain.craft.migration.DataMigrator;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.tweens.ValueTween;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.util.AssetReflector;
+import de.bitbrain.craft.util.ValueProvider;
 
 /**
  * Screen which is shown in the very beginning
