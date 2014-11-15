@@ -20,14 +20,13 @@
 package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.util.ColorCalculator;
@@ -45,7 +44,7 @@ public class ElementIcon extends Actor {
 	
 	private ElementData data;
 	
-	private Sprite background;
+	private NinePatch background;
 	
 	private Label amount;
 	
@@ -58,7 +57,7 @@ public class ElementIcon extends Actor {
 	public ElementIcon(ElementData data) {
 		setSource(data);
 		amount = new Label("1", Styles.LBL_TEXT);
-		background = new Sprite(SharedAssetManager.get(Assets.TEX_ICON_BACKGROUND, Texture.class));
+		background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 		colorCalculator = new ColorCalculator();
 		icon = data.getIcon();
 		updateBackground();
@@ -85,10 +84,8 @@ public class ElementIcon extends Actor {
 		}
 		
 		// background
-		background.setPosition(getX(), getY());
-		background.setSize(getWidth(), getHeight());
 		background.setColor(backgroundColor);
-		background.draw(batch, parentAlpha);
+		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		
 		// Icon
 		icon.width = getWidth() * iconScale;

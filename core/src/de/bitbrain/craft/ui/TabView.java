@@ -95,6 +95,7 @@ public class TabView extends Table {
 			Tab newTab = tabs.get(tab);
 			left.getActor().setActor(newTab.getContent());
 			newTab.getContent().setWidth(left.getActorWidth());
+			newTab.setActive(true);
 			activeTabId = tab;
 		}
 	}
@@ -111,6 +112,9 @@ public class TabView extends Table {
 			final Tab tab = new Tab(id, content, generateTabStyle(icon, false), generateTabStyle(icon, true));
 			tabs.put(id,  tab);
 			tabGroup.addActor(tab);
+			Container<?> padding = new Container<Actor>();
+			padding.height(15f);
+			tabGroup.addActor(padding);
 			setTab(id);
 			tab.addListener(new ClickListener() {
 				@Override
@@ -142,7 +146,7 @@ public class TabView extends Table {
 	}
 	
 	private void generateLeft() {
-		Container<Actor> c = new Container();
+		Container<Actor> c = new Container<Actor>();
 		c.setBackground(new NinePatchDrawable(Styles.ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius())));
 		left = add(c);
 
@@ -181,12 +185,15 @@ public class TabView extends Table {
 		private ImageButtonStyle otherStyle;
 		
 		private String id;
+		
+		private boolean active;
 
-		public Tab(String id, Actor content, ImageButtonStyle style, ImageButtonStyle active) {
+		public Tab(String id, Actor content, ImageButtonStyle style, ImageButtonStyle activeStyle) {
 			super(style);
 			this.id = id;
 			this.content = content;
-			otherStyle = active;
+			otherStyle = activeStyle;
+			this.active = false;
 		}
 		
 		@Override
@@ -205,7 +212,12 @@ public class TabView extends Table {
 		}
 		
 		public void setActive(boolean active) {
-			
+			if (active != this.active) {
+				ImageButtonStyle style = otherStyle;
+				otherStyle = getStyle();
+				setStyle(style);
+				this.active = active;
+			}
 		}
 		
 		public Actor getContent() {
@@ -215,9 +227,11 @@ public class TabView extends Table {
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			super.draw(batch, parentAlpha);
-			batch.setColor(1f, 1f, 1f, parentAlpha);
-			Texture texture = SharedAssetManager.get(Assets.TEX_TAB_GRADIENT, Texture.class);
-			batch.draw(texture, getX() + OFFSET - 1, getY(), getWidth() - OFFSET + 1, getHeight() - 1);
+			if (!active) {
+				batch.setColor(1f, 1f, 1f, parentAlpha);
+				Texture texture = SharedAssetManager.get(Assets.TEX_TAB_GRADIENT, Texture.class);
+				batch.draw(texture, getX() + OFFSET - 1, getY(), getWidth() - OFFSET + 1, getHeight() - 1);
+			}
 		}
 		
 	}

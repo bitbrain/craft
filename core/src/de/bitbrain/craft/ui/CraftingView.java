@@ -42,7 +42,7 @@ import de.bitbrain.craft.inject.PostConstruct;
  * @since 1.0
  * @version 1.0
  */
-public class RecipeView extends VerticalGroup {
+public class CraftingView extends VerticalGroup {
 
 	@Inject
 	private TabView tabPanel;
@@ -72,7 +72,7 @@ public class RecipeView extends VerticalGroup {
 		if (event.getModel() instanceof ElementData && event.getType() == EventType.CLICK) {
 			ElementData tmpData = (ElementData) event.getModel();
 			if (api.isItemId(tmpData.getId())) {
-				tabPanel.setTab(Tabs.RECIPE);
+				tabPanel.setTab(Tabs.CRAFTING);
 			}
 			if (data == null || !isModified()) {
 				data = tmpData.copy();

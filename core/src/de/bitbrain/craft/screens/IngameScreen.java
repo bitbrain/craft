@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -40,6 +41,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.Icon;
@@ -53,10 +55,10 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
+import de.bitbrain.craft.ui.CraftingView;
 import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
-import de.bitbrain.craft.ui.RecipeView;
 import de.bitbrain.craft.ui.TabView;
 import de.bitbrain.craft.ui.Tabs;
 
@@ -82,7 +84,7 @@ public class IngameScreen extends AbstractScreen {
 	private TabView tabView;
 	
 	@Inject 
-	private RecipeView recipeView;
+	private CraftingView recipeView;
 	
 	private ElementInfoConnector itemConnector, recipeConnector;
 	
@@ -102,9 +104,10 @@ public class IngameScreen extends AbstractScreen {
 		stage.addActor(tabView);
 		stage.addActor(professionView);
 		
-		tabView.addTab(Tabs.RECIPE, Icon.RECIPE, recipeView);
+		tabView.addTab(Tabs.PROFILE, Icon.FLUX, new Label("Profile", Styles.LBL_TEXT));		
 		tabView.addTab(Tabs.ITEMS, Icon.JEWEL_DIAMOND_MEDIUM, generateItemView());
-		tabView.setTab(Tabs.RECIPE);
+		tabView.addTab(Tabs.CRAFTING, Icon.RECIPE, recipeView);
+		tabView.setTab(Tabs.ITEMS);
 	}
 	
 	@Override

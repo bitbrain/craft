@@ -20,8 +20,8 @@
 package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -34,7 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
@@ -58,6 +58,8 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	private ElementData data;
 	
+	private NinePatch background;
+	
 	@Inject
 	private EventBus eventBus;
 	
@@ -68,6 +70,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	public ElementInfoPanel(ElementData data) {
 		try {
+			background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 			SharedInjector.get().injectMembers(this);
 			this.data = data;
 			craftable = isElementCraftable();
@@ -98,9 +101,8 @@ public class ElementInfoPanel extends HorizontalGroup {
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		Texture texture = SharedAssetManager.get(Assets.TEX_PANEL_ITEM, Texture.class);
-		batch.setColor(1f, 1f, 1f, parentAlpha);
-		batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+		background.getColor().a = parentAlpha;
+		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);
 	}
 	

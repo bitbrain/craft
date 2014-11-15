@@ -29,11 +29,11 @@ import com.badlogic.gdx.Gdx;
  * @version 1.0
  */
 public final class Sizes {
-	
+
 	public static int worldWidth() {
 		return 1020;
 	}
-	
+
 	public static int worldHeight() {
 		return 600;
 	}
@@ -41,45 +41,36 @@ public final class Sizes {
 	public static float borderPadding() {
 		return 20f;
 	}
-	
+
 	public static float tabPadding() {
 		return worldHeight() / 25f;
 	}
-	
-	public static float craftViewWidth() {
-		return 300f;
-	}
 
-	public static float craftViewPadding() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 	public static int panelRadius() {
 		return 15;
 	}
-	
+
+	public static int panelTransparentRadius() {
+		return 8;
+	}
+
 	public static int dragIconSize() {
-		return  worldHeight() / 6;
+		return worldHeight() / 6;
 	}
-	
-	public static float globalPadding() {
-		return  worldHeight() / 20f;
-	}
-	
+
 	public static float worldMouseX() {
 		return Gdx.input.getX();
 	}
-	
+
 	public static float worldMouseY() {
 		return Gdx.input.getY();
 	}
-	
+
 	public static float worldScreenFactorX() {
-		return (float)Gdx.graphics.getWidth() / (float)worldWidth();
+		return (float) Gdx.graphics.getWidth() / (float) worldWidth();
 	}
-	
+
 	public static float worldScreenFactorY() {
-		return (float)Gdx.graphics.getHeight() / (float)worldHeight();
+		return (float) Gdx.graphics.getHeight() / (float) worldHeight();
 	}
 }
