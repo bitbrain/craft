@@ -31,7 +31,7 @@ import com.badlogic.gdx.Gdx;
 public final class Sizes {
 	
 	public static int worldWidth() {
-		return 800;
+		return 1020;
 	}
 	
 	public static int worldHeight() {

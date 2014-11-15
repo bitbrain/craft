@@ -30,6 +30,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -41,7 +42,6 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
@@ -57,7 +57,7 @@ import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.RecipeView;
 import de.bitbrain.craft.ui.TabPanel;
-import de.bitbrain.craft.ui.Tabs;
+import de.bitbrain.craft.ui.TabView;
 
 /**
  * Displays the main game
@@ -80,6 +80,9 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private TabPanel tabPanel;
 	
+	@Inject
+	private TabView tabView;
+	
 	@Inject 
 	private RecipeView recipeView;
 	
@@ -96,29 +99,20 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		stage.addActor(tabPanel);
+		Container<TabView> container = new Container<TabView>(tabView);
+		stage.addActor(container);
+		stage.addActor(tabView);
 		stage.addActor(professionView);
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.MenuScreen#resize(int, int)
-	 */
 	@Override
 	public void resize(int width, int height) {
-		boolean init = inputProcessor == null;
+		final float paddingFactor = 1.1f;
 		super.resize(width, height);
-		tabPanel.setWidth(Sizes.worldWidth() / 2.2f);
-		tabPanel.setHeight(Sizes.worldHeight() / 1.2f);
-		
-		professionView.setWidth(width - tabPanel.getWidth() / 0.82f);
-		professionView.setHeight(tabPanel.getHeight());
-		professionView.setY(Sizes.worldHeight() / 7f);
-		professionView.setX(tabPanel.getWidth() + Sizes.worldWidth() / 12f);
-		if (init) {
-			tabPanel.addTab(Tabs.RECIPE, Icon.RECIPE, recipeView);
-			tabPanel.addTab(Tabs.ITEMS, Icon.JEWEL_DIAMOND_MEDIUM, generateItemView());
-			tabPanel.setTab(Tabs.RECIPE);
-		}
+		tabView.setWidth(Sizes.worldWidth() / 2f * Sizes.worldScreenFactorX());
+		tabView.setHeight(Sizes.worldHeight() / paddingFactor * Sizes.worldScreenFactorY());
+		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor) * Sizes.worldScreenFactorX()) / 2f);
+		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor) * Sizes.worldScreenFactorY()) / 2f);
 	}
 
 	/* (non-Javadoc)
@@ -207,7 +201,7 @@ public class IngameScreen extends AbstractScreen {
 	
 	@Override
 	protected Viewport createViewport() {
-		return new FillViewport(800, 600);
+		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
 	}
 	
 	@Handler

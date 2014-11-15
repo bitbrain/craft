@@ -147,7 +147,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	private void alignSize(Cell<?> cell, ProfessionElement element) {
 		cell.width(
 				(Sizes.worldWidth() / 1.2f) / Profession.values().length)
-				.height(Sizes.worldHeight() / 1.6f)
+				.height(Sizes.worldHeight() / 1.3f)
 				.pad(Sizes.worldWidth() / 70f);
 		element.getLabel().setFontScale(element.getWidth() / 280f);
 		element.padTop(element.getHeight() / 2.1f);
@@ -256,7 +256,7 @@ public class ProfessionSelection extends Table implements EventListener {
 			}
 			bar.setColor(getColor());
 			bar.setWidth(getWidth() / 1.6f);
-			bar.setHeight(getHeight() / 15f);
+			bar.setHeight(getHeight() / 12f);
 			bar.setX(getX() + getWidth() / 2f - bar.getWidth() / 2f);
 			bar.setY(getY() + getHeight() / 7.5f);
 			bar.draw(batch, parentAlpha);
