@@ -120,4 +120,10 @@ public class ItemElementAdapter implements ElementData {
 		return new ItemElementAdapter(item, amount);
 	}
 
+	@Override
+	public int getLevel() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

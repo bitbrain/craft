@@ -34,7 +34,6 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.models.Recipe;
 
 /** Connects element info to the database
  *
@@ -129,8 +128,6 @@ public class ElementConnector {
 		ElementData data = null;
 		if (model instanceof Item) {
 			data = new ItemElementAdapter((Item)model, amount);
-		} else if (model instanceof Recipe) {
-			data = new RecipeElementAdapter((Recipe)model);
 		} else {
 			throw new RuntimeException(model + " can't be converted into a valid actor.");
 		}

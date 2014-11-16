@@ -157,7 +157,7 @@ public class DragDropHandler {
 				String id = data.getId();
 				drops.put(id, true);
 				tweenManager.killTarget(sizes.get(id));
-				animateVector(sizes.get(id), 0.7f, 0f, new TweenCallback() {
+				animateVector(sizes.get(id), 1.7f, 0f, new TweenCallback() {
 					@Override 
 					public void onEvent(int type, BaseTween<?> source) {} // do nothing
 				});
@@ -199,11 +199,11 @@ public class DragDropHandler {
 	private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
 		Tween.to(vec, VectorTween.X, time)
 			 .target(target)
-			 .ease(TweenEquations.easeOutElastic)
+			 .ease(TweenEquations.easeOutQuart)
 			 .start(tweenManager);
 		Tween.to(vec, VectorTween.Y, time)
 			 .target(target)
-			 .ease(TweenEquations.easeOutElastic)
+			 .ease(TweenEquations.easeOutQuart)
 			 .setCallback(callback)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
 			 .start(tweenManager);

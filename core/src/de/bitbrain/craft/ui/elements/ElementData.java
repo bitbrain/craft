@@ -81,6 +81,13 @@ public interface ElementData {
 	void setAmount(int amount);
 	
 	/**
+	 * Level of the element
+	 * 
+	 * @return
+	 */
+	int getLevel();
+	
+	/**
 	 * Creates a copy of this data
 	 * 
 	 * @return
