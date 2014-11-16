@@ -23,7 +23,6 @@ import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.migration.Migrate;
 import de.bitbrain.craft.migration.Migrations;
 import de.bitbrain.craft.models.Player;
-import de.bitbrain.jpersis.JPersis;
 
 /**
  * Migrates data at the beginning for new users
@@ -35,7 +34,7 @@ import de.bitbrain.jpersis.JPersis;
 public class OwnedItemMigrationJob {
 
 	@Migrate(Migrations.RELEASE)
-	public void migrateOwnedItemsRelease(JPersis jpersis, API api) {
+	public void migrateOwnedItemsRelease(API api) {
 		Player p = Player.getCurrent();
 		api.addItem(p.getId(), ItemId.ACID_1, 10);
 		api.addItem(p.getId(), ItemId.XENOCITE, 6);

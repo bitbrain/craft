@@ -116,7 +116,7 @@ public final class DataMigrator {
 		if (!migrationExists(id)) {
 			Gdx.app.log("INFO", "Migration '" + id + "' Did not happen. Migrate data..");
 			try {
-				m.invoke(o, jpersis, api);
+				m.invoke(o, api);
 			} catch (IllegalAccessException e) {
 				throw new MigrateException(e);
 			} catch (IllegalArgumentException e) {

@@ -36,6 +36,7 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
@@ -209,28 +210,24 @@ class SimpleAPI implements API {
 			return false;
 		}
 	}
-	
-	/**
-	 * Determines if id is valid item ID
-	 * 
-	 * @param id item ID
-	 * @return true when id is valid
-	 */
+
 	@Override
 	public boolean isItemId(String id) {
 		return id.startsWith("item_");		
 	}
 	
-	
-	/**
-	 * Determines if id is valid recipe ID
-	 * 
-	 * @param id recipe ID
-	 * @return true when id is valid
-	 */
 	@Override
 	public boolean isRecipeId(String id) {
 		return id.startsWith("recipe_");		
+	}
+
+	@Override
+	public void registerItem(String itemId, Icon icon, Rarity rarity) {
+		Item item = itemMapper.findById(itemId);		
+		if (item == null) {
+			item = new Item(itemId, icon, rarity);
+			itemMapper.insert(item);
+		}
 	}
 
 	@Override

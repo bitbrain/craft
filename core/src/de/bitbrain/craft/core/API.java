@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Recipe;
@@ -146,6 +147,16 @@ public interface API {
 	 * @return
 	 */
 	boolean canCraft(Player player, String itemId);
+	
+
+	/**
+	 * Registers a new icon to the system. Only works if itemId is not taken yet
+	 * 
+	 * @param itemId id of the new item
+	 * @param icon icon of the item
+	 * @param rarity rarity of the item
+	 */
+	void registerItem(String itemId, Icon icon, Rarity rarity);
 	
 	/**
 	 * Is thrown as an API error occurs

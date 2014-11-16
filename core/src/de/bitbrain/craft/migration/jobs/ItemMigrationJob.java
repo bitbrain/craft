@@ -21,12 +21,9 @@ package de.bitbrain.craft.migration.jobs;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.ItemId;
-import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.migration.Migrate;
 import de.bitbrain.craft.migration.Migrations;
-import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
-import de.bitbrain.jpersis.JPersis;
 
 /**
  * Migrates data at the beginning for new users
@@ -38,23 +35,22 @@ import de.bitbrain.jpersis.JPersis;
 public class ItemMigrationJob {
 
 	@Migrate(Migrations.RELEASE)
-	public void migrateItemsRelease(JPersis jpersis, API api) {
-		ItemMapper itemMapper = jpersis.map(ItemMapper.class);
-		itemMapper.insert(new Item(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE));
-		itemMapper.insert(new Item(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR));
-		itemMapper.insert(new Item(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE));
-		itemMapper.insert(new Item(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE));
-		itemMapper.insert(new Item(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC));
-		itemMapper.insert(new Item(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE));
-		itemMapper.insert(new Item(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON));
-		itemMapper.insert(new Item(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE));		
+	public void migrateItemsRelease(API api) {
+		api.registerItem(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON);
+		api.registerItem(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON);
+		api.registerItem(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE);
+		api.registerItem(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR);
+		api.registerItem(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON);
+		api.registerItem(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE);
+		api.registerItem(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE);
+		api.registerItem(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC);
+		api.registerItem(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON);
+		api.registerItem(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE);
+		api.registerItem(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON);
+		api.registerItem(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON);
+		api.registerItem(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON);
+		api.registerItem(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON);
+		api.registerItem(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE);		
 	}
 
 }
