@@ -63,9 +63,11 @@ public class CommandHandler implements Command {
 
 	@Override
 	public void execute(API api, String... args) {
-		Command command = commands.get(args[0]);
-		if (command != null) {
-			command.execute(api, toArguments(args));
+		if (args.length > 0) {
+			Command command = commands.get(args[0]);
+			if (command != null) {
+				command.execute(api, toArguments(args));
+			}
 		}
 	}
 

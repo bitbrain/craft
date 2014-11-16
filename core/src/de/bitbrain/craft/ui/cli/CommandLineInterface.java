@@ -19,6 +19,9 @@
 
 package de.bitbrain.craft.ui.cli;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
@@ -50,6 +53,8 @@ import de.bitbrain.craft.ui.cli.commands.AddCommand;
  */
 @StateScoped
 public class CommandLineInterface extends Table {
+	
+	private static final int BUFFER_SIZE = 50;
 
 	private TextField textField;
 	
@@ -64,8 +69,11 @@ public class CommandLineInterface extends Table {
 	
 	private boolean initialized;
 	
+	private History history;
+	
 	@PostConstruct
 	public void initView() {
+		history = new History(BUFFER_SIZE);
 		commandHandler.register("add", new AddCommand());
 		setVisible(false);
 		this.setZIndex(1000);
@@ -86,9 +94,18 @@ public class CommandLineInterface extends Table {
 				getStage().setKeyboardFocus(textField);
 			}
 		}
-		if (!textField.getText().isEmpty() && isVisible() && Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-			commandHandler.executeString(api, textField.getText());
-			textField.setText("");
+		if (isVisible()) {
+			if (!textField.getText().isEmpty() && Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+				commandHandler.executeString(api, textField.getText());
+				history.add(textField.getText());
+				textField.setText("");
+			}
+			if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.UP)) {
+				textField.setText(history.back());
+			}
+			if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+				textField.setText(history.forward());
+			}
 		}
 		super.act(delta);
 	}
@@ -104,5 +121,53 @@ public class CommandLineInterface extends Table {
 		add(textField).width(getWidth());	
 		setY(Sizes.worldHeight() - textField.getHeight());
 		setHeight(textField.getHeight());
+	}
+	
+	private class History {
+		
+		private List<String> lines;
+		
+		private int bufferSize;
+		
+		private int currentIndex;
+		
+		public History(int bufferSize) {
+			lines = new ArrayList<String>();
+			this.bufferSize = bufferSize;
+			currentIndex = 0;
+		}
+		
+		public boolean isEmpty() {
+			return lines.isEmpty();
+		}
+		
+		public void add(String line) {
+			if (!isEmpty()) {
+				if (line.equals(lines.get(lines.size() - 1))) {
+					return;
+				}
+			}
+			if (lines.size() == bufferSize) {
+				lines.remove(0);
+			}
+			lines.add(line);
+			currentIndex = lines.size() - 1;
+		}
+		
+		public String back() {
+			if (currentIndex >= 1) {
+				return lines.get(currentIndex--);
+			} else {
+				return lines.get(currentIndex);
+			}
+		}
+		
+		public String forward() {
+			if (currentIndex < lines.size() - 1) {
+				return lines.get(++currentIndex);
+			} else {
+				return "";
+			}
+		}
 	}
 }
