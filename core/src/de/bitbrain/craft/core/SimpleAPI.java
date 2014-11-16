@@ -197,9 +197,9 @@ class SimpleAPI implements API {
 			try {
 			if (count > 0) {
 				owned.setAmount(count);
-				//ownedItemMapper.update(owned);
+				ownedItemMapper.update(owned);
 			} else {
-				//ownedItemMapper.delete(owned);
+				ownedItemMapper.delete(owned);
 			}
 			} catch (Exception e) {
 				e.printStackTrace();

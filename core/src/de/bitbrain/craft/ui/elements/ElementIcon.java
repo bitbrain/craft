@@ -82,7 +82,6 @@ public class ElementIcon extends Actor implements ValueProvider {
 		this.data = data;
 		tweenManager.killTarget(this);
 		Tween.to(this, ValueTween.VALUE, 1f)
-			 .delay(0.3f)
 	         .target(this.data.getAmount())
 	         .ease(TweenEquations.easeOutQuart)
 	         .start(tweenManager);
@@ -118,7 +117,7 @@ public class ElementIcon extends Actor implements ValueProvider {
 		icon.draw(batch, parentAlpha);
 		
 		// Amount
-		if (data.getAmount() > -1) {
+		if (data.getAmount() > 0) {
 			amount.setText(String.valueOf(currentAmount));
 			amount.setX(getX() + getWidth() - amount.getPrefWidth() - getPadding());
 			amount.setY(getY() + getPadding());

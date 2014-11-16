@@ -114,6 +114,7 @@ public class ElementPanel extends HorizontalGroup {
 	
 	public void setAmount(int amount) {
 		data.setAmount(amount);
+		icon.setSource(data);
 	}
 	
 	private boolean isElementCraftable() {

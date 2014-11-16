@@ -102,25 +102,16 @@ public class ElementConnector {
 		return spacing;
 	}
 	
-	private Actor removeSpacing(String id) {
-		return spacings.remove(id);
-	}
-	
 	private void removeElements(String id, Object model, int amount) {
 
 		ElementData data = dataMap.get(id);
 		if (data != null) {	
 			int newAmount = data.getAmount() - amount;
-			if (newAmount < 1) {
-				group.removeActor(elements.get(id));
-				group.removeActor(removeSpacing(id));
-				elements.remove(id);
-				dataMap.remove(id);
-			} else {
+			if (newAmount >= 0) {
 				ElementPanel panel = elements.get(id);
 				panel.setAmount(newAmount);
+				Gdx.app.log("INFO", "Removed element with id='" + id + "' from " + group);
 			}
-			Gdx.app.log("INFO", "Removed element with id='" + id + "' from " + group);
 		}
 	}
 	

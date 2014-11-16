@@ -75,7 +75,6 @@ public class ProfessionView extends Actor {
 			ElementData data = (ElementData) event.getModel();
 			if (api.isItemId(data.getId())) {
 				Item item = api.getItem(data.getId());
-				
 				if (professionLogic.add(item)) {
 					// Item accepted, remove it from system
 					api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
