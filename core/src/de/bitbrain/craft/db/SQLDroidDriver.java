@@ -4,7 +4,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import de.bitbrain.jpersis.JPersisException;
+import de.bitbrain.jpersis.drivers.Query;
 import de.bitbrain.jpersis.drivers.jdbc.JDBCDriver;
+import de.bitbrain.jpersis.drivers.sqllite.SQLiteQuery;
+import de.bitbrain.jpersis.util.Naming;
 
 public class SQLDroidDriver extends JDBCDriver {
 	  
@@ -19,6 +22,11 @@ public class SQLDroidDriver extends JDBCDriver {
 	  protected String getURL(String host, String port, String database) {
 	    return null;
 	  }
+	  
+	  @Override
+	protected Query createQuery(Class<?> model, Naming naming) {
+		return new SQLiteQuery(model, naming, statement);
+	}
 
 	  @Override
 	  public void connect() {

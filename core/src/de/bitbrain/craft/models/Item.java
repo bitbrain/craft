@@ -34,7 +34,7 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class Item implements Identifiable {
 
-	@PrimaryKey(false)
+	@PrimaryKey
 	private String id = "";
 	
 	private Icon icon;
