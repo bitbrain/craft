@@ -33,8 +33,8 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.ui.ProfessionSelection;
-import de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener;
+import de.bitbrain.craft.ui.ProfessionSelectionView;
+import de.bitbrain.craft.ui.ProfessionSelectionView.ProfessionSelectListener;
 import de.bitbrain.craft.util.DirectPlayerDataProvider;
 
 /**
@@ -46,12 +46,12 @@ import de.bitbrain.craft.util.DirectPlayerDataProvider;
  */
 public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
 	
-	private ProfessionSelection selection;
+	private ProfessionSelectionView selection;
 
 	@Override
 	protected void onCreateStage(Stage stage) {
 		// TODO: Fix player ID here
-		selection = new ProfessionSelection(new DirectPlayerDataProvider(1));		
+		selection = new ProfessionSelectionView(new DirectPlayerDataProvider(1));		
 		selection.addProfessionSelectListener(this);
 		selection.align(Align.center);
 		stage.addActor(selection);

@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.elements;
 
 import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.models.Item.Rarity;

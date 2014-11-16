@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.elements;
 
 import com.google.inject.Inject;
 
@@ -25,31 +25,28 @@ import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
+import de.bitbrain.craft.models.Recipe;
 
 /**
- * Adapter for items in order to show them as elements
+ * Adapter for recipes as elements
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ItemElementAdapter implements ElementData {
+public class RecipeElementAdapter implements ElementData {
 	
-	private Item item;
+	private Recipe recipe;
 	
 	private IconDrawable icon;
 	
-	private int amount;
+	@Inject 
+	IconManager iconManager;
 	
-	@Inject
-	private IconManager iconManager;
-	
-	public ItemElementAdapter(Item item, int amount) {
+	public RecipeElementAdapter(Recipe recipe) {
 		SharedInjector.get().injectMembers(this);
-		this.item = item;
-		this.amount = amount;
+		this.recipe = recipe;
 	}
 
 	/* (non-Javadoc)
@@ -58,7 +55,7 @@ public class ItemElementAdapter implements ElementData {
 	@Override
 	public IconDrawable getIcon() {
 		if (icon == null) {
-			icon = iconManager.fetch(item.getIcon());
+			icon = iconManager.fetch(recipe.getIcon());
 		}
 		
 		return icon;
@@ -69,7 +66,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getDescription() {
-		return Bundles.items.get(item.getId() + "_description");
+		return "Recipe";
 	}
 
 	/* (non-Javadoc)
@@ -77,15 +74,15 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public Rarity getRarity() {
-		return item.getRarity();
+		return Rarity.RARE;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.ui.ElementInfo.ElementData#getName()
 	 */
 	@Override
 	public String getName() {
-		return Bundles.items.get(item.getId());
+		return Bundles.recipes.get(recipe.getId());
 	}
 
 	/* (non-Javadoc)
@@ -93,7 +90,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public int getAmount() {
-		return amount;
+		return -1;
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +98,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getId() {
-		return item.getId();
+		return recipe.getId();
 	}
 
 	/* (non-Javadoc)
@@ -109,7 +106,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public void setAmount(int amount) {
-		this.amount = amount;
+		// do nothing
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +114,6 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public ElementData copy() {
-		return new ItemElementAdapter(item, amount);
+		return new RecipeElementAdapter(recipe);
 	}
-
 }

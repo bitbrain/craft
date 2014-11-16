@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.elements;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +43,7 @@ import de.bitbrain.craft.models.Recipe;
  * @version 1.0
  */
 @StateScoped
-public class ElementInfoConnector {
+public class ElementConnector {
 	
 	private final static float SPACING = 10f;
 	
@@ -51,7 +51,7 @@ public class ElementInfoConnector {
 	
 	private final Class<?> elementClass;
 	
-	private final Map<String, ElementInfoPanel> elements;
+	private final Map<String, ElementPanel> elements;
 	
 	private final Map<String, Actor> spacings;
 	
@@ -60,11 +60,11 @@ public class ElementInfoConnector {
 	@Inject
 	private EventBus eventBus;
 	
-	public ElementInfoConnector(WidgetGroup group, Class<?> elementClass) {
+	public ElementConnector(WidgetGroup group, Class<?> elementClass) {
 		SharedInjector.get().injectMembers(this);
 		this.group = group;
 		this.elementClass = elementClass;
-		elements = new HashMap<String, ElementInfoPanel>();
+		elements = new HashMap<String, ElementPanel>();
 		dataMap = new HashMap<String, ElementData>();
 		spacings = new HashMap<String, Actor>();
 		eventBus.subscribe(this);
@@ -118,7 +118,7 @@ public class ElementInfoConnector {
 				elements.remove(id);
 				dataMap.remove(id);
 			} else {
-				ElementInfoPanel panel = elements.get(id);
+				ElementPanel panel = elements.get(id);
 				panel.setAmount(newAmount);
 			}
 			Gdx.app.log("INFO", "Removed element with id='" + id + "' from " + group);
@@ -138,13 +138,13 @@ public class ElementInfoConnector {
 		dataMap.put(id, data);
 		
 		if (!elements.containsKey(id)) {
-			ElementInfoPanel panel = new ElementInfoPanel(data);
+			ElementPanel panel = new ElementPanel(data);
 			elements.put(id, panel);
 			group.addActor(addSpacing(id));
 			group.addActor(panel);
 			Gdx.app.log("INFO", "Attached element with id='" + id + "' to " + group);
 		} else {
-			ElementInfoPanel panel = elements.get(id);
+			ElementPanel panel = elements.get(id);
 			panel.setData(data);
 			Gdx.app.log("INFO", "Updated element with id='" + id + "' in " + group);
 		}

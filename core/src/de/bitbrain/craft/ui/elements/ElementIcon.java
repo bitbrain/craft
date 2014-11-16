@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.elements;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -75,7 +75,6 @@ public class ElementIcon extends Actor implements ValueProvider {
 		background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 		colorCalculator = new ColorCalculator();
 		icon = data.getIcon();
-		icon.rotation = 0f;
 		updateBackground();
 	}
 	
@@ -115,8 +114,8 @@ public class ElementIcon extends Actor implements ValueProvider {
 		icon.height = getHeight() * iconScale;
 		icon.x = getX() + (getWidth() - icon.width) / 2;
 		icon.y = getY() + (getHeight() - icon.height) / 2;
-		icon.color = getColor();
 		icon.rotation = 180f;
+		icon.color = getColor();
 		icon.draw(batch, parentAlpha);
 		
 		// Amount

@@ -55,12 +55,12 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.tweens.FadeableTween;
-import de.bitbrain.craft.ui.CraftingView;
-import de.bitbrain.craft.ui.DragDropHandler;
-import de.bitbrain.craft.ui.ElementInfoConnector;
 import de.bitbrain.craft.ui.ProfessionView;
-import de.bitbrain.craft.ui.TabView;
 import de.bitbrain.craft.ui.Tabs;
+import de.bitbrain.craft.ui.elements.ElementConnector;
+import de.bitbrain.craft.ui.widgets.RecipeWidget;
+import de.bitbrain.craft.ui.widgets.TabWidget;
+import de.bitbrain.craft.util.DragDropHandler;
 
 /**
  * Displays the main game
@@ -81,12 +81,12 @@ public class IngameScreen extends AbstractScreen {
 	private IconManager iconManager;
 	
 	@Inject
-	private TabView tabView;
+	private TabWidget tabView;
 	
 	@Inject 
-	private CraftingView recipeView;
+	private RecipeWidget recipeView;
 	
-	private ElementInfoConnector itemConnector, recipeConnector;
+	private ElementConnector itemConnector, recipeConnector;
 	
 	private ProfessionView professionView;
 	
@@ -99,7 +99,7 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-		Container<TabView> container = new Container<TabView>(tabView);
+		Container<TabWidget> container = new Container<TabWidget>(tabView);
 		stage.addActor(container);
 		stage.addActor(tabView);
 		stage.addActor(professionView);
@@ -183,7 +183,7 @@ public class IngameScreen extends AbstractScreen {
 	private Actor generateItemView() {		
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
-		itemConnector = new ElementInfoConnector(itemView, Item.class);		
+		itemConnector = new ElementConnector(itemView, Item.class);		
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));

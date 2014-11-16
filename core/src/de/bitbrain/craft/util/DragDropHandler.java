@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +43,9 @@ import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.VectorTween;
-import de.bitbrain.craft.ui.TabView.Tab;
+import de.bitbrain.craft.ui.elements.ElementData;
+import de.bitbrain.craft.ui.widgets.TabWidget;
+import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 
 /**
  * Handler which handles drag and drop. This handler is capable of

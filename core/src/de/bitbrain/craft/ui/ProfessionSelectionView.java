@@ -70,7 +70,7 @@ import de.bitbrain.craft.util.PlayerDataProvider;
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionSelection extends Table implements EventListener {
+public class ProfessionSelectionView extends Table implements EventListener {
 
 	private Map<Cell<?>, ProfessionElement> elements = new HashMap<Cell<?>, ProfessionElement>();
 
@@ -81,7 +81,7 @@ public class ProfessionSelection extends Table implements EventListener {
 	@Inject
 	private TweenManager tweenManager;
 
-	public ProfessionSelection(PlayerDataProvider playerDataProvider) {
+	public ProfessionSelectionView(PlayerDataProvider playerDataProvider) {
 		SharedInjector.get().injectMembers(this);
 		listeners = new ArrayList<ProfessionSelectListener>();
 		this.playerDataProvider = playerDataProvider;

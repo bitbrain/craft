@@ -33,6 +33,7 @@ import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.ui.elements.ElementData;
 
 /**
  * General view component for professions

@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.elements;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -50,7 +50,7 @@ import de.bitbrain.craft.models.Player;
  * @since 1.0
  * @version 1.0
  */
-public class ElementInfoPanel extends HorizontalGroup {
+public class ElementPanel extends HorizontalGroup {
 	
 	private Label name;
 	
@@ -68,7 +68,7 @@ public class ElementInfoPanel extends HorizontalGroup {
 	
 	private boolean craftable;
 	
-	public ElementInfoPanel(ElementData data) {
+	public ElementPanel(ElementData data) {
 		try {
 			background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 			SharedInjector.get().injectMembers(this);

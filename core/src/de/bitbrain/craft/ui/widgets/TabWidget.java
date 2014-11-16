@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.widgets;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +61,7 @@ import de.bitbrain.craft.tweens.ActorTween;
  * @version 1.0
  */
 @StateScoped
-public class TabView extends Table {
+public class TabWidget extends Table {
 	
 	public static final int TAB_SIZE = 70;
 	
@@ -81,7 +81,7 @@ public class TabView extends Table {
 	@Inject
 	private TweenManager tweenManager;
 	
-	public TabView() {
+	public TabWidget() {
 		tabs = new HashMap<String, Tab>();
 		generateLeft();
 		generateRight();

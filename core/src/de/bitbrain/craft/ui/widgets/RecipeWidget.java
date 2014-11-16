@@ -16,7 +16,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.widgets;
 
 import net.engio.mbassy.listener.Handler;
 
@@ -33,6 +33,9 @@ import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
+import de.bitbrain.craft.ui.Tabs;
+import de.bitbrain.craft.ui.elements.ElementData;
+import de.bitbrain.craft.ui.elements.ElementIcon;
 
 /**
  * Provides the view of a single recipe. This view is blocked by default. If a
@@ -42,10 +45,10 @@ import de.bitbrain.craft.inject.PostConstruct;
  * @since 1.0
  * @version 1.0
  */
-public class CraftingView extends VerticalGroup {
+public class RecipeWidget extends VerticalGroup {
 
 	@Inject
-	private TabView tabPanel;
+	private TabWidget tabPanel;
 	
 	@Inject
 	private EventBus eventBus;
