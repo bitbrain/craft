@@ -23,7 +23,7 @@ public class AddItemCommand implements Command {
 				Gdx.app.log("ERROR", "Item with id'" + id + "' not found.");
 			}
 		} else {
-			Gdx.app.log("ERROR", "Not enough arguments. Required: 2");
+			Gdx.app.log("ERROR", "Not enough arguments. Required: 2 [item_id amount]");
 		}
 		} catch (Exception e) {
 			Gdx.app.log("ERROR", e.getMessage());

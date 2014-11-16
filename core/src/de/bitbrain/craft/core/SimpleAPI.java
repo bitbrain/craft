@@ -180,6 +180,8 @@ class SimpleAPI implements API {
 				owned.setAmount(owned.getAmount() + amount);
 				ownedItemMapper.update(owned);
 			}
+			EventBus eventBus = SharedInjector.get().getInstance(EventBus.class);
+			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, item, amount));
 			return item;
 		} else {
 			return null;
@@ -202,9 +204,8 @@ class SimpleAPI implements API {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			EventBus bus = SharedInjector.get().getInstance(EventBus.class);
-			bus.fireEvent(new ElementEvent<Item>(EventType.REMOVE, item, amount));
-
+			EventBus eventBus = SharedInjector.get().getInstance(EventBus.class);
+			eventBus.fireEvent(new ElementEvent<Item>(EventType.REMOVE, item, amount));
 			return true;
 		} else {
 			return false;

@@ -126,13 +126,17 @@ public class ElementConnector {
 	
 	private void addElements(String id, Object model, int amount) {
 		ElementData data = null;
-		if (model instanceof Item) {
-			data = new ItemElementAdapter((Item)model, amount);
-		} else {
+		if (!(model instanceof Item)) {
 			throw new RuntimeException(model + " can't be converted into a valid actor.");
 		}
 		
-		dataMap.put(id, data);
+		if (dataMap.containsKey(id)) {
+			data = dataMap.get(id);
+			data.setAmount(data.getAmount() + amount);
+		} else {
+			data = new ItemElementAdapter((Item)model, amount);
+			dataMap.put(id, data);
+		}
 		
 		if (!elements.containsKey(id)) {
 			ElementPanel panel = new ElementPanel(data);

@@ -80,7 +80,6 @@ public class ElementIcon extends Actor implements ValueProvider {
 	
 	public final void setSource(ElementData data) {
 		this.data = data;
-		currentAmount = 0;
 		tweenManager.killTarget(this);
 		Tween.to(this, ValueTween.VALUE, 1f)
 			 .delay(0.3f)
