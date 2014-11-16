@@ -34,6 +34,7 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.ui.widgets.ElementWidget;
 
 /** Connects element info to the database
  *
@@ -50,7 +51,7 @@ public class ElementConnector {
 	
 	private final Class<?> elementClass;
 	
-	private final Map<String, ElementPanel> elements;
+	private final Map<String, ElementWidget> elements;
 	
 	private final Map<String, Actor> spacings;
 	
@@ -63,7 +64,7 @@ public class ElementConnector {
 		SharedInjector.get().injectMembers(this);
 		this.group = group;
 		this.elementClass = elementClass;
-		elements = new HashMap<String, ElementPanel>();
+		elements = new HashMap<String, ElementWidget>();
 		dataMap = new HashMap<String, ElementData>();
 		spacings = new HashMap<String, Actor>();
 		eventBus.subscribe(this);
@@ -108,7 +109,7 @@ public class ElementConnector {
 		if (data != null) {	
 			int newAmount = data.getAmount() - amount;
 			if (newAmount >= 0) {
-				ElementPanel panel = elements.get(id);
+				ElementWidget panel = elements.get(id);
 				panel.setAmount(newAmount);
 				Gdx.app.log("INFO", "Removed element with id='" + id + "' from " + group);
 			}
@@ -130,13 +131,13 @@ public class ElementConnector {
 		}
 		
 		if (!elements.containsKey(id)) {
-			ElementPanel panel = new ElementPanel(data);
+			ElementWidget panel = new ElementWidget(data);
 			elements.put(id, panel);
 			group.addActor(addSpacing(id));
 			group.addActor(panel);
 			Gdx.app.log("INFO", "Attached element with id='" + id + "' to " + group);
 		} else {
-			ElementPanel panel = elements.get(id);
+			ElementWidget panel = elements.get(id);
 			panel.setData(data);
 			Gdx.app.log("INFO", "Updated element with id='" + id + "' in " + group);
 		}
