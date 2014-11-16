@@ -47,6 +47,7 @@ import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.ui.cli.CommandLineInterface;
 
 /**
  * Abstract menu screen
@@ -71,6 +72,9 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	@Inject
 	private CraftGame game;
+	
+	@Inject
+	private CommandLineInterface cli;
 	
 	private boolean fadeIn  = true;
 	
@@ -121,7 +125,6 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			batch.setProjectionMatrix(camera.combined);
 			onStageDraw(batch, delta);
 			batch.end();
-			//Table.drawDebug(stage);
 		}
 		
 		batch.begin();
@@ -138,6 +141,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			onCreateStage(inputProcessor);			
 			background.setColor(1f, 1f, 1f, 0f);			
 			onFadeIn(FADE_INTERVAL);
+			inputProcessor.addActor(cli);
 		}
 		inputProcessor.getViewport().update(getWorldWidth(width), getWorldHeight(height), true);		
 		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));

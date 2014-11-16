@@ -60,7 +60,7 @@ public final class Assets {
 	public static final String FNT_SMALL			    	= DIR_FONTS + "small.fnt";
 	public static final String FNT_MEDIUM			    = DIR_FONTS + "medium.fnt";
 	public static final String FNT_LARGER 				= DIR_FONTS + "larger.fnt";
-
+	public static final String FNT_MONO 				= DIR_FONTS + "mono.fnt";
 	// ---------- SOUNDS ----------
 	
 	public static final String SND_BEEP 					= DIR_AUDIO + "button_01.mp3";		
@@ -75,6 +75,7 @@ public final class Assets {
 	
 	// ---------- TEXTURES --------
 
+	public static final String TEX_CURSOR 				= DIR_IMAGES + "cursor.png";
 	public static final String TEX_BACKGROUND_01 		= DIR_IMAGES + "background.png";
 	public static final String TEX_LOGO 				= DIR_IMAGES + "logo.png";
 	public static final String TEX_BUTTON_GREEN 		= DIR_IMAGES + "button.png";
