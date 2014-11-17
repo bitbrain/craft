@@ -21,6 +21,7 @@ package de.bitbrain.craft.ui.widgets;
 import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -65,9 +66,7 @@ public class RecipeWidget extends VerticalGroup {
 		content = new VerticalGroup();
 		addActor(content);
 		eventBus.subscribe(this);
-		align(Align.left);
-		fill().pad(10f);
-		content.fill().pad(10f);
+		content.fill();
 	}
 	
 	@Handler
@@ -81,12 +80,21 @@ public class RecipeWidget extends VerticalGroup {
 				data = tmpData.copy();
 				content.clear();
 				content.addActor(generateTop(data));
+				if (!data.getDescription().isEmpty()) {
+					content.addActor(generateDescription(data));
+				}
 			}
 		}
 	}
 	
 	private boolean isModified() {
 		return false;
+	}
+	
+	private Actor generateDescription(ElementData data) {
+		Container<Label> container = new Container<Label>(new Label(data.getDescription(), Styles.LBL_BROWN));
+		container.padTop(20f).padLeft(10f).align(Align.left);
+		return container;
 	}
 	
 	private Actor generateTop(ElementData data) {
