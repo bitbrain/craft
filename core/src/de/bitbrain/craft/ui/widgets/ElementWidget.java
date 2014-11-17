@@ -54,6 +54,8 @@ import de.bitbrain.craft.ui.elements.ElementIcon;
  */
 public class ElementWidget extends HorizontalGroup {
 	
+	private final String GAP = "            ";
+	
 	private Label name;
 	
 	private ElementIcon icon;
@@ -76,7 +78,7 @@ public class ElementWidget extends HorizontalGroup {
 			SharedInjector.get().injectMembers(this);
 			this.data = data;
 			craftable = isElementCraftable();
-			this.name = new Label(data.getName(), Styles.LBL_ITEM);
+			this.name = new Label(data.getName() + GAP, Styles.LBL_ITEM);
 			icon = new ElementIcon(data);		
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);
@@ -92,7 +94,7 @@ public class ElementWidget extends HorizontalGroup {
 	
 	public void setData(ElementData data) {
 		this.data = data;				
-		name.setText(data.getName());
+		name.setText(data.getName() + GAP);
 		name.setColor(data.getRarity().getColor());
 		setAmount(data.getAmount());
 		icon.setSource(data);
