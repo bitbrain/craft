@@ -19,8 +19,7 @@
 
 package de.bitbrain.craft.ui.cli;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -99,12 +98,15 @@ public class CommandLineInterface extends Table {
 				commandHandler.executeString(api, textField.getText());
 				history.add(textField.getText());
 				textField.setText("");
+				textField.setCursorPosition(0);
 			}
 			if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.UP)) {
 				textField.setText(history.back());
+				textField.setCursorPosition(textField.getText().length());
 			}
 			if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.DOWN)) {
 				textField.setText(history.forward());
+				textField.setCursorPosition(textField.getText().length());
 			}
 		}
 		super.act(delta);
@@ -125,49 +127,57 @@ public class CommandLineInterface extends Table {
 	
 	private class History {
 		
-		private List<String> lines;
-		
 		private int bufferSize;
 		
-		private int currentIndex;
+		private Stack<String> back, forward;
+		
+		private String last;
 		
 		public History(int bufferSize) {
-			lines = new ArrayList<String>();
+			last = "";
+			back = new Stack<String>();
+			forward = new Stack<String>();
 			this.bufferSize = bufferSize;
-			currentIndex = 0;
 		}
 		
 		public boolean isEmpty() {
-			return lines.isEmpty();
+			return back.isEmpty() && forward.isEmpty();
+		}
+		
+		public int size() {
+			return back.size() + forward.size();
 		}
 		
 		public void add(String line) {
-			if (!isEmpty()) {
-				if (line.equals(lines.get(lines.size() - 1))) {
-					return;
+			if (size() >= bufferSize) {
+				if (!back.isEmpty()) {
+					back.remove(0);
+				} else if (!forward.isEmpty()){
+					forward.remove(0);
 				}
 			}
-			if (lines.size() == bufferSize) {
-				lines.remove(0);
+			for (int i = 0; i < forward.size(); ++i) {
+				back.add(forward.pop());
 			}
-			lines.add(line);
-			currentIndex = lines.size() - 1;
+			back.add(line);
+			last = line;
 		}
 		
 		public String back() {
-			if (currentIndex >= 1) {
-				return lines.get(currentIndex--);
-			} else {
-				return lines.get(currentIndex);
+			if (!back.isEmpty()) {
+				last = back.pop();
+				forward.add(last);
 			}
+			return last;
 		}
 		
 		public String forward() {
-			if (currentIndex < lines.size() - 1) {
-				return lines.get(++currentIndex);
-			} else {
-				return "";
+			if (!forward.isEmpty()) {
+				last = forward.pop();
+				back.add(last);
+				return last;
 			}
+			return "";
 		}
 	}
 }
