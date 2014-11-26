@@ -42,6 +42,7 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.ui.cli.commands.AddCommand;
+import de.bitbrain.craft.ui.cli.commands.RemoveCommand;
 
 /**
  * UI implementation of a CLI
@@ -73,12 +74,12 @@ public class CommandLineInterface extends Table {
 	@PostConstruct
 	public void initView() {
 		history = new History(BUFFER_SIZE);
-		commandHandler.register("add", new AddCommand());
 		setVisible(false);
 		this.setZIndex(1000);
 		align(Align.left);
 		setWidth(Sizes.worldWidth() -1);
 		eventBus.subscribe(this);
+		registerCommands();
 	}
 	
 	@Override
@@ -179,5 +180,10 @@ public class CommandLineInterface extends Table {
 			}
 			return "";
 		}
+	}
+	
+	private void registerCommands() {
+		commandHandler.register("add", new AddCommand());
+		commandHandler.register("remove", new RemoveCommand());
 	}
 }
