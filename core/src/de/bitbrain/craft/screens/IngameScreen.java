@@ -104,9 +104,9 @@ public class IngameScreen extends AbstractScreen {
 		stage.addActor(tabView);
 		stage.addActor(professionView);
 		
-		tabView.addTab(Tabs.PROFILE, Icon.FLUX, new Label("Profile", Styles.LBL_TEXT));		
-		tabView.addTab(Tabs.ITEMS, Icon.JEWEL_DIAMOND_MEDIUM, generateItemView());
-		tabView.addTab(Tabs.CRAFTING, Icon.RECIPE, recipeView);
+		tabView.addTab(Tabs.PROFILE, Icon.PROFILE, new Label("Profile", Styles.LBL_TEXT));		
+		tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
+		tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
 		tabView.setTab(Tabs.ITEMS);
 	}
 	
