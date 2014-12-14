@@ -40,12 +40,16 @@ public enum ItemId {
 	GRAYSTONE,
 	BENTAGON,
 	DARKSTONE,
-	MOLTEN_SAND, 
-	RECIPE, 
+	MOLTEN_SAND,
 	JEWEL_DIAMOND_MEDIUM,
 	XENOCITE;
 	
 	public String getId() {
 		return "item_" + name().toLowerCase();
+	}
+	
+	@Override
+	public String toString() {
+		return "'" + getId() + "'";
 	}
 }
