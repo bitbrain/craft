@@ -158,6 +158,22 @@ public interface API {
 	 */
 	void registerItem(String itemId, Icon icon, Rarity rarity);
 	
+
+	/**
+	 * Removes an item completely of the player
+	 * 
+	 * @param playerId
+	 * @param id
+	 */
+	void removeItem(int playerId, ItemId id);
+
+	/**
+	 * Removes all owned items of the player
+	 * 
+	 * @param playerId
+	 */
+	void clearItems(int playerId);
+	
 	/**
 	 * Is thrown as an API error occurs
 	 *

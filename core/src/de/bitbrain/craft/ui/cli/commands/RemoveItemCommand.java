@@ -12,20 +12,28 @@ public class RemoveItemCommand implements Command {
 	@Override
 	public void execute(API api, String... args) {
 		try {
+			int playerId = Player.getCurrent().getId();
 		if (args.length == 2) {
 			ItemId id = Enum.valueOf(ItemId.class, args[0].toUpperCase());
 			int amount = Integer.valueOf(args[1]);
-			if (api.removeItem(Player.getCurrent().getId(), id.getId(), amount)) {
+			if (api.removeItem(playerId, id.getId(), amount)) {
 				Gdx.app.log("INFO", "Removed successfully.");
 			} else {
 				Gdx.app.log("ERROR", "Item with id'" + id + "' not found.");
 			}
 		} else {
-			Gdx.app.log("ERROR", "Not enough arguments. Required: 2 [item_id amount]");
+			ItemId id = null;
+			if (args.length == 1) {
+				id = Enum.valueOf(ItemId.class, args[0].toUpperCase());
+			}
+			if (id != null) {
+				api.removeItem(playerId, id);
+			} else {
+				api.clearItems(playerId);
+			}
 		}
 		} catch (Exception e) {
 			Gdx.app.log("ERROR", e.getMessage());
 		}
 	}
-
 }

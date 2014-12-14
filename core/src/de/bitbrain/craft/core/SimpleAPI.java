@@ -180,8 +180,7 @@ class SimpleAPI implements API {
 				owned.setAmount(owned.getAmount() + amount);
 				ownedItemMapper.update(owned);
 			}
-			EventBus eventBus = SharedInjector.get().getInstance(EventBus.class);
-			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, item, amount));
+			bus().fireEvent(new ElementEvent<Item>(EventType.ADD, item, amount));
 			return item;
 		} else {
 			return null;
@@ -234,5 +233,25 @@ class SimpleAPI implements API {
 	@Override
 	public boolean canCraft(Player player, String itemId) {
 		return true;
+	}
+
+	@Override
+	public void removeItem(int playerId, ItemId id) {
+		OwnedItem owned = ownedItemMapper.findById(id.getId(), playerId);
+		ownedItemMapper.delete(owned);
+		bus().fireEvent(new ElementEvent<Item>(EventType.REMOVE, getItem(owned.getItemId()), owned.getAmount()));
+	}
+
+	@Override
+	public void clearItems(int playerId) {
+		Collection<OwnedItem> items = ownedItemMapper.findAllByPlayerId(playerId);
+		ownedItemMapper.delete(items);
+		for (OwnedItem item : items) {
+			bus().fireEvent(new ElementEvent<Item>(EventType.REMOVE, getItem(item.getItemId()), item.getAmount()));
+		}
+	}
+	
+	private EventBus bus() {
+		return SharedInjector.get().getInstance(EventBus.class);
 	}
 }

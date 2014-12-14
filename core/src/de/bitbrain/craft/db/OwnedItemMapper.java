@@ -26,4 +26,7 @@ public interface OwnedItemMapper {
 	
 	@Delete
 	boolean delete(OwnedItem ownedItem);
+
+	@Delete
+	boolean delete(Collection<OwnedItem> items);
 }
