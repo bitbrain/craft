@@ -20,13 +20,20 @@
 package de.bitbrain.craft.graphics;
 
 import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.google.inject.Inject;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import de.bitbrain.craft.inject.StateScoped;
+import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
  * Fades screen in and out
@@ -35,20 +42,24 @@ import de.bitbrain.craft.inject.StateScoped;
  * @since 1.0
  * @version 1.0
  */
-@StateScoped
 public class ScreenFader implements TweenCallback {
 	
-	public static final float DEFAULT_INTERVAL = 800;
-	
-	@Inject
-	private TweenManager tweenManager;
+	public static final float DEFAULT_INTERVAL = 0.7f;
 	
 	private FadeCallback callback;
 	
 	private float interval = DEFAULT_INTERVAL;
 	
 	private boolean fadeIn = true;
+
+	private Sprite sprite;
 	
+	private TweenManager tweenManager;
+	
+	public ScreenFader(TweenManager tweenManager) {
+		this.tweenManager = tweenManager;
+	}
+
 	public void setInterval(float seconds) {
 		this.interval = seconds;
 	}
@@ -58,17 +69,44 @@ public class ScreenFader implements TweenCallback {
 	}
 
 	public void fadeIn() {
+		System.out.println(tweenManager);
+		init();
 		fadeIn = true;
-		onEvent(0, null);
+		tweenManager.killTarget(sprite);
+		sprite.setAlpha(1f);
+		Tween.to(sprite, SpriteTween.ALPHA, interval)
+			 .target(0f)
+			 .setCallbackTriggers(TweenCallback.COMPLETE)
+			 .setCallback(this)
+			 .ease(TweenEquations.easeOutCubic)
+			 .start(tweenManager);
+		if (callback != null) {
+			callback.beforeFadeIn();
+		}
 	}
 	
 	public void fadeOut() {
+		init();
 		fadeIn = false;
-		onEvent(0, null);
+		tweenManager.killTarget(sprite);
+		Tween.to(sprite, SpriteTween.ALPHA, interval)
+		 .target(1f)
+		 .setCallbackTriggers(TweenCallback.COMPLETE)
+		 .setCallback(this)
+		 .ease(TweenEquations.easeOutCubic)
+		 .start(tweenManager);
+		if (callback != null) {
+			callback.beforeFadeOut();
+		}
 	}
 	
 	public void render(Batch batch) {
-		
+		if (sprite != null) {
+			sprite.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			batch.begin();
+			sprite.draw(batch);
+			batch.end();
+		}
 	}
 
 	@Override
@@ -79,6 +117,16 @@ public class ScreenFader implements TweenCallback {
 			} else {
 				callback.afterFadeOut();
 			}
+		}
+	}
+	
+	private void init() {
+		if (sprite == null) {
+			Pixmap map = new Pixmap(16, 16, Format.RGBA8888);
+			map.setColor(Color.BLACK);
+			map.fill();
+			sprite = new Sprite(new Texture(map));			
+			map.dispose();
 		}
 	}
 	

@@ -71,7 +71,6 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	@Inject
 	private CommandLineInterface cli;
 	
-	@Inject
 	private ScreenFader fader;
 	
 	private Class<? extends Screen> nextScreen;
@@ -133,6 +132,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		
 		if (uiRenderer == null) {
 			uiRenderer = new UIRenderer(width, height, createViewport(), batch);
+			fader = new ScreenFader(tweenManager);
 			fader.setCallback(this);
 			Gdx.input.setCatchBackKey(true);
 			onCreateStage(uiRenderer.getBase());
@@ -146,6 +146,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 
 	@Override
 	public final void show() {
+		System.out.println(tweenManager);
 		eventBus.subscribe(this);
 		batch = new SpriteBatch();
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
@@ -156,6 +157,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	@Override
 	public void dispose() {
 		batch.dispose();
+		uiRenderer.dispose();
 	}
 
 	@Override
