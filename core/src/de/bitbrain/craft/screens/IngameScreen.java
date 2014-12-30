@@ -23,8 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -54,7 +52,6 @@ import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.Tabs;
 import de.bitbrain.craft.ui.elements.ElementConnector;
@@ -150,34 +147,6 @@ public class IngameScreen extends AbstractScreen {
 
 	@Override
 	protected void onShow() {
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.AbstractScreen#onFadeOut(float)
-	 */
-	@Override
-	protected void onFadeOut(float parentInterval) {
-		
-		Tween.to(iconManager, FadeableTween.DEFAULT, parentInterval)
-		.target(0f)
-		.ease(TweenEquations.easeInOutCubic)
-		.start(tweenManager);
-		
-		super.onFadeOut(parentInterval);
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.AbstractScreen#onFadeIn(floast)
-	 */
-	@Override
-	protected void onFadeIn(float parentInterval) {
-		iconManager.setAlpha(0.0f);
-		Tween.to(iconManager, FadeableTween.DEFAULT, parentInterval)
-		.target(1f)
-		.ease(TweenEquations.easeInOutCubic)
-		.start(tweenManager);
-		
-		super.onFadeIn(parentInterval);
 	}
 	
 	private Actor generateItemView() {		

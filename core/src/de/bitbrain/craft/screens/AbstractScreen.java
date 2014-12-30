@@ -42,9 +42,8 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.events.EventBus;
-import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.graphics.ParticleRenderer;
-import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.graphics.UIRenderer;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
@@ -80,11 +79,11 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	private Class<? extends Screen> nextScreen;
 	
-	protected InputEventProcessor inputProcessor;
-	
 	private Sprite background;
 	
 	protected Batch batch;
+	
+	private UIRenderer uiRenderer;
 	
 	public static final float FADE_INTERVAL = 0.7f;	
 	
@@ -102,9 +101,6 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 
 		tweenManager.update(delta);
 		
-		if (inputProcessor != null)
-			inputProcessor.act(delta);
-		
 		camera.update();			
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -118,8 +114,8 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			onDraw(batch, delta);
 		batch.end();
 		
-		if (inputProcessor != null) {
-			inputProcessor.draw();
+		if (uiRenderer != null) {
+			uiRenderer.render(delta);
 			camera.update();
 			batch.begin();
 			batch.setProjectionMatrix(camera.combined);
@@ -130,20 +126,22 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 		batch.begin();
 			particleRenderer.render(batch, delta);
 		batch.end();
+		
+		uiRenderer.render(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		
-		if (inputProcessor == null) {
-			inputProcessor = new InputEventProcessor(createViewport(), batch);
+		if (uiRenderer == null) {
+			uiRenderer = new UIRenderer(width, height, createViewport(), batch);
 			Gdx.input.setCatchBackKey(true);
-			onCreateStage(inputProcessor);			
-			background.setColor(1f, 1f, 1f, 0f);			
+			onCreateStage(uiRenderer.getBase());			
 			onFadeIn(FADE_INTERVAL);
-			inputProcessor.addActor(cli);
+			uiRenderer.getBase().addActor(cli);
+		} else {
+			uiRenderer.resize(getWorldWidth(width), getWorldHeight(height));
 		}
-		inputProcessor.getViewport().update(getWorldWidth(width), getWorldHeight(height), true);		
 		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
 	}
 
@@ -191,7 +189,6 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	}
 	
 	public void setScreen(Class<? extends Screen> screen) {
-		eventBus.unsubscribe(inputProcessor);
 		Gdx.input.setInputProcessor(null);
 		Gdx.input.setCatchBackKey(true);
 		nextScreen = screen;
@@ -219,14 +216,6 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	
 	protected void onFadeIn(float parentInterval) {
 		
-		if (inputProcessor != null && inputProcessor.getRoot() != null) {
-			inputProcessor.getRoot().setColor(1f, 1f, 1f, 0.0f);
-			Tween.to(inputProcessor.getRoot(), ActorTween.ALPHA, parentInterval)
-			     .ease(TweenEquations.easeInOutCubic)
-			     .target(1f)
-			     .start(tweenManager);
-		}
-		
 		particleRenderer.setAlpha(0.0f);
 		
 		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
@@ -243,24 +232,17 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 			 .setCallback(this)
 			 .start(tweenManager);
 	}	
-	protected void onFadeOut(float parentInterval) { 
-		if (inputProcessor != null && inputProcessor.getRoot() != null) {
-			Tween.to(inputProcessor.getRoot(), ActorTween.ALPHA, parentInterval)
-			     .ease(TweenEquations.easeInOutCubic)
-			     .target(0f)
-			     .start(tweenManager);
-		}
-		
+	protected void onFadeOut(float parentInterval) {		
 		Tween.to(background, SpriteTween.ALPHA, FADE_INTERVAL)
 		 	 .ease(TweenEquations.easeInOutCubic)
-		     .target(0f)
+		     .target(1f)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
 			 .setCallback(this)
 			 .start(tweenManager);
 		
 		Tween.to(particleRenderer, FadeableTween.DEFAULT, FADE_INTERVAL)
 		 	 .ease(TweenEquations.easeInOutCubic)
-		     .target(0f)
+		     .target(1f)
 			 .setCallbackTriggers(TweenCallback.COMPLETE)
 			 .start(tweenManager);
 	}
@@ -268,7 +250,7 @@ public abstract class AbstractScreen implements Screen, TweenCallback {
 	protected void onUpdate(float delta) { }
 	
 	protected void afterFadeIn(float parentInterval) {
-		Gdx.input.setInputProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(uiRenderer.getBase());
 		Gdx.input.setCatchBackKey(true);
 	}
 	protected void afterFadeOut(float parentInterval) {		

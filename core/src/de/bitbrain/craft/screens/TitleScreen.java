@@ -190,24 +190,12 @@ public class TitleScreen extends AbstractScreen {
 		  .ease(TweenEquations.easeInOutCubic)
 		  .start(tweenManager);
 	}
-	
-	@Override
-	protected void onFadeOut(float parentInterval) {
-		super.onFadeOut(parentInterval);
-		
-		Tween.to(logo, SpriteTween.ALPHA, parentInterval)
-		  .target(0f)
-		  .ease(TweenEquations.easeInOutCubic)
-		  .start(tweenManager);
-	}
 
 	@Override
 	protected void afterFadeIn(float parentInterval) {
 		super.afterFadeIn(parentInterval);
 		btnPlay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-		final float INTERVAL = 0.6f;
-		
+		final float INTERVAL = 0.6f;		
 		Tween.to(btnPlay, ActorTween.SCALE, INTERVAL)
 		.repeatYoyo(Tween.INFINITY, 0f)
 		.ease(TweenEquations.easeNone)
