@@ -44,7 +44,6 @@ import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
-import de.bitbrain.craft.tweens.SpriteTween;
 
 /**
  * Title screen of the gameO
@@ -172,28 +171,11 @@ public class TitleScreen extends AbstractScreen {
 	protected void onShow() {
 		logo = new Sprite(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
 		logo.flip(false, true);
-		
-		//Music music = SharedAssetManager.get(Assets.MSC_MENU_01, Music.class);
-		//music.setLooping(true);
-		//music.setVolume(0.1f);
-		//music.play();
-		
-	}
-	
-	@Override
-	protected void onFadeIn(float parentInterval) {
-		super.onFadeIn(parentInterval);
-		logo.setColor(1f, 1f, 1f, 0f);
-		
-		Tween.to(logo, SpriteTween.ALPHA, parentInterval)
-		  .target(1f)
-		  .ease(TweenEquations.easeInOutCubic)
-		  .start(tweenManager);
 	}
 
 	@Override
-	protected void afterFadeIn(float parentInterval) {
-		super.afterFadeIn(parentInterval);
+	public void afterFadeIn() {
+		super.afterFadeIn();
 		btnPlay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		final float INTERVAL = 0.6f;		
 		Tween.to(btnPlay, ActorTween.SCALE, INTERVAL)
