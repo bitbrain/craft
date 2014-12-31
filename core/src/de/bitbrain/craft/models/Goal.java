@@ -1,5 +1,6 @@
 package de.bitbrain.craft.models;
 
+import de.bitbrain.craft.core.GoalProcessor;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
@@ -16,7 +17,7 @@ public class Goal {
 	
 	private String recipeId;
 	
-	private String processor;
+	private Class<? extends GoalProcessor> processor;
 
 	public String getRecipeId() {
 		return recipeId;
@@ -26,11 +27,11 @@ public class Goal {
 		this.recipeId = recipeId;
 	}
 
-	public String getProcessor() {
+	public Class<? extends GoalProcessor> getProcessor() {
 		return processor;
 	}
 
-	public void setProcessor(String processor) {
+	public void setProcessor(Class<? extends GoalProcessor> processor) {
 		this.processor = processor;
 	}
 	

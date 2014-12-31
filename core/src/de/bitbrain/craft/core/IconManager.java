@@ -67,7 +67,6 @@ public class IconManager implements Fadeable {
 	}
 
 	public void update() {
-
 		for (int i = 0; i < BUFFER; ++i) {
 
 			if (requests.isEmpty()) {
