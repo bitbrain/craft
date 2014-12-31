@@ -34,6 +34,7 @@ import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
+import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.ui.Tabs;
 import de.bitbrain.craft.ui.elements.ElementData;
 import de.bitbrain.craft.ui.elements.ElementIcon;
@@ -73,15 +74,15 @@ public class RecipeWidget extends VerticalGroup {
 	public void onEvent(MouseEvent<?> event) {
 		if (event.getModel() instanceof ElementData && event.getType() == EventType.CLICK) {
 			ElementData tmpData = (ElementData) event.getModel();
-			if (api.isValidRecipe(tmpData.getId())) {
+			if (api.isValidItem(tmpData.getId()) && api.canCraft(Player.getCurrent(), tmpData.getId())) {
 				tabPanel.setTab(Tabs.CRAFTING);
-			}
-			if (data == null || !isModified()) {
-				data = tmpData.copy();
-				content.clear();
-				content.addActor(generateTop(data));
-				if (!data.getDescription().isEmpty()) {
-					content.addActor(generateDescription(data));
+				if (data == null || !isModified()) {
+					data = tmpData.copy();
+					content.clear();
+					content.addActor(generateTop(data));
+					if (!data.getDescription().isEmpty()) {
+						content.addActor(generateDescription(data));
+					}
 				}
 			}
 		}
