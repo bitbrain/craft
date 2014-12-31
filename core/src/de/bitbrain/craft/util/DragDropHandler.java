@@ -44,7 +44,6 @@ import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.elements.ElementData;
-import de.bitbrain.craft.ui.widgets.TabWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 
 /**

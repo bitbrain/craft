@@ -23,25 +23,16 @@ import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.ui.Overlay;
 import de.bitbrain.craft.ui.ProfessionSelectionView;
 import de.bitbrain.craft.ui.ProfessionSelectionView.ProfessionSelectListener;
 import de.bitbrain.craft.util.DirectPlayerDataProvider;
@@ -103,21 +94,6 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
 			setScreen(TitleScreen.class);
 			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
-		}
-		if (event.getKey() == Keys.A) {
-			final Overlay overlay = SharedInjector.get().getInstance(Overlay.class);
-			Button button = new TextButton("YO", Styles.BTN_GREEN);
-			button.addListener(new ClickListener() {
-				@Override
-				public void clicked(InputEvent event, float x, float y) {
-					super.clicked(event, x, y);
-					overlay.hide();
-				}
-			});
-			HorizontalGroup g = new HorizontalGroup();
-			g.addActor(new Label("YOOO!", Styles.LBL_ITEM));
-			g.addActor(button);
-			overlay.show(g);
 		}
 	}
 }

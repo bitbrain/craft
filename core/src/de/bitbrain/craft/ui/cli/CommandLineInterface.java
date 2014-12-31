@@ -39,6 +39,7 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.ui.cli.commands.AddCommand;
@@ -114,7 +115,7 @@ public class CommandLineInterface extends Table {
 	}
 	
 	private void initialize() {
-		setBackground(new NinePatchDrawable(Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius())));
+		setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius())));
 		textField = new TextField("", Styles.TXT_COMMANDLINE);
 		textField.setWidth(getWidth());
 		LabelStyle consoleStyle = new LabelStyle();

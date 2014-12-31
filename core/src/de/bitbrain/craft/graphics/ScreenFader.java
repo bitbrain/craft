@@ -27,9 +27,6 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -69,7 +66,6 @@ public class ScreenFader implements TweenCallback {
 	}
 
 	public void fadeIn() {
-		System.out.println(tweenManager);
 		init();
 		fadeIn = true;
 		tweenManager.killTarget(sprite);
@@ -122,11 +118,7 @@ public class ScreenFader implements TweenCallback {
 	
 	private void init() {
 		if (sprite == null) {
-			Pixmap map = new Pixmap(16, 16, Format.RGBA8888);
-			map.setColor(Color.BLACK);
-			map.fill();
-			sprite = new Sprite(new Texture(map));			
-			map.dispose();
+			sprite = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
 		}
 	}
 	

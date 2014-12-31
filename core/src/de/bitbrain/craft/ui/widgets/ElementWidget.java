@@ -40,6 +40,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.ui.elements.ElementData;
@@ -74,7 +75,7 @@ public class ElementWidget extends HorizontalGroup {
 	
 	public ElementWidget(ElementData data) {
 		try {
-			background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+			background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 			SharedInjector.get().injectMembers(this);
 			this.data = data;
 			craftable = isElementCraftable();

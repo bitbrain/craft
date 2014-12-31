@@ -50,6 +50,7 @@ import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
+import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 
@@ -162,7 +163,7 @@ public class TabWidget extends Table {
 	
 	private void generateLeft() {
 		Container<Actor> c = new Container<Actor>();
-		c.setBackground(new NinePatchDrawable(Styles.ninePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius())));
+		c.setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_9patch, Sizes.panelRadius())));
 		left = add(c);
 
 	}

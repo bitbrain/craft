@@ -20,8 +20,10 @@
 package de.bitbrain.craft.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -49,6 +51,8 @@ public class UIRenderer {
 	@Inject
 	private EventBus eventBus;
 	
+	private Sprite overlay;
+	
 	private UIMode mode = UIMode.NORMAL;
 	
 	public UIRenderer(int width, int height, Viewport viewport, Batch batch) {
@@ -57,7 +61,6 @@ public class UIRenderer {
 		buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
 		baseStage = new InputEventProcessor(viewport, batch);
 		overlayStage = new InputEventProcessor(viewport, batch);
-		
 		eventBus.subscribe(baseStage);
 		eventBus.subscribe(overlayStage);
 	}
@@ -104,15 +107,21 @@ public class UIRenderer {
 		buffer.end();
 		}		
 		if (isOverlayMode()) {
+			if (overlay == null) {
+				overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
+			}
 			batch.begin();
 			batch.draw(buffer.getColorBufferTexture(), 0, 0, 
 					buffer.getWidth(), buffer.getHeight(),
 					0, 0, buffer.getWidth(), buffer.getHeight(), false, true);
+			overlay.setAlpha(0.3f);
+			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
+			overlay.draw(batch);
 			batch.end();
 			overlayStage.draw();
 		}
 	}
-	
+
 	private boolean isOverlayMode() {
 		return mode.equals(UIMode.OVERLAY);
 	}

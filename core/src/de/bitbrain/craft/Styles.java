@@ -22,15 +22,15 @@ package de.bitbrain.craft;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+
+import de.bitbrain.craft.graphics.GraphicsFactory;
 
 /**
  * Styles file
@@ -62,11 +62,11 @@ public final class Styles {
 
 		BTN_PROFESSION.font = SharedAssetManager.get(Assets.FNT_LARGER,
 				BitmapFont.class);
-		BTN_PROFESSION.down = new NinePatchDrawable(ninePatch(
+		BTN_PROFESSION.down = new NinePatchDrawable(GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_HIGHLIGHT_9patch, Sizes.panelRadius()));
-		BTN_PROFESSION.over = new NinePatchDrawable(ninePatch(
+		BTN_PROFESSION.over = new NinePatchDrawable(GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_HIGHLIGHT_9patch, Sizes.panelRadius()));
-		BTN_PROFESSION.up = new NinePatchDrawable(ninePatch(
+		BTN_PROFESSION.up = new NinePatchDrawable(GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
 		BTN_PROFESSION.fontColor = Assets.CLR_INACTIVE;
 		BTN_PROFESSION.downFontColor = Assets.CLR_YELLOW_SAND;
@@ -84,9 +84,9 @@ public final class Styles {
 		LBL_TEXT.font = SharedAssetManager.get(Assets.FNT_MEDIUM,
 				BitmapFont.class);
 
-		BTN_TAB.up = new NinePatchDrawable(ninePatch(
+		BTN_TAB.up = new NinePatchDrawable(GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_TAB_9patch, Sizes.panelRadius()));
-		BTN_TAB_ACTIVE.up = new NinePatchDrawable(ninePatch(
+		BTN_TAB_ACTIVE.up = new NinePatchDrawable(GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_TAB_ACTIVE_9patch, Sizes.panelRadius()));
 		TXT_COMMANDLINE.font = SharedAssetManager.get(Assets.FNT_MONO,
 				BitmapFont.class);
@@ -98,10 +98,5 @@ public final class Styles {
 				Assets.TEX_CURSOR, Texture.class)));
 		TXT_COMMANDLINE.focusedFontColor = Color.WHITE;
 
-	}
-
-	public static NinePatch ninePatch(String textureId, int radius) {
-		return new NinePatch(SharedAssetManager.get(textureId, Texture.class),
-				radius, radius, radius, radius);
 	}
 }

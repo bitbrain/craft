@@ -34,6 +34,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager.IconDrawable;
+import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ValueTween;
 import de.bitbrain.craft.util.ColorCalculator;
@@ -72,7 +73,7 @@ public class ElementIcon extends Actor implements ValueProvider {
 		SharedInjector.get().injectMembers(this);
 		setSource(data);
 		amount = new Label("1", Styles.LBL_TEXT);
-		background = Styles.ninePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
 		colorCalculator = new ColorCalculator();
 		icon = data.getIcon();
 		updateBackground();
