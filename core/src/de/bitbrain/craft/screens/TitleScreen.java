@@ -32,6 +32,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -42,8 +44,10 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.ui.Overlay;
 
 /**
  * Title screen of the gameO

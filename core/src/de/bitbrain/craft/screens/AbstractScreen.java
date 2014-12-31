@@ -42,6 +42,7 @@ import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.graphics.ScreenFader;
 import de.bitbrain.craft.graphics.ScreenFader.FadeCallback;
 import de.bitbrain.craft.graphics.UIRenderer;
+import de.bitbrain.craft.ui.Overlay;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
 
 /**
@@ -70,6 +71,9 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	
 	@Inject
 	private CommandLineInterface cli;
+	
+	@Inject
+	private Overlay overlay;
 	
 	private ScreenFader fader;
 	
@@ -132,6 +136,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		
 		if (uiRenderer == null) {
 			uiRenderer = new UIRenderer(width, height, createViewport(), batch);
+			overlay.setRenderer(uiRenderer);
 			fader = new ScreenFader(tweenManager);
 			fader.setCallback(this);
 			Gdx.input.setCatchBackKey(true);

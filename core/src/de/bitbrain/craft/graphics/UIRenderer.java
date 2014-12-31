@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.graphics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -73,8 +74,10 @@ public class UIRenderer {
 		this.mode = mode;		
 		switch (mode) {
 		case OVERLAY:
+			Gdx.input.setInputProcessor(overlayStage);
 			break;
 		case NORMAL: default:
+			Gdx.input.setInputProcessor(baseStage);
 			break;
 		}
 	}
@@ -102,7 +105,9 @@ public class UIRenderer {
 		}		
 		if (isOverlayMode()) {
 			batch.begin();
-			batch.draw(buffer.getColorBufferTexture(), 0, 0);
+			batch.draw(buffer.getColorBufferTexture(), 0, 0, 
+					buffer.getWidth(), buffer.getHeight(),
+					0, 0, buffer.getWidth(), buffer.getHeight(), false, true);
 			batch.end();
 			overlayStage.draw();
 		}
