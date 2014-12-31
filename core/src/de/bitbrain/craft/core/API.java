@@ -106,23 +106,6 @@ public interface API {
 	Collection<Recipe> getRecipes(Profession profession);
 	
 	/**
-	 * Determines if id is valid item ID
-	 * 
-	 * @param id item ID
-	 * @return true when id is valid
-	 */
-	boolean isItemId(String id) ;
-	
-	
-	/**
-	 * Determines if id is valid recipe ID
-	 * 
-	 * @param id recipe ID
-	 * @return true when id is valid
-	 */
-	boolean isRecipeId(String id);
-	
-	/**
 	 * Returns the first found player
 	 * 
 	 * @return first found player
@@ -173,6 +156,22 @@ public interface API {
 	 * @param playerId
 	 */
 	void clearItems(int playerId);
+	
+	/**
+	 * Checks weather a recipe exists or not
+	 * 
+	 * @param id recipe id
+	 * @return true when existing
+	 */
+	boolean isValidRecipe(String id);
+	
+	/**
+	 * Checks weather an item exists or not
+	 * 
+	 * @param id item id
+	 * @return true if existing
+	 */
+	boolean isValidItem(String id);
 	
 	/**
 	 * Is thrown as an API error occurs

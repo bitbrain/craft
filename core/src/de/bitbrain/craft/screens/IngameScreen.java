@@ -116,14 +116,6 @@ public class IngameScreen extends AbstractScreen {
 		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 	}
-
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.AbstractScreen#onStageDraw(com.badlogic.gdx.graphics.g2d.Batch, float)
-	 */
-	@Override
-	public void onStageDraw(Batch batch, float delta) {
-		dragDropHandler.draw(batch, delta);
-	}
 	
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.screens.AbstractScreen#dispose()

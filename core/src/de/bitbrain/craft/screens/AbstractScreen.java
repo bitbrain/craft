@@ -151,7 +151,6 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 
 	@Override
 	public final void show() {
-		System.out.println(tweenManager);
 		eventBus.subscribe(this);
 		batch = new SpriteBatch();
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));

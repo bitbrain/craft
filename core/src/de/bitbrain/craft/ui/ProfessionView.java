@@ -73,14 +73,12 @@ public class ProfessionView extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP) &&
 			event.getModel() instanceof ElementData) {
 			ElementData data = (ElementData) event.getModel();
-			if (api.isItemId(data.getId())) {
+			if (api.isValidItem(data.getId())) {
 				Item item = api.getItem(data.getId());
 				if (professionLogic.add(item)) {
 					// Item accepted, remove it from system
 					api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
 				}
-			} else if (api.isRecipeId(data.getId())) {
-				
 			}
 		}
 	}

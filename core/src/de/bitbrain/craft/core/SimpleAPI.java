@@ -30,6 +30,7 @@ import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
 import de.bitbrain.craft.db.ProgressMapper;
+import de.bitbrain.craft.db.RecipeMapper;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -57,6 +58,7 @@ class SimpleAPI implements API {
 	private OwnedItemMapper ownedItemMapper;
 	private PlayerMapper playerMapper;
 	private ProgressMapper progressMapper;
+	private RecipeMapper recipeMapper;
 	
 	@Inject
 	private JPersis jpersis;
@@ -67,6 +69,7 @@ class SimpleAPI implements API {
 		ownedItemMapper = jpersis.map(OwnedItemMapper.class);
 		playerMapper = jpersis.map(PlayerMapper.class);
 		progressMapper = jpersis.map(ProgressMapper.class);
+		recipeMapper = jpersis.map(RecipeMapper.class);
 	}
 	
 	@Override
@@ -212,16 +215,6 @@ class SimpleAPI implements API {
 	}
 
 	@Override
-	public boolean isItemId(String id) {
-		return id.startsWith("item_");		
-	}
-	
-	@Override
-	public boolean isRecipeId(String id) {
-		return id.startsWith("recipe_");		
-	}
-
-	@Override
 	public void registerItem(String itemId, Icon icon, Rarity rarity) {
 		Item item = itemMapper.findById(itemId);		
 		if (item == null) {
@@ -253,5 +246,15 @@ class SimpleAPI implements API {
 	
 	private EventBus bus() {
 		return SharedInjector.get().getInstance(EventBus.class);
+	}
+
+	@Override
+	public boolean isValidRecipe(String id) {
+		return recipeMapper.findById(id) != null;
+	}
+
+	@Override
+	public boolean isValidItem(String id) {
+		return itemMapper.findById(id) != null;
 	}
 }

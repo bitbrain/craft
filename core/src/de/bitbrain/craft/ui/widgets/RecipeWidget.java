@@ -73,7 +73,7 @@ public class RecipeWidget extends VerticalGroup {
 	public void onEvent(MouseEvent<?> event) {
 		if (event.getModel() instanceof ElementData && event.getType() == EventType.CLICK) {
 			ElementData tmpData = (ElementData) event.getModel();
-			if (api.isItemId(tmpData.getId())) {
+			if (api.isValidRecipe(tmpData.getId())) {
 				tabPanel.setTab(Tabs.CRAFTING);
 			}
 			if (data == null || !isModified()) {

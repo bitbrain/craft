@@ -122,7 +122,7 @@ public class DragDropHandler {
 				IconDrawable icon = entry.getValue();
 				icon.x = location.x - size.x / 2f;
 				icon.y = location.y - size.y / 2f;
-				icon.rotation = 0f;
+				icon.rotation = 180f;
 				icon.width = size.x * Sizes.worldScreenFactorX();
 				icon.height = size.y* Sizes.worldScreenFactorY();
 				icon.draw(batch, 1f);
@@ -167,7 +167,7 @@ public class DragDropHandler {
 	}
 	
 	private float getScreenY() {
-		return Sizes.worldMouseY();
+		return Sizes.worldHeight() - Sizes.worldMouseY();
 	}
 	
 	private void add(final ElementData data) {

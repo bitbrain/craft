@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.util.DragDropHandler;
 
 /**
  * Manages rendering of UI elements
@@ -50,6 +51,9 @@ public class UIRenderer {
 	
 	@Inject
 	private EventBus eventBus;
+	
+	@Inject
+	private DragDropHandler ddHandler;
 	
 	private Sprite overlay;
 	
@@ -102,7 +106,10 @@ public class UIRenderer {
 			overlayStage.act(delta);
 			buffer.begin();
 		}
-		baseStage.draw();		
+		baseStage.draw();
+		batch.begin();
+		ddHandler.draw(batch, delta);
+		batch.end();
 		if (isOverlayMode()) {
 		buffer.end();
 		}		
