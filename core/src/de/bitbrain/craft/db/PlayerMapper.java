@@ -55,10 +55,10 @@ public interface PlayerMapper {
 	boolean insert(Collection<Player> items);
 	
 	@Update
-	boolean update(Player customer);
+	boolean update(Player player);
 
 	@Update
-	boolean update(Collection<Player> customer);
+	boolean update(Collection<Player> players);
 	
 	@Delete
 	boolean delete(Player item);

@@ -46,7 +46,7 @@ public interface ProgressMapper {
 	boolean insert(Progress progress);
 	
 	@Insert
-	boolean insert(Collection<Item> items);
+	boolean insert(Collection<Progress> progress);
 
 	@Update
 	boolean update(Progress progress);

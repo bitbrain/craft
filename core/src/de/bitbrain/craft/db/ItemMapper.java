@@ -52,10 +52,10 @@ public interface ItemMapper {
 	boolean insert(Collection<Item> items);
 	
 	@Update
-	boolean update(Item customer);
+	boolean update(Item item);
 
 	@Update
-	boolean update(Collection<Item> customer);
+	boolean update(Collection<Item> items);
 	
 	@Delete
 	boolean delete(Item item);

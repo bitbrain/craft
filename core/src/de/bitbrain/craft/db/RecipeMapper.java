@@ -46,22 +46,22 @@ public interface RecipeMapper {
 	Recipe findById(String id);
 	
 	@Insert
-	boolean insert(Recipe item);
+	boolean insert(Recipe recipe);
 	
 	@Insert
-	boolean insert(Collection<Recipe> items);
+	boolean insert(Collection<Recipe> recipes);
 	
 	@Update
-	boolean update(Recipe customer);
+	boolean update(Recipe recipe);
 
 	@Update
-	boolean update(Collection<Recipe> customer);
+	boolean update(Collection<Recipe> recipes);
 	
 	@Delete
-	boolean delete(Recipe item);
+	boolean delete(Recipe recipe);
 	
 	@Delete
-	boolean delete(Collection<Recipe> items);
+	boolean delete(Collection<Recipe> recipes);
 	
 	@Count
     int count();
