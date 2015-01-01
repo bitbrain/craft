@@ -76,7 +76,6 @@ public class CommandLineInterface extends Table {
 	public void initView() {
 		history = new History(BUFFER_SIZE);
 		setVisible(false);
-		this.setZIndex(1000);
 		align(Align.left);
 		setWidth(Sizes.worldWidth() -1);
 		eventBus.subscribe(this);

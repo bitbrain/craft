@@ -44,6 +44,7 @@ import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.ui.UIFactory;
 
 /**
  * Title screen of the gameO
@@ -66,7 +67,7 @@ public class TitleScreen extends AbstractScreen {
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		btnPlay = new TextButton(Bundles.general.get(Bundles.START), Styles.BTN_GREEN);	
+		btnPlay = UIFactory.createPrimaryButton(Bundles.general.get(Bundles.START));
 
 		final TitleScreen tempScreen = this;
 		

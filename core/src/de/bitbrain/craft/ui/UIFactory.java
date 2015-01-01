@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.ui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import de.bitbrain.craft.Styles;
@@ -39,8 +38,8 @@ public class UIFactory {
 	 * @param caption text of the button
 	 * @return new button instance
 	 */
-	public static Button createPrimaryButton(String caption) {
-		Button button = new TextButton(caption, Styles.BTN_GREEN);
+	public static TextButton createPrimaryButton(String caption) {
+		TextButton button = new TextButton(caption, Styles.BTN_GREEN);
 		return button;
 	}
 

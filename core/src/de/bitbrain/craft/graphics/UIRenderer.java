@@ -111,7 +111,7 @@ public class UIRenderer {
 		ddHandler.draw(batch, delta);
 		batch.end();
 		if (isOverlayMode()) {
-		buffer.end();
+			buffer.end();
 		}		
 		if (isOverlayMode()) {
 			if (overlay == null) {
