@@ -22,6 +22,7 @@ package de.bitbrain.craft.models;
 import com.badlogic.gdx.graphics.Color;
 
 import de.bitbrain.craft.core.Icon;
+import de.bitbrain.craft.graphics.Effect;
 import de.bitbrain.craft.util.Identifiable;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
@@ -40,6 +41,8 @@ public class Item implements Identifiable {
 	private Icon icon;
 	
 	private Rarity rarity = Rarity.COMMON;
+	
+	private Class<? extends Effect> effect = Effect.class;
 	
 	public Item() {
 		
@@ -74,6 +77,14 @@ public class Item implements Identifiable {
 	
 	public void setRarity(Rarity rarity) {
 		this.rarity = rarity;
+	}
+	
+	public void setEffect(Class<? extends Effect> effect) {
+		this.effect = effect;
+	}
+	
+	public Class<? extends Effect> getEffect() {
+		return effect;
 	}
 	
 	public static enum Rarity {
