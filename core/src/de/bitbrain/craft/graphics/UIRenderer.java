@@ -19,7 +19,10 @@
 
 package de.bitbrain.craft.graphics;
 
+import net.engio.mbassy.listener.Handler;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -29,9 +32,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
+import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.ui.cli.CommandLineInterface;
 import de.bitbrain.craft.util.DragDropHandler;
 
 /**
@@ -42,66 +48,89 @@ import de.bitbrain.craft.util.DragDropHandler;
  * @version 1.0
  */
 public class UIRenderer {
-	
+
 	private FrameBuffer buffer;
-	
-	protected InputEventProcessor baseStage, overlayStage;
-	
+
+	protected InputEventProcessor baseStage, overlayStage, cliStage;
+
 	private Batch batch;
-	
+
 	@Inject
 	private EventBus eventBus;
-	
+
 	@Inject
 	private DragDropHandler ddHandler;
-	
+
+	@Inject
+	private CommandLineInterface cli;
+
 	private Sprite overlay;
-	
+
 	private UIMode mode = UIMode.NORMAL;
-	
+
 	public UIRenderer(int width, int height, Viewport viewport, Batch batch) {
 		SharedInjector.get().injectMembers(this);
 		this.batch = batch;
 		buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
 		baseStage = new InputEventProcessor(viewport, batch);
 		overlayStage = new InputEventProcessor(viewport, batch);
+		cliStage = new InputEventProcessor(viewport, batch);
+		cliStage.addActor(cli);
 		eventBus.subscribe(baseStage);
 		eventBus.subscribe(overlayStage);
+		eventBus.subscribe(this);
 	}
-	
+
 	public Stage getBase() {
 		return baseStage;
 	}
-	
+
 	public Stage getOverlay() {
 		return overlayStage;
 	}
-	
+
 	public void setMode(UIMode mode) {
-		this.mode = mode;		
+		this.mode = mode;
 		switch (mode) {
 		case OVERLAY:
 			Gdx.input.setInputProcessor(overlayStage);
 			break;
-		case NORMAL: default:
+		case NORMAL:
+		default:
 			Gdx.input.setInputProcessor(baseStage);
 			break;
 		}
 	}
-	
+
 	public UIMode getMode() {
 		return mode;
 	}
-	
+
 	public void resize(int width, int height) {
 		buffer.dispose();
 		buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
 		baseStage.getViewport().update(width, height, true);
 		overlayStage.getViewport().update(width, height, true);
+		cliStage.getViewport().update(width, height, true);
+	}
+
+	@Handler
+	public void keyEvent(KeyEvent event) {
+		int key = event.getKey();
+		if (key == Keys.F3 && event.getType() == EventType.KEYDOWN) {
+			Gdx.input.setInputProcessor(cliStage);
+			cli.setVisible(!cli.isVisible());
+			if (cli.isVisible()) {
+				cli.focus();
+			} else {
+				setMode(mode);
+			}
+		}
 	}
 
 	public void render(float delta) {
 		baseStage.act(delta);
+		cliStage.act(delta);
 		if (isOverlayMode()) {
 			overlayStage.act(delta);
 			buffer.begin();
@@ -112,21 +141,23 @@ public class UIRenderer {
 		batch.end();
 		if (isOverlayMode()) {
 			buffer.end();
-		}		
+		}
 		if (isOverlayMode()) {
 			if (overlay == null) {
-				overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
+				overlay = new Sprite(GraphicsFactory.createTexture(16, 16,
+						Color.BLACK));
 			}
 			batch.begin();
-			batch.draw(buffer.getColorBufferTexture(), 0, 0, 
-					buffer.getWidth(), buffer.getHeight(),
-					0, 0, buffer.getWidth(), buffer.getHeight(), false, true);
+			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
+					buffer.getHeight(), 0, 0, buffer.getWidth(),
+					buffer.getHeight(), false, true);
 			overlay.setAlpha(0.3f);
 			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
 			overlay.draw(batch);
 			batch.end();
 			overlayStage.draw();
 		}
+		cliStage.draw();
 	}
 
 	private boolean isOverlayMode() {
@@ -136,11 +167,14 @@ public class UIRenderer {
 	public void dispose() {
 		eventBus.unsubscribe(baseStage);
 		eventBus.unsubscribe(overlayStage);
+		eventBus.unsubscribe(this);
 		buffer.dispose();
+		baseStage.dispose();
+		overlayStage.dispose();
+		cliStage.dispose();
 	}
-	
+
 	public static enum UIMode {
-		NORMAL,
-		OVERLAY;
+		NORMAL, OVERLAY;
 	}
 }

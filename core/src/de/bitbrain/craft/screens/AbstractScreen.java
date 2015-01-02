@@ -43,7 +43,6 @@ import de.bitbrain.craft.graphics.ScreenFader;
 import de.bitbrain.craft.graphics.ScreenFader.FadeCallback;
 import de.bitbrain.craft.graphics.UIRenderer;
 import de.bitbrain.craft.ui.Overlay;
-import de.bitbrain.craft.ui.cli.CommandLineInterface;
 
 /**
  * Abstract menu screen
@@ -68,9 +67,6 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	
 	@Inject
 	private CraftGame game;
-	
-	@Inject
-	private CommandLineInterface cli;
 	
 	@Inject
 	private Overlay overlay;
@@ -141,7 +137,6 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 			fader.setCallback(this);
 			Gdx.input.setCatchBackKey(true);
 			onCreateStage(uiRenderer.getBase());
-			uiRenderer.getBase().addActor(cli);
 			fader.fadeIn();
 		} else {
 			uiRenderer.resize(getWorldWidth(width), getWorldHeight(height));

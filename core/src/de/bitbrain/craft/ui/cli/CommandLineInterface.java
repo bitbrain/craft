@@ -81,18 +81,18 @@ public class CommandLineInterface extends Table {
 		eventBus.subscribe(this);
 		registerCommands();
 	}
+
+	public void focus() {
+		if (getStage() != null) {
+			getStage().setKeyboardFocus(textField);
+		}
+	}
 	
 	@Override
 	public void act(float delta) {
 		if (!initialized) {
 			initialize();
 			initialized = true;
-		}
-		if (Gdx.input.isKeyJustPressed(Keys.F3)) {
-			setVisible(!isVisible());
-			if (isVisible()) {
-				getStage().setKeyboardFocus(textField);
-			}
 		}
 		if (isVisible()) {
 			if (!textField.getText().isEmpty() && Gdx.input.isKeyJustPressed(Keys.ENTER)) {
