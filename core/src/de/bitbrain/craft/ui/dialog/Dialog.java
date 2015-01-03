@@ -51,6 +51,9 @@ public class Dialog extends VerticalGroup {
 	Dialog(Pair<String, ClickListener> submit,
 			Pair<String, ClickListener> abort, Actor content) {
 		SharedInjector.get().injectMembers(this);
+		if (content != null) {
+			addActor(content);
+		}
 		if (submit != null || abort != null) {
 			buttonLayout = new HorizontalGroup();
 			addActor(buttonLayout);
@@ -61,8 +64,13 @@ public class Dialog extends VerticalGroup {
 		if (submit != null) {
 			initSubmit(submit);
 		}
-		this.setWidth(Sizes.worldWidth());
+	}
+	
+	@Override
+	public void invalidate() {
+		setWidth(Sizes.worldWidth());
 		setHeight(Sizes.worldHeight());
+		super.invalidate();
 	}
 
 	void show() {

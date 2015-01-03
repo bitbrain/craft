@@ -21,9 +21,7 @@ package de.bitbrain.craft.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.graphics.UIRenderer;
 import de.bitbrain.craft.graphics.UIRenderer.UIMode;
 import de.bitbrain.craft.inject.StateScoped;
