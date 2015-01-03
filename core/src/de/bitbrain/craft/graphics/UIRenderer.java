@@ -88,6 +88,10 @@ public class UIRenderer {
 	public Stage getOverlay() {
 		return overlayStage;
 	}
+	
+	public void syncMode() {
+		setMode(getMode());
+	}
 
 	public void setMode(UIMode mode) {
 		this.mode = mode;
@@ -151,7 +155,7 @@ public class UIRenderer {
 			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
 					buffer.getHeight(), 0, 0, buffer.getWidth(),
 					buffer.getHeight(), false, true);
-			overlay.setAlpha(0.3f);
+			overlay.setAlpha(0.5f);
 			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
 			overlay.draw(batch);
 			batch.end();

@@ -439,7 +439,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
 			super.clicked(event, x, y);
-			
 			SoundUtils.play(Assets.SND_CONFIRM, 1.0f, 1.5f);
 
 			Color clrFore = new Color(0.6f, 1.0f, 0.1f, 1.0f);

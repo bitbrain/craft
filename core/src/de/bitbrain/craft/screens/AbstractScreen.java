@@ -202,7 +202,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	
 	@Override
 	public void afterFadeIn() {
-		Gdx.input.setInputProcessor(uiRenderer.getBase());
+		uiRenderer.syncMode();
 		Gdx.input.setCatchBackKey(true);
 	}
 	
