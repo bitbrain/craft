@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.ui.Overlay;
 import de.bitbrain.craft.ui.UIFactory;
@@ -50,8 +51,6 @@ public class Dialog extends VerticalGroup {
 	Dialog(Pair<String, ClickListener> submit,
 			Pair<String, ClickListener> abort, Actor content) {
 		SharedInjector.get().injectMembers(this);
-		fill();
-		addActor(content);
 		if (submit != null || abort != null) {
 			buttonLayout = new HorizontalGroup();
 			addActor(buttonLayout);
@@ -62,6 +61,8 @@ public class Dialog extends VerticalGroup {
 		if (submit != null) {
 			initSubmit(submit);
 		}
+		this.setWidth(Sizes.worldWidth());
+		setHeight(Sizes.worldHeight());
 	}
 
 	void show() {
@@ -74,13 +75,17 @@ public class Dialog extends VerticalGroup {
 
 	private void initSubmit(Pair<String, ClickListener> submit) {
 		TextButton button = UIFactory.createPrimaryButton(submit.getFirst());
-		button.addCaptureListener(submit.getSecond());
+		if (submit.getSecond() != null) {
+			button.addCaptureListener(submit.getSecond());
+		}
 		buttonLayout.addActor(button);
 	}
 
 	private void initAbort(Pair<String, ClickListener> abort) {
 		TextButton button = UIFactory.createPrimaryButton(abort.getFirst());
-		button.addCaptureListener(abort.getSecond());
+		if (abort.getSecond() != null) {
+			button.addCaptureListener(abort.getSecond());
+		}
 		button.addCaptureListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
