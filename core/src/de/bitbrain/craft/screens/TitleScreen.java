@@ -21,27 +21,28 @@
 package de.bitbrain.craft.screens;
 
 import net.engio.mbassy.listener.Handler;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.StateScoped;
-import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.ui.UIFactory;
 import de.bitbrain.craft.ui.dialog.Dialog;
 import de.bitbrain.craft.ui.dialog.DialogBuilder;
@@ -54,38 +55,55 @@ import de.bitbrain.craft.ui.dialog.DialogBuilder;
  * @version 1.0
  */
 @StateScoped
-public class TitleScreen extends AbstractScreen {
-	
-	private Sprite logo;	
+public class TitleScreen extends AbstractScreen {	
 	
 	private TextButton btnPlay;
 	
 	private Label lblCredits;
 
 	private Dialog closeDialog;
+	
+	private Table layout;
 
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.screens.MenuScreen#onCreateStage(com.badlogic.gdx.scenes.scene2d.Stage)
 	 */
 	@Override
 	protected void onCreateStage(Stage stage) {
-		btnPlay = UIFactory.createPrimaryButton(Bundles.general.get(Bundles.START));
-
-		final TitleScreen tempScreen = this;
 		
+		layout = new Table();
+		layout.setFillParent(true);
+		
+		// Logo
+		Image logo = new Image(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
+		layout.add(logo)
+			  .padTop(70f)
+			  .center()
+			  .width(logo.getWidth() * 2f)
+			  .height(logo.getHeight() * 2f);
+		layout.row().padTop(80f);
+		
+		// Play button
+		btnPlay = UIFactory.createPrimaryButton(Bundles.general.get(Bundles.START));
 		btnPlay.addCaptureListener(new ClickListener() {
-
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
-				tempScreen.setScreen(ProfessionScreen.class);
+				TitleScreen.this.setScreen(ProfessionScreen.class);
 			}
-		});
+		});		
+		layout.add(btnPlay)
+		      .width(btnPlay.getWidth() * 1.15f)
+		      .height(btnPlay.getHeight() * 1.15f)
+		      .row().padTop(70f);
 		
-		stage.addActor(btnPlay);
+		// Credits
 		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
-		stage.addActor(lblCredits);
+		layout.add(lblCredits).row();
 		
+		stage.addActor(layout);
+		
+		// Dialog
 		DialogBuilder dBuilder = new DialogBuilder();
 		closeDialog = dBuilder.content("Do you really want to quit the game?")
 				.enableAbort("No")
@@ -95,68 +113,7 @@ public class TitleScreen extends AbstractScreen {
 						Gdx.app.exit();
 					}
 				}).build(false);
-	}
-
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.MenuScreen#onDraw(com.badlogic.gdx.graphics.g2d.Batch, float)
-	 */
-	@Override
-	protected void onDraw(Batch batch, float delta) {		
-		logo.draw(batch);
-	}
-	
-	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
 		
-		float scale = Gdx.graphics.getWidth() / 550.0f;
-		
-		logo.setX(Gdx.graphics.getWidth() / 2 - logo.getWidth() / 2);
-		logo.setY(Gdx.graphics.getHeight() / 4.1f);
-		logo.setScale(scale);
-		
-		btnPlay.setWidth(logo.getWidth() * scale / 1.5f);
-		btnPlay.setHeight(logo.getHeight() * scale);
-		btnPlay.setX(Gdx.graphics.getWidth() / 2.0f - btnPlay.getWidth() / 2.0f);
-		btnPlay.setY(Gdx.graphics.getHeight() / 4.1f);
-		btnPlay.getLabel().setFontScale(scale / 1.5f);
-		
-		lblCredits.setFontScale(scale / 1.5f);
-		lblCredits.setX(Gdx.graphics.getWidth() / 2 - (lblCredits.getWidth() * lblCredits.getFontScaleX()) / 2);
-		lblCredits.setY(Gdx.graphics.getHeight() / 15f);
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.MenuScreen#onShow()
-	 */
-	@Override
-	protected void onShow() {
-		logo = new Sprite(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
-		logo.flip(false, true);
-	}
-
-	@Override
-	public void afterFadeIn() {
-		super.afterFadeIn();
-		btnPlay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		final float INTERVAL = 0.6f;		
-		Tween.to(btnPlay, ActorTween.SCALE, INTERVAL)
-		.repeatYoyo(Tween.INFINITY, 0f)
-		.ease(TweenEquations.easeNone)
-		.target(0.7f)
-		.start(tweenManager);
-		
-		Tween.to(btnPlay, ActorTween.ALPHA, INTERVAL)
-		.repeatYoyo(Tween.INFINITY, 0f)
-		.ease(TweenEquations.easeNone)
-		.target(0.8f)
-		.start(tweenManager);
-		Tween.to(btnPlay.getLabel(), ActorTween.ALPHA, INTERVAL)
-		.repeatYoyo(Tween.INFINITY, 0f)
-		.ease(TweenEquations.easeNone)
-		.target(0.8f)
-		.start(tweenManager);
 	}
 	
 	@Handler
@@ -165,4 +122,15 @@ public class TitleScreen extends AbstractScreen {
 			closeDialog.show();
 		}
 	}
-}	
+
+	@Override
+	protected void onDraw(Batch batch, float delta) { }
+
+	@Override
+	protected void onShow() {	}
+
+	@Override
+	protected Viewport createViewport() {
+		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
+	}
+}
