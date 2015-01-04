@@ -20,6 +20,9 @@
 package de.bitbrain.craft.graphics;
 
 import net.engio.mbassy.listener.Handler;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -37,6 +40,7 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
 import de.bitbrain.craft.util.DragDropHandler;
 
@@ -48,6 +52,10 @@ import de.bitbrain.craft.util.DragDropHandler;
  * @version 1.0
  */
 public class UIRenderer {
+	
+	private static final float OVERLAY_OPACITY = 0.5f;
+	
+	private static final float OVERLAY_FADE = 0.4f;
 
 	private FrameBuffer buffer;
 
@@ -63,6 +71,9 @@ public class UIRenderer {
 
 	@Inject
 	private CommandLineInterface cli;
+	
+	@Inject
+	private TweenManager tweenManager;
 
 	private Sprite overlay;
 
@@ -79,6 +90,9 @@ public class UIRenderer {
 		eventBus.subscribe(baseStage);
 		eventBus.subscribe(overlayStage);
 		eventBus.subscribe(this);
+		overlay = new Sprite(GraphicsFactory.createTexture(16, 16,
+				Color.BLACK));
+		overlay.setAlpha(0f);
 	}
 
 	public Stage getBase() {
@@ -94,16 +108,30 @@ public class UIRenderer {
 	}
 
 	public void setMode(UIMode mode) {
-		this.mode = mode;
 		switch (mode) {
 		case OVERLAY:
 			Gdx.input.setInputProcessor(overlayStage);
+			if (this.mode != mode) {
+				tweenManager.killTarget(overlay);
+				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
+					 .target(OVERLAY_OPACITY)
+					 .ease(TweenEquations.easeInOutQuad)
+					 .start(tweenManager);
+			}
 			break;
 		case NORMAL:
 		default:
 			Gdx.input.setInputProcessor(baseStage);
+			if (this.mode != mode) {
+				tweenManager.killTarget(overlay);
+				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
+					 .target(0f)
+					 .ease(TweenEquations.easeInOutQuad)
+					 .start(tweenManager);
+			}
 			break;
 		}
+		this.mode = mode;
 	}
 
 	public UIMode getMode() {
@@ -146,19 +174,16 @@ public class UIRenderer {
 		if (isOverlayMode()) {
 			buffer.end();
 		}
-		if (isOverlayMode()) {
-			if (overlay == null) {
-				overlay = new Sprite(GraphicsFactory.createTexture(16, 16,
-						Color.BLACK));
-			}
+		if (overlay.getColor().a > 0) {
 			batch.begin();
 			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
 					buffer.getHeight(), 0, 0, buffer.getWidth(),
 					buffer.getHeight(), false, true);
-			overlay.setAlpha(0.5f);
 			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
 			overlay.draw(batch);
 			batch.end();
+		}
+		if (isOverlayMode()) {
 			overlayStage.draw();
 		}
 		cliStage.draw();

@@ -64,8 +64,7 @@ public class SpriteTween implements TweenAccessor<Sprite> {
 			target.setY(newValues[0]);
 			break;
 		case ALPHA:
-			target.setColor(target.getColor().r, target.getColor().g,
-					target.getColor().b, newValues[0]);
+			target.setAlpha(newValues[0]);
 			break;
 		case ROTATION:
 			target.setRotation(newValues[0]);
