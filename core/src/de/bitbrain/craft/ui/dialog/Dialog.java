@@ -19,16 +19,20 @@
 
 package de.bitbrain.craft.ui.dialog;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.ui.Overlay;
 import de.bitbrain.craft.ui.UIFactory;
@@ -41,35 +45,67 @@ import de.bitbrain.craft.util.Pair;
  * @since 1.0
  * @version 1.0
  */
-public class Dialog extends VerticalGroup {
+public class Dialog extends Table {
+	
+	private static final float PADDING = 30f;
 
 	@Inject
 	private Overlay overlay;
 
-	private Group buttonLayout;
+	private Table buttonLayout;
+	
+	private NinePatch background;
+	
+	private Table window;
+	
+	private Cell<?> contentCell;
 
 	Dialog(Pair<String, ClickListener> submit,
 			Pair<String, ClickListener> abort, Actor content) {
 		SharedInjector.get().injectMembers(this);
+		window = new Table();
+		add(window);
 		if (content != null) {
-			addActor(content);
+			contentCell = window.add(content)
+					            .fill()
+					            .align(Align.center)
+					            .pad(PADDING);
 		}
 		if (submit != null || abort != null) {
-			buttonLayout = new HorizontalGroup();
-			addActor(buttonLayout);
+			buttonLayout = new Table();
+			window.row().row().padTop(PADDING);
+			window.add(buttonLayout);
 		}
 		if (abort != null) {
 			initAbort(abort);
 		}
 		if (submit != null) {
-			initSubmit(submit);
+			Cell<?> c = initSubmit(submit);
+			if (abort != null) {
+				c.padLeft(PADDING);
+			}
 		}
+		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+	}
+	
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		if (contentCell != null) {
+			background.getColor().a = parentAlpha;
+			background.draw(batch, 
+				window.getX() + contentCell.getActorX() - contentCell.getPadLeft(), 
+				window.getY() + contentCell.getActorY() - contentCell.getPadTop(), 
+				contentCell.getActorWidth() + contentCell.getPadRight() * 2, 
+				contentCell.getActorHeight() + contentCell.getPadBottom() * 2);		
+		}
+		super.draw(batch, parentAlpha);
 	}
 	
 	@Override
 	public void invalidate() {
 		setWidth(Sizes.worldWidth());
 		setHeight(Sizes.worldHeight());
+		window.setWidth(Sizes.worldWidth() / 2f);
 		super.invalidate();
 	}
 
@@ -81,15 +117,15 @@ public class Dialog extends VerticalGroup {
 		overlay.hide();
 	}
 
-	private void initSubmit(Pair<String, ClickListener> submit) {
+	private Cell<TextButton> initSubmit(Pair<String, ClickListener> submit) {
 		TextButton button = UIFactory.createPrimaryButton(submit.getFirst());
 		if (submit.getSecond() != null) {
 			button.addCaptureListener(submit.getSecond());
 		}
-		buttonLayout.addActor(button);
+		return buttonLayout.add(button);
 	}
 
-	private void initAbort(Pair<String, ClickListener> abort) {
+	private Cell<TextButton> initAbort(Pair<String, ClickListener> abort) {
 		TextButton button = UIFactory.createPrimaryButton(abort.getFirst());
 		if (abort.getSecond() != null) {
 			button.addCaptureListener(abort.getSecond());
@@ -101,6 +137,6 @@ public class Dialog extends VerticalGroup {
 				Dialog.this.hide();
 			}
 		});
-		buttonLayout.addActor(button);
+		return buttonLayout.add(button);
 	}
 }

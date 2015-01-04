@@ -20,8 +20,10 @@
 package de.bitbrain.craft.ui.dialog;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.util.Pair;
 
 /**
@@ -69,6 +71,12 @@ public class DialogBuilder {
 	public DialogBuilder content(Actor actor) {
 		content = actor;
 		return this;
+	}
+	
+	public DialogBuilder content(String text) {
+		Label label = new Label(text, Styles.LBL_ITEM);
+		label.setWrap(true);
+		return content(label);
 	}
 	
 	public Dialog build(boolean show) {
