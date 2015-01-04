@@ -33,6 +33,8 @@ import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MBassadorEventBus;
 import de.bitbrain.craft.graphics.ParticleRenderer;
+import de.bitbrain.craft.graphics.shader.ShaderManager;
+import de.bitbrain.craft.graphics.shader.SimpleShaderManager;
 import de.bitbrain.craft.migration.DataMigrator;
 import de.bitbrain.craft.screens.IngameScreen;
 import de.bitbrain.craft.screens.LoadingScreen;
@@ -66,6 +68,7 @@ public class StateModule extends AbstractModule {
 	        .toInstance(scope);
 		bind(OrthographicCamera.class).in(StateScoped.class);
 		bind(Camera.class).to(OrthographicCamera.class).in(StateScoped.class);
+		bind(ShaderManager.class).to(SimpleShaderManager.class).in(StateScoped.class);
 		bind(ParticleRenderer.class);
 		bind(EventBus.class).to(MBassadorEventBus.class);
 	    bind(DragDropHandler.class);

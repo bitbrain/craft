@@ -39,6 +39,9 @@ import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.events.KeyEvent;
+import de.bitbrain.craft.graphics.shader.BlurShader;
+import de.bitbrain.craft.graphics.shader.ShadeArea;
+import de.bitbrain.craft.graphics.shader.ShaderManager;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
@@ -51,10 +54,10 @@ import de.bitbrain.craft.util.DragDropHandler;
  * @since 1.0
  * @version 1.0
  */
-public class UIRenderer {
-	
-	private static final float OVERLAY_OPACITY = 0.5f;
-	
+public class UIRenderer implements ShadeArea {
+
+	private static final float OVERLAY_OPACITY = 0.3f;
+
 	private static final float OVERLAY_FADE = 0.4f;
 
 	private FrameBuffer buffer;
@@ -71,13 +74,18 @@ public class UIRenderer {
 
 	@Inject
 	private CommandLineInterface cli;
-	
+
 	@Inject
 	private TweenManager tweenManager;
+
+	@Inject
+	private ShaderManager shaderManager;
 
 	private Sprite overlay;
 
 	private UIMode mode = UIMode.NORMAL;
+	
+	private BlurShader vertBlur, horBlur;
 
 	public UIRenderer(int width, int height, Viewport viewport, Batch batch) {
 		SharedInjector.get().injectMembers(this);
@@ -90,9 +98,11 @@ public class UIRenderer {
 		eventBus.subscribe(baseStage);
 		eventBus.subscribe(overlayStage);
 		eventBus.subscribe(this);
-		overlay = new Sprite(GraphicsFactory.createTexture(16, 16,
-				Color.BLACK));
+		overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
 		overlay.setAlpha(0f);
+		vertBlur = new BlurShader(false);
+		horBlur = new BlurShader(true);
+		shaderManager.add(this, vertBlur, horBlur);
 	}
 
 	public Stage getBase() {
@@ -102,7 +112,7 @@ public class UIRenderer {
 	public Stage getOverlay() {
 		return overlayStage;
 	}
-	
+
 	public void syncMode() {
 		setMode(getMode());
 	}
@@ -114,9 +124,8 @@ public class UIRenderer {
 			if (this.mode != mode) {
 				tweenManager.killTarget(overlay);
 				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
-					 .target(OVERLAY_OPACITY)
-					 .ease(TweenEquations.easeInOutQuad)
-					 .start(tweenManager);
+						.target(OVERLAY_OPACITY)
+						.ease(TweenEquations.easeOutQuad).start(tweenManager);
 			}
 			break;
 		case NORMAL:
@@ -124,10 +133,8 @@ public class UIRenderer {
 			Gdx.input.setInputProcessor(baseStage);
 			if (this.mode != mode) {
 				tweenManager.killTarget(overlay);
-				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
-					 .target(0f)
-					 .ease(TweenEquations.easeInOutQuad)
-					 .start(tweenManager);
+				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f)
+						.ease(TweenEquations.easeOutQuad).start(tweenManager);
 			}
 			break;
 		}
@@ -144,6 +151,7 @@ public class UIRenderer {
 		baseStage.getViewport().update(width, height, true);
 		overlayStage.getViewport().update(width, height, true);
 		cliStage.getViewport().update(width, height, true);
+		shaderManager.resize(width, height);
 	}
 
 	@Handler
@@ -174,15 +182,7 @@ public class UIRenderer {
 		if (isOverlayMode()) {
 			buffer.end();
 		}
-		if (isOverlayMode() || overlay.getColor().a > 0) {
-			batch.begin();
-			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
-					buffer.getHeight(), 0, 0, buffer.getWidth(),
-					buffer.getHeight(), false, true);
-			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
-			overlay.draw(batch);
-			batch.end();
-		}
+		shaderManager.updateAndRender(batch, delta);
 		if (isOverlayMode()) {
 			overlayStage.draw();
 		}
@@ -205,5 +205,16 @@ public class UIRenderer {
 
 	public static enum UIMode {
 		NORMAL, OVERLAY;
+	}
+
+	@Override
+	public void draw(Batch batch, float delta) {
+		if (isOverlayMode() || overlay.getColor().a > 0) {
+			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
+					buffer.getHeight(), 0, 0, buffer.getWidth(),
+					buffer.getHeight(), false, true);
+			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
+			overlay.draw(batch);
+		}
 	}
 }
