@@ -59,6 +59,8 @@ public class Dialog extends Table {
 	private Table window;
 	
 	private Cell<?> contentCell;
+	
+	private boolean visible;
 
 	Dialog(Pair<String, ClickListener> submit,
 			Pair<String, ClickListener> abort, Actor content) {
@@ -85,7 +87,7 @@ public class Dialog extends Table {
 				c.padLeft(PADDING);
 			}
 		}
-		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BLACK_9patch, Sizes.panelTransparentRadius());
 	}
 	
 	@Override
@@ -108,13 +110,23 @@ public class Dialog extends Table {
 		window.setWidth(Sizes.worldWidth() / 2f);
 		super.invalidate();
 	}
+	
+	public boolean isVisible() {
+		return visible;
+	}
 
-	void show() {
-		overlay.show(this);
+	public void show() {
+		if (!isVisible()) {
+			overlay.show(this);
+			visible = true;
+		}
 	}
 
 	public void hide() {
-		overlay.hide();
+		if (isVisible()) {
+			overlay.hide();
+			visible = false;
+		}
 	}
 
 	private Cell<TextButton> initSubmit(Pair<String, ClickListener> submit) {
@@ -126,7 +138,7 @@ public class Dialog extends Table {
 	}
 
 	private Cell<TextButton> initAbort(Pair<String, ClickListener> abort) {
-		TextButton button = UIFactory.createPrimaryButton(abort.getFirst());
+		TextButton button = UIFactory.createAbortButton(abort.getFirst());
 		if (abort.getSecond() != null) {
 			button.addCaptureListener(abort.getSecond());
 		}

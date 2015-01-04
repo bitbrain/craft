@@ -102,5 +102,11 @@ public class UIFactory {
 		});
 		return textButton;
 	}
+	
+	public static TextButton createAbortButton(String text) {
+		TextButton button = createPrimaryButton(text);
+		button.setStyle(Styles.BTN_RED);
+		return button;
+	}
 
 }

@@ -79,7 +79,9 @@ public final class Assets {
 	public static final String TEX_BACKGROUND_01 		= DIR_IMAGES + "background.png";
 	public static final String TEX_LOGO 				= DIR_IMAGES + "logo.png";
 	public static final String TEX_BUTTON_GREEN 		= DIR_IMAGES + "button.png";
+	public static final String TEX_BUTTON_RED        = DIR_IMAGES + "button_red.png";
 	public static final String TEX_BUTTON_GREEN_DARK 	= DIR_IMAGES + "button_down.png";
+	public static final String TEX_BUTTON_RED_DARK 	= DIR_IMAGES + "button_red_down.png";
 	public static final String TEX_JEWELER 				= DIR_IMAGES + "icons/ico_jewel_diamond_medium.png";
 	public static final String TEX_ENGINEER 			= DIR_IMAGES + "icons/ico_fab_power_medium.png";
 	public static final String TEX_ALCHEMIST 			= DIR_IMAGES + "icons/ico_alchemy_flasks_overview.png";
@@ -88,6 +90,7 @@ public final class Assets {
 	public static final String TEX_TAB_GRADIENT         = DIR_IMAGES + "ui/tab_gradient.png";
 	public static final String TEX_PANEL_9patch			= DIR_IMAGES + "ui/panel.9.png";
 	public static final String TEX_PANEL_TRANSPARENT_9patch	= DIR_IMAGES + "ui/panel_transparent.9.png";
+	public static final String TEX_PANEL_BLACK_9patch	= DIR_IMAGES + "ui/panel_black.9.png";
 	public static final String TEX_PANEL_HIGHLIGHT_9patch = DIR_IMAGES + "ui/panel_highlight.9.png";
 	public static final String TEX_PANEL_TAB_9patch = DIR_IMAGES + "ui/panel_tab.9.png";
 	public static final String TEX_PANEL_TAB_ACTIVE_9patch = DIR_IMAGES + "ui/panel_tab_active.9.png";
@@ -98,6 +101,8 @@ public final class Assets {
 	public static final Color CLR_BROWN_TEAK 			= Color.valueOf("5f1b10");
 	public static final Color CLR_INACTIVE   			= Color.valueOf("d5601a");
 	public static final Color CLR_YELLOW_SAND 			= Color.valueOf("dcc77d");
-	public static final Color CLR_YELLOW_SAND_A 		= Color.valueOf("dcc77d99");
+	public static final Color CLR_YELLOW_SAND_A 			= Color.valueOf("dcc77d99");
 	public static final Color CLR_BLUE_SKY				= Color.valueOf("84f2ff");
+	public static final Color CLR_RED 					= Color.valueOf("e74d23");
+	public static final Color CLR_RED_LIGHT 				= Color.valueOf("f45f37");
 }

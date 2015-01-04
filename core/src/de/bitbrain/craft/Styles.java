@@ -49,6 +49,7 @@ public final class Styles {
 	public static final ImageButtonStyle BTN_TAB = new ImageButtonStyle();
 	public static final ImageButtonStyle BTN_TAB_ACTIVE = new ImageButtonStyle();
 	public static final TextFieldStyle TXT_COMMANDLINE = new TextFieldStyle();
+	public static final TextButtonStyle BTN_RED = new TextButtonStyle();
 
 	public static void load() {
 		BTN_GREEN.font = SharedAssetManager.get(Assets.FNT_LARGER,
@@ -59,6 +60,15 @@ public final class Styles {
 				Assets.TEX_BUTTON_GREEN_DARK, Texture.class)));
 		BTN_GREEN.fontColor = Assets.CLR_GREEN_GRASS;
 		BTN_GREEN.downFontColor = Assets.CLR_GREEN_GRASS_LIGHT;
+		
+		BTN_RED.font = SharedAssetManager.get(Assets.FNT_LARGER,
+				BitmapFont.class);
+		BTN_RED.down = new SpriteDrawable(new Sprite(SharedAssetManager.get(
+				Assets.TEX_BUTTON_RED, Texture.class)));
+		BTN_RED.up = new SpriteDrawable(new Sprite(SharedAssetManager.get(
+				Assets.TEX_BUTTON_RED_DARK, Texture.class)));
+		BTN_RED.fontColor = Assets.CLR_RED;
+		BTN_RED.downFontColor = Assets.CLR_RED_LIGHT;
 
 		BTN_PROFESSION.font = SharedAssetManager.get(Assets.FNT_LARGER,
 				BitmapFont.class);

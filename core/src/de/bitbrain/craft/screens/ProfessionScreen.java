@@ -24,20 +24,17 @@ import net.engio.mbassy.listener.Handler;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelectionView;
 import de.bitbrain.craft.ui.ProfessionSelectionView.ProfessionSelectListener;
-import de.bitbrain.craft.ui.dialog.DialogBuilder;
 import de.bitbrain.craft.util.DirectPlayerDataProvider;
 
 /**
@@ -58,12 +55,6 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 		selection.addProfessionSelectListener(this);
 		selection.align(Align.center);
 		stage.addActor(selection);
-		
-		DialogBuilder dBuilder = new DialogBuilder();
-		dBuilder.content("Welcome, my lord. This game is about crafting items as good as you can. Feel free to select a profession first!")
-				.enableAbort("Abort")
-				.enableSubmit("Submit")
-				.build();
 	}
 	
 	/* (non-Javadoc)

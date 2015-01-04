@@ -43,6 +43,8 @@ import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.ui.UIFactory;
+import de.bitbrain.craft.ui.dialog.Dialog;
+import de.bitbrain.craft.ui.dialog.DialogBuilder;
 
 /**
  * Title screen of the gameO
@@ -59,6 +61,8 @@ public class TitleScreen extends AbstractScreen {
 	private TextButton btnPlay;
 	
 	private Label lblCredits;
+
+	private Dialog closeDialog;
 
 	/* (non-Javadoc)
 	 * @see de.bitbrain.craft.screens.MenuScreen#onCreateStage(com.badlogic.gdx.scenes.scene2d.Stage)
@@ -81,6 +85,16 @@ public class TitleScreen extends AbstractScreen {
 		stage.addActor(btnPlay);
 		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
 		stage.addActor(lblCredits);
+		
+		DialogBuilder dBuilder = new DialogBuilder();
+		closeDialog = dBuilder.content("Do you really want to quit the game?")
+				.enableAbort("No")
+				.enableSubmit("Yes", new ClickListener() {
+					 @Override
+					public void clicked(InputEvent event, float x, float y) {
+						Gdx.app.exit();
+					}
+				}).build(false);
 	}
 
 	/* (non-Javadoc)
@@ -148,7 +162,7 @@ public class TitleScreen extends AbstractScreen {
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
-			Gdx.app.exit();
+			closeDialog.show();
 		}
 	}
 }	
