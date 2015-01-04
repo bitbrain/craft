@@ -43,6 +43,7 @@ import de.bitbrain.craft.graphics.shader.BlurShader;
 import de.bitbrain.craft.graphics.shader.ShadeArea;
 import de.bitbrain.craft.graphics.shader.ShaderManager;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.tweens.BlurShaderTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
 import de.bitbrain.craft.util.DragDropHandler;
@@ -56,7 +57,7 @@ import de.bitbrain.craft.util.DragDropHandler;
  */
 public class UIRenderer implements ShadeArea {
 
-	private static final float OVERLAY_OPACITY = 0.3f;
+	private static final float OVERLAY_OPACITY = 0.4f;
 
 	private static final float OVERLAY_FADE = 0.4f;
 
@@ -101,7 +102,9 @@ public class UIRenderer implements ShadeArea {
 		overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
 		overlay.setAlpha(0f);
 		vertBlur = new BlurShader(false);
+		vertBlur.setBlurSize(0f);
 		horBlur = new BlurShader(true);
+		horBlur.setBlurSize(0f);
 		shaderManager.add(this, vertBlur, horBlur);
 	}
 
@@ -122,19 +125,14 @@ public class UIRenderer implements ShadeArea {
 		case OVERLAY:
 			Gdx.input.setInputProcessor(overlayStage);
 			if (this.mode != mode) {
-				tweenManager.killTarget(overlay);
-				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
-						.target(OVERLAY_OPACITY)
-						.ease(TweenEquations.easeOutQuad).start(tweenManager);
+				animateFadeIn();
 			}
 			break;
 		case NORMAL:
 		default:
 			Gdx.input.setInputProcessor(baseStage);
 			if (this.mode != mode) {
-				tweenManager.killTarget(overlay);
-				Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f)
-						.ease(TweenEquations.easeOutQuad).start(tweenManager);
+				animateFadeOut();
 			}
 			break;
 		}
@@ -216,5 +214,36 @@ public class UIRenderer implements ShadeArea {
 			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
 			overlay.draw(batch);
 		}
+	}
+	
+	private void killAnimations() {
+		tweenManager.killTarget(overlay);
+		tweenManager.killTarget(vertBlur);
+		tweenManager.killTarget(horBlur);
+	}
+	
+	private void animateFadeIn() {
+		killAnimations();
+		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
+				.target(OVERLAY_OPACITY)
+				.ease(TweenEquations.easeOutQuad).start(tweenManager);
+		Tween.to(vertBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+				.target(0.5f)
+				.ease(TweenEquations.easeOutQuad).start(tweenManager);
+		Tween.to(horBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+				.target(0.5f)
+				.ease(TweenEquations.easeOutQuad).start(tweenManager);
+	}
+	
+	private void animateFadeOut() {
+		killAnimations();
+		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f)
+				.ease(TweenEquations.easeOutQuad).start(tweenManager);
+		Tween.to(vertBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+				.target(0f)
+				.ease(TweenEquations.easeOutQuad).start(tweenManager);
+		Tween.to(horBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+				.target(0f)
+				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 	}
 }

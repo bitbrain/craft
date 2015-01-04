@@ -43,6 +43,10 @@ public class BlurShader extends AbstractShader<BlurShader> {
 	public void setBlurSize(float blurSize) {
 		this.blurSize = blurSize;
 	}
+	
+	public float getBlurSize() {
+		return blurSize;
+	}
 
 	/* (non-Javadoc)
 	 * @see de.myreality.galacticum.graphics.shader.Shader#update(float)

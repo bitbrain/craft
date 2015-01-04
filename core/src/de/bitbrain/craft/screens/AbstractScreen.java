@@ -128,8 +128,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		
+	public void resize(int width, int height) {		
 		if (uiRenderer == null) {
 			uiRenderer = new UIRenderer(width, height, createViewport(), batch);
 			overlay.setRenderer(uiRenderer);
@@ -139,7 +138,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 			onCreateStage(uiRenderer.getBase());
 			fader.fadeIn();
 		} else {
-			uiRenderer.resize(getWorldWidth(width), getWorldHeight(height));
+			uiRenderer.resize(width, height);
 		}
 		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
 	}

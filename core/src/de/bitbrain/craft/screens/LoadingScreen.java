@@ -40,8 +40,10 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.graphics.ParticleRenderer;
+import de.bitbrain.craft.graphics.shader.BlurShader;
 import de.bitbrain.craft.migration.DataMigrator;
 import de.bitbrain.craft.tweens.ActorTween;
+import de.bitbrain.craft.tweens.BlurShaderTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.tweens.VectorTween;
@@ -155,7 +157,8 @@ public class LoadingScreen implements Screen {
 		Tween.registerAccessor(IconManager.class, new FadeableTween());
 		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
 		Tween.registerAccessor(Vector2.class, new VectorTween());
-		Gdx.app.log("INFO", "Tweens registered.");
+		Tween.registerAccessor(BlurShader.class, new BlurShaderTween());
+		Gdx.app.log("INFO", "Tween accessors registered.");
 	}
 	
 	@SuppressWarnings("unused")

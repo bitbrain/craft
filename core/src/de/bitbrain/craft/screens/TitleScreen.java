@@ -96,6 +96,7 @@ public class TitleScreen extends AbstractScreen {
 		      .width(btnPlay.getWidth() * 1.15f)
 		      .height(btnPlay.getHeight() * 1.15f)
 		      .row().padTop(70f);
+		btnPlay.getLabel().setFontScale(1.3f);
 		
 		// Credits
 		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
