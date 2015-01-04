@@ -174,7 +174,7 @@ public class UIRenderer {
 		if (isOverlayMode()) {
 			buffer.end();
 		}
-		if (overlay.getColor().a > 0) {
+		if (isOverlayMode() || overlay.getColor().a > 0) {
 			batch.begin();
 			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
 					buffer.getHeight(), 0, 0, buffer.getWidth(),
