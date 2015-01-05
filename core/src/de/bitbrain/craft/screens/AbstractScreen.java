@@ -159,7 +159,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	}
 
 	@Override
-	public void hide() { 
+	public void hide() {
 		eventBus.unsubscribe(this);
 	}
 

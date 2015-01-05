@@ -62,9 +62,6 @@ public class LoadingScreen implements Screen {
 	private DataMigrator migrator;
 	
 	@Inject
-	private TitleScreen screen;
-	
-	@Inject
 	private CraftGame game;
 	
 	private boolean drawed = false;
@@ -140,7 +137,7 @@ public class LoadingScreen implements Screen {
 		//loadCursor();
 		Bundles.load();
 		migrator.migrate();
-		game.setScreen(screen);
+		game.setScreen(TitleScreen.class);
 	}
 	
 	private void loadResources() {

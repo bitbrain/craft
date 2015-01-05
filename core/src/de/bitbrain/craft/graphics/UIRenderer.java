@@ -228,10 +228,10 @@ public class UIRenderer implements ShadeArea {
 				.target(OVERLAY_OPACITY)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 		Tween.to(vertBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0.5f)
+				.target(0.3f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 		Tween.to(horBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0.5f)
+				.target(0.3f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 	}
 	

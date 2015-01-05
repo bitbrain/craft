@@ -54,7 +54,6 @@ import de.bitbrain.craft.ui.dialog.DialogBuilder;
  * @since 1.0
  * @version 1.0
  */
-@StateScoped
 public class TitleScreen extends AbstractScreen {	
 	
 	private TextButton btnPlay;
