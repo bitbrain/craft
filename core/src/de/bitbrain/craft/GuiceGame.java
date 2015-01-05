@@ -60,4 +60,9 @@ public abstract class GuiceGame extends Game {
 		super.setScreen(screen);
 		current = screen;
 	}
+	
+	@Override
+	public void setScreen(Screen screen) {
+		setScreen(screen.getClass());
+	}
 }
