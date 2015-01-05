@@ -66,7 +66,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	protected EventBus eventBus;
 	
 	@Inject
-	private CraftGame game;
+	protected CraftGame game;
 	
 	@Inject
 	private Overlay overlay;
@@ -145,11 +145,11 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 
 	@Override
 	public final void show() {
+		onShow();
 		eventBus.subscribe(this);
 		batch = new SpriteBatch();
 		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
 		background.flip(false, true);
-		onShow();
 	}
 
 	@Override
@@ -198,6 +198,10 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	}
 	
 	protected void onUpdate(float delta) { }
+	
+	protected Sprite getBackground() {
+		return background;
+	}
 	
 	@Override
 	public void afterFadeIn() {

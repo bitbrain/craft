@@ -19,22 +19,22 @@
 
 package de.bitbrain.craft.screens;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Bundles;
-import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager;
@@ -56,88 +56,17 @@ import de.bitbrain.craft.util.AssetReflector;
  * @since 1.0
  * @version 1.0
  */
-public class LoadingScreen implements Screen {
+public class LoadingScreen extends AbstractScreen {
 	
 	@Inject
 	private DataMigrator migrator;
+
+	private ExecutorService executor;
 	
-	@Inject
-	private CraftGame game;
+	private Future<?> future;
 	
-	private boolean drawed = false;
-	
-	private Texture background;
-	
-	private Batch batch;
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#render(float)
-	 */
-	@Override
-	public void render(float delta) {
-		if (drawed) {
-			loadGame();
-		} else {
-			batch.begin();
-			batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			batch.end();
-			drawed = true;
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#resize(int, int)
-	 */
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#show()
-	 */
-	@Override
-	public void show() {
-		background = new Texture(Gdx.files.internal("images/loadscreen.png"));
-		batch = new SpriteBatch();
-	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#hide()
-	 */
-	@Override
-	public void hide() {
-	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#pause()
-	 */
-	@Override
-	public void pause() {
-	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#resume()
-	 */
-	@Override
-	public void resume() {
-	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Screen#dispose()
-	 */
-	@Override
-	public void dispose() {
-		background.dispose();
-	}
-	
-	private void loadGame() {
-		DriverProvider.initialize();
-		loadResources();	
-		registerTweens();
-		//loadCursor();
-		Bundles.load();
-		migrator.migrate();
-		game.setScreen(TitleScreen.class);
+	public LoadingScreen() {
+		executor = Executors.newFixedThreadPool(5);
 	}
 	
 	private void loadResources() {
@@ -157,13 +86,36 @@ public class LoadingScreen implements Screen {
 		Tween.registerAccessor(BlurShader.class, new BlurShaderTween());
 		Gdx.app.log("INFO", "Tween accessors registered.");
 	}
+
+	@Override
+	protected void onCreateStage(Stage stage) {
+
+	}
+
+	@Override
+	protected void onDraw(Batch batch, float delta) {
+		if (future.isDone()) {
+			getBackground().setAlpha(1.0f);
+			game.setScreen(TitleScreen.class);
+		}
+	}
+
+	@Override
+	protected void onShow() {
+		loadResources();
+		future = executor.submit(new GameLoader());
+	}
 	
-	@SuppressWarnings("unused")
-	private void loadCursor() {
-		Pixmap pm = new Pixmap(Gdx.files.internal("images/cursor.png"));
-        int xHotSpot = pm.getWidth() / 2;
-        int yHotSpot = pm.getHeight() / 2;        
-        Gdx.input.setCursorImage(pm, xHotSpot, yHotSpot);
-        pm.dispose();
+	private class GameLoader implements Runnable {
+		@Override
+		public void run() {
+			DriverProvider.initialize();	
+			registerTweens();
+			Bundles.load();
+			migrator.migrate();
+			for (int i = 0; i < 100000; ++i) {
+				System.out.println(i);
+			}
+		}		
 	}
 }
