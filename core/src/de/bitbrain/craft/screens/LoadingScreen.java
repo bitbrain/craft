@@ -32,10 +32,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DriverProvider;
@@ -47,6 +51,7 @@ import de.bitbrain.craft.tweens.BlurShaderTween;
 import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.tweens.VectorTween;
+import de.bitbrain.craft.ui.LoadingIndicator;
 import de.bitbrain.craft.util.AssetReflector;
 
 /**
@@ -57,30 +62,31 @@ import de.bitbrain.craft.util.AssetReflector;
  * @version 1.0
  */
 public class LoadingScreen extends AbstractScreen {
-	
+
 	@Inject
 	private DataMigrator migrator;
 
 	private ExecutorService executor;
-	
+
 	private Future<?> future;
-	
+
 	public LoadingScreen() {
 		executor = Executors.newFixedThreadPool(5);
 	}
-	
+
 	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();		
-		AssetReflector reflector = new AssetReflector(mgr);		
-		reflector.load();		
+		AssetManager mgr = SharedAssetManager.getInstance();
+		AssetReflector reflector = new AssetReflector(mgr);
+		reflector.load();
 		Styles.load();
 	}
-	
+
 	private void registerTweens() {
 		Gdx.app.log("INFO", "Registering tweens...");
 		Tween.registerAccessor(Sprite.class, new SpriteTween());
 		Tween.registerAccessor(Actor.class, new ActorTween());
 		Tween.registerAccessor(IconManager.class, new FadeableTween());
+		Tween.registerAccessor(LoadingIndicator.class, new FadeableTween());
 		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
 		Tween.registerAccessor(Vector2.class, new VectorTween());
 		Tween.registerAccessor(BlurShader.class, new BlurShaderTween());
@@ -89,7 +95,13 @@ public class LoadingScreen extends AbstractScreen {
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-
+		Table layout = new Table();
+		layout.setFillParent(true);
+		LoadingIndicator indicator = new LoadingIndicator(tweenManager);
+		indicator.setWidth(Gdx.graphics.getWidth() / 8f);
+		indicator.setHeight(Gdx.graphics.getWidth() / 8f);
+		layout.add(indicator);
+		stage.addActor(layout);
 	}
 
 	@Override
@@ -103,19 +115,21 @@ public class LoadingScreen extends AbstractScreen {
 	@Override
 	protected void onShow() {
 		loadResources();
+		registerTweens();
 		future = executor.submit(new GameLoader());
 	}
-	
+
 	private class GameLoader implements Runnable {
 		@Override
 		public void run() {
-			DriverProvider.initialize();	
-			registerTweens();
+			DriverProvider.initialize();
 			Bundles.load();
 			migrator.migrate();
-			for (int i = 0; i < 100000; ++i) {
-				System.out.println(i);
-			}
-		}		
+		}
+	}
+
+	@Override
+	protected Viewport createViewport() {
+		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
 	}
 }

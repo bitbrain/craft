@@ -42,7 +42,6 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.ui.UIFactory;
 import de.bitbrain.craft.ui.dialog.Dialog;
 import de.bitbrain.craft.ui.dialog.DialogBuilder;
