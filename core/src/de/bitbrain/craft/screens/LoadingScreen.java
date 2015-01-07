@@ -98,8 +98,8 @@ public class LoadingScreen extends AbstractScreen {
 		Table layout = new Table();
 		layout.setFillParent(true);
 		LoadingIndicator indicator = new LoadingIndicator(tweenManager);
-		indicator.setWidth(Gdx.graphics.getWidth() / 8f);
-		indicator.setHeight(Gdx.graphics.getWidth() / 8f);
+		indicator.setWidth(Gdx.graphics.getWidth() / 7f);
+		indicator.setHeight(Gdx.graphics.getWidth() / 7f);
 		layout.add(indicator);
 		stage.addActor(layout);
 	}
@@ -125,6 +125,7 @@ public class LoadingScreen extends AbstractScreen {
 			DriverProvider.initialize();
 			Bundles.load();
 			migrator.migrate();
+			while (true);
 		}
 	}
 

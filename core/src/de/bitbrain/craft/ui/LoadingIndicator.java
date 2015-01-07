@@ -20,15 +20,15 @@ import de.bitbrain.craft.util.Fadeable;
 
 public class LoadingIndicator extends Actor implements Fadeable {
 	
-	private static final float TIME = 0.1f;
+	private static final float TIME = 0.08f;
 	
-	private static final int PADDING = 3;
+	private static final int PADDING = 5;
 	
 	private List<Sprite> blocks;
 	
 	private TweenManager tweenManager;
 	
-	private float alpha = 0.3f;
+	private float alpha = 0.1f;
 	
 	public LoadingIndicator(TweenManager tweenManager) {
 		this.tweenManager = tweenManager;
@@ -43,19 +43,19 @@ public class LoadingIndicator extends Actor implements Fadeable {
 			Texture texture = GraphicsFactory.createTexture(8, 8, Assets.CLR_YELLOW_SAND);
 			for (int i = 0; i < 8; ++i) {
 				Sprite block = new Sprite(texture);
-				block.setAlpha(1f);
-				Tween.to(block, SpriteTween.ALPHA, TIME)
-				     .target(0.2f)
-					 .delay(TIME * i)
-					 .repeat(Tween.INFINITY, TIME * 7 )
-					 .ease(TweenEquations.easeOutBack)
+				block.setAlpha(0f);
+				Tween.from(block, SpriteTween.ALPHA, TIME * 7)
+				     .target(1f)
+					 .delay(TIME * (8 - i))
+					 .repeat(Tween.INFINITY, 0f)
+					 .ease(TweenEquations.easeOutQuad)
 					 .start(tweenManager);
 				blocks.add(block);
 			}
-			Tween.to(this, FadeableTween.DEFAULT, TIME * 4)
-				.target(0.5f)
+			Tween.to(this, FadeableTween.DEFAULT, TIME * 8)
+				.target(0.7f)
 				.repeatYoyo(Tween.INFINITY, 0f)
-				.ease(TweenEquations.easeOutQuad)
+				.ease(TweenEquations.easeInOutQuad)
 				.start(tweenManager);
 		}
 		final int BLOCK_SIZE = (int) (getWidth() / 3f);
