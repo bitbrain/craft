@@ -100,13 +100,14 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		camera.update();			
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-			background.setBounds(
-					camera.position.x - camera.viewportWidth / 2, 
-					camera.position.y - camera.viewportHeight / 2, 
-					camera.viewportWidth, 
-					camera.viewportHeight);
-			background.draw(batch);
-			
+			if (background != null) {
+				background.setBounds(
+						camera.position.x - camera.viewportWidth / 2, 
+						camera.position.y - camera.viewportHeight / 2, 
+						camera.viewportWidth, 
+						camera.viewportHeight);
+				background.draw(batch);
+			}			
 			onDraw(batch, delta);
 		batch.end();
 		
@@ -148,8 +149,10 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		onShow();
 		eventBus.subscribe(this);
 		batch = new SpriteBatch();
-		background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
-		background.flip(false, true);
+		if (SharedAssetManager.isLoaded(Assets.TEX_BACKGROUND_01)) {
+			background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
+			background.flip(false, true);
+		}
 	}
 
 	@Override

@@ -52,6 +52,10 @@ public class SharedAssetManager {
 		return getInstance().get(s, clss);
 	}
 	
+	public static boolean isLoaded(String s) {
+		return getInstance().isLoaded(s);
+	}
+	
 	public static void dispose() {
 		if (instance != null) {
 			Gdx.app.log("DISPOSE", "Unload resources..");

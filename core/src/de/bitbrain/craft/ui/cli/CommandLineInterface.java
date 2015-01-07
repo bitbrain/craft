@@ -114,16 +114,18 @@ public class CommandLineInterface extends Table {
 	}
 	
 	private void initialize() {
-		setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius())));
-		textField = new TextField("", Styles.TXT_COMMANDLINE);
-		textField.setWidth(getWidth());
-		LabelStyle consoleStyle = new LabelStyle();
-		consoleStyle.font = SharedAssetManager.get(Assets.FNT_MONO, BitmapFont.class);
-		consoleStyle.fontColor = Color.GRAY;
-		add(new Label("$ ", consoleStyle));
-		add(textField).width(getWidth());	
-		setY(Sizes.worldHeight() - textField.getHeight());
-		setHeight(textField.getHeight());
+		if (SharedAssetManager.isLoaded(Assets.TEX_PANEL_TRANSPARENT_9patch)) {
+			setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius())));
+			textField = new TextField("", Styles.TXT_COMMANDLINE);
+			textField.setWidth(getWidth());
+			LabelStyle consoleStyle = new LabelStyle();
+			consoleStyle.font = SharedAssetManager.get(Assets.FNT_MONO, BitmapFont.class);
+			consoleStyle.fontColor = Color.GRAY;
+			add(new Label("$ ", consoleStyle));
+			add(textField).width(getWidth());	
+			setY(Sizes.worldHeight() - textField.getHeight());
+			setHeight(textField.getHeight());
+		}
 	}
 	
 	private class History {

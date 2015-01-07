@@ -26,7 +26,6 @@ import java.util.concurrent.Future;
 import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -69,16 +68,11 @@ public class LoadingScreen extends AbstractScreen {
 	private ExecutorService executor;
 
 	private Future<?> future;
+	
+	private AssetReflector reflector;
 
 	public LoadingScreen() {
 		executor = Executors.newFixedThreadPool(5);
-	}
-
-	private void loadResources() {
-		AssetManager mgr = SharedAssetManager.getInstance();
-		AssetReflector reflector = new AssetReflector(mgr);
-		reflector.load();
-		Styles.load();
 	}
 
 	private void registerTweens() {
@@ -106,17 +100,17 @@ public class LoadingScreen extends AbstractScreen {
 
 	@Override
 	protected void onDraw(Batch batch, float delta) {
-		if (future.isDone()) {
-			getBackground().setAlpha(1.0f);
+		if (future.isDone() && !reflector.loadNext()) {
+			Styles.load();
 			game.setScreen(TitleScreen.class);
 		}
 	}
 
 	@Override
 	protected void onShow() {
-		loadResources();
 		registerTweens();
 		future = executor.submit(new GameLoader());
+		reflector = new AssetReflector(SharedAssetManager.getInstance());
 	}
 
 	private class GameLoader implements Runnable {
@@ -125,7 +119,6 @@ public class LoadingScreen extends AbstractScreen {
 			DriverProvider.initialize();
 			Bundles.load();
 			migrator.migrate();
-			while (true);
 		}
 	}
 
