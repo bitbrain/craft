@@ -109,8 +109,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 				background.draw(batch);
 			}			
 			onDraw(batch, delta);
-		batch.end();
-		
+		batch.end();		
 		if (uiRenderer != null) {
 			uiRenderer.render(delta);
 			camera.update();
@@ -118,12 +117,10 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 			batch.setProjectionMatrix(camera.combined);
 			onStageDraw(batch, delta);
 			batch.end();
-		}
-		
+		}		
 		batch.begin();
 			particleRenderer.render(batch, delta);
-		batch.end();
-		
+		batch.end();		
 		uiRenderer.render(delta);
 		fader.render(batch);
 	}

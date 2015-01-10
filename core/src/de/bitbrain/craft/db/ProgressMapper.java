@@ -21,7 +21,6 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
-import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Progress;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;

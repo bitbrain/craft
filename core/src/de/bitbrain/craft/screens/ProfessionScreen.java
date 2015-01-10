@@ -32,7 +32,6 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelectionView;
 import de.bitbrain.craft.ui.ProfessionSelectionView.ProfessionSelectListener;

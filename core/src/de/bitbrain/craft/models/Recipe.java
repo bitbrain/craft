@@ -49,8 +49,6 @@ public class Recipe implements Identifiable {
 	
 	private Icon icon;
 	
-	private int level;
-	
 	public void setDescription(String description) {
 		this.description = description;
 	}
