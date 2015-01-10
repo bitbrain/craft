@@ -19,11 +19,6 @@
 
 package de.bitbrain.craft.models;
 
-import java.util.List;
-
-import de.bitbrain.craft.core.Icon;
-import de.bitbrain.craft.util.Identifiable;
-import de.bitbrain.jpersis.annotations.Ignored;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
@@ -33,68 +28,62 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  * @since 1.0
  * @version 1.0
  */
-public class Recipe implements Identifiable {
+public class Recipe {
 
-	@PrimaryKey
-	private String id;
+	@PrimaryKey(true)
+	private int id;
 	
-	@Ignored
-	private List<String> itemIds;
+	private String itemId;
 	
-	private String productId;
+	private int amount;
 	
-	private String name;
-	
-	private String description;
-	
-	private Icon icon;
-	
-	public void setDescription(String description) {
-		this.description = description;
+	public int getAmount() {
+		return amount;
 	}
 	
-	public void setIcon(Icon icon) {
-		this.icon = icon;
-	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public void setItemIds(List<String> items) {
-		this.itemIds = items;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
-	public Icon getIcon() {
-		return icon;
-	}
-	
-	@Override
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public String getProductId() {
-		return productId;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 	
-	public void setProductId(String product) {
-		this.productId = product;
+	public String getItemId() {
+		return itemId;
 	}
 	
-	public List<String> getItemIds() {
-		return itemIds;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + amount;
+		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Recipe other = (Recipe) obj;
+		if (amount != other.amount)
+			return false;
+		if (itemId == null) {
+			if (other.itemId != null)
+				return false;
+		} else if (!itemId.equals(other.itemId))
+			return false;
+		return true;
 	}
 	
-	public String getName() {
-		return name;
-	}
+	
 }

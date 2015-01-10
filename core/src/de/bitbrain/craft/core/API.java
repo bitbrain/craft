@@ -98,14 +98,6 @@ public interface API {
 	boolean removeItem(int playerId, String id, int amount);
 	
 	/**
-	 * Returns all recipes of the profession
-	 * 
-	 * @param profession the profession
-	 * @return collection of recipes
-	 */
-	Collection<Recipe> getRecipes(Profession profession);
-	
-	/**
 	 * Returns the first found player
 	 * 
 	 * @return first found player

@@ -43,7 +43,10 @@ public interface RecipeMapper {
 	Collection<Recipe> findAll();
 	
 	@Select(condition = "id = $1")
-	Recipe findById(String id);
+	Recipe findById(int id);
+	
+	@Select(condition = "item_id = $1")
+	Recipe findByItem(String itemId);
 	
 	@Insert
 	boolean insert(Recipe recipe);
