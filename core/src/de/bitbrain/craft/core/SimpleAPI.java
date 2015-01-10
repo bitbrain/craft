@@ -26,6 +26,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.db.ItemMapper;
+import de.bitbrain.craft.db.LearnedRecipeMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
 import de.bitbrain.craft.db.ProgressMapper;
@@ -37,10 +38,12 @@ import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
+import de.bitbrain.craft.models.LearnedRecipe;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
+import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.jpersis.JPersis;
 
 /**
@@ -57,6 +60,7 @@ class SimpleAPI implements API {
 	private PlayerMapper playerMapper;
 	private ProgressMapper progressMapper;
 	private RecipeMapper recipeMapper;
+	private LearnedRecipeMapper learnedRecipeMapper;
 	
 	@Inject
 	private JPersis jpersis;
@@ -68,6 +72,7 @@ class SimpleAPI implements API {
 		playerMapper = jpersis.map(PlayerMapper.class);
 		progressMapper = jpersis.map(ProgressMapper.class);
 		recipeMapper = jpersis.map(RecipeMapper.class);
+		learnedRecipeMapper = jpersis.map(LearnedRecipeMapper.class);
 	}
 	
 	@Override
@@ -206,7 +211,12 @@ class SimpleAPI implements API {
 
 	@Override
 	public boolean canCraft(Player player, String itemId) {
-		return true;
+		Recipe recipe = recipeMapper.findByItemId(itemId);
+		if (recipe != null) {
+			LearnedRecipe learned = learnedRecipeMapper.findByRecipeId(recipe.getId());
+			return learned != null;
+		}
+		return false;
 	}
 
 	@Override

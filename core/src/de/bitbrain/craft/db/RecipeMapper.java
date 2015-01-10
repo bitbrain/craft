@@ -46,7 +46,7 @@ public interface RecipeMapper {
 	Recipe findById(int id);
 	
 	@Select(condition = "item_id = $1")
-	Recipe findByItem(String itemId);
+	Recipe findByItemId(String itemId);
 	
 	@Insert
 	boolean insert(Recipe recipe);
