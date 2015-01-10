@@ -228,14 +228,4 @@ class SimpleAPI implements API {
 	private EventBus bus() {
 		return SharedInjector.get().getInstance(EventBus.class);
 	}
-
-	@Override
-	public boolean isValidRecipe(String id) {
-		return recipeMapper.findByItem(id) != null;
-	}
-
-	@Override
-	public boolean isValidItem(String id) {
-		return itemMapper.findById(id) != null;
-	}
 }

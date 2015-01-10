@@ -25,8 +25,6 @@ import java.util.Map;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.models.Profession;
-import de.bitbrain.craft.models.Recipe;
 
 /**
  * Overall craft API interface
@@ -148,22 +146,6 @@ public interface API {
 	 * @param playerId
 	 */
 	void clearItems(int playerId);
-	
-	/**
-	 * Checks weather a recipe exists or not
-	 * 
-	 * @param id recipe id
-	 * @return true when existing
-	 */
-	boolean isValidRecipe(String id);
-	
-	/**
-	 * Checks weather an item exists or not
-	 * 
-	 * @param id item id
-	 * @return true if existing
-	 */
-	boolean isValidItem(String id);
 	
 	/**
 	 * Is thrown as an API error occurs

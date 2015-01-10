@@ -43,42 +43,45 @@ import de.bitbrain.craft.ui.elements.ElementData;
  * @version 1.0
  */
 public class ProfessionView extends Actor {
-	
+
 	private ProfessionLogic professionLogic;
-	
+
 	@Inject
 	private EventBus eventBus;
-	
+
 	@Inject
 	private API api;
-	
+
 	public ProfessionView(ProfessionLogic professionLogic) {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.
+	 * g2d.Batch, float)
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		//Texture texture = SharedAssetManager.get(Assets.TEX_BUTTON_GREEN, Texture.class);
-		//batch.draw(texture, getX(), getY(), getWidth(),	getHeight());
+		// Texture texture = SharedAssetManager.get(Assets.TEX_BUTTON_GREEN,
+		// Texture.class);
+		// batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 	}
-	
+
 	@Handler
 	public void onEvent(MouseEvent<?> event) {
-		if (event.getType().equals(EventType.MOUSEDROP) &&
-			event.getModel() instanceof ElementData) {
+		if (event.getType().equals(EventType.MOUSEDROP)
+				&& event.getModel() instanceof ElementData) {
 			ElementData data = (ElementData) event.getModel();
-			if (api.isValidItem(data.getId())) {
-				Item item = api.getItem(data.getId());
-				if (professionLogic.add(item)) {
-					// Item accepted, remove it from system
-					api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
-				}
+			Item item = api.getItem(data.getId());
+			if (item != null && professionLogic.add(item)) {
+				// Item accepted, remove it from system
+				api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
 			}
 		}
 	}
