@@ -36,21 +36,21 @@ public class ItemMigrationJob {
 
 	@Migrate(Migrations.RELEASE)
 	public void migrateItemsRelease(API api) {
-		api.registerItem(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON);
-		api.registerItem(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON);
-		api.registerItem(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE);
-		api.registerItem(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR);
-		api.registerItem(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON);
-		api.registerItem(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE);
-		api.registerItem(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE);
-		api.registerItem(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC);
-		api.registerItem(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON);
-		api.registerItem(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE);
-		api.registerItem(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON);
-		api.registerItem(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON);
-		api.registerItem(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON);
-		api.registerItem(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON);
-		api.registerItem(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE);		
+		api.registerItem(ItemId.ACID_1.getId(), Icon.ACID_1, Rarity.COMMON, 1);
+		api.registerItem(ItemId.ACID_2.getId(), Icon.ACID_2, Rarity.COMMON, 2);
+		api.registerItem(ItemId.BENTAGON.getId(), Icon.BENTAGON, Rarity.RARE, 2);
+		api.registerItem(ItemId.DARKSTONE.getId(), Icon.DARKSTONE, Rarity.SUPERIOR, 3);
+		api.registerItem(ItemId.DUST.getId(), Icon.DUST, Rarity.COMMON, 1);
+		api.registerItem(ItemId.FLUX.getId(), Icon.FLUX, Rarity.RARE, 1);
+		api.registerItem(ItemId.GRAYSTONE.getId(), Icon.GRAYSTONE, Rarity.RARE, 1);
+		api.registerItem(ItemId.JEWEL_DIAMOND_MEDIUM.getId(), Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC, 3);
+		api.registerItem(ItemId.MERCURY.getId(), Icon.MERCURY, Rarity.COMMON, 2);
+		api.registerItem(ItemId.MOLTEN_SAND.getId(), Icon.MOLTEN_SAND, Rarity.RARE, 2);
+		api.registerItem(ItemId.PHIOLE_MEDIUM.getId(), Icon.PHIOLE_MEDIUM, Rarity.COMMON, 2);
+		api.registerItem(ItemId.PHIOLE_SMALL.getId(), Icon.PHIOLE_SMALL, Rarity.COMMON, 1);
+		api.registerItem(ItemId.SULFUR.getId(), Icon.SULFUR, Rarity.COMMON, 1);
+		api.registerItem(ItemId.WATER.getId(), Icon.WATER, Rarity.COMMON, 1);
+		api.registerItem(ItemId.XENOCITE.getId(), Icon.XENOCITE, Rarity.RARE, 2);		
 	}
 
 }

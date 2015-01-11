@@ -141,7 +141,7 @@ public interface API {
 	 * @param icon icon of the item
 	 * @param rarity rarity of the item
 	 */
-	void registerItem(String itemId, Icon icon, Rarity rarity);
+	void registerItem(String itemId, Icon icon, Rarity rarity, int level);
 	
 
 	/**
@@ -164,7 +164,7 @@ public interface API {
 	 * 
 	 * @param data recipe data
 	 */
-	Recipe addRecipe(RecipeData data);
+	Recipe registerRecipe(RecipeData data);
 	
 	/**
 	 * Is thrown as an API error occurs

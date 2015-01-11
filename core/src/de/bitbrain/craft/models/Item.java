@@ -42,6 +42,8 @@ public class Item implements Identifiable {
 	
 	private Rarity rarity = Rarity.COMMON;
 	
+	private int level = 1;
+	
 	private Class<? extends Effect> effect = Effect.class;
 	
 	public Item() {
@@ -85,6 +87,14 @@ public class Item implements Identifiable {
 	
 	public Class<? extends Effect> getEffect() {
 		return effect;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
+	
+	public void setLevel(int level) {
+		this.level = level;
 	}
 	
 	public static enum Rarity {

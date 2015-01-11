@@ -202,10 +202,11 @@ class SimpleAPI implements API {
 	}
 
 	@Override
-	public void registerItem(String itemId, Icon icon, Rarity rarity) {
+	public void registerItem(String itemId, Icon icon, Rarity rarity, int level) {
 		Item item = itemMapper.findById(itemId);		
 		if (item == null) {
 			item = new Item(itemId, icon, rarity);
+			item.setLevel(level);
 			itemMapper.insert(item);
 		}
 	}
@@ -242,7 +243,7 @@ class SimpleAPI implements API {
 	}
 
 	@Override
-	public Recipe addRecipe(RecipeData data) {
+	public Recipe registerRecipe(RecipeData data) {
 		Recipe recipe = new Recipe();
 		recipe.setItemId(data.itemId.getId());
 		recipe.setAmount(data.amount);
