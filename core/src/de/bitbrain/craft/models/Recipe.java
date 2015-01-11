@@ -37,6 +37,8 @@ public class Recipe {
 	
 	private int amount;
 	
+	private Profession profession;
+	
 	public int getAmount() {
 		return amount;
 	}
@@ -55,6 +57,14 @@ public class Recipe {
 	
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
+	}
+	
+	public void setProfession(Profession profession) {
+		this.profession = profession;
+	}
+	
+	public Profession getProfession() {
+		return profession;
 	}
 
 	@Override

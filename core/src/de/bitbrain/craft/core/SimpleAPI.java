@@ -25,6 +25,7 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
 import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.db.LearnedRecipeMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
@@ -234,7 +235,23 @@ class SimpleAPI implements API {
 			bus().fireEvent(new ElementEvent<Item>(EventType.REMOVE, getItem(item.getItemId()), item.getAmount()));
 		}
 	}
-	
+
+	@Override
+	public Recipe addRecipe(RecipeData data) {
+		Recipe recipe = new Recipe();
+		recipe.setItemId(data.itemId.getId());
+		recipe.setAmount(data.amount);
+		if (recipeMapper.insert(recipe)) {
+			
+			
+			
+			
+			return recipe;
+		} else {
+			return null;
+		}
+	}
+
 	private EventBus bus() {
 		return SharedInjector.get().getInstance(EventBus.class);
 	}

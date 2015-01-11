@@ -15,16 +15,26 @@ public class Goal {
 	@PrimaryKey(true)
 	private int id;
 	
-	private String recipeId;
+	private int recipeId;
 	
 	private Class<? extends GoalProcessor> processor;
+	
+	private int modulator = 1;
 
-	public String getRecipeId() {
+	public int getRecipeId() {
 		return recipeId;
 	}
 
-	public void setRecipeId(String recipeId) {
+	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
+	}
+	
+	public int getModulator() {
+		return modulator;
+	}
+	
+	public void setModulator(int modulator) {
+		this.modulator = modulator;
 	}
 
 	public Class<? extends GoalProcessor> getProcessor() {
@@ -43,10 +53,10 @@ public class Goal {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + modulator;
 		result = prime * result
 				+ ((processor == null) ? 0 : processor.hashCode());
-		result = prime * result
-				+ ((recipeId == null) ? 0 : recipeId.hashCode());
+		result = prime * result + recipeId;
 		return result;
 	}
 
@@ -59,15 +69,14 @@ public class Goal {
 		if (getClass() != obj.getClass())
 			return false;
 		Goal other = (Goal) obj;
+		if (modulator != other.modulator)
+			return false;
 		if (processor == null) {
 			if (other.processor != null)
 				return false;
 		} else if (!processor.equals(other.processor))
 			return false;
-		if (recipeId == null) {
-			if (other.recipeId != null)
-				return false;
-		} else if (!recipeId.equals(other.recipeId))
+		if (recipeId != other.recipeId)
 			return false;
 		return true;
 	}

@@ -22,9 +22,11 @@ package de.bitbrain.craft.core;
 import java.util.Collection;
 import java.util.Map;
 
+import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Recipe;
 
 /**
  * Overall craft API interface
@@ -146,6 +148,13 @@ public interface API {
 	 * @param playerId
 	 */
 	void clearItems(int playerId);
+	
+	/**
+	 * Adds a new recipe to the system
+	 * 
+	 * @param data recipe data
+	 */
+	Recipe addRecipe(RecipeData data);
 	
 	/**
 	 * Is thrown as an API error occurs
