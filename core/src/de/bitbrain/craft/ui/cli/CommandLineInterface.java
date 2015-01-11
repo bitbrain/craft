@@ -91,8 +91,7 @@ public class CommandLineInterface extends Table {
 	@Override
 	public void act(float delta) {
 		if (!initialized) {
-			initialize();
-			initialized = true;
+			initialized = initialize();
 		}
 		if (isVisible()) {
 			if (!textField.getText().isEmpty() && Gdx.input.isKeyJustPressed(Keys.ENTER)) {
@@ -113,8 +112,11 @@ public class CommandLineInterface extends Table {
 		super.act(delta);
 	}
 	
-	private void initialize() {
-		if (SharedAssetManager.isLoaded(Assets.TEX_PANEL_TRANSPARENT_9patch)) {
+	private boolean initialize() {
+		if (SharedAssetManager.isLoaded(Assets.TEX_PANEL_TRANSPARENT_9patch) &&
+			SharedAssetManager.isLoaded(Assets.FNT_MONO) &&
+			Styles.TXT_COMMANDLINE != null && 
+			Styles.TXT_COMMANDLINE.font != null) {
 			setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius())));
 			textField = new TextField("", Styles.TXT_COMMANDLINE);
 			textField.setWidth(getWidth());
@@ -125,6 +127,9 @@ public class CommandLineInterface extends Table {
 			add(textField).width(getWidth());	
 			setY(Sizes.worldHeight() - textField.getHeight());
 			setHeight(textField.getHeight());
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
