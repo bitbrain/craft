@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.ui.elements;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ import de.bitbrain.craft.ui.widgets.ElementWidget;
  * @version 1.0
  */
 @StateScoped
-public class ElementConnector {
+public class ElementConnector<T> {
 	
 	private final static float SPACING = 10f;
 	
@@ -60,7 +61,14 @@ public class ElementConnector {
 	@Inject
 	private EventBus eventBus;
 	
-	public ElementConnector(WidgetGroup group, Class<?> elementClass) {
+	private Comparator<T> comparator = new Comparator<T>() {
+		@Override
+		public int compare(T o1, T o2) {
+			return 0;
+		}		
+	};
+	
+	public ElementConnector(WidgetGroup group, Class<T> elementClass) {
 		SharedInjector.get().injectMembers(this);
 		this.group = group;
 		this.elementClass = elementClass;
@@ -68,6 +76,10 @@ public class ElementConnector {
 		dataMap = new HashMap<String, ElementData>();
 		spacings = new HashMap<String, Actor>();
 		eventBus.subscribe(this);
+	}
+	
+	public void setComparator(Comparator<T> comparator) {
+		this.comparator = comparator;
 	}
 	
 	@Handler
@@ -121,7 +133,6 @@ public class ElementConnector {
 		if (!(model instanceof Item)) {
 			throw new RuntimeException(model + " can't be converted into a valid actor.");
 		}
-		
 		if (dataMap.containsKey(id)) {
 			data = dataMap.get(id);
 			data.setAmount(data.getAmount() + amount);
@@ -141,5 +152,10 @@ public class ElementConnector {
 			panel.setData(data);
 			Gdx.app.log("INFO", "Updated element with id='" + id + "' in " + group);
 		}
+		sortAndUpdate();
+	}
+	
+	private void sortAndUpdate() {
+		
 	}
 }
