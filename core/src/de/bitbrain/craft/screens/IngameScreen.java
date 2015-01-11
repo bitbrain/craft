@@ -55,6 +55,8 @@ import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.Tabs;
 import de.bitbrain.craft.ui.elements.ElementConnector;
+import de.bitbrain.craft.ui.elements.ElementData;
+import de.bitbrain.craft.ui.elements.ItemElementAdapter;
 import de.bitbrain.craft.ui.widgets.RecipeWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget;
 import de.bitbrain.craft.util.DragDropHandler;
@@ -83,7 +85,7 @@ public class IngameScreen extends AbstractScreen {
 	@Inject 
 	private RecipeWidget recipeView;
 	
-	private ElementConnector itemConnector, recipeConnector;
+	private ElementConnector<Item> itemConnector, recipeConnector;
 	
 	private ProfessionView professionView;
 	
@@ -142,7 +144,12 @@ public class IngameScreen extends AbstractScreen {
 	private Actor generateItemView() {		
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
-		itemConnector = new ElementConnector(itemView, Item.class);		
+		itemConnector = new ElementConnector<Item>(itemView, new ElementConnector.ElementDataProvider<Item>() {
+			@Override
+			public ElementData create(Item model, int amount) {
+				return new ItemElementAdapter(model, amount);
+			}		
+		}, Item.class);		
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));

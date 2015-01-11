@@ -34,7 +34,6 @@ import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
-import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.ui.widgets.ElementWidget;
 
 /** Connects element info to the database
@@ -56,10 +55,14 @@ public class ElementConnector<T> {
 	
 	private final Map<String, Actor> spacings;
 	
+	private final Map<Actor, T> values;
+	
 	private final Map<String, ElementData> dataMap;
 	
 	@Inject
 	private EventBus eventBus;
+	
+	private ElementDataProvider<T> provider;
 	
 	private Comparator<T> comparator = new Comparator<T>() {
 		@Override
@@ -68,13 +71,15 @@ public class ElementConnector<T> {
 		}		
 	};
 	
-	public ElementConnector(WidgetGroup group, Class<T> elementClass) {
+	public ElementConnector(WidgetGroup group, ElementDataProvider<T> provider, Class<T> elementClass) {
 		SharedInjector.get().injectMembers(this);
 		this.group = group;
+		this.provider = provider;
 		this.elementClass = elementClass;
 		elements = new HashMap<String, ElementWidget>();
 		dataMap = new HashMap<String, ElementData>();
 		spacings = new HashMap<String, Actor>();
+		values = new HashMap<Actor, T>();
 		eventBus.subscribe(this);
 	}
 	
@@ -82,13 +87,14 @@ public class ElementConnector<T> {
 		this.comparator = comparator;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Handler
 	public void onEvent(ElementEvent<?> message) {
 		// Only do something if message fit to this connector type
 		if (message.getModel().getClass().equals(elementClass)) {
 			switch (message.getType()) {
 			case ADD:
-				addElements(message.getModel().getId(), message.getModel(), message.getAmount());
+				addElements(message.getModel().getId(), (T) message.getModel(), message.getAmount());
 				break;
 			case REMOVE:
 				removeElements(message.getModel().getId(), message.getModel(), message.getAmount());
@@ -128,16 +134,13 @@ public class ElementConnector<T> {
 		}
 	}
 	
-	private void addElements(String id, Object model, int amount) {
+	private void addElements(String id, T model, int amount) {
 		ElementData data = null;
-		if (!(model instanceof Item)) {
-			throw new RuntimeException(model + " can't be converted into a valid actor.");
-		}
 		if (dataMap.containsKey(id)) {
 			data = dataMap.get(id);
 			data.setAmount(data.getAmount() + amount);
 		} else {
-			data = new ItemElementAdapter((Item)model, amount);
+			data = provider.create(model, amount);
 			dataMap.put(id, data);
 		}
 		
@@ -146,6 +149,7 @@ public class ElementConnector<T> {
 			elements.put(id, panel);
 			group.addActor(addSpacing(id));
 			group.addActor(panel);
+			values.put(panel, model);
 			Gdx.app.log("INFO", "Attached element with id='" + id + "' to " + group);
 		} else {
 			ElementWidget panel = elements.get(id);
@@ -157,5 +161,9 @@ public class ElementConnector<T> {
 	
 	private void sortAndUpdate() {
 		
+	}
+	
+	public interface ElementDataProvider<T> {
+		ElementData create(T model, int amount);
 	}
 }
