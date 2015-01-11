@@ -22,10 +22,14 @@ package de.bitbrain.craft.core;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
+import de.bitbrain.craft.db.GoalMapper;
+import de.bitbrain.craft.db.IngredientMapper;
 import de.bitbrain.craft.db.ItemMapper;
 import de.bitbrain.craft.db.LearnedRecipeMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
@@ -37,6 +41,8 @@ import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.models.Goal;
+import de.bitbrain.craft.models.Ingredient;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.LearnedRecipe;
@@ -62,7 +68,8 @@ class SimpleAPI implements API {
 	private ProgressMapper progressMapper;
 	private RecipeMapper recipeMapper;
 	private LearnedRecipeMapper learnedRecipeMapper;
-	
+	private GoalMapper goalMapper;
+	private IngredientMapper ingredientMapper;
 	@Inject
 	private JPersis jpersis;
 	
@@ -74,6 +81,8 @@ class SimpleAPI implements API {
 		progressMapper = jpersis.map(ProgressMapper.class);
 		recipeMapper = jpersis.map(RecipeMapper.class);
 		learnedRecipeMapper = jpersis.map(LearnedRecipeMapper.class);
+		goalMapper = jpersis.map(GoalMapper.class);
+		ingredientMapper = jpersis.map(IngredientMapper.class);
 	}
 	
 	@Override
@@ -248,10 +257,27 @@ class SimpleAPI implements API {
 		recipe.setItemId(data.itemId.getId());
 		recipe.setAmount(data.amount);
 		if (recipeMapper.insert(recipe)) {
-			
-			
-			
-			
+			// Add ingredients
+			for (Entry<ItemId, Integer> entry : data.ingredients.entrySet()) {
+				Ingredient i = new Ingredient();
+				String itemId = entry.getKey().getId();
+				i.setItemId(itemId);
+				i.setAmount(entry.getValue());
+				i.setRecipeId(recipe.getId());
+				if (!ingredientMapper.insert(i)) {
+					Gdx.app.error("ERROR", "Unable to register recipe: " + itemId + " already exists for recipe: " + recipe.getItemId());
+				}
+			}
+			// Add goals
+			for (Entry<Class<? extends GoalProcessor>, Integer> entry : data.goals.entrySet()) {
+				Goal g = new Goal();
+				g.setModulator(entry.getValue());
+				g.setProcessor(entry.getKey());
+				g.setRecipeId(recipe.getId());
+				if (!goalMapper.insert(g)) {
+					Gdx.app.error("ERROR", "Unable to add goal: " + g);
+				}
+			}
 			return recipe;
 		} else {
 			return null;
@@ -260,5 +286,21 @@ class SimpleAPI implements API {
 
 	private EventBus bus() {
 		return SharedInjector.get().getInstance(EventBus.class);
+	}
+
+	@Override
+	public boolean learnRecipe(Player player, ItemId id) {
+		Recipe recipe = recipeMapper.findByItemId(id.getId());
+		if (recipe != null && learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId()) != null) {
+			LearnedRecipe learned = new LearnedRecipe(recipe.getId(), player.getId());
+			return learnedRecipeMapper.insert(learned);
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean learnRecipe(ItemId id) {
+		return learnRecipe(Player.getCurrent(), id);
 	}
 }

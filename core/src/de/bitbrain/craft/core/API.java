@@ -167,6 +167,23 @@ public interface API {
 	Recipe registerRecipe(RecipeData data);
 	
 	/**
+	 * Teach the player to craft the given item
+	 * 
+	 * @param player player 
+	 * @param id item id
+	 * @return true if learned
+	 */
+	boolean learnRecipe(Player player, ItemId id);
+	
+	/**
+	 * Teach the current player to craft the given item
+	 * 
+	 * @param id item id
+	 * @return true if learned
+	 */
+	boolean learnRecipe(ItemId id);
+	
+	/**
 	 * Is thrown as an API error occurs
 	 *
 	 * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>

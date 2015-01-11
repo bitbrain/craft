@@ -22,80 +22,57 @@ package de.bitbrain.craft.models;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
- * Object representation of a learned recipe
+ * Object representation of an ingredient
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class LearnedRecipe {
+public class Ingredient {
 
 	@PrimaryKey(true)
 	private int id;
-
+	
 	private int recipeId;
-
-	private int playerId;
-
-	public LearnedRecipe() {
-
+	
+	private String itemId;
+	
+	private int amount;
+	
+	public int getAmount() {
+		return amount;
 	}
-
-	public LearnedRecipe(int i, int playerId) {
-		this.recipeId = i;
-		this.playerId = playerId;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	/**
-	 * @param itemId
-	 *            the itemId to set
-	 */
-	public void setRecipeId(int recipeId) {
-		this.recipeId = recipeId;
-	}
-
-	/**
-	 * @param playerId
-	 *            the playerId to set
-	 */
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-
-	/**
-	 * @return the id
-	 */
+	
 	public int getId() {
 		return id;
 	}
-
-	/**
-	 * @return the itemId
-	 */
+	
+	public String getItemId() {
+		return itemId;
+	}
+	
 	public int getRecipeId() {
 		return recipeId;
 	}
-
-	/**
-	 * @return the playerId
-	 */
-	public int getPlayerId() {
-		return playerId;
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+	
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+	
+	public void setRecipeId(int recipeId) {
+		this.recipeId = recipeId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + playerId;
+		result = prime * result + amount;
+		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
 		result = prime * result + recipeId;
 		return result;
 	}
@@ -108,12 +85,18 @@ public class LearnedRecipe {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LearnedRecipe other = (LearnedRecipe) obj;
-		if (playerId != other.playerId)
+		Ingredient other = (Ingredient) obj;
+		if (amount != other.amount)
+			return false;
+		if (itemId == null) {
+			if (other.itemId != null)
+				return false;
+		} else if (!itemId.equals(other.itemId))
 			return false;
 		if (recipeId != other.recipeId)
 			return false;
 		return true;
 	}
-
+	
+	
 }
