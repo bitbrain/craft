@@ -256,6 +256,7 @@ class SimpleAPI implements API {
 		Recipe recipe = new Recipe();
 		recipe.setItemId(data.itemId.getId());
 		recipe.setAmount(data.amount);
+		recipe.setProfession(data.profession);
 		if (recipeMapper.insert(recipe)) {
 			// Add ingredients
 			for (Entry<ItemId, Integer> entry : data.ingredients.entrySet()) {
@@ -291,7 +292,7 @@ class SimpleAPI implements API {
 	@Override
 	public boolean learnRecipe(Player player, ItemId id) {
 		Recipe recipe = recipeMapper.findByItemId(id.getId());
-		if (recipe != null && learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId()) != null) {
+		if (recipe != null && learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId()) == null) {
 			LearnedRecipe learned = new LearnedRecipe(recipe.getId(), player.getId());
 			return learnedRecipeMapper.insert(learned);
 		} else {
