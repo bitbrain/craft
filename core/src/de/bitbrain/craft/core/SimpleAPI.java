@@ -211,13 +211,18 @@ class SimpleAPI implements API {
 	}
 
 	@Override
-	public boolean canCraft(Player player, String itemId) {
+	public boolean canCraft(Player player, Profession profession, String itemId) {
 		Recipe recipe = recipeMapper.findByItemId(itemId);
-		if (recipe != null) {
-			LearnedRecipe learned = learnedRecipeMapper.findByRecipeId(recipe.getId());
+		if (recipe != null && recipe.getProfession().equals(profession)) {
+			LearnedRecipe learned = learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId());
 			return learned != null;
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean canCraft(Player player, String itemId) {
+		return canCraft(player, Profession.current, itemId);
 	}
 
 	@Override

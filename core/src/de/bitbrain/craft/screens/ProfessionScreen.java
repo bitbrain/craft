@@ -81,6 +81,7 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 	 */
 	@Override
 	public void onSelect(Profession profession) {
+		Profession.current = profession;
 		setScreen(IngameScreen.class);
 	}
 	

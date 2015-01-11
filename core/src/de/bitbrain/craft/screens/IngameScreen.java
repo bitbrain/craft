@@ -87,11 +87,9 @@ public class IngameScreen extends AbstractScreen {
 	
 	private ProfessionView professionView;
 	
-	private Profession profession = Profession.ALCHEMIST;
-	
 	@PostConstruct	
 	public void init() {
-		professionView = new ProfessionView(ProfessionLogicFactory.create(profession));
+		professionView = new ProfessionView(ProfessionLogicFactory.create(Profession.current));
 	}
 
 	@Override

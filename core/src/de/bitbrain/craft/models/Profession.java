@@ -94,4 +94,6 @@ public enum Profession {
 	public abstract String getName();
 	
 	public abstract String getDescription();
+	
+	public static Profession current;
 }

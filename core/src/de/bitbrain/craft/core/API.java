@@ -26,6 +26,7 @@ import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Recipe;
 
 /**
@@ -122,6 +123,15 @@ public interface API {
 	 * @return
 	 */
 	boolean canCraft(Player player, String itemId);
+	
+	/**
+	 * Determines if the player can craft the given item and the profession
+	 * 
+	 * @param player
+	 * @param itemId
+	 * @return
+	 */
+	boolean canCraft(Player player, Profession profession, String itemId);
 	
 
 	/**
