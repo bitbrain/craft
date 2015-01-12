@@ -92,8 +92,8 @@ public class LoadingScreen extends AbstractScreen {
 		Table layout = new Table();
 		layout.setFillParent(true);
 		LoadingIndicator indicator = new LoadingIndicator(tweenManager);
-		indicator.setWidth(Gdx.graphics.getWidth() / 7f);
-		indicator.setHeight(Gdx.graphics.getWidth() / 7f);
+		indicator.setWidth(150f);
+		indicator.setHeight(150f);
 		layout.add(indicator);
 		stage.addActor(layout);
 	}
@@ -102,6 +102,7 @@ public class LoadingScreen extends AbstractScreen {
 	protected void onDraw(Batch batch, float delta) {
 		if (future.isDone() && !reflector.loadNext()) {
 			Styles.load();
+			Gdx.app.log("INFO", "Done loading assets.");
 			game.setScreen(TitleScreen.class);
 		}
 	}

@@ -69,12 +69,9 @@ public final class Assets {
 	public static final String SND_POP 					= DIR_AUDIO + "pop.mp3";	
 	public static final String SND_TAB					= DIR_AUDIO + "tab.mp3";	
 	
-	// ---------- MUSIC ----------
-	
-	//public static final String MSC_MENU_01 				= DIR_AUDIO + "menu.mp3";		
-	
 	// ---------- TEXTURES --------
 
+	public static final String TEX_TAB_GRADIENT         = DIR_IMAGES + "ui/tab_gradient.png";
 	public static final String TEX_CURSOR 				= DIR_IMAGES + "cursor.png";
 	public static final String TEX_BACKGROUND_01 		= DIR_IMAGES + "background.png";
 	public static final String TEX_LOGO 				= DIR_IMAGES + "logo.png";
@@ -87,7 +84,6 @@ public final class Assets {
 	public static final String TEX_ALCHEMIST 			= DIR_IMAGES + "icons/ico_alchemy_flasks_overview.png";
 	public static final String TEX_PANEL_SMALL_H 		= DIR_IMAGES + "panel_small_horizontal.png";
 	public static final String TEX_PANEL_SMALL_L_H 		= DIR_IMAGES + "panel_small_light_horizontal.png";
-	public static final String TEX_TAB_GRADIENT         = DIR_IMAGES + "ui/tab_gradient.png";
 	public static final String TEX_PANEL_9patch			= DIR_IMAGES + "ui/panel.9.png";
 	public static final String TEX_PANEL_TRANSPARENT_9patch	= DIR_IMAGES + "ui/panel_transparent.9.png";
 	public static final String TEX_PANEL_BLACK_9patch	= DIR_IMAGES + "ui/panel_black.9.png";
