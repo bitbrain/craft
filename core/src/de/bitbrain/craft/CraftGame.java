@@ -42,6 +42,9 @@ public class CraftGame extends GuiceGame {
 	public void create() {		
 		Gdx.app.setLogLevel(Settings.LOGLEVEL);
 		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
+
+		Runtime r = Runtime.getRuntime();
+		System.out.println(((r.totalMemory() - r.freeMemory()) / 1024f / 1024f) + "/" + (r.totalMemory() / 1024f / 1024f) + "MB");
 		setScreen(screen);
 	}
 	

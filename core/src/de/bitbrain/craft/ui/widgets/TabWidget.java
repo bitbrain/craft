@@ -245,8 +245,10 @@ public class TabWidget extends Table {
 			super.draw(batch, parentAlpha);
 			if (!active) {
 				batch.setColor(1f, 1f, 1f, parentAlpha);
-				Texture texture = SharedAssetManager.get(Assets.TEX_TAB_GRADIENT, Texture.class);
-				batch.draw(texture, getX() + OFFSET - 1, getY(), getWidth() - OFFSET + 1, getHeight() - 1);
+				if (SharedAssetManager.isLoaded(Assets.TEX_TAB_GRADIENT)) {
+					Texture texture = SharedAssetManager.get(Assets.TEX_TAB_GRADIENT, Texture.class);
+					batch.draw(texture, getX() + OFFSET - 1, getY(), getWidth() - OFFSET + 1, getHeight() - 1);
+				}
 			}
 		}
 		
