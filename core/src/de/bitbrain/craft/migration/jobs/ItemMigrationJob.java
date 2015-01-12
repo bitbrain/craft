@@ -19,8 +19,8 @@
 package de.bitbrain.craft.migration.jobs;
 
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.core.ItemId;
+import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.migration.Migrate;
 import de.bitbrain.craft.migration.Migrations;
 import de.bitbrain.craft.models.Item.Rarity;

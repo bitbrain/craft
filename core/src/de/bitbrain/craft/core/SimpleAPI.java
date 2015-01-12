@@ -39,6 +39,7 @@ import de.bitbrain.craft.db.RecipeMapper;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Goal;

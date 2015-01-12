@@ -35,11 +35,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.VectorTween;

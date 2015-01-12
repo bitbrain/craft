@@ -47,10 +47,10 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
-import de.bitbrain.craft.core.Icon;
-import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.core.IconManager.IconDrawable;
 import de.bitbrain.craft.graphics.GraphicsFactory;
+import de.bitbrain.craft.graphics.Icon;
+import de.bitbrain.craft.graphics.IconManager;
+import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.tweens.ActorTween;
 

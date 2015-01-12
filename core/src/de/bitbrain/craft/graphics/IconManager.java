@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.core;
+package de.bitbrain.craft.graphics;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -126,6 +126,7 @@ public class IconManager implements Fadeable {
 		references.clear();
 		icons.clear();
 		textures.clear();
+		requests.clear();
 	}
 
 	private void loadIcon(Icon icon) {

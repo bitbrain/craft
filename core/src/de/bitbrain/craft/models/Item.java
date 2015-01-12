@@ -21,8 +21,8 @@ package de.bitbrain.craft.models;
 
 import com.badlogic.gdx.graphics.Color;
 
-import de.bitbrain.craft.core.Icon;
 import de.bitbrain.craft.graphics.Effect;
+import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.util.Identifiable;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 

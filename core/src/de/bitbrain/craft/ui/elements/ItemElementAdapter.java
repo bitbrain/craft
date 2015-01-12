@@ -22,8 +22,8 @@ package de.bitbrain.craft.ui.elements;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Bundles;
-import de.bitbrain.craft.core.IconManager;
-import de.bitbrain.craft.core.IconManager.IconDrawable;
+import de.bitbrain.craft.graphics.IconManager;
+import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;

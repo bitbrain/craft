@@ -19,7 +19,7 @@
 
 package de.bitbrain.craft.ui.elements;
 
-import de.bitbrain.craft.core.IconManager.IconDrawable;
+import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.models.Item.Rarity;
 
 /**

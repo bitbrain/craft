@@ -54,6 +54,7 @@ public abstract class GuiceGame extends Game {
 	public final void setScreen(Class<? extends Screen> screenClass) {		
 		if (current != null) {
 			scope.leave();
+			current.dispose();
 		}
 		scope.enter(screenClass);
 		Screen screen = SharedInjector.get().getInstance(screenClass);

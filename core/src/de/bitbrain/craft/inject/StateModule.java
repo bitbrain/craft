@@ -28,10 +28,10 @@ import com.google.inject.Provides;
 import com.google.inject.name.Names;
 
 import de.bitbrain.craft.CraftGame;
-import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.db.DriverProvider;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MBassadorEventBus;
+import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.graphics.shader.ShaderManager;
 import de.bitbrain.craft.graphics.shader.SimpleShaderManager;

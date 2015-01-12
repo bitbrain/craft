@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
+import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;

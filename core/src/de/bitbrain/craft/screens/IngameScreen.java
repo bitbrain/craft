@@ -42,12 +42,12 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.Icon;
-import de.bitbrain.craft.core.IconManager;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.KeyEvent;
+import de.bitbrain.craft.graphics.Icon;
+import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
@@ -86,7 +86,7 @@ public class IngameScreen extends AbstractScreen {
 	@Inject 
 	private RecipeWidget recipeView;
 	
-	private ElementConnector<Item> itemConnector, recipeConnector;
+	private ElementConnector<Item> itemConnector;
 	
 	private ProfessionView professionView;
 	
@@ -126,7 +126,6 @@ public class IngameScreen extends AbstractScreen {
 		super.dispose();
 		iconManager.dispose();
 		itemConnector.dispose();
-		recipeConnector.dispose();
 		dragDropHandler.clear();
 	}
 	
