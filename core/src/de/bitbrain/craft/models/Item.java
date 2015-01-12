@@ -98,17 +98,24 @@ public class Item implements Identifiable {
 	}
 	
 	public static enum Rarity {
-		COMMON("dddddd"),
-		RARE("00ff00"),
-		SUPERIOR("2211cc"),
-		EPIC("5500ff"),
-		UNIQUE("ff6600"),
-		LEGENDARY("ff00ff");
+		COMMON("dddddd", 1),
+		RARE("00ff00", 2),
+		SUPERIOR("2211cc", 3),
+		EPIC("5500ff", 4),
+		UNIQUE("ff6600", 5),
+		LEGENDARY("ff00ff", 6);
 		
 		private Color color;
 		
-		Rarity(String color) {
+		private int level;
+		
+		Rarity(String color, int level) {
 			this.color = Color.valueOf(color);
+			this.level = level;
+		}
+		
+		public int getLevel() {
+			return level;
 		}
 		
 		public Color getColor() {

@@ -19,14 +19,32 @@
 
 package de.bitbrain.craft.util;
 
+import java.util.Comparator;
+
+import de.bitbrain.craft.models.Item;
+
 /**
- * Identifies an object
+ * Compares two items
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Identifiable {
+public class ItemComparator implements Comparator<Item> {
 
-	String getId();
+	@Override
+	public int compare(Item itemA, Item itemB) {
+		if (itemA.getLevel() > itemB.getLevel()) {
+			return 1;
+		} else if (itemA.getLevel() < itemB.getLevel()) {
+			return -1;
+		}
+		if (itemA.getRarity().getLevel() > itemB.getRarity().getLevel()) {
+			return 1;
+		} else if (itemA.getRarity().getLevel() < itemB.getRarity().getLevel()) {
+			return -1;
+		}		
+		return 0;
+	}
+
 }

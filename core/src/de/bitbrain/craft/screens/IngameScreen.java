@@ -60,6 +60,7 @@ import de.bitbrain.craft.ui.elements.ItemElementAdapter;
 import de.bitbrain.craft.ui.widgets.RecipeWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget;
 import de.bitbrain.craft.util.DragDropHandler;
+import de.bitbrain.craft.util.ItemComparator;
 
 /**
  * Displays the main game
@@ -149,7 +150,8 @@ public class IngameScreen extends AbstractScreen {
 			public ElementData create(Item model, int amount) {
 				return new ItemElementAdapter(model, amount);
 			}		
-		}, Item.class);		
+		}, Item.class);	
+		itemConnector.setComparator(new ItemComparator());
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
 			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));

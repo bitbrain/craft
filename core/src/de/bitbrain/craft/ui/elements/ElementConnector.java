@@ -28,6 +28,7 @@ import net.engio.mbassy.listener.Handler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.events.ElementEvent;
@@ -160,7 +161,23 @@ public class ElementConnector<T> {
 	}
 	
 	private void sortAndUpdate() {
-		
+		SnapshotArray<Actor> actors = group.getChildren();
+		for (Actor actorA : actors) {
+			for (Actor actorB : actors) {
+				T elemA = values.get(actorA);
+				T elemB = values.get(actorB);
+				if (elemA != null && elemB != null) {
+					int value = comparator.compare(elemA, elemB);
+					if (value > 0) {
+						group.removeActor(actorA);
+						group.addActorAfter(actorB, actorA);
+					} else if (value < 0) {
+						group.removeActor(actorA);
+						group.addActorBefore(actorB, actorA);
+					}
+				}
+			}
+		}
 	}
 	
 	public interface ElementDataProvider<T> {
