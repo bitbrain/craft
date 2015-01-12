@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Disposable;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.graphics.GraphicsFactory;
@@ -18,7 +19,7 @@ import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.util.Fadeable;
 
-public class LoadingIndicator extends Actor implements Fadeable {
+public class LoadingIndicator extends Actor implements Fadeable, Disposable {
 	
 	private static final float TIME = 0.08f;
 	
@@ -97,6 +98,16 @@ public class LoadingIndicator extends Actor implements Fadeable {
 	@Override
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
+	}
+
+	@Override
+	public void dispose() {
+		if (!blocks.isEmpty()) {
+			Texture texture = blocks.get(0).getTexture();
+			texture.dispose();
+			blocks.clear();
+		}
+		
 	}
 
 }
