@@ -55,7 +55,7 @@ public final class Sizes {
 	}
 
 	public static int dragIconSize() {
-		return worldHeight() / 6;
+		return 100;
 	}
 
 	public static float worldMouseX() {

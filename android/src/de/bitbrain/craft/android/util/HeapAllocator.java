@@ -28,6 +28,7 @@ package de.bitbrain.craft.android.util;
  */
 public final class HeapAllocator {
 	
+	@SuppressWarnings("unused")
 	private long[] blocks = null;
 	
 	public void allocate(int kb) {

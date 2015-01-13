@@ -99,7 +99,7 @@ public class DragDropHandler {
 			for (Entry<String, IconDrawable> entry : icons.entrySet()) {
 				Vector2 location = locations.get(entry.getKey());
 				Vector2 size = sizes.get(entry.getKey());
-				target.x = Sizes.worldMouseX();
+				target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
 				target.y = getScreenY();
 				float speed = 15f;
 
@@ -167,7 +167,7 @@ public class DragDropHandler {
 	}
 	
 	private float getScreenY() {
-		return Sizes.worldHeight() - Sizes.worldMouseY();
+		return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY());
 	}
 	
 	private void add(final ElementData data) {

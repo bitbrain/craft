@@ -37,6 +37,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.graphics.ScreenFader;
@@ -128,7 +129,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	@Override
 	public void resize(int width, int height) {		
 		if (uiRenderer == null) {
-			uiRenderer = new UIRenderer(width, height, createViewport(), batch);
+			uiRenderer = new UIRenderer(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()), createViewport(), batch);
 			overlay.setRenderer(uiRenderer);
 			fader = new ScreenFader(tweenManager);
 			fader.setCallback(this);
@@ -136,7 +137,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 			onCreateStage(uiRenderer.getBase());
 			fader.fadeIn();
 		} else {
-			uiRenderer.resize(width, height);
+			uiRenderer.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
 		}
 		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
 	}
@@ -213,7 +214,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	public void afterFadeOut() {		
 		particleRenderer.clear();
 		if (nextScreen != null) {
-			game.setScreen(nextScreen);
+			game.setScreen(nextScreen);			
 		}
 	}
 	
