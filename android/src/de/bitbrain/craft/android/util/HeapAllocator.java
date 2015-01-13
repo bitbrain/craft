@@ -17,28 +17,26 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.util;
+package de.bitbrain.craft.android.util;
 
 /**
- * Provides alpha fading.
- *
+ * Allocates additional memory
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Fadeable {
-
-	/**
-	 * Returns the current alpha value
-	 * 
-	 * @return
-	 */
-	float getAlpha();
+public final class HeapAllocator {
 	
-	/**
-	 * Sets the current alpha value
-	 * 
-	 * @param alpha
-	 */
-	void setAlpha(float alpha);
+	private long[] blocks = null;
+	
+	public void allocate(int kb) {
+		int bytes = kb * 1024;
+		blocks = new long[bytes / 8];
+	}
+
+	public void free() {
+		blocks = null;
+	}
+
 }

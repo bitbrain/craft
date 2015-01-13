@@ -20,25 +20,25 @@
 package de.bitbrain.craft.util;
 
 /**
- * Provides alpha fading.
+ * Provides memory information
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Fadeable {
+public final class MemoryInfo {
 
-	/**
-	 * Returns the current alpha value
-	 * 
-	 * @return
-	 */
-	float getAlpha();
+	public static long freeMemory() {
+		Runtime runtime = Runtime.getRuntime();
+		return runtime.freeMemory() / 1024 / 1024;
+	}
 	
-	/**
-	 * Sets the current alpha value
-	 * 
-	 * @param alpha
-	 */
-	void setAlpha(float alpha);
+	public static long totalMemory() {
+		Runtime runtime = Runtime.getRuntime();
+		return runtime.totalMemory() / 1024 / 1024;
+	}
+	
+	public static long usedMemory() {
+		return totalMemory() - freeMemory();
+	}
 }

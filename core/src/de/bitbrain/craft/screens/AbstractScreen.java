@@ -123,8 +123,6 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		batch.end();		
 		uiRenderer.render(delta);
 		fader.render(batch);
-		Runtime r = Runtime.getRuntime();
-		System.out.println(((r.totalMemory() - r.freeMemory()) / 1024f / 1024f) + "/" + (r.totalMemory() / 1024f / 1024f) + "MB");
 	}
 
 	@Override

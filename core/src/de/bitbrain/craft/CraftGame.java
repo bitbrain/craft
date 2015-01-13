@@ -20,11 +20,9 @@
 package de.bitbrain.craft;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.screens.LoadingScreen;
-import de.bitbrain.craft.util.AssetReflector;
 
 /**
  * Main game file which handles all screens
@@ -37,23 +35,11 @@ public class CraftGame extends GuiceGame {
 	
 	@Inject
 	private LoadingScreen screen;
-
 	@Override
-	public void create() {		
+	public void create() {			
 		Gdx.app.setLogLevel(Settings.LOGLEVEL);
 		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
-
-		Runtime r = Runtime.getRuntime();
-		System.out.println(((r.totalMemory() - r.freeMemory()) / 1024f / 1024f) + "/" + (r.totalMemory() / 1024f / 1024f) + "MB");
 		setScreen(screen);
-	}
-	
-	@Override
-	public void resume() {
-		super.resume();
-		AssetManager mgr = SharedAssetManager.getInstance();		
-		AssetReflector reflector = new AssetReflector(mgr);		
-		reflector.load();
 	}
 	
 	@Override
