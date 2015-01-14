@@ -88,6 +88,7 @@ public class ElementWidget extends HorizontalGroup {
 			Actor right = generateRight(data);
 			addActor(right);
 			pad(10f);
+			
 			registerEvents(this);
 		} catch (Exception e) {
 			e.printStackTrace();

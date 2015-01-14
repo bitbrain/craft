@@ -36,7 +36,7 @@ public class OwnedItemMigrationJob {
 	@Migrate(Migrations.RELEASE)
 	public void migrateOwnedItemsRelease(API api) {
 		Player p = Player.getCurrent();
-		api.addItem(p.getId(), ItemId.ACID_1, 10);
+		 api.addItem(p.getId(), ItemId.ACID_1, 10);
 		api.addItem(p.getId(), ItemId.XENOCITE, 6);
 		api.addItem(p.getId(), ItemId.FLUX, 2);
 		api.addItem(p.getId(), ItemId.WATER, 2);

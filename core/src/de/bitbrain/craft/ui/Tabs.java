@@ -19,8 +19,6 @@
 package de.bitbrain.craft.ui;
 
 public class Tabs {
-	
-	public static final String PROFILE = "profile";
 
 	public static final String ITEMS = "items";
 	

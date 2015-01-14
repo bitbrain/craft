@@ -29,7 +29,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
@@ -39,7 +38,6 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
@@ -100,9 +98,7 @@ public class IngameScreen extends AbstractScreen {
 		Container<TabWidget> container = new Container<TabWidget>(tabView);
 		stage.addActor(container);
 		stage.addActor(tabView);
-		stage.addActor(professionView);
-		
-		tabView.addTab(Tabs.PROFILE, Icon.PROFILE, new Label("Profile", Styles.LBL_TEXT));		
+		stage.addActor(professionView);		
 		tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
 		tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
 		tabView.setTab(Tabs.ITEMS);

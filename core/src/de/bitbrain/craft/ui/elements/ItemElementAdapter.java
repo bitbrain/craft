@@ -37,6 +37,8 @@ import de.bitbrain.craft.models.Item.Rarity;
  */
 public class ItemElementAdapter implements ElementData {
 	
+	private static final String PREFIX = "item_";
+	
 	private Item item;
 	
 	private IconDrawable icon;
@@ -69,7 +71,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getDescription() {
-		return Bundles.items.get(item.getId() + "_description");
+		return Bundles.items.get(PREFIX + item.getId() + "_description");
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +87,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getName() {
-		return Bundles.items.get("item_" + item.getId());
+		return Bundles.items.get(PREFIX + item.getId());
 	}
 
 	/* (non-Javadoc)
@@ -122,8 +124,7 @@ public class ItemElementAdapter implements ElementData {
 
 	@Override
 	public int getLevel() {
-		// TODO Auto-generated method stub
-		return 0;
+		return item.getLevel();
 	}
 
 }

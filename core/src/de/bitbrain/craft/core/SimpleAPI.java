@@ -160,17 +160,15 @@ class SimpleAPI implements API {
 	
 	@Override
 	public Item addItem(int playerId, ItemId id, int amount) {
-		Item item = getItem(id);
-		
-		if (item != null) {
-			
+		Item item = getItem(id);		
+		if (item != null) {			
 			OwnedItem owned = ownedItemMapper.findById(id, playerId);
-			
 			if (owned == null) {
 				owned = new OwnedItem();
 				owned.setPlayerId(playerId);
 				owned.setItemId(id);
 				owned.setAmount(amount);
+				ownedItemMapper.insert(owned);
 			} else {
 				owned.setAmount(owned.getAmount() + amount);
 				ownedItemMapper.update(owned);
