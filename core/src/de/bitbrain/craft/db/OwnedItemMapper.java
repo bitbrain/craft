@@ -21,6 +21,7 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;
@@ -42,7 +43,7 @@ public interface OwnedItemMapper {
 	Collection<OwnedItem> findAllByPlayerId(int playerId);
 	
 	@Select(condition = "item_id = $1 AND player_id = $2")
-	OwnedItem findById(String itemId, int playerId);
+	OwnedItem findById(ItemId itemId, int playerId);
 	
 	@Update
 	boolean update(OwnedItem ownedItem);

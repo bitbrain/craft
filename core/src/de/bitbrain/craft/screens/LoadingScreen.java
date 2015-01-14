@@ -117,9 +117,13 @@ public class LoadingScreen extends AbstractScreen {
 	private class GameLoader implements Runnable {
 		@Override
 		public void run() {
-			DriverProvider.initialize();
-			Bundles.load();
-			migrator.migrate();
+			try {
+				DriverProvider.initialize();
+				Bundles.load();
+				migrator.migrate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -88,10 +88,6 @@ class SimpleAPI implements API {
 	
 	@Override
 	public Item getItem(ItemId id) {
-		return getItem(id.getId());
-	}
-	
-	public Item getItem(String id) {
 		return itemMapper.findById(id);
 	}
 	
@@ -168,14 +164,13 @@ class SimpleAPI implements API {
 		
 		if (item != null) {
 			
-			OwnedItem owned = ownedItemMapper.findById(id.getId(), playerId);
+			OwnedItem owned = ownedItemMapper.findById(id, playerId);
 			
 			if (owned == null) {
 				owned = new OwnedItem();
 				owned.setPlayerId(playerId);
-				owned.setItemId(item.getId());
+				owned.setItemId(id);
 				owned.setAmount(amount);
-				ownedItemMapper.insert(owned);
 			} else {
 				owned.setAmount(owned.getAmount() + amount);
 				ownedItemMapper.update(owned);
@@ -188,7 +183,7 @@ class SimpleAPI implements API {
 	}
 	
 	@Override
-	public boolean removeItem(int playerId, String id, int amount) {
+	public boolean removeItem(int playerId, ItemId id, int amount) {
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
 		int count = owned.getAmount() - amount;
 		if (owned != null && count >= 0) {
@@ -212,7 +207,7 @@ class SimpleAPI implements API {
 	}
 
 	@Override
-	public void registerItem(String itemId, Icon icon, Rarity rarity, int level) {
+	public void registerItem(ItemId itemId, Icon icon, Rarity rarity, int level) {
 		Item item = itemMapper.findById(itemId);		
 		if (item == null) {
 			item = new Item(itemId, icon, rarity);
@@ -222,7 +217,7 @@ class SimpleAPI implements API {
 	}
 
 	@Override
-	public boolean canCraft(Player player, Profession profession, String itemId) {
+	public boolean canCraft(Player player, Profession profession, ItemId itemId) {
 		Recipe recipe = recipeMapper.findByItemId(itemId);
 		if (recipe != null && recipe.getProfession().equals(profession)) {
 			LearnedRecipe learned = learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId());
@@ -232,13 +227,13 @@ class SimpleAPI implements API {
 	}
 	
 	@Override
-	public boolean canCraft(Player player, String itemId) {
+	public boolean canCraft(Player player, ItemId itemId) {
 		return canCraft(player, Profession.current, itemId);
 	}
 
 	@Override
 	public void removeItem(int playerId, ItemId id) {
-		OwnedItem owned = ownedItemMapper.findById(id.getId(), playerId);
+		OwnedItem owned = ownedItemMapper.findById(id, playerId);
 		ownedItemMapper.delete(owned);
 		bus().fireEvent(new ElementEvent<Item>(EventType.REMOVE, getItem(owned.getItemId()), owned.getAmount()));
 	}
@@ -255,14 +250,14 @@ class SimpleAPI implements API {
 	@Override
 	public Recipe registerRecipe(RecipeData data) {
 		Recipe recipe = new Recipe();
-		recipe.setItemId(data.itemId.getId());
+		recipe.setItemId(data.itemId);
 		recipe.setAmount(data.amount);
 		recipe.setProfession(data.profession);
 		if (recipeMapper.insert(recipe)) {
 			// Add ingredients
 			for (Entry<ItemId, Integer> entry : data.ingredients.entrySet()) {
 				Ingredient i = new Ingredient();
-				String itemId = entry.getKey().getId();
+				ItemId itemId = entry.getKey();
 				i.setItemId(itemId);
 				i.setAmount(entry.getValue());
 				i.setRecipeId(recipe.getId());
@@ -292,7 +287,7 @@ class SimpleAPI implements API {
 
 	@Override
 	public boolean learnRecipe(Player player, ItemId id) {
-		Recipe recipe = recipeMapper.findByItemId(id.getId());
+		Recipe recipe = recipeMapper.findByItemId(id);
 		if (recipe != null && learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId()) == null) {
 			LearnedRecipe learned = new LearnedRecipe(recipe.getId(), player.getId());
 			return learnedRecipeMapper.insert(learned);

@@ -21,6 +21,7 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.jpersis.annotations.Count;
 import de.bitbrain.jpersis.annotations.Delete;
@@ -43,7 +44,7 @@ public interface ItemMapper {
 	Collection<Item> findAll();
 	
 	@Select(condition = "id = $1")
-	Item findById(String id);
+	Item findById(ItemId id);
 	
 	@Insert
 	boolean insert(Item item);

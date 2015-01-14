@@ -37,6 +37,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
@@ -123,7 +124,7 @@ public class ElementWidget extends HorizontalGroup {
 	}
 	
 	private boolean isElementCraftable() {
-		return api.canCraft(Player.getCurrent(), data.getId());
+		return api.canCraft(Player.getCurrent(), ItemId.valueOf(data.getId().toUpperCase()));
 	}
 	
 	private Actor generateRight(ElementData data) {

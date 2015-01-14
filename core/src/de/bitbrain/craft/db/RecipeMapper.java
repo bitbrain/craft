@@ -21,6 +21,7 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.jpersis.annotations.Count;
 import de.bitbrain.jpersis.annotations.Delete;
@@ -46,7 +47,7 @@ public interface RecipeMapper {
 	Recipe findById(int id);
 	
 	@Select(condition = "item_id = $1")
-	Recipe findByItemId(String itemId);
+	Recipe findByItemId(ItemId itemId);
 	
 	@Insert
 	boolean insert(Recipe recipe);

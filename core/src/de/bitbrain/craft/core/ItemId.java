@@ -44,12 +44,8 @@ public enum ItemId {
 	JEWEL_DIAMOND_MEDIUM,
 	XENOCITE;
 	
-	public String getId() {
-		return "item_" + name().toLowerCase();
-	}
-	
 	@Override
 	public String toString() {
-		return "'" + getId() + "'";
+		return name();
 	}
 }

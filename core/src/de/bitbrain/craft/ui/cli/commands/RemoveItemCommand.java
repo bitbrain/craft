@@ -16,7 +16,7 @@ public class RemoveItemCommand implements Command {
 		if (args.length == 2) {
 			ItemId id = Enum.valueOf(ItemId.class, args[0].toUpperCase());
 			int amount = Integer.valueOf(args[1]);
-			if (api.removeItem(playerId, id.getId(), amount)) {
+			if (api.removeItem(playerId, id, amount)) {
 				Gdx.app.log("INFO", "Removed successfully.");
 			} else {
 				Gdx.app.log("ERROR", "Item with id'" + id + "' not found.");

@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.models;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
@@ -33,7 +34,7 @@ public class OwnedItem {
 	@PrimaryKey(true)
 	private int id;
 	
-	private String itemId;
+	private ItemId itemId;
 	
 	private int playerId;
 	
@@ -43,7 +44,7 @@ public class OwnedItem {
 		
 	}
 	
-	public OwnedItem(String itemId, int playerId, int amount) {
+	public OwnedItem(ItemId itemId, int playerId, int amount) {
 		this.itemId = itemId;
 		this.playerId = playerId;
 		this.amount = amount;
@@ -66,7 +67,7 @@ public class OwnedItem {
 	/**
 	 * @param itemId the itemId to set
 	 */
-	public void setItemId(String itemId) {
+	public void setItemId(ItemId itemId) {
 		this.itemId = itemId;
 	}
 	
@@ -94,7 +95,7 @@ public class OwnedItem {
 	/**
 	 * @return the itemId
 	 */
-	public String getItemId() {
+	public ItemId getItemId() {
 		return itemId;
 	}
 	

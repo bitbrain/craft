@@ -21,6 +21,7 @@ package de.bitbrain.craft.models;
 
 import com.badlogic.gdx.graphics.Color;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.graphics.Effect;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.util.Identifiable;
@@ -36,7 +37,7 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
 public class Item implements Identifiable {
 
 	@PrimaryKey
-	private String id = "";
+	private ItemId id;
 	
 	private Icon icon;
 	
@@ -50,7 +51,7 @@ public class Item implements Identifiable {
 		
 	}
 	
-	public Item(String id, Icon icon, Rarity rarity) {
+	public Item(ItemId id, Icon icon, Rarity rarity) {
 		this.id = id;
 		this.icon = icon;
 		this.rarity = rarity;
@@ -62,6 +63,10 @@ public class Item implements Identifiable {
 	
 	@Override
 	public String getId() {
+		return id.toString().toLowerCase();
+	}
+	
+	public ItemId getItemId() {
 		return id;
 	}
 	
@@ -73,7 +78,7 @@ public class Item implements Identifiable {
 		this.icon = icon;
 	}
 	
-	public void setId(String id) {
+	public void setId(ItemId id) {
 		this.id = id;
 	}
 	

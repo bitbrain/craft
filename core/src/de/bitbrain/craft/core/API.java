@@ -48,14 +48,6 @@ public interface API {
 	Item getItem(ItemId id);
 	
 	/**
-	 * Returns the item with the given (string) ID
-	 * 
-	 * @param id id string indicator
-	 * @return found item. Is null if nothing can be found
-	 */
-	Item getItem(String id);
-	
-	/**
 	 * Provides all available items
 	 * 
 	 * @return a collection of all items
@@ -97,7 +89,7 @@ public interface API {
 	 * @param amount 
 	 * @return returns true if removed and false if not.
 	 */
-	boolean removeItem(int playerId, String id, int amount);
+	boolean removeItem(int playerId, ItemId id, int amount);
 	
 	/**
 	 * Returns the first found player
@@ -123,7 +115,7 @@ public interface API {
 	 * @param itemId
 	 * @return
 	 */
-	boolean canCraft(Player player, String itemId);
+	boolean canCraft(Player player, ItemId itemId);
 	
 	/**
 	 * Determines if the player can craft the given item and the profession
@@ -132,7 +124,7 @@ public interface API {
 	 * @param itemId
 	 * @return
 	 */
-	boolean canCraft(Player player, Profession profession, String itemId);
+	boolean canCraft(Player player, Profession profession, ItemId itemId);
 	
 
 	/**
@@ -142,7 +134,7 @@ public interface API {
 	 * @param icon icon of the item
 	 * @param rarity rarity of the item
 	 */
-	void registerItem(String itemId, Icon icon, Rarity rarity, int level);
+	void registerItem(ItemId itemId, Icon icon, Rarity rarity, int level);
 	
 
 	/**

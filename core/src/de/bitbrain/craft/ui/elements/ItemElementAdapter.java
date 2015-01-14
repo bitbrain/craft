@@ -85,7 +85,7 @@ public class ItemElementAdapter implements ElementData {
 	 */
 	@Override
 	public String getName() {
-		return Bundles.items.get(item.getId());
+		return Bundles.items.get("item_" + item.getId());
 	}
 
 	/* (non-Javadoc)

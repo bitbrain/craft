@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
@@ -74,7 +75,7 @@ public class RecipeWidget extends VerticalGroup {
 	public void onEvent(MouseEvent<?> event) {
 		if (event.getModel() instanceof ElementData && event.getType() == EventType.CLICK) {
 			ElementData tmpData = (ElementData) event.getModel();
-			if (api.canCraft(Player.getCurrent(), tmpData.getId())) {
+			if (api.canCraft(Player.getCurrent(), ItemId.valueOf(tmpData.getId()))) {
 				tabPanel.setTab(Tabs.CRAFTING);
 				if (data == null || !isModified()) {
 					data = tmpData.copy();

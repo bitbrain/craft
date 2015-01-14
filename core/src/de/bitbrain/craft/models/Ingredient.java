@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.models;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
@@ -35,7 +36,7 @@ public class Ingredient {
 	
 	private int recipeId;
 	
-	private String itemId;
+	private ItemId itemId;
 	
 	private int amount;
 	
@@ -47,7 +48,7 @@ public class Ingredient {
 		return id;
 	}
 	
-	public String getItemId() {
+	public ItemId getItemId() {
 		return itemId;
 	}
 	
@@ -59,7 +60,7 @@ public class Ingredient {
 		this.amount = amount;
 	}
 	
-	public void setItemId(String itemId) {
+	public void setItemId(ItemId itemId) {
 		this.itemId = itemId;
 	}
 	

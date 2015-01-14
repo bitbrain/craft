@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -78,10 +79,10 @@ public class ProfessionView extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP)
 				&& event.getModel() instanceof ElementData) {
 			ElementData data = (ElementData) event.getModel();
-			Item item = api.getItem(data.getId());
+			Item item = api.getItem(ItemId.valueOf(data.getId()));
 			if (item != null && professionLogic.add(item)) {
 				// Item accepted, remove it from system
-				api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
+				api.removeItem(Player.getCurrent().getId(), item.getItemId(), 1);
 			}
 		}
 	}
