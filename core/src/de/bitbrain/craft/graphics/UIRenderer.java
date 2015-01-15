@@ -39,7 +39,6 @@ import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.graphics.shader.BlurShader;
 import de.bitbrain.craft.graphics.shader.ShadeArea;
 import de.bitbrain.craft.graphics.shader.ShaderManager;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -79,18 +78,16 @@ public class UIRenderer implements ShadeArea {
 	@Inject
 	private TweenManager tweenManager;
 
-	@Inject
-	private ShaderManager shaderManager;
-
 	private Sprite overlay;
 
 	private UIMode mode = UIMode.NORMAL;
 	
-	private BlurShader vertBlur, horBlur;
+	private GaussianBlur blurHandler;
 
 	public UIRenderer(int width, int height, Viewport viewport, Batch batch) {
 		SharedInjector.get().injectMembers(this);
 		this.batch = batch;
+		blurHandler = new GaussianBlur(this);
 		buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
 		baseStage = new InputEventProcessor(viewport, batch);
 		overlayStage = new InputEventProcessor(viewport, batch);
@@ -101,11 +98,6 @@ public class UIRenderer implements ShadeArea {
 		eventBus.subscribe(this);
 		overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
 		overlay.setAlpha(0f);
-		vertBlur = new BlurShader(false);
-		vertBlur.setBlurSize(0f);
-		horBlur = new BlurShader(true);
-		horBlur.setBlurSize(0f);
-		shaderManager.add(this, vertBlur, horBlur);
 	}
 
 	public Stage getBase() {
@@ -149,7 +141,7 @@ public class UIRenderer implements ShadeArea {
 		baseStage.getViewport().update(width, height, true);
 		overlayStage.getViewport().update(width, height, true);
 		cliStage.getViewport().update(width, height, true);
-		shaderManager.resize(width, height);
+		blurHandler.resize(width, height);
 	}
 
 	@Handler
@@ -180,7 +172,7 @@ public class UIRenderer implements ShadeArea {
 		if (isOverlayMode()) {
 			buffer.end();
 		}
-		shaderManager.updateAndRender(batch, delta);
+		blurHandler.updateAndRender(batch, delta);
 		if (isOverlayMode()) {
 			overlayStage.draw();
 		}
@@ -218,8 +210,8 @@ public class UIRenderer implements ShadeArea {
 	
 	private void killAnimations() {
 		tweenManager.killTarget(overlay);
-		tweenManager.killTarget(vertBlur);
-		tweenManager.killTarget(horBlur);
+		tweenManager.killTarget(blurHandler.getHorizontalBlur());
+		tweenManager.killTarget(blurHandler.getVerticalBlur());
 	}
 	
 	private void animateFadeIn() {
@@ -227,10 +219,10 @@ public class UIRenderer implements ShadeArea {
 		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
 				.target(OVERLAY_OPACITY)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(vertBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+		Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
 				.target(0.3f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(horBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+		Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
 				.target(0.3f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 	}
@@ -239,10 +231,10 @@ public class UIRenderer implements ShadeArea {
 		killAnimations();
 		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(vertBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+		Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
 				.target(0f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(horBlur, BlurShaderTween.SIZE, OVERLAY_FADE)
+		Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
 				.target(0f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 	}
