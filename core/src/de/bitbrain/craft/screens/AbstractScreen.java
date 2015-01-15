@@ -92,7 +92,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	public final void render(float delta) {
 		
 		Gdx.gl.glClearColor(0.08f, 0.02f, 0f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
 		
 		onUpdate(delta);
 

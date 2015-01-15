@@ -40,7 +40,6 @@ import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.graphics.shader.ShadeArea;
-import de.bitbrain.craft.graphics.shader.ShaderManager;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.BlurShaderTween;
 import de.bitbrain.craft.tweens.SpriteTween;
@@ -56,9 +55,9 @@ import de.bitbrain.craft.util.DragDropHandler;
  */
 public class UIRenderer implements ShadeArea {
 
-	private static final float OVERLAY_OPACITY = 0.4f;
+	private static final float OVERLAY_OPACITY = 0.5f;
 
-	private static final float OVERLAY_FADE = 0.4f;
+	private static final float OVERLAY_FADE = 0.35f;
 
 	private FrameBuffer buffer;
 
@@ -220,10 +219,10 @@ public class UIRenderer implements ShadeArea {
 				.target(OVERLAY_OPACITY)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 		Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0.3f)
+				.target(0.4f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 		Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0.3f)
+				.target(0.4f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
 	}
 	
@@ -231,11 +230,7 @@ public class UIRenderer implements ShadeArea {
 		killAnimations();
 		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f)
 				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0f)
-				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0f)
-				.ease(TweenEquations.easeOutQuad).start(tweenManager);
+		blurHandler.getVerticalBlur().setBlurSize(0);
+		blurHandler.getHorizontalBlur().setBlurSize(0);
 	}
 }

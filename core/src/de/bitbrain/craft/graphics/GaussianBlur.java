@@ -47,7 +47,7 @@ public class GaussianBlur {
 		horBlur = new BlurShader(true);
 		horBlur.setBlurSize(0f);
 		shaderManager = new SimpleShaderManager();
-		shaderManager.add(childArea, vertBlur, horBlur);
+		shaderManager.add(childArea, vertBlur, horBlur, vertBlur, horBlur);
 	}
 
 	public BlurShader getVerticalBlur() {
