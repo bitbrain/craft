@@ -41,8 +41,8 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
-import de.bitbrain.craft.events.ElementEvent;
 import de.bitbrain.craft.events.Event.EventType;
+import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
@@ -50,15 +50,12 @@ import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.ui.ItemList;
 import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.Tabs;
-import de.bitbrain.craft.ui.elements.ElementConnector;
-import de.bitbrain.craft.ui.elements.ElementData;
-import de.bitbrain.craft.ui.elements.ItemElementAdapter;
 import de.bitbrain.craft.ui.widgets.RecipeWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget;
 import de.bitbrain.craft.util.DragDropHandler;
-import de.bitbrain.craft.util.ItemComparator;
 
 /**
  * Displays the main game
@@ -84,7 +81,7 @@ public class IngameScreen extends AbstractScreen {
 	@Inject 
 	private RecipeWidget recipeView;
 	
-	private ElementConnector<Item> itemConnector;
+	private ItemList itemList;
 	
 	private ProfessionView professionView;
 	
@@ -121,7 +118,7 @@ public class IngameScreen extends AbstractScreen {
 	public void dispose() {
 		super.dispose();
 		iconManager.dispose();
-		itemConnector.dispose();
+		itemList.dispose();
 		dragDropHandler.clear();
 	}
 	
@@ -140,16 +137,10 @@ public class IngameScreen extends AbstractScreen {
 	private Actor generateItemView() {		
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
-		itemConnector = new ElementConnector<Item>(itemView, new ElementConnector.ElementDataProvider<Item>() {
-			@Override
-			public ElementData create(Item model, int amount) {
-				return new ItemElementAdapter(model, amount);
-			}		
-		}, Item.class);	
-		itemConnector.setComparator(new ItemComparator());
+		itemList = new ItemList(itemView);
 		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
 		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
-			eventBus.fireEvent(new ElementEvent<Item>(EventType.ADD, entry.getKey(), entry.getValue()));
+			eventBus.fireEvent(new ItemEvent(EventType.ADD, entry.getKey(), entry.getValue()));
 		}		
 		return generateScrollPane(itemView);
 	}

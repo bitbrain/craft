@@ -36,7 +36,7 @@ import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
 import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.db.RecipeMapper;
-import de.bitbrain.craft.events.ElementEvent;
+import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.graphics.Icon;
@@ -173,7 +173,7 @@ class SimpleAPI implements API {
 				owned.setAmount(owned.getAmount() + amount);
 				ownedItemMapper.update(owned);
 			}
-			bus().fireEvent(new ElementEvent<Item>(EventType.ADD, item, amount));
+			bus().fireEvent(new ItemEvent(EventType.ADD, item, amount));
 			return item;
 		} else {
 			return null;
@@ -197,7 +197,7 @@ class SimpleAPI implements API {
 				e.printStackTrace();
 			}
 			EventBus eventBus = SharedInjector.get().getInstance(EventBus.class);
-			eventBus.fireEvent(new ElementEvent<Item>(EventType.REMOVE, item, amount));
+			eventBus.fireEvent(new ItemEvent(EventType.REMOVE, item, amount));
 			return true;
 		} else {
 			return false;
@@ -233,7 +233,7 @@ class SimpleAPI implements API {
 	public void removeItem(int playerId, ItemId id) {
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
 		ownedItemMapper.delete(owned);
-		bus().fireEvent(new ElementEvent<Item>(EventType.REMOVE, getItem(owned.getItemId()), owned.getAmount()));
+		bus().fireEvent(new ItemEvent(EventType.REMOVE, getItem(owned.getItemId()), owned.getAmount()));
 	}
 
 	@Override
@@ -241,7 +241,7 @@ class SimpleAPI implements API {
 		Collection<OwnedItem> items = ownedItemMapper.findAllByPlayerId(playerId);
 		ownedItemMapper.delete(items);
 		for (OwnedItem item : items) {
-			bus().fireEvent(new ElementEvent<Item>(EventType.REMOVE, getItem(item.getItemId()), item.getAmount()));
+			bus().fireEvent(new ItemEvent(EventType.REMOVE, getItem(item.getItemId()), item.getAmount()));
 		}
 	}
 

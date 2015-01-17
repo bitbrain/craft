@@ -24,7 +24,6 @@ import com.badlogic.gdx.graphics.Color;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.graphics.Effect;
 import de.bitbrain.craft.graphics.Icon;
-import de.bitbrain.craft.util.Identifiable;
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
 /**
@@ -34,7 +33,7 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  * @since 1.0
  * @version 1.0
  */
-public class Item implements Identifiable {
+public class Item {
 
 	@PrimaryKey
 	private ItemId id;
@@ -61,12 +60,7 @@ public class Item implements Identifiable {
 		return icon;
 	}
 	
-	@Override
-	public String getId() {
-		return id.toString().toLowerCase();
-	}
-	
-	public ItemId getItemId() {
+	public ItemId getId() {
 		return id;
 	}
 	

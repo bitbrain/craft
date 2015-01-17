@@ -30,15 +30,13 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
+import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.ui.Tabs;
-import de.bitbrain.craft.ui.elements.ElementData;
-import de.bitbrain.craft.ui.elements.ElementIcon;
 
 /**
  * Provides the view of a single recipe. This view is blocked by default. If a
@@ -59,8 +57,6 @@ public class RecipeWidget extends VerticalGroup {
 	@Inject
 	private API api;
 	
-	private ElementData data;
-	
 	private VerticalGroup content;
 	
 	@PostConstruct
@@ -73,16 +69,16 @@ public class RecipeWidget extends VerticalGroup {
 	
 	@Handler
 	public void onEvent(MouseEvent<?> event) {
-		if (event.getModel() instanceof ElementData && event.getType() == EventType.CLICK) {
-			ElementData tmpData = (ElementData) event.getModel();
-			if (api.canCraft(Player.getCurrent(), ItemId.valueOf(tmpData.getId().toUpperCase()))) {
+		if (event.getModel() instanceof Item && event.getType() == EventType.CLICK) {
+			Item item = (Item) event.getModel();
+			if (api.canCraft(Player.getCurrent(), item.getId())) {
 				tabPanel.setTab(Tabs.CRAFTING);
-				if (data == null || !isModified()) {
-					data = tmpData.copy();
+				if (!isModified()) {
 					content.clear();
-					content.addActor(generateTop(data));
-					if (!data.getDescription().isEmpty()) {
-						content.addActor(generateDescription(data));
+					content.addActor(generateTop(item));
+					String description = item.getId().toString();
+					if (!description.isEmpty()) {
+						content.addActor(generateDescription(item));
 					}
 				}
 			}
@@ -93,21 +89,20 @@ public class RecipeWidget extends VerticalGroup {
 		return false;
 	}
 	
-	private Actor generateDescription(ElementData data) {
-		Container<Label> container = new Container<Label>(new Label(data.getDescription(), Styles.LBL_BROWN));
+	private Actor generateDescription(Item item) {
+		Container<Label> container = new Container<Label>(new Label(item.getId().toString(), Styles.LBL_BROWN));
 		container.padTop(20f).padLeft(10f).align(Align.left);
 		return container;
 	}
 	
-	private Actor generateTop(ElementData data) {
+	private Actor generateTop(Item item) {
 		HorizontalGroup group = new HorizontalGroup();
 		group.align(Align.left);
-		data.setAmount(-1);
-		ElementIcon icon = new ElementIcon(data);
+		IconWidget icon = new IconWidget(item.getIcon(), -1);
 		group.addActor(icon);
 		HorizontalGroup wrapper = new HorizontalGroup();
-		Label caption = new Label(data.getName(), Styles.LBL_ITEM);
-		caption.setColor(data.getRarity().getColor());	
+		Label caption = new Label(item.getId().toString(), Styles.LBL_ITEM);
+		caption.setColor(item.getRarity().getColor());	
 		icon.setWidth(caption.getHeight() * 4);
 		icon.setHeight(caption.getHeight() * 4);
 		wrapper.addActor(caption);

@@ -37,15 +37,13 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.ui.elements.ElementData;
-import de.bitbrain.craft.ui.elements.ElementIcon;
 
 /**
  * List element which shows basic element info
@@ -54,58 +52,69 @@ import de.bitbrain.craft.ui.elements.ElementIcon;
  * @since 1.0
  * @version 1.0
  */
-public class ElementWidget extends HorizontalGroup {
-	
+public class ItemWidget extends HorizontalGroup {
+
 	private final String GAP = "            ";
-	
+
 	private Label name;
-	
-	private ElementIcon icon;
-	
-	private ElementData data;
-	
+
+	private IconWidget icon;
+
 	private NinePatch background;
-	
+
+	private Item item;
+
+	private int amount;
+
 	@Inject
 	private EventBus eventBus;
-	
+
 	@Inject
 	private API api;
-	
+
 	private boolean craftable;
-	
-	public ElementWidget(ElementData data) {
+
+	public ItemWidget(Item item, int amount) {
 		try {
-			background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+			background = GraphicsFactory.createNinePatch(
+					Assets.TEX_PANEL_TRANSPARENT_9patch,
+					Sizes.panelTransparentRadius());
 			SharedInjector.get().injectMembers(this);
-			this.data = data;
+			this.item = item;
+			this.amount = amount;
 			craftable = isElementCraftable();
-			this.name = new Label(data.getName() + GAP, Styles.LBL_ITEM);
-			icon = new ElementIcon(data);		
+			this.name = new Label(item.getId() + GAP, Styles.LBL_ITEM);
+			icon = new IconWidget(item.getIcon(), amount);
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);
 			addActor(icon);
-			Actor right = generateRight(data);
+			Actor right = generateRight(item);
 			addActor(right);
 			pad(10f);
-			
 			registerEvents(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void setData(ElementData data) {
-		this.data = data;				
-		name.setText(data.getName() + GAP);
-		name.setColor(data.getRarity().getColor());
-		setAmount(data.getAmount());
-		icon.setSource(data);
+
+	public void setItem(Item item, int amount) {
+		this.item = item;
+		name.setText(item.getId() + GAP);
+		name.setColor(item.getRarity().getColor());
+		setAmount(item, amount);
 		craftable = isElementCraftable();
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+
+	public int getAmount() {
+		return amount;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup#draw(com.badlogic.gdx.
+	 * graphics.g2d.Batch, float)
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
@@ -114,37 +123,32 @@ public class ElementWidget extends HorizontalGroup {
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);
 	}
-	
-	public ElementData getData() {
-		return data;
+
+	public void setAmount(Item item, int amount) {
+		icon.setSource(item.getIcon(), amount);
 	}
-	
-	public void setAmount(int amount) {
-		data.setAmount(amount);
-		icon.setSource(data);
-	}
-	
+
 	private boolean isElementCraftable() {
-		return api.canCraft(Player.getCurrent(), ItemId.valueOf(data.getId().toUpperCase()));
+		return api.canCraft(Player.getCurrent(), item.getId());
 	}
-	
-	private Actor generateRight(ElementData data) {
+
+	private Actor generateRight(Item item) {
 		VerticalGroup layout = new VerticalGroup();
 		layout.align(Align.left);
 		layout.padLeft(15f);
 		layout.padTop(15f);
-		name.setColor(data.getRarity().getColor());
+		name.setColor(item.getRarity().getColor());
 		name.setFontScale(0.85f);
-		
+
 		String textDescription = "Click to craft";
 		Color colorDescription = Assets.CLR_INACTIVE;
 		if (!craftable) {
 			textDescription = "Can not craft";
 			colorDescription = Color.RED;
-		}		
+		}
 		Label description = new Label(textDescription, Styles.LBL_TEXT);
 		description.setFontScale(0.7f);
-		description.setColor(colorDescription);	
+		description.setColor(colorDescription);
 		description.getColor().a = 0.5f;
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
@@ -153,26 +157,34 @@ public class ElementWidget extends HorizontalGroup {
 		layout.addActor(descContainer);
 		return layout;
 	}
-	
+
 	private void registerEvents(Actor actor) {
 		// Allow dragging for icons only
 		icon.addListener(new DragListener() {
 			@Override
-			public void dragStart(InputEvent event, float x, float y, int pointer) {
-				if (data.getAmount() > 0) {
-					eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDRAG, getData(), x, y));
+			public void dragStart(InputEvent event, float x, float y,
+					int pointer) {
+				if (amount > 0) {
+					eventBus.fireEvent(new MouseEvent<Item>(
+							EventType.MOUSEDRAG, item, x, y));
 				}
 			}
+
 			@Override
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				if (data.getAmount() > 0) {
-					eventBus.fireEvent(new MouseEvent<ElementData>(EventType.MOUSEDROP, getData(), x, y));
+				if (amount > 0) {
+					eventBus.fireEvent(new MouseEvent<Item>(
+							EventType.MOUSEDROP, item, x, y));
 				}
 			}
 		});
 		icon.addCaptureListener(new InputListener() {
-			/* (non-Javadoc)
-			 * @see com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic.gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic
+			 * .gdx.scenes.scene2d.InputEvent, float, float, int, int)
 			 */
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -184,7 +196,8 @@ public class ElementWidget extends HorizontalGroup {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (craftable) {
-					eventBus.fireEvent(new MouseEvent<ElementData>(EventType.CLICK, getData(), x, y));
+					eventBus.fireEvent(new MouseEvent<Item>(EventType.CLICK,
+							item, x, y));
 				}
 			}
 		});

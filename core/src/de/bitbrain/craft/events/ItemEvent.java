@@ -19,7 +19,7 @@
 
 package de.bitbrain.craft.events;
 
-import de.bitbrain.craft.util.Identifiable;
+import de.bitbrain.craft.models.Item;
 
 /**
  * Message special for elements
@@ -28,7 +28,7 @@ import de.bitbrain.craft.util.Identifiable;
  * @since 1.0
  * @version 1.0
  */
-public class ElementEvent<Model extends Identifiable> extends Event<Model> {
+public class ItemEvent extends Event<Item> {
 	
 	private int amount;
 
@@ -36,8 +36,8 @@ public class ElementEvent<Model extends Identifiable> extends Event<Model> {
 	 * @param type
 	 * @param model
 	 */
-	public ElementEvent(de.bitbrain.craft.events.Event.EventType type, Model model, int amount) {
-		super(type, model);
+	public ItemEvent(de.bitbrain.craft.events.Event.EventType type, Item item, int amount) {
+		super(type, item);
 		this.amount = amount;
 	}
 	

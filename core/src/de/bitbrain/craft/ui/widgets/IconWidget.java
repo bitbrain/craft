@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui.elements;
+package de.bitbrain.craft.ui.widgets;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -34,10 +34,11 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.graphics.GraphicsFactory;
+import de.bitbrain.craft.graphics.Icon;
+import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.tweens.ValueTween;
-import de.bitbrain.craft.util.ColorCalculator;
 import de.bitbrain.craft.util.ValueProvider;
 
 /**
@@ -47,49 +48,42 @@ import de.bitbrain.craft.util.ValueProvider;
  * @since 1.0
  * @version 1.0
  */
-public class ElementIcon extends Actor implements ValueProvider {
+public class IconWidget extends Actor implements ValueProvider {
 	
 	public float iconScale;
 	
-	private ElementData data;
-	
 	private NinePatch background;
 	
-	private Label amount;
-	
-	private ColorCalculator colorCalculator;
+	private Label amountLabel;
 	
 	private IconDrawable icon;
 	
 	private Color backgroundColor = new Color(Color.WHITE);
 	
-	private int currentAmount;
+	private int currentAmount, amount;
 	
 	@Inject
 	private TweenManager tweenManager;
 	
-	public ElementIcon(ElementData data) {
-		Tween.registerAccessor(ElementIcon.class, new ValueTween());
+	@Inject
+	private IconManager iconManager;
+	
+	public IconWidget(Icon icon, int amount) {
+		Tween.registerAccessor(IconWidget.class, new ValueTween());
 		SharedInjector.get().injectMembers(this);
-		setSource(data);
-		amount = new Label("1", Styles.LBL_TEXT);
+		this.amount = amount;
+		amountLabel = new Label("1", Styles.LBL_TEXT);
 		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
-		colorCalculator = new ColorCalculator();
-		icon = data.getIcon();
-		updateBackground();
+		setSource(icon, amount);
 	}
 	
-	public final void setSource(ElementData data) {
-		this.data = data;
+	public final void setSource(Icon icon, int amount) {
+		this.icon = iconManager.fetch(icon);
 		tweenManager.killTarget(this);
 		Tween.to(this, ValueTween.VALUE, 1f)
-	         .target(this.data.getAmount())
+	         .target(amount)
 	         .ease(TweenEquations.easeOutQuart)
 	         .start(tweenManager);
-	}
-	
-	private void updateBackground() {
-		backgroundColor = colorCalculator.getColor(icon.getTexture());		
 	}
 	
 	/* (non-Javadoc)
@@ -99,10 +93,6 @@ public class ElementIcon extends Actor implements ValueProvider {
 	public void draw(Batch batch, float parentAlpha) {		
 			
 		float iconScale = 0.8f;
-
-		if (icon != data.getIcon() || !icon.color.equals(data.getIcon().color)) {
-			updateBackground();
-		}
 		
 		// background
 		background.setColor(backgroundColor);
@@ -118,11 +108,11 @@ public class ElementIcon extends Actor implements ValueProvider {
 		icon.draw(batch, parentAlpha);
 		
 		// Amount
-		if (data.getAmount() > 0) {
-			amount.setText(String.valueOf(currentAmount));
-			amount.setX(getX() + getWidth() - amount.getPrefWidth() - getPadding());
-			amount.setY(getY() + getPadding());
-			amount.draw(batch, parentAlpha);
+		if (amount > 0) {
+			amountLabel.setText(String.valueOf(currentAmount));
+			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding());
+			amountLabel.setY(getY() + getPadding());
+			amountLabel.draw(batch, parentAlpha);
 		}
 	}
 	

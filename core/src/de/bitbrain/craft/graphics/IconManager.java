@@ -181,8 +181,6 @@ public class IconManager implements Fadeable {
 			setTexture(null);
 			loader = new TextureLoader();
 		}
-		
-		
 
 		public IconDrawable(IconDrawable iconDrawable) {
 			this.scale = iconDrawable.scale;

@@ -35,15 +35,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.events.ElementEvent;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
+import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.tweens.VectorTween;
-import de.bitbrain.craft.ui.elements.ElementData;
 import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 
 /**
@@ -61,13 +63,13 @@ public class DragDropHandler {
 	private boolean enabled;
 	
 	// Contains all icons to draw
-	private Map<String, IconDrawable> icons;
+	private Map<ItemId, IconDrawable> icons;
 	
 	// Contains all current locations and their sources
-	private Map<String, Vector2> locations, sources, sizes;
+	private Map<ItemId, Vector2> locations, sources, sizes;
 	
 	// Contains values to determine if an item has been dropped
-	private Map<String, Boolean> drops;
+	private Map<ItemId, Boolean> drops;
 	
 	// Temporary direction variable for target
 	private Vector2 target;
@@ -78,13 +80,16 @@ public class DragDropHandler {
 	@Inject
 	private TweenManager tweenManager;
 	
+	@Inject
+	private IconManager iconManager;
+	
 	@PostConstruct
 	public void init() {
-		icons = new HashMap<String, IconDrawable>();
-		locations = new HashMap<String, Vector2>();
-		sources = new HashMap<String, Vector2>();
-		drops = new HashMap<String, Boolean>();
-		sizes = new HashMap<String, Vector2>();
+		icons = new HashMap<ItemId, IconDrawable>();
+		locations = new HashMap<ItemId, Vector2>();
+		sources = new HashMap<ItemId, Vector2>();
+		drops = new HashMap<ItemId, Boolean>();
+		sizes = new HashMap<ItemId, Vector2>();
 		target = new Vector2();
 		enabled = true;
 		eventBus.subscribe(this);
@@ -96,7 +101,7 @@ public class DragDropHandler {
 	
 	public void draw(Batch batch, float delta) {
 		if (enabled) {
-			for (Entry<String, IconDrawable> entry : icons.entrySet()) {
+			for (Entry<ItemId, IconDrawable> entry : icons.entrySet()) {
 				Vector2 location = locations.get(entry.getKey());
 				Vector2 size = sizes.get(entry.getKey());
 				target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
@@ -138,7 +143,7 @@ public class DragDropHandler {
 	}
 	
 	@Handler
-	public void onEvent(ElementEvent<?> event) {
+	public void onEvent(ItemEvent event) {
 		// ON ITEM REMOVE: Remove it from this handler
 		if (event.getType().equals(EventType.REMOVE)) {
 			remove(event.getModel().getId());
@@ -147,13 +152,13 @@ public class DragDropHandler {
 	
 	@Handler
 	public void onEvent(MouseEvent<?> event) {
-		if (event.getModel() instanceof ElementData) {			
-			final ElementData data = (ElementData) event.getModel();
+		if (event.getModel() instanceof Item) {			
+			final Item item = (Item) event.getModel();
 			
 			if (event.getType() == EventType.MOUSEDRAG) {
-				add(data);
+				add(item);
 			} else if (event.getType() == EventType.MOUSEDROP) {
-				String id = data.getId();
+				ItemId id = item.getId();
 				drops.put(id, true);
 				tweenManager.killTarget(sizes.get(id));
 				animateVector(sizes.get(id), 1.7f, 0f, new TweenCallback() {
@@ -170,21 +175,21 @@ public class DragDropHandler {
 		return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY());
 	}
 	
-	private void add(final ElementData data) {
-		icons.put(data.getId(), data.getIcon());
-		locations.put(data.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
-		drops.put(data.getId(), false);
-		sources.put(data.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
-		sizes.put(data.getId(), new Vector2());
-		animateVector(sizes.get(data.getId()), 1f,  Sizes.dragIconSize(), new TweenCallback() {
+	private void add(final Item item) {
+		icons.put(item.getId(), iconManager.fetch(item.getIcon()));
+		locations.put(item.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
+		drops.put(item.getId(), false);
+		sources.put(item.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
+		sizes.put(item.getId(), new Vector2());
+		animateVector(sizes.get(item.getId()), 1f,  Sizes.dragIconSize(), new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				animateDragging(sizes.get(data.getId()));
+				animateDragging(sizes.get(item.getId()));
 			}			
 		});
 	}
 	
-	private void remove(String id) {
+	private void remove(ItemId id) {
 		if (icons.containsKey(id)) {
 			icons.remove(id);
 			locations.remove(id);
