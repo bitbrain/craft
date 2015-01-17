@@ -322,4 +322,9 @@ class SimpleAPI implements API {
 	public boolean learnRecipe(ItemId id) {
 		return learnRecipe(Player.getCurrent(), id);
 	}
+
+	@Override
+	public Recipe findRecipe(ItemId itemId) {
+		return recipeMapper.findByItemId(itemId);
+	}
 }

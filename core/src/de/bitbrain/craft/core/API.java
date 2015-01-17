@@ -193,6 +193,14 @@ public interface API {
 	boolean learnRecipe(ItemId id);
 	
 	/**
+	 * Finds a recipe which can craft the item
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	Recipe findRecipe(ItemId itemId);
+	
+	/**
 	 * Is thrown as an API error occurs
 	 *
 	 * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>

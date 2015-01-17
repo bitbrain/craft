@@ -45,6 +45,7 @@ import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Recipe;
 
 /**
  * List element which shows basic element info
@@ -156,10 +157,16 @@ public class ItemWidget extends HorizontalGroup {
 		name.setFontScale(0.85f);
 
 		String textDescription = "Click to craft";
-		Color colorDescription = Assets.CLR_INACTIVE;
+		Color colorDescription = new Color(0.3f, 1f, 0.2f, 1f);
 		if (!craftable) {
-			textDescription = "Can not craft";
-			colorDescription = Color.RED;
+			if (api.canCraftIndirect(item.getId())) {
+				Recipe recipe = api.findRecipe(item.getId());
+				textDescription = recipe.getProfession().toString();
+				colorDescription = Color.ORANGE;
+			} else {
+				textDescription = "Can not craft";
+				colorDescription = Color.RED;
+			}
 		}
 		Label description = new Label(textDescription, Styles.LBL_TEXT);
 		description.setFontScale(0.7f);
