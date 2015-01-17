@@ -23,7 +23,6 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -49,56 +48,58 @@ import de.bitbrain.craft.util.ValueProvider;
  * @version 1.0
  */
 public class IconWidget extends Actor implements ValueProvider {
-	
+
 	public float iconScale;
-	
+
 	private NinePatch background;
-	
+
 	private Label amountLabel;
-	
+
 	private IconDrawable icon;
-	
-	private Color backgroundColor = new Color(Color.WHITE);
-	
+
 	private int currentAmount, amount;
-	
+
 	@Inject
 	private TweenManager tweenManager;
-	
+
 	@Inject
 	private IconManager iconManager;
-	
+
 	public IconWidget(Icon icon, int amount) {
 		Tween.registerAccessor(IconWidget.class, new ValueTween());
 		SharedInjector.get().injectMembers(this);
 		this.amount = amount;
 		amountLabel = new Label("1", Styles.LBL_TEXT);
-		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+		background = GraphicsFactory.createNinePatch(
+				Assets.TEX_PANEL_TRANSPARENT_9patch,
+				Sizes.panelTransparentRadius());
 		this.icon = iconManager.fetch(icon);
 		this.currentAmount = amount;
 	}
-	
+
 	public final void setSource(Icon icon, int amount) {
 		this.icon = iconManager.fetch(icon);
 		tweenManager.killTarget(this);
-		Tween.to(this, ValueTween.VALUE, 1f)
-	         .target(amount)
-	         .ease(TweenEquations.easeOutQuart)
-	         .start(tweenManager);
+		Tween.to(this, ValueTween.VALUE, 1f).target(amount)
+				.ease(TweenEquations.easeOutQuart).start(tweenManager);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.g2d.Batch, float)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.
+	 * g2d.Batch, float)
 	 */
 	@Override
-	public void draw(Batch batch, float parentAlpha) {		
-			
+	public void draw(Batch batch, float parentAlpha) {
+
 		float iconScale = 0.8f;
-		
+
 		// background
-		background.setColor(backgroundColor);
+		background.setColor(getColor());
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
-		
+
 		// Icon
 		icon.width = getWidth() * iconScale;
 		icon.height = getHeight() * iconScale;
@@ -107,16 +108,17 @@ public class IconWidget extends Actor implements ValueProvider {
 		icon.rotation = 180f;
 		icon.color = getColor();
 		icon.draw(batch, parentAlpha);
-		
+
 		// Amount
 		if (amount > 0) {
 			amountLabel.setText(String.valueOf(currentAmount));
-			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding());
+			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth()
+					- getPadding());
 			amountLabel.setY(getY() + getPadding());
 			amountLabel.draw(batch, parentAlpha);
 		}
 	}
-	
+
 	private float getPadding() {
 		return 12f;
 	}

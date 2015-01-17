@@ -24,6 +24,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.engio.mbassy.listener.Handler;
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -37,6 +42,7 @@ import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.ui.widgets.ItemWidget;
 import de.bitbrain.craft.util.ItemComparator;
 
@@ -63,6 +69,9 @@ public class ItemList {
 
 	@Inject
 	private API api;
+	
+	@Inject
+	private TweenManager tweenManager;
 
 	public ItemList(WidgetGroup group) {
 		SharedInjector.get().injectMembers(this);
@@ -96,13 +105,22 @@ public class ItemList {
 	}
 
 	private void removeElements(Item item, int amount) {
-		ItemWidget widget = widgets.get(item.getId());
+		final ItemWidget widget = widgets.get(item.getId());
 		int newAmount = widget.getAmount() - amount;
 		widget.setAmount(item, newAmount);
 		if (newAmount <= 0 && !api.canCraftIndirect(item.getId())) {
 			widgets.remove(widget);
 			items.remove(widget);
-			group.removeActor(widget);
+			Tween.to(widget, ActorTween.ALPHA, 0.65f)
+			.target(0f)
+			.ease(TweenEquations.easeOutQuad)
+			.setCallbackTriggers(TweenCallback.COMPLETE)
+			.setCallback(new TweenCallback() {
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					group.removeActor(widget);
+				}				
+			}).start(tweenManager);
 			Gdx.app.log("INFO", "Removed element with id='" + item.getId()
 					+ "' from " + group);
 		}
@@ -122,6 +140,7 @@ public class ItemList {
 					+ "' to " + group);
 		} else {
 			ItemWidget panel = widgets.get(item.getId());
+			tweenManager.killTarget(panel);
 			panel.setAmount(item, amount);
 			Gdx.app.log("INFO", "Updated element with id='" + item.getId()
 					+ "' in " + group);
