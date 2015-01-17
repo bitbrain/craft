@@ -55,7 +55,8 @@ public interface API {
 	Collection<Item> getAllItems();
 	
 	/**
-	 * Provides all items which are owned by the given player
+	 * Provides all items which are owned by the given player. Contains also
+	 * items which can be possibly crafted but are not really there.
 	 * 
 	 * @param playerId id of the player
 	 * @return owned items by player

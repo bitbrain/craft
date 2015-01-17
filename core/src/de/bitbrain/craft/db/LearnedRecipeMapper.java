@@ -48,6 +48,9 @@ public interface LearnedRecipeMapper {
 	@Select(condition = "recipe_id = $1 AND player_id = $2")
 	LearnedRecipe findByRecipeId(int recipeId, int playerId);
 	
+	@Select(condition = "player_id = $1")
+	Collection<LearnedRecipe> findByPlayerId(int playerId);
+	
 	@Insert
 	boolean insert(LearnedRecipe recipe);
 	

@@ -117,6 +117,15 @@ class SimpleAPI implements API {
 			items.put(item, own.getAmount());
 		}
 		
+		Collection<LearnedRecipe> learnedRecipes = learnedRecipeMapper.findByPlayerId(playerId);
+		for (LearnedRecipe learned : learnedRecipes) {
+			Recipe recipe = recipeMapper.findById(learned.getRecipeId());
+			Item item = itemMapper.findById(recipe.getItemId());
+			if (!items.containsKey(item)) {
+				items.put(item, 0);
+			}
+		}
+		
 		return items;
 	}
 	
