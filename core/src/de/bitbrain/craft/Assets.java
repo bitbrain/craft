@@ -51,6 +51,7 @@ public final class Assets {
 	
 	public static final String BDL_GENERAL 				= DIR_LANGUAGE + "general";
 	public static final String BDL_ITEMS 			    = DIR_LANGUAGE + "items";
+	public static final String BDL_ITEMS_DESCRIPTIONS   = DIR_LANGUAGE + "items-description";
 	public static final String BDL_RECIPES 				= DIR_LANGUAGE + "recipes";
 	
 	// ---------- FONTS -----------	

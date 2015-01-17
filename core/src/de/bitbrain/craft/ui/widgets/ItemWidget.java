@@ -34,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
@@ -83,7 +84,7 @@ public class ItemWidget extends HorizontalGroup {
 			this.item = item;
 			this.amount = amount;
 			craftable = isElementCraftable();
-			this.name = new Label(item.getId() + GAP, Styles.LBL_ITEM);
+			this.name = new Label(Bundles.items.get(item.getId().toString()) + GAP, Styles.LBL_ITEM);
 			icon = new IconWidget(item.getIcon(), amount);
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);

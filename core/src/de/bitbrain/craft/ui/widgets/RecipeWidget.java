@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
@@ -76,7 +77,7 @@ public class RecipeWidget extends VerticalGroup {
 				if (!isModified()) {
 					content.clear();
 					content.addActor(generateTop(item));
-					String description = item.getId().toString();
+					String description = Bundles.itemDescriptions.get(item.getId().toString());
 					if (!description.isEmpty()) {
 						content.addActor(generateDescription(item));
 					}
@@ -90,7 +91,7 @@ public class RecipeWidget extends VerticalGroup {
 	}
 	
 	private Actor generateDescription(Item item) {
-		Container<Label> container = new Container<Label>(new Label(item.getId().toString(), Styles.LBL_BROWN));
+		Container<Label> container = new Container<Label>(new Label(Bundles.itemDescriptions.get(item.getId().toString()), Styles.LBL_BROWN));
 		container.padTop(20f).padLeft(10f).align(Align.left);
 		return container;
 	}
@@ -101,7 +102,7 @@ public class RecipeWidget extends VerticalGroup {
 		IconWidget icon = new IconWidget(item.getIcon(), -1);
 		group.addActor(icon);
 		HorizontalGroup wrapper = new HorizontalGroup();
-		Label caption = new Label(item.getId().toString(), Styles.LBL_ITEM);
+		Label caption = new Label(Bundles.items.get(item.getId().toString()), Styles.LBL_ITEM);
 		caption.setColor(item.getRarity().getColor());	
 		icon.setWidth(caption.getHeight() * 4);
 		icon.setHeight(caption.getHeight() * 4);

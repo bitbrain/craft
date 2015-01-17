@@ -19,6 +19,7 @@
 
 package de.bitbrain.craft.ui;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.ui.widgets.ItemWidget;
+import de.bitbrain.craft.util.ItemComparator;
 
 /**
  * Connects element info to the database
@@ -55,7 +57,9 @@ public class ItemList {
 
 	private final Map<ItemId, Actor> spacings;
 
-	private final Map<Actor, Item> values;
+	private final Map<Actor, Item> items;
+	
+	private ItemWidgetComparator comparator;
 
 	@Inject
 	private EventBus eventBus;
@@ -65,7 +69,8 @@ public class ItemList {
 		this.group = group;
 		widgets = new HashMap<ItemId, ItemWidget>();
 		spacings = new HashMap<ItemId, Actor>();
-		values = new HashMap<Actor, Item>();
+		items = new HashMap<Actor, Item>();
+		comparator = new ItemWidgetComparator();
 		eventBus.subscribe(this);
 	}
 
@@ -107,16 +112,17 @@ public class ItemList {
 			Gdx.app.log("INFO", "Removed element with id='" + item.getId()
 					+ "' from " + group);
 		}
-
+		group.getChildren().begin();
+		group.getChildren().sort(comparator);
+		group.getChildren().end();
 	}
 
 	private void addElements(Item item, int amount) {
 		if (!widgets.containsKey(item.getId())) {
 			ItemWidget panel = new ItemWidget(item, amount);
 			widgets.put(item.getId(), panel);
-			group.addActor(addSpacing(item.getId()));
 			group.addActor(panel);
-			values.put(panel, item);
+			items.put(panel, item);
 			Gdx.app.log("INFO", "Attached element with id='" + item.getId()
 					+ "' to " + group);
 		} else {
@@ -125,5 +131,21 @@ public class ItemList {
 			Gdx.app.log("INFO", "Updated element with id='" + item.getId()
 					+ "' in " + group);
 		}
+		group.getChildren().begin();
+		group.getChildren().sort(comparator);
+		group.getChildren().end();
+	}
+	
+	private class ItemWidgetComparator implements Comparator<Actor> {
+
+		private ItemComparator itemComparator = new ItemComparator();
+		
+		@Override
+		public int compare(Actor actorA, Actor actorB) {
+			Item itemA = items.get(actorA);
+			Item itemB = items.get(actorB);
+			return itemComparator.compare(itemA, itemB);
+		}
+		
 	}
 }

@@ -34,10 +34,10 @@ import com.badlogic.gdx.utils.I18NBundle;
  */
 public final class Bundles {
 
-	public static I18NBundle general, items, recipes;
+	public static I18NBundle general, items, recipes, itemDescriptions;
 	
 	private static FileHandle generalHandle;
-	private static FileHandle itemHandle;
+	private static FileHandle itemHandle, itemDescriptionsHandle;
 	private static FileHandle recipesHandle;
 	
 	public static void load() {		
@@ -46,7 +46,7 @@ public final class Bundles {
 		generalHandle = Gdx.files.internal(Assets.BDL_GENERAL);
 		itemHandle = Gdx.files.internal(Assets.BDL_ITEMS);
 		recipesHandle = Gdx.files.internal(Assets.BDL_RECIPES);
-		
+		itemDescriptionsHandle = Gdx.files.internal(Assets.BDL_ITEMS_DESCRIPTIONS);
 		Locale locale = new Locale("en");		
 		setLocale(locale);
 		Gdx.app.log("INFO", "Done loading bundles.");
@@ -57,6 +57,7 @@ public final class Bundles {
 		general = I18NBundle.createBundle(generalHandle, locale);
 		items = I18NBundle.createBundle(itemHandle, locale);
 		recipes = I18NBundle.createBundle(recipesHandle, locale);
+		itemDescriptions = I18NBundle.createBundle(itemDescriptionsHandle, locale);
 	}
 	
 	// KEYS
