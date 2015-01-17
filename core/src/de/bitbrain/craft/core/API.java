@@ -107,6 +107,21 @@ public interface API {
 	 */
 	Player createPlayer(String name) throws APIException;
 	
+	/**
+	 * Returns true when this item is craftable from any profession
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	boolean canCraftIndirect(ItemId itemId);
+	
+	/**
+	 * Checks if the current player can craft the item with the current profession
+	 * 
+	 * @param itemId
+	 * @return
+	 */
+	boolean canCraft(ItemId itemId);
 
 	/**
 	 * Determines if the player can craft the given item 

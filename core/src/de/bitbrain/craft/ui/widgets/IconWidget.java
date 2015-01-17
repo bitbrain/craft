@@ -74,7 +74,8 @@ public class IconWidget extends Actor implements ValueProvider {
 		this.amount = amount;
 		amountLabel = new Label("1", Styles.LBL_TEXT);
 		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
-		setSource(icon, amount);
+		this.icon = iconManager.fetch(icon);
+		this.currentAmount = amount;
 	}
 	
 	public final void setSource(Icon icon, int amount) {

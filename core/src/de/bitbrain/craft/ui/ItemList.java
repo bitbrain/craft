@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -49,26 +50,24 @@ import de.bitbrain.craft.util.ItemComparator;
 @StateScoped
 public class ItemList {
 
-	private final static float SPACING = 10f;
-
 	private final WidgetGroup group;
 
 	private final Map<ItemId, ItemWidget> widgets;
 
-	private final Map<ItemId, Actor> spacings;
-
 	private final Map<Actor, Item> items;
-	
+
 	private ItemWidgetComparator comparator;
 
 	@Inject
 	private EventBus eventBus;
 
+	@Inject
+	private API api;
+
 	public ItemList(WidgetGroup group) {
 		SharedInjector.get().injectMembers(this);
 		this.group = group;
 		widgets = new HashMap<ItemId, ItemWidget>();
-		spacings = new HashMap<ItemId, Actor>();
 		items = new HashMap<Actor, Item>();
 		comparator = new ItemWidgetComparator();
 		eventBus.subscribe(this);
@@ -96,22 +95,18 @@ public class ItemList {
 		group.clear();
 	}
 
-	private Actor addSpacing(ItemId id) {
-		Actor spacing = new Actor();
-		spacing.setWidth(group.getWidth());
-		spacing.setHeight(SPACING);
-		spacings.put(id, spacing);
-		return spacing;
-	}
-
 	private void removeElements(Item item, int amount) {
 		ItemWidget widget = widgets.get(item.getId());
 		int newAmount = widget.getAmount() - amount;
-		if (newAmount >= 0) {
-			widget.setAmount(item, newAmount);
+		widget.setAmount(item, newAmount);
+		if (newAmount <= 0 && !api.canCraftIndirect(item.getId())) {
+			widgets.remove(widget);
+			items.remove(widget);
+			group.removeActor(widget);
 			Gdx.app.log("INFO", "Removed element with id='" + item.getId()
 					+ "' from " + group);
 		}
+
 		group.getChildren().begin();
 		group.getChildren().sort(comparator);
 		group.getChildren().end();
@@ -135,17 +130,17 @@ public class ItemList {
 		group.getChildren().sort(comparator);
 		group.getChildren().end();
 	}
-	
+
 	private class ItemWidgetComparator implements Comparator<Actor> {
 
 		private ItemComparator itemComparator = new ItemComparator();
-		
+
 		@Override
 		public int compare(Actor actorA, Actor actorB) {
 			Item itemA = items.get(actorA);
 			Item itemB = items.get(actorB);
 			return itemComparator.compare(itemA, itemB);
 		}
-		
+
 	}
 }

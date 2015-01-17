@@ -127,6 +127,7 @@ public class ItemWidget extends HorizontalGroup {
 
 	public void setAmount(Item item, int amount) {
 		icon.setSource(item.getIcon(), amount);
+		this.amount = amount;
 	}
 
 	private boolean isElementCraftable() {

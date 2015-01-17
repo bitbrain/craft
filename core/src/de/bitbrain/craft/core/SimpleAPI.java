@@ -215,6 +215,21 @@ class SimpleAPI implements API {
 	}
 
 	@Override
+	public boolean canCraftIndirect(ItemId itemId) {
+		for (Profession p : Profession.values()) {
+			if (canCraft(Player.getCurrent(), p, itemId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canCraft(ItemId itemId) {
+		return canCraft(Player.getCurrent(), itemId);
+	}
+
+	@Override
 	public boolean canCraft(Player player, Profession profession, ItemId itemId) {
 		Recipe recipe = recipeMapper.findByItemId(itemId);
 		if (recipe != null && recipe.getProfession().equals(profession)) {
