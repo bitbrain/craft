@@ -113,6 +113,7 @@ public class ItemWidget extends HorizontalGroup {
 		level.setText(String.valueOf(item.getLevel()));
 		setAmount(item, amount);
 		craftable = isElementCraftable();
+		icon.setValue(amount);
 	}
 
 	public int getAmount() {

@@ -141,7 +141,7 @@ public class ItemList {
 		} else {
 			ItemWidget panel = widgets.get(item.getId());
 			tweenManager.killTarget(panel);
-			panel.setAmount(item, amount);
+			panel.setAmount(item, panel.getAmount() + amount);
 			Gdx.app.log("INFO", "Updated element with id='" + item.getId()
 					+ "' in " + group);
 		}
