@@ -37,86 +37,119 @@ public class Item {
 
 	@PrimaryKey
 	private ItemId id;
-	
+
 	private Icon icon;
-	
+
 	private Rarity rarity = Rarity.COMMON;
-	
+
 	private int level = 1;
-	
+
 	private Class<? extends Effect> effect = Effect.class;
-	
+
 	public Item() {
-		
+
 	}
-	
+
 	public Item(ItemId id, Icon icon, Rarity rarity) {
 		this.id = id;
 		this.icon = icon;
 		this.rarity = rarity;
 	}
-	
+
 	public Icon getIcon() {
 		return icon;
 	}
-	
+
 	public ItemId getId() {
 		return id;
 	}
-	
+
 	public Rarity getRarity() {
 		return rarity;
 	}
-	
+
 	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
-	
+
 	public void setId(ItemId id) {
 		this.id = id;
 	}
-	
+
 	public void setRarity(Rarity rarity) {
 		this.rarity = rarity;
 	}
-	
+
 	public void setEffect(Class<? extends Effect> effect) {
 		this.effect = effect;
 	}
-	
+
 	public Class<? extends Effect> getEffect() {
 		return effect;
 	}
-	
+
 	public int getLevel() {
 		return level;
 	}
-	
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((effect == null) ? 0 : effect.hashCode());
+		result = prime * result + ((icon == null) ? 0 : icon.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + level;
+		result = prime * result + ((rarity == null) ? 0 : rarity.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (effect == null) {
+			if (other.effect != null)
+				return false;
+		} else if (!effect.equals(other.effect))
+			return false;
+		if (icon != other.icon)
+			return false;
+		if (id != other.id)
+			return false;
+		if (level != other.level)
+			return false;
+		if (rarity != other.rarity)
+			return false;
+		return true;
+	}
+
 	public static enum Rarity {
-		COMMON("dddddd", 1),
-		RARE("00ff00", 2),
-		SUPERIOR("2211cc", 3),
-		EPIC("5500ff", 4),
-		UNIQUE("ff6600", 5),
-		LEGENDARY("ff00ff", 6);
-		
+		COMMON("dddddd", 1), RARE("00ff00", 2), SUPERIOR("2211cc", 3), EPIC(
+				"5500ff", 4), UNIQUE("ff6600", 5), LEGENDARY("ff00ff", 6);
+
 		private Color color;
-		
+
 		private int level;
-		
+
 		Rarity(String color, int level) {
 			this.color = Color.valueOf(color);
 			this.level = level;
 		}
-		
+
 		public int getLevel() {
 			return level;
 		}
-		
+
 		public Color getColor() {
 			return color;
 		}

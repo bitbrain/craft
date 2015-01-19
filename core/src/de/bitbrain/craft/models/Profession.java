@@ -30,45 +30,7 @@ import de.bitbrain.craft.Bundles;
  * @version 1.0
  */
 public enum Profession {
-	
-	JEWELER {
 
-		@Override
-		public String getIcon() {
-			return Assets.TEX_JEWELER;
-		}
-
-		@Override
-		public String getName() {
-			return Bundles.general.get(Bundles.JEWELER);
-		}
-
-		@Override
-		public String getDescription() {
-			return "jeweler-info";
-		}
-	},
-	
-	ENGINEER {
-
-		@Override
-		public String getIcon() {
-			return Assets.TEX_ENGINEER;
-		}
-
-		@Override
-		public String getName() {
-			return Bundles.general.get(Bundles.ENGINEER);
-		}
-
-		@Override
-		public String getDescription() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		
-	},
-	
 	ALCHEMIST {
 
 		@Override
@@ -86,14 +48,52 @@ public enum Profession {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
+	},
+
+	JEWELER {
+
+		@Override
+		public String getIcon() {
+			return Assets.TEX_JEWELER;
+		}
+
+		@Override
+		public String getName() {
+			return Bundles.general.get(Bundles.JEWELER);
+		}
+
+		@Override
+		public String getDescription() {
+			return "jeweler-info";
+		}
+	},
+
+	ENGINEER {
+
+		@Override
+		public String getIcon() {
+			return Assets.TEX_ENGINEER;
+		}
+
+		@Override
+		public String getName() {
+			return Bundles.general.get(Bundles.ENGINEER);
+		}
+
+		@Override
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 	};
 
 	public abstract String getIcon();
-	
+
 	public abstract String getName();
-	
+
 	public abstract String getDescription();
-	
+
 	public static Profession current;
 }

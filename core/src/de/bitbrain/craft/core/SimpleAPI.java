@@ -73,7 +73,7 @@ class SimpleAPI implements API {
 	private IngredientMapper ingredientMapper;
 	@Inject
 	private JPersis jpersis;
-	
+
 	@PostConstruct
 	public void init() {
 		itemMapper = jpersis.map(ItemMapper.class);
@@ -85,12 +85,12 @@ class SimpleAPI implements API {
 		goalMapper = jpersis.map(GoalMapper.class);
 		ingredientMapper = jpersis.map(IngredientMapper.class);
 	}
-	
+
 	@Override
 	public Item getItem(ItemId id) {
 		return itemMapper.findById(id);
 	}
-	
+
 	/**
 	 * Provides all available items
 	 * 
@@ -100,35 +100,40 @@ class SimpleAPI implements API {
 	public Collection<Item> getAllItems() {
 		return itemMapper.findAll();
 	}
-	
+
 	/**
 	 * Provides all items which are owned by the given player
 	 * 
-	 * @param playerId id of the player
+	 * @param playerId
+	 *            id of the player
 	 * @return owned items by player
 	 */
 	@Override
 	public Map<Item, Integer> getOwnedItems(int playerId) {
-		Collection<OwnedItem> owned = ownedItemMapper.findAllByPlayerId(playerId);
+		Collection<OwnedItem> owned = ownedItemMapper
+				.findAllByPlayerId(playerId);
 		Map<Item, Integer> items = new HashMap<Item, Integer>();
-		
-		for	(OwnedItem own : owned) {
+
+		for (OwnedItem own : owned) {
 			Item item = itemMapper.findById(own.getItemId());
 			items.put(item, own.getAmount());
 		}
-		
-		Collection<LearnedRecipe> learnedRecipes = learnedRecipeMapper.findByPlayerId(playerId);
+
+		// TODO: Implement later when system is more flexible
+		Collection<LearnedRecipe> learnedRecipes = learnedRecipeMapper
+				.findByPlayerId(playerId);
 		for (LearnedRecipe learned : learnedRecipes) {
 			Recipe recipe = recipeMapper.findById(learned.getRecipeId());
 			Item item = itemMapper.findById(recipe.getItemId());
-			if (!items.containsKey(item)) {
+			if (recipe.getProfession().equals(Profession.current)
+					&& !items.containsKey(item)) {
 				items.put(item, 0);
 			}
 		}
-		
+
 		return items;
 	}
-	
+
 	/**
 	 * Returns the first found player
 	 * 
@@ -136,41 +141,43 @@ class SimpleAPI implements API {
 	 */
 	@Override
 	public Player getFirstPlayer() {
-		Collection<Player> players = playerMapper.findAll();		
+		Collection<Player> players = playerMapper.findAll();
 		if (players.size() > 0) {
 			return players.iterator().next();
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Player createPlayer(String name) throws APIException {
 		if (playerMapper.findByName(name) == null) {
 			Player player = new Player();
 			player.setName(name);
 			playerMapper.insert(player);
-			
+
 			// Add professions
 			for (Profession profession : Profession.values()) {
 				progressMapper.insert(new Progress(player.getId(), profession));
 			}
-			
+
 			return player;
 		} else {
-			throw new APIException("Unable to create player. Player with name '" + name + "' already exists.");
+			throw new APIException(
+					"Unable to create player. Player with name '" + name
+							+ "' already exists.");
 		}
 	}
-	
+
 	@Override
 	public Item addItem(int playerId, ItemId id) {
 		return addItem(playerId, id, 1);
 	}
-	
+
 	@Override
 	public Item addItem(int playerId, ItemId id, int amount) {
-		Item item = getItem(id);		
-		if (item != null) {			
+		Item item = getItem(id);
+		if (item != null) {
 			OwnedItem owned = ownedItemMapper.findById(id, playerId);
 			if (owned == null) {
 				owned = new OwnedItem();
@@ -188,7 +195,7 @@ class SimpleAPI implements API {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public boolean removeItem(int playerId, ItemId id, int amount) {
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
@@ -196,16 +203,17 @@ class SimpleAPI implements API {
 		if (owned != null && count >= 0) {
 			Item item = itemMapper.findById(id);
 			try {
-			if (count > 0) {
-				owned.setAmount(count);
-				ownedItemMapper.update(owned);
-			} else {
-				ownedItemMapper.delete(owned);
-			}
+				if (count > 0) {
+					owned.setAmount(count);
+					ownedItemMapper.update(owned);
+				} else {
+					ownedItemMapper.delete(owned);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			EventBus eventBus = SharedInjector.get().getInstance(EventBus.class);
+			EventBus eventBus = SharedInjector.get()
+					.getInstance(EventBus.class);
 			eventBus.fireEvent(new ItemEvent(EventType.REMOVE, item, amount));
 			return true;
 		} else {
@@ -215,7 +223,7 @@ class SimpleAPI implements API {
 
 	@Override
 	public void registerItem(ItemId itemId, Icon icon, Rarity rarity, int level) {
-		Item item = itemMapper.findById(itemId);		
+		Item item = itemMapper.findById(itemId);
 		if (item == null) {
 			item = new Item(itemId, icon, rarity);
 			item.setLevel(level);
@@ -242,12 +250,13 @@ class SimpleAPI implements API {
 	public boolean canCraft(Player player, Profession profession, ItemId itemId) {
 		Recipe recipe = recipeMapper.findByItemId(itemId);
 		if (recipe != null && recipe.getProfession().equals(profession)) {
-			LearnedRecipe learned = learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId());
+			LearnedRecipe learned = learnedRecipeMapper.findByRecipeId(
+					recipe.getId(), player.getId());
 			return learned != null;
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean canCraft(Player player, ItemId itemId) {
 		return canCraft(player, Profession.current, itemId);
@@ -257,15 +266,20 @@ class SimpleAPI implements API {
 	public void removeItem(int playerId, ItemId id) {
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
 		ownedItemMapper.delete(owned);
-		bus().fireEvent(new ItemEvent(EventType.REMOVE, getItem(owned.getItemId()), owned.getAmount()));
+		bus().fireEvent(
+				new ItemEvent(EventType.REMOVE, getItem(owned.getItemId()),
+						owned.getAmount()));
 	}
 
 	@Override
 	public void clearItems(int playerId) {
-		Collection<OwnedItem> items = ownedItemMapper.findAllByPlayerId(playerId);
+		Collection<OwnedItem> items = ownedItemMapper
+				.findAllByPlayerId(playerId);
 		ownedItemMapper.delete(items);
 		for (OwnedItem item : items) {
-			bus().fireEvent(new ItemEvent(EventType.REMOVE, getItem(item.getItemId()), item.getAmount()));
+			bus().fireEvent(
+					new ItemEvent(EventType.REMOVE, getItem(item.getItemId()),
+							item.getAmount()));
 		}
 	}
 
@@ -284,11 +298,16 @@ class SimpleAPI implements API {
 				i.setAmount(entry.getValue());
 				i.setRecipeId(recipe.getId());
 				if (!ingredientMapper.insert(i)) {
-					Gdx.app.error("ERROR", "Unable to register recipe: " + itemId + " already exists for recipe: " + recipe.getItemId());
+					Gdx.app.error(
+							"ERROR",
+							"Unable to register recipe: " + itemId
+									+ " already exists for recipe: "
+									+ recipe.getItemId());
 				}
 			}
 			// Add goals
-			for (Entry<Class<? extends GoalProcessor>, Integer> entry : data.goals.entrySet()) {
+			for (Entry<Class<? extends GoalProcessor>, Integer> entry : data.goals
+					.entrySet()) {
 				Goal g = new Goal();
 				g.setModulator(entry.getValue());
 				g.setProcessor(entry.getKey());
@@ -310,8 +329,11 @@ class SimpleAPI implements API {
 	@Override
 	public boolean learnRecipe(Player player, ItemId id) {
 		Recipe recipe = recipeMapper.findByItemId(id);
-		if (recipe != null && learnedRecipeMapper.findByRecipeId(recipe.getId(), player.getId()) == null) {
-			LearnedRecipe learned = new LearnedRecipe(recipe.getId(), player.getId());
+		if (recipe != null
+				&& learnedRecipeMapper.findByRecipeId(recipe.getId(),
+						player.getId()) == null) {
+			LearnedRecipe learned = new LearnedRecipe(recipe.getId(),
+					player.getId());
 			return learnedRecipeMapper.insert(learned);
 		} else {
 			return false;

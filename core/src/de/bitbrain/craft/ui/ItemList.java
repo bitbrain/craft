@@ -108,8 +108,8 @@ public class ItemList {
 		final ItemWidget widget = widgets.get(item.getId());
 		int newAmount = widget.getAmount() - amount;
 		widget.setAmount(item, newAmount);
-		if (newAmount <= 0 && !api.canCraftIndirect(item.getId())) {
-			widgets.remove(widget);
+		if (newAmount <= 0 && !api.canCraft(item.getId())) {
+			widgets.remove(item.getId());
 			items.remove(widget);
 			Tween.to(widget, ActorTween.ALPHA, 0.65f)
 			.target(0f)
