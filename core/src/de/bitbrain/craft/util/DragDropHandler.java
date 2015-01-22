@@ -30,6 +30,7 @@ import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
@@ -106,7 +107,7 @@ public class DragDropHandler {
 				Vector2 size = sizes.get(entry.getKey());
 				target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
 				target.y = getScreenY();
-				float speed = 15f;
+				float speed = 0f;
 
 				if (drops.get(entry.getKey())) {
 					target.x = sources.get(entry.getKey()).x;
@@ -119,9 +120,15 @@ public class DragDropHandler {
 					}
 				}
 				
-				// Move the location towards the mouse
-				location.x += (target.x - location.x) * delta * speed;
-				location.y += (target.y - location.y) * delta * speed; 
+				if (speed <= 0) {
+					// Apply direct mouse position
+					location.x = target.x;
+					location.y = target.y;
+				} else {
+					// Move the location towards the mouse
+					location.x += (target.x - location.x) * delta * speed;
+					location.y += (target.y - location.y) * delta * speed; 
+				}
 				
 				// Apply location
 				IconDrawable icon = entry.getValue();
@@ -172,7 +179,7 @@ public class DragDropHandler {
 	}
 	
 	private float getScreenY() {
-		return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY());
+		return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY()) + (Gdx.graphics.getHeight() / 8f) * Sizes.worldScreenFactorY();
 	}
 	
 	private void add(final Item item) {
