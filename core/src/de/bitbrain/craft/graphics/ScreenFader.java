@@ -53,8 +53,15 @@ public class ScreenFader implements TweenCallback {
 	
 	private TweenManager tweenManager;
 	
+	private int width, height;
+	
 	public ScreenFader(TweenManager tweenManager) {
 		this.tweenManager = tweenManager;
+	}
+	
+	public void resize(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void setInterval(float seconds) {
@@ -98,7 +105,7 @@ public class ScreenFader implements TweenCallback {
 	
 	public void render(Batch batch) {
 		if (sprite != null) {
-			sprite.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			sprite.setBounds(0, 0, width, height);
 			batch.begin();
 			sprite.draw(batch);
 			batch.end();

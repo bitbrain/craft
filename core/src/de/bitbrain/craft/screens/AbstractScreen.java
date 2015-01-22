@@ -139,6 +139,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		} else {
 			uiRenderer.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
 		}
+		fader.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
 		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
 	}
 
