@@ -20,7 +20,6 @@
 package de.bitbrain.craft.core;
 
 import java.util.Collection;
-import java.util.Map;
 
 import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
 import de.bitbrain.craft.graphics.Icon;
@@ -61,7 +60,7 @@ public interface API {
 	 * @param playerId id of the player
 	 * @return owned items by player
 	 */
-	Map<Item, Integer> getOwnedItems(int playerId);
+	ItemBag getOwnedItems(int playerId);
 	
 	/**
 	 * Adds a single new item and provides it
@@ -199,6 +198,14 @@ public interface API {
 	 * @return
 	 */
 	Recipe findRecipe(ItemId itemId);
+
+	/**
+	 * Finds materials of the item. If no recipe can be found, the bag will be empty
+	 * 
+	 * @param item item
+	 * @return
+	 */
+	ItemBag findIngredients(Item item);
 	
 	/**
 	 * Is thrown as an API error occurs

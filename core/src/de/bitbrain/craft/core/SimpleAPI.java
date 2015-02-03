@@ -20,8 +20,6 @@
 package de.bitbrain.craft.core;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
@@ -36,9 +34,9 @@ import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
 import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.db.RecipeMapper;
-import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -109,14 +107,14 @@ class SimpleAPI implements API {
 	 * @return owned items by player
 	 */
 	@Override
-	public Map<Item, Integer> getOwnedItems(int playerId) {
+	public ItemBag getOwnedItems(int playerId) {
+		ItemBag bag = new ItemBag();
 		Collection<OwnedItem> owned = ownedItemMapper
 				.findAllByPlayerId(playerId);
-		Map<Item, Integer> items = new HashMap<Item, Integer>();
 
 		for (OwnedItem own : owned) {
 			Item item = itemMapper.findById(own.getItemId());
-			items.put(item, own.getAmount());
+			bag.add(item, own.getAmount());
 		}
 
 		// TODO: Implement later when system is more flexible
@@ -126,12 +124,12 @@ class SimpleAPI implements API {
 			Recipe recipe = recipeMapper.findById(learned.getRecipeId());
 			Item item = itemMapper.findById(recipe.getItemId());
 			if (recipe.getProfession().equals(Profession.current)
-					&& !items.containsKey(item)) {
-				items.put(item, 0);
+					&& !bag.contains(item)) {
+				bag.add(item, 0);
 			}
 		}
 
-		return items;
+		return bag;
 	}
 
 	/**
@@ -343,6 +341,20 @@ class SimpleAPI implements API {
 	@Override
 	public boolean learnRecipe(ItemId id) {
 		return learnRecipe(Player.getCurrent(), id);
+	}
+	
+	@Override
+	public ItemBag findIngredients(Item item) {
+		ItemBag bag = new ItemBag();
+		Recipe recipe = recipeMapper.findByItemId(item.getId());
+		if (recipe != null) {
+			Collection<Ingredient> ingredients = ingredientMapper.findByRecipeId(recipe.getId());
+			for (Ingredient ingredient : ingredients) {
+				Item ingredientItem = itemMapper.findById(ingredient.getItemId());
+				bag.add(ingredientItem, ingredient.getAmount());
+			}
+		}
+		return bag;		
 	}
 
 	@Override

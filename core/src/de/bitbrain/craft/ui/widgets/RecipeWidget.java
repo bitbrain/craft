@@ -24,13 +24,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
@@ -47,7 +48,7 @@ import de.bitbrain.craft.ui.Tabs;
  * @since 1.0
  * @version 1.0
  */
-public class RecipeWidget extends VerticalGroup {
+public class RecipeWidget extends Table {
 
 	@Inject
 	private TabWidget tabPanel;
@@ -58,14 +59,10 @@ public class RecipeWidget extends VerticalGroup {
 	@Inject
 	private API api;
 	
-	private VerticalGroup content;
-	
 	@PostConstruct
 	public void init() {
-		content = new VerticalGroup();
-		addActor(content);
+		debug();
 		eventBus.subscribe(this);
-		content.fill();
 	}
 	
 	@Handler
@@ -75,12 +72,13 @@ public class RecipeWidget extends VerticalGroup {
 			if (api.canCraft(Player.getCurrent(), item.getId())) {
 				tabPanel.setTab(Tabs.CRAFTING);
 				if (!isModified()) {
-					content.clear();
-					content.addActor(generateTop(item));
+					clear();
+					add(generateTop(item)).row();
 					String description = Bundles.itemDescriptions.get(item.getId().toString());
 					if (!description.isEmpty()) {
-						content.addActor(generateDescription(item));
+						add(generateDescription(item)).fillX().row();
 					}
+					add(generateMaterials(item));
 				}
 			}
 		}
@@ -110,5 +108,12 @@ public class RecipeWidget extends VerticalGroup {
 		wrapper.padLeft(15f);
 		group.addActor(wrapper);
 		return group;
+	}
+	
+	private Actor generateMaterials(Item item) {
+		Table table = new Table();
+		ItemBag materials = api.findIngredients(item);
+		System.out.println(materials.size());
+		return table;
 	}
 }

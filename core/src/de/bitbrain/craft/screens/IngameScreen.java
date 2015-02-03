@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.screens;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
@@ -40,6 +39,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.ItemEvent;
@@ -138,8 +138,8 @@ public class IngameScreen extends AbstractScreen {
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
 		itemList = new ItemList(itemView);
-		Map<Item, Integer> itemMap = api.getOwnedItems(Player.getCurrent().getId());
-		for (Entry<Item, Integer> entry : itemMap.entrySet()) {
+		ItemBag itemBag = api.getOwnedItems(Player.getCurrent().getId());
+		for (Entry<Item, Integer> entry : itemBag) {
 			eventBus.fireEvent(new ItemEvent(EventType.ADD, entry.getKey(), entry.getValue()));
 		}		
 		return generateScrollPane(itemView);
