@@ -134,8 +134,8 @@ public class Item {
 	}
 
 	public static enum Rarity {
-		COMMON("dddddd", 1), RARE("00ff00", 2), SUPERIOR("2211cc", 3), EPIC(
-				"5500ff", 4), UNIQUE("ff6600", 5), LEGENDARY("ff00ff", 6);
+		COMMON("dddddd", 1), RARE("00ff00", 2), SUPERIOR("0043b1", 3), EPIC(
+				"8500b0", 4), UNIQUE("ff6600", 5), LEGENDARY("ff00d2", 6);
 
 		private Color color;
 
