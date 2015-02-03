@@ -67,4 +67,5 @@ public final class Bundles {
 	public static final String ALCHEMIST = "alchemist";
 	public static final String ENGINEER = "engineer";
 	public static final String JEWELER = "jeweler";
+	public static final String MATERIALS = "materials";
 }

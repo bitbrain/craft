@@ -18,9 +18,12 @@
  */
 package de.bitbrain.craft.ui.widgets;
 
+import java.util.Map.Entry;
+
 import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -111,9 +114,24 @@ public class RecipeWidget extends Table {
 	}
 	
 	private Actor generateMaterials(Item item) {
-		Table table = new Table();
+		Table table = new Table();		
+		Label label = new Label(Bundles.general.get(Bundles.MATERIALS), Styles.LBL_CAPTION);
+		
+		table.add(label).padTop(25f).padBottom(25f).row();
+		Table materialTable = new Table();
+		table.add(materialTable);
 		ItemBag materials = api.findIngredients(item);
-		System.out.println(materials.size());
+		int index = 0;
+		for (Entry<Item, Integer> entry : materials) {
+			IconWidget widget = new IconWidget(entry.getKey().getIcon(), entry.getValue());
+			widget.setWidth(75f);
+			widget.setHeight(75f);
+			Cell<IconWidget> cell = materialTable.add(widget);
+			if (index > 0 && index % 2 == 0) {
+				cell.row();
+			}
+			index++;
+		}
 		return table;
 	}
 }
