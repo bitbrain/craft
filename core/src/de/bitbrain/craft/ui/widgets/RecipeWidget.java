@@ -32,6 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Bundles;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemBag;
@@ -41,6 +42,7 @@ import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.ui.Tabs;
 
 /**
@@ -64,7 +66,6 @@ public class RecipeWidget extends Table {
 	
 	@PostConstruct
 	public void init() {
-		debug();
 		eventBus.subscribe(this);
 	}
 	
@@ -81,7 +82,8 @@ public class RecipeWidget extends Table {
 					if (!description.isEmpty()) {
 						add(generateDescription(item)).fillX().row();
 					}
-					add(generateMaterials(item));
+					add(generateMaterials(item)).row();
+					add(generateRewards(item));
 				}
 			}
 		}
@@ -115,17 +117,16 @@ public class RecipeWidget extends Table {
 	
 	private Actor generateMaterials(Item item) {
 		Table table = new Table();		
-		Label label = new Label(Bundles.general.get(Bundles.MATERIALS), Styles.LBL_CAPTION);
-		
-		table.add(label).padTop(25f).padBottom(25f).row();
+		addCaption(Bundles.MATERIALS, table);
 		Table materialTable = new Table();
 		table.add(materialTable);
 		ItemBag materials = api.findIngredients(item);
+		materialTable.setWidth(500f);
 		int index = 0;
 		for (Entry<Item, Integer> entry : materials) {
 			IconWidget widget = new IconWidget(entry.getKey().getIcon(), entry.getValue());
-			widget.setWidth(75f);
-			widget.setHeight(75f);
+			widget.setWidth(Sizes.MATERIAL_ICON);
+			widget.setHeight(Sizes.MATERIAL_ICON);
 			Cell<IconWidget> cell = materialTable.add(widget);
 			if (index > 0 && index % 2 == 0) {
 				cell.row();
@@ -133,5 +134,25 @@ public class RecipeWidget extends Table {
 			index++;
 		}
 		return table;
+	}
+	
+	private Actor generateRewards(Item item) {
+		Table table = new Table();
+		addCaption(Bundles.REWARDS, table);
+		Recipe recipe = api.findRecipe(item.getId());
+		if (recipe != null) {
+			Table rewards = new Table();
+			table.add(rewards).row();
+			IconWidget itemReward = new IconWidget(item.getIcon(), recipe.getAmount());
+			itemReward.setWidth(Sizes.MATERIAL_ICON);
+			itemReward.setHeight(Sizes.MATERIAL_ICON);
+			rewards.add(itemReward);
+		}
+		return table;
+	}
+	
+	private void addCaption(String key, Table target) {
+		Label label = new Label(Bundles.general.get(key), Styles.LBL_CAPTION);
+		target.add(label).padTop(25f).padBottom(25f).row();
 	}
 }

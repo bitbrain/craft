@@ -30,6 +30,8 @@ import com.badlogic.gdx.Gdx;
  */
 public final class Sizes {
 
+	public static final float MATERIAL_ICON = 75f;
+
 	public static int worldWidth() {
 		return 1020;
 	}
