@@ -58,6 +58,7 @@ public final class Assets {
 	/**
 	 * grass green color
 	 */
+	public static final String FNT_SMALLEST		    	= DIR_FONTS + "smallest.fnt";
 	public static final String FNT_SMALL			    	= DIR_FONTS + "small.fnt";
 	public static final String FNT_MEDIUM			    = DIR_FONTS + "medium.fnt";
 	public static final String FNT_LARGER 				= DIR_FONTS + "larger.fnt";

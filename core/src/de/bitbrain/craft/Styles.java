@@ -51,6 +51,7 @@ public final class Styles {
 	public static final TextFieldStyle TXT_COMMANDLINE = new TextFieldStyle();
 	public static final TextButtonStyle BTN_RED = new TextButtonStyle();
 	public static final LabelStyle LBL_CAPTION =  new LabelStyle();
+	public static final LabelStyle LBL_TOOLTIP =  new LabelStyle();
 
 	public static void load() {
 		BTN_GREEN.font = SharedAssetManager.get(Assets.FNT_LARGER,
@@ -97,6 +98,10 @@ public final class Styles {
 		
 		LBL_CAPTION.fontColor = Assets.CLR_YELLOW_SAND;
 		LBL_CAPTION.font = SharedAssetManager.get(Assets.FNT_LARGER,
+				BitmapFont.class);
+		
+		LBL_TOOLTIP.fontColor = new Color(Color.WHITE);
+		LBL_TOOLTIP.font =  SharedAssetManager.get(Assets.FNT_SMALLEST,
 				BitmapFont.class);
 
 		BTN_TAB.up = new NinePatchDrawable(GraphicsFactory.createNinePatch(

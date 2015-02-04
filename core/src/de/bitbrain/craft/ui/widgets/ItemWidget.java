@@ -87,10 +87,10 @@ public class ItemWidget extends HorizontalGroup {
 			craftable = isElementCraftable();
 			this.name = new Label(Bundles.items.get(item.getId().toString())
 					+ GAP, Styles.LBL_ITEM);
-			this.level = new Label(String.valueOf(item.getLevel()),
-					Styles.LBL_ITEM);
+			this.level = new Label("Level " + String.valueOf(item.getLevel()),
+					Styles.LBL_TOOLTIP);
 			this.level.setColor(1.0f, 1.0f, 0.8f, 0.4f);
-			this.level.setFontScale(0.6f);
+			this.level.setFontScale(1.1f);
 			icon = new IconWidget(item.getIcon(), amount);
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);
@@ -110,7 +110,7 @@ public class ItemWidget extends HorizontalGroup {
 		name.setText(Bundles.items.get(item.getId().toString()) + GAP);
 		name.setColor(item.getRarity().getColor());
 		this.name.setFontScale(0.75f);
-		level.setText(String.valueOf(item.getLevel()));
+		level.setText("Level " + String.valueOf(item.getLevel()));
 		setAmount(item, amount);
 		craftable = isElementCraftable();
 		icon.setValue(amount);
@@ -136,7 +136,7 @@ public class ItemWidget extends HorizontalGroup {
 		level.getColor().a = getColor().a * 0.4f;
 		level.setPosition(
 				getX() + getWidth() - level.getPrefWidth()
-						- Sizes.borderPadding() / 1.5f, getY() + Sizes.borderPadding() / 1.5f);
+						- Sizes.borderPadding() / 1.5f, getY() + Sizes.borderPadding());
 		level.draw(batch, parentAlpha);
 	}
 

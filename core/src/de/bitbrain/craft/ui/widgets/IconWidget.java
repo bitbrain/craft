@@ -69,7 +69,8 @@ public class IconWidget extends Actor implements ValueProvider {
 		Tween.registerAccessor(IconWidget.class, new ValueTween());
 		SharedInjector.get().injectMembers(this);
 		this.amount = amount;
-		amountLabel = new Label("1", Styles.LBL_TEXT);
+		amountLabel = new Label("1", Styles.LBL_TOOLTIP);
+		amountLabel.setFontScale(2.1f);
 		background = GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_TRANSPARENT_9patch,
 				Sizes.panelTransparentRadius());
@@ -113,14 +114,14 @@ public class IconWidget extends Actor implements ValueProvider {
 		if (amount > 0) {
 			amountLabel.setText(String.valueOf(currentAmount));
 			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth()
-					- getPadding());
+					- getPadding() / 2f);
 			amountLabel.setY(getY() + getPadding());
 			amountLabel.draw(batch, parentAlpha);
 		}
 	}
 
 	private float getPadding() {
-		return 12f;
+		return 16f;
 	}
 
 	@Override
