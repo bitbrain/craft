@@ -19,12 +19,18 @@
 
 package de.bitbrain.craft.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 
@@ -107,6 +113,13 @@ public class UIFactory {
 		TextButton button = createPrimaryButton(text);
 		button.setStyle(Styles.BTN_RED);
 		return button;
+	}
+	
+	public static Image createImage(String textureId, int width, int height, Color color) {
+		Sprite s = new Sprite(SharedAssetManager.get(textureId, Texture.class));
+		s.setSize(width, height);
+		s.setColor(color.r, color.g, color.b, color.a);
+		return new Image(new SpriteDrawable(s));
 	}
 
 }

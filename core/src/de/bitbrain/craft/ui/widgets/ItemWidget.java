@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.ui.widgets;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -45,7 +44,6 @@ import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.models.Recipe;
 
 /**
  * List element which shows basic element info
@@ -56,9 +54,9 @@ import de.bitbrain.craft.models.Recipe;
  */
 public class ItemWidget extends HorizontalGroup {
 
-	private final String GAP = "            ";
+	private final String GAP = "                ";
 
-	private Label name, level;
+	private Label name;
 
 	private IconWidget icon;
 
@@ -87,10 +85,6 @@ public class ItemWidget extends HorizontalGroup {
 			craftable = isElementCraftable();
 			this.name = new Label(Bundles.items.get(item.getId().toString())
 					+ GAP, Styles.LBL_ITEM);
-			this.level = new Label("Level " + String.valueOf(item.getLevel()),
-					Styles.LBL_TOOLTIP);
-			this.level.setColor(1.0f, 1.0f, 0.8f, 0.4f);
-			this.level.setFontScale(1.1f);
 			icon = new IconWidget(item.getIcon(), amount);
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);
@@ -110,7 +104,6 @@ public class ItemWidget extends HorizontalGroup {
 		name.setText(Bundles.items.get(item.getId().toString()) + GAP);
 		name.setColor(item.getRarity().getColor());
 		this.name.setFontScale(0.75f);
-		level.setText("Level " + String.valueOf(item.getLevel()));
 		setAmount(item, amount);
 		craftable = isElementCraftable();
 		icon.setValue(amount);
@@ -133,11 +126,6 @@ public class ItemWidget extends HorizontalGroup {
 		background.getColor().a = parentAlpha * getColor().a;
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);
-		level.getColor().a = getColor().a * 0.4f;
-		level.setPosition(
-				getX() + getWidth() - level.getPrefWidth()
-						- Sizes.borderPadding() / 1.5f, getY() + Sizes.borderPadding());
-		level.draw(batch, parentAlpha);
 	}
 
 	public void setAmount(Item item, int amount) {
@@ -153,30 +141,12 @@ public class ItemWidget extends HorizontalGroup {
 		VerticalGroup layout = new VerticalGroup();
 		layout.align(Align.left);
 		layout.padLeft(15f);
-		layout.padTop(15f);
 		name.setColor(item.getRarity().getColor());
-		name.setFontScale(0.85f);
-
-		String textDescription = "Click to craft";
-		Color colorDescription = new Color(0.3f, 1f, 0.2f, 1f);
-		if (!craftable) {
-			if (api.canCraftIndirect(item.getId())) {
-				Recipe recipe = api.findRecipe(item.getId());
-				textDescription = recipe.getProfession().toString();
-				colorDescription = Color.ORANGE;
-			} else {
-				textDescription = "Can not craft";
-				colorDescription = Color.RED;
-			}
-		}
-		Label description = new Label(textDescription, Styles.LBL_TEXT);
-		description.setFontScale(0.7f);
-		description.setColor(colorDescription);
-		description.getColor().a = 0.5f;
+		name.setFontScale(0.90f);
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
-		descContainer.addActor(description);
-		descContainer.padTop(15f);
+		StarLevelWidget level = new StarLevelWidget(item.getLevel(), 7);
+		layout.addActor(level);
 		layout.addActor(descContainer);
 		return layout;
 	}
