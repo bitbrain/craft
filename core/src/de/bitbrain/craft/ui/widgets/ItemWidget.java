@@ -74,11 +74,16 @@ public class ItemWidget extends HorizontalGroup {
 
 	private boolean craftable;
 
+	private StarLevelWidget level;
+	
+	private AvailabilityIcon availability;
+
 	public ItemWidget(Item item, int amount) {
 		try {
 			background = GraphicsFactory.createNinePatch(
 					Assets.TEX_PANEL_TRANSPARENT_9patch,
 					Sizes.panelTransparentRadius());
+			availability = new AvailabilityIcon(item);
 			SharedInjector.get().injectMembers(this);
 			this.item = item;
 			this.amount = amount;
@@ -107,6 +112,8 @@ public class ItemWidget extends HorizontalGroup {
 		setAmount(item, amount);
 		craftable = isElementCraftable();
 		icon.setValue(amount);
+		level.setLevel(item.getLevel());
+		availability.setItem(item);
 	}
 
 	public int getAmount() {
@@ -126,6 +133,8 @@ public class ItemWidget extends HorizontalGroup {
 		background.getColor().a = parentAlpha * getColor().a;
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);
+		final float ICON_SIZE = 16f;
+		availability.draw(batch, getX() + getWidth() - ICON_SIZE - 16f, getY() + ICON_SIZE + 6f, ICON_SIZE, parentAlpha);
 	}
 
 	public void setAmount(Item item, int amount) {
@@ -145,7 +154,7 @@ public class ItemWidget extends HorizontalGroup {
 		name.setFontScale(0.90f);
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
-		StarLevelWidget level = new StarLevelWidget(item.getLevel(), 7);
+		level = new StarLevelWidget(item.getLevel(), 7);
 		layout.addActor(level);
 		layout.addActor(descContainer);
 		return layout;
