@@ -40,6 +40,7 @@ import de.bitbrain.craft.screens.IngameScreen;
 import de.bitbrain.craft.screens.LoadingScreen;
 import de.bitbrain.craft.screens.ProfessionScreen;
 import de.bitbrain.craft.screens.TitleScreen;
+import de.bitbrain.craft.ui.TooltipManager;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
 import de.bitbrain.craft.util.DragDropHandler;
 import de.bitbrain.jpersis.JPersis;
@@ -76,6 +77,7 @@ public class StateModule extends AbstractModule {
 		bind(TweenManager.class).in(StateScoped.class);
 	    bind(CraftGame.class).asEagerSingleton();
 	    bind(CommandLineInterface.class).asEagerSingleton();
+	    bind(TooltipManager.class).asEagerSingleton();
 	    bind(LoadingScreen.class);
 	    bind(TitleScreen.class);
 	    bind(IngameScreen.class);

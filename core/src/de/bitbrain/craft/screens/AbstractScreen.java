@@ -44,6 +44,7 @@ import de.bitbrain.craft.graphics.ScreenFader;
 import de.bitbrain.craft.graphics.ScreenFader.FadeCallback;
 import de.bitbrain.craft.graphics.UIRenderer;
 import de.bitbrain.craft.ui.Overlay;
+import de.bitbrain.craft.ui.TooltipManager;
 
 /**
  * Abstract menu screen
@@ -71,6 +72,9 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	
 	@Inject
 	private Overlay overlay;
+	
+	@Inject
+	private TooltipManager tooltipManager;
 	
 	private ScreenFader fader;
 	
@@ -123,6 +127,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 			particleRenderer.render(batch, delta);
 		batch.end();		
 		uiRenderer.render(delta);
+		tooltipManager.draw(batch);
 		fader.render(batch);
 	}
 
@@ -158,11 +163,14 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	public void dispose() {
 		batch.dispose();
 		uiRenderer.dispose();
+		eventBus.unsubscribe(this);
+		tooltipManager.clear();
 	}
 
 	@Override
 	public void hide() {
 		eventBus.unsubscribe(this);
+		tooltipManager.clear();
 	}
 
 	@Override

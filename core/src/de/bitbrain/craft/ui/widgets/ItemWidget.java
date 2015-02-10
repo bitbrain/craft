@@ -44,6 +44,7 @@ import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.ui.Tooltip;
 
 /**
  * List element which shows basic element info
@@ -152,6 +153,7 @@ public class ItemWidget extends HorizontalGroup {
 		layout.padLeft(15f);
 		name.setColor(item.getRarity().getColor());
 		name.setFontScale(0.90f);
+		Tooltip.create(name).text("Hallo Welt!");
 		layout.addActor(name);
 		VerticalGroup descContainer = new VerticalGroup();
 		level = new StarLevelWidget(item.getLevel(), 7);
