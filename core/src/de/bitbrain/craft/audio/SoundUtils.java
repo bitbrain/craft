@@ -54,6 +54,8 @@ public final class SoundUtils {
 		SoundConfig config = api.getItemSoundConfig(item.getId(), type);
 		if (config != null) {
 			manager.play(config);
+		} else {
+			Gdx.app.log("AUDIO", "Couldn't find sound mapping for item " + item + " and type " + type);
 		}
 	}
 }

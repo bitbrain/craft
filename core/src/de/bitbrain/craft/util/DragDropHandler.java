@@ -37,6 +37,9 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundManager;
+import de.bitbrain.craft.audio.SoundType;
+import de.bitbrain.craft.audio.SoundUtils;
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -81,6 +84,9 @@ public class DragDropHandler {
 	
 	@Inject
 	private SoundManager soundManager;
+	
+	@Inject
+	private API api;
 	
 	@Inject
 	private TweenManager tweenManager;
@@ -168,6 +174,7 @@ public class DragDropHandler {
 			
 			if (event.getType() == EventType.MOUSEDRAG) {
 				add(item);
+				SoundUtils.playItemSound(item, SoundType.DRAG, soundManager, api);
 			} else if (event.getType() == EventType.MOUSEDROP) {
 				ItemId id = item.getId();
 				drops.put(id, true);
@@ -176,6 +183,7 @@ public class DragDropHandler {
 					@Override 
 					public void onEvent(int type, BaseTween<?> source) {} // do nothing
 				});
+				SoundUtils.playItemSound(item, SoundType.DROP, soundManager, api);
 			}
 		} else if (event.getModel() instanceof Tab) {
 			clear();
