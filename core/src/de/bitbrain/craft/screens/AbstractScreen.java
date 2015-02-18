@@ -38,6 +38,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.audio.SoundManager;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.graphics.ScreenFader;
@@ -63,6 +64,9 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 	
 	@Inject
 	protected ParticleRenderer particleRenderer;
+	
+	@Inject
+	protected SoundManager soundManager;
 	
 	@Inject
 	protected EventBus eventBus;
@@ -165,6 +169,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 		uiRenderer.dispose();
 		eventBus.unsubscribe(this);
 		tooltipManager.clear();
+		soundManager.dispose();
 	}
 
 	@Override
