@@ -22,7 +22,6 @@ package de.bitbrain.craft.db;
 import java.util.Collection;
 
 import de.bitbrain.craft.core.ItemId;
-import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.jpersis.annotations.Count;
 import de.bitbrain.jpersis.annotations.Delete;

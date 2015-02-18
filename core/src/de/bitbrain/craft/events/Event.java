@@ -32,9 +32,24 @@ public class Event<Model> {
 	
 	private Model model;
 	
+	private Object[] params;
+	
 	public Event(EventType type, Model model) {
+		this(type, model, (Object[])null);
+	}
+	
+	public Event(EventType type, Model model, Object ... params) {
 		this.type = type;
 		this.model = model;
+		this.params = params;
+	}
+	
+	public Object getParam(int index) {
+		if (params != null && params.length > 0 && index < params.length) {
+			return params[index];
+		} else {
+			return null;
+		}
 	}
 	
 	public EventType getType() {
@@ -57,6 +72,7 @@ public class Event<Model> {
 		MOUSEDRAG,
 		MOUSEDROP,
 		KEYDOWN,
-		KEYUP
+		KEYUP,
+		PLAY
 	}
 }

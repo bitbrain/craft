@@ -108,14 +108,15 @@ public class Tooltip extends InputListener implements Poolable, Fadeable {
 	
 	void draw(Batch batch, float parentAlpha) {
 		if (target != null) {
+			final float PADDING = 10f;
 			TextBounds bounds = font.getBounds(text);
 			float x = Gdx.input.getX() + OFFSET;
 			float y = Gdx.graphics.getHeight() - Gdx.input.getY() - OFFSET;
-			float width = bounds.width; float height = font.getLineHeight() * 2;
+			float width = bounds.width + PADDING * 2; float height = font.getLineHeight() * 2;
 			background.setColor(new Color(1f, 1f, 1f, alpha));
 			background.draw(batch, x, y, width, height);
 			font.setColor(1f, 1f, 1f, alpha);
-			font.draw(batch, text, x, y);
+			font.draw(batch, text, x + PADDING, y + height - PADDING - 3f);
 		}
 	}
 	

@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -80,12 +81,11 @@ public class ItemWidget extends HorizontalGroup {
 	private AvailabilityIcon availability;
 
 	public ItemWidget(Item item, int amount) {
-		try {
+		SharedInjector.get().injectMembers(this);
+		try {			
 			background = GraphicsFactory.createNinePatch(
 					Assets.TEX_PANEL_TRANSPARENT_9patch,
 					Sizes.panelTransparentRadius());
-			availability = new AvailabilityIcon(item);
-			SharedInjector.get().injectMembers(this);
 			this.item = item;
 			this.amount = amount;
 			craftable = isElementCraftable();
@@ -134,8 +134,6 @@ public class ItemWidget extends HorizontalGroup {
 		background.getColor().a = parentAlpha * getColor().a;
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
 		super.draw(batch, parentAlpha);
-		final float ICON_SIZE = 16f;
-		availability.draw(batch, getX() + getWidth() - ICON_SIZE - 16f, getY() + ICON_SIZE + 6f, ICON_SIZE, parentAlpha);
 	}
 
 	public void setAmount(Item item, int amount) {
@@ -153,11 +151,13 @@ public class ItemWidget extends HorizontalGroup {
 		layout.padLeft(15f);
 		name.setColor(item.getRarity().getColor());
 		name.setFontScale(0.90f);
-		Tooltip.create(name).text("Hallo Welt!");
 		layout.addActor(name);
-		VerticalGroup descContainer = new VerticalGroup();
+		Table descContainer = new Table();
 		level = new StarLevelWidget(item.getLevel(), 7);
-		layout.addActor(level);
+		availability = new AvailabilityIcon(item);
+		Tooltip.create(availability).text("Hallo Weltsdcsdv s ");
+		descContainer.add(level);
+		descContainer.right().add(availability);
 		layout.addActor(descContainer);
 		return layout;
 	}
