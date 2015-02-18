@@ -36,6 +36,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.audio.SoundManager;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -77,6 +78,9 @@ public class DragDropHandler {
 	
 	@Inject
 	private EventBus eventBus;
+	
+	@Inject
+	private SoundManager soundManager;
 	
 	@Inject
 	private TweenManager tweenManager;

@@ -23,6 +23,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.SoundConfig;
 
 /**
  * Utility class for sound playback
@@ -45,5 +48,12 @@ public final class SoundUtils {
 	
 	public static void play(String id) {
 		play(id, 1.0f, 1.0f);
+	}
+	
+	public static void playItemSound(Item item, SoundType type, SoundManager manager, API api) {
+		SoundConfig config = api.getItemSoundConfig(item.getId(), type);
+		if (config != null) {
+			manager.play(config);
+		}
 	}
 }

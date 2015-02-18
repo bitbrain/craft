@@ -21,7 +21,6 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
-import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.SoundConfig;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;
@@ -40,7 +39,7 @@ import de.bitbrain.jpersis.annotations.Update;
 public interface SoundConfigMapper {
 	
 	@Select(condition = "id = $1")
-	Item findById(String id);
+	SoundConfig findById(int id);
 	
 	@Insert
 	boolean insert(SoundConfig sound);

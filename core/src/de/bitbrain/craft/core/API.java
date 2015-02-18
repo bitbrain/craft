@@ -21,6 +21,7 @@ package de.bitbrain.craft.core;
 
 import java.util.Collection;
 
+import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.models.Item;
@@ -28,6 +29,7 @@ import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Recipe;
+import de.bitbrain.craft.models.SoundConfig;
 
 /**
  * Overall craft API interface
@@ -150,6 +152,25 @@ public interface API {
 	 * @param rarity rarity of the item
 	 */
 	void registerItem(ItemId itemId, Icon icon, Rarity rarity, int level);
+	
+	/**
+	 * Applies a new sound type to an existing item
+	 * 
+	 * @param itemId target item
+	 * @param deferredSoundId sound file name
+	 * @param type event type when the sound should occur
+	 * @param pitch pitching of the sound
+	 */
+	void applyItemSound(ItemId itemId, String deferredSoundId, SoundType type, float pitch);
+	
+	/**
+	 * Gets an id of an item sound related to the sound type
+	 * 
+	 * @param itemId
+	 * @param type
+	 * @return
+	 */
+	SoundConfig getItemSoundConfig(ItemId itemId, SoundType type);
 	
 
 	/**

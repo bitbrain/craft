@@ -36,7 +36,7 @@ public class ItemSound {
 
 	private ItemId itemId;
 
-	private String soundConfigId;
+	private int soundConfigId;
 
 	public ItemId getItemId() {
 		return itemId;
@@ -46,11 +46,11 @@ public class ItemSound {
 		this.itemId = itemId;
 	}
 
-	public String getSoundConfigId() {
+	public int getSoundConfigId() {
 		return soundConfigId;
 	}
 
-	public void setSoundConfigId(String soundConfigId) {
+	public void setSoundConfigId(int soundConfigId) {
 		this.soundConfigId = soundConfigId;
 	}
 

@@ -33,6 +33,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.SoundPlayEvent;
 import de.bitbrain.craft.inject.StateScoped;
+import de.bitbrain.craft.models.SoundConfig;
 
 /**
  * Manages sounds on runtime
@@ -74,6 +75,10 @@ public class SoundManager implements Disposable {
 		} else {
 			assetManager.get(file, Sound.class).play(volume, pitch, pan);
 		}
+	}
+
+	public void play(SoundConfig config) {
+		play(config.getFile(), config.getVolume(), config.getPitch(), config.getPan());
 	}
 
 	@Handler

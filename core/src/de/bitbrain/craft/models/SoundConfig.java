@@ -31,8 +31,10 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class SoundConfig {
 
-	@PrimaryKey
-	private String id;
+	@PrimaryKey(true)
+	private int id;
+
+	private String file;
 
 	private float volume, pitch, pan;
 
@@ -41,9 +43,21 @@ public class SoundConfig {
 	public SoundConfig() {
 	}
 
-	public SoundConfig(String id, SoundType type) {
-		this.id = id;
+	public SoundConfig(String file, SoundType type) {
+		this.file = file;
 		this.setType(type);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
 	}
 
 	public float getVolume() {
@@ -82,7 +96,8 @@ public class SoundConfig {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((file == null) ? 0 : file.hashCode());
+		result = prime * result + id;
 		result = prime * result + Float.floatToIntBits(pan);
 		result = prime * result + Float.floatToIntBits(pitch);
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -99,10 +114,12 @@ public class SoundConfig {
 		if (getClass() != obj.getClass())
 			return false;
 		SoundConfig other = (SoundConfig) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (file == null) {
+			if (other.file != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!file.equals(other.file))
+			return false;
+		if (id != other.id)
 			return false;
 		if (Float.floatToIntBits(pan) != Float.floatToIntBits(other.pan))
 			return false;
@@ -114,6 +131,5 @@ public class SoundConfig {
 			return false;
 		return true;
 	}
-	
-	
+
 }

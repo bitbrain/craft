@@ -21,7 +21,7 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
-import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.models.ItemSound;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;
@@ -40,7 +40,7 @@ import de.bitbrain.jpersis.annotations.Update;
 public interface ItemSoundMapper {
 	
 	@Select(condition = "id = $1")
-	Item findById(String id);
+	ItemSound findById(String id);
 	
 	@Insert
 	boolean insert(ItemSound sound);
@@ -58,5 +58,8 @@ public interface ItemSoundMapper {
 	boolean delete(ItemSound sound);
 	
 	@Delete
-	boolean delete(Collection<ItemSound> sounds);	
+	boolean delete(Collection<ItemSound> sounds);
+
+	@Select(condition = "item_id = $1")
+	Collection<ItemSound> findByItemId(ItemId itemId);	
 }

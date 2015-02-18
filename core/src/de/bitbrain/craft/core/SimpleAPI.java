@@ -25,15 +25,18 @@ import java.util.Map.Entry;
 import com.badlogic.gdx.Gdx;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
 import de.bitbrain.craft.db.GoalMapper;
 import de.bitbrain.craft.db.IngredientMapper;
 import de.bitbrain.craft.db.ItemMapper;
+import de.bitbrain.craft.db.ItemSoundMapper;
 import de.bitbrain.craft.db.LearnedRecipeMapper;
 import de.bitbrain.craft.db.OwnedItemMapper;
 import de.bitbrain.craft.db.PlayerMapper;
 import de.bitbrain.craft.db.ProgressMapper;
 import de.bitbrain.craft.db.RecipeMapper;
+import de.bitbrain.craft.db.SoundConfigMapper;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -44,12 +47,14 @@ import de.bitbrain.craft.models.Goal;
 import de.bitbrain.craft.models.Ingredient;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
+import de.bitbrain.craft.models.ItemSound;
 import de.bitbrain.craft.models.LearnedRecipe;
 import de.bitbrain.craft.models.OwnedItem;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.models.Recipe;
+import de.bitbrain.craft.models.SoundConfig;
 import de.bitbrain.jpersis.JPersis;
 
 /**
@@ -69,6 +74,9 @@ class SimpleAPI implements API {
 	private LearnedRecipeMapper learnedRecipeMapper;
 	private GoalMapper goalMapper;
 	private IngredientMapper ingredientMapper;
+	private SoundConfigMapper soundConfigMapper;
+	private ItemSoundMapper itemSoundMapper;
+	
 	@Inject
 	private JPersis jpersis;
 
@@ -82,6 +90,8 @@ class SimpleAPI implements API {
 		learnedRecipeMapper = jpersis.map(LearnedRecipeMapper.class);
 		goalMapper = jpersis.map(GoalMapper.class);
 		ingredientMapper = jpersis.map(IngredientMapper.class);
+		soundConfigMapper = jpersis.map(SoundConfigMapper.class);
+		itemSoundMapper = jpersis.map(ItemSoundMapper.class);
 	}
 
 	@Override
@@ -279,6 +289,45 @@ class SimpleAPI implements API {
 					new ItemEvent(EventType.REMOVE, getItem(item.getItemId()),
 							item.getAmount()));
 		}
+	}
+
+	@Override
+	public void applyItemSound(ItemId itemId, String deferredSoundFile,
+			SoundType type, float pitch) {
+		Collection<ItemSound> itemSounds = itemSoundMapper.findByItemId(itemId);
+		boolean found = false;
+		for (ItemSound itemSound : itemSounds) {
+			SoundConfig config = soundConfigMapper.findById(itemSound.getSoundConfigId());
+			if (config.getFile().equals(deferredSoundFile) && config.getType().equals(type)) {
+				config.setPitch(pitch);
+				soundConfigMapper.update(config);
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			SoundConfig config = new SoundConfig(deferredSoundFile, type);
+			config.setPitch(pitch);
+			config.setPan(1f);
+			config.setVolume(0.6f);
+			soundConfigMapper.insert(config);
+			ItemSound itemSound = new ItemSound();
+			itemSound.setItemId(itemId);
+			itemSound.setSoundConfigId(config.getId());
+			itemSoundMapper.insert(itemSound);
+		}
+	}
+
+	@Override
+	public SoundConfig getItemSoundConfig(ItemId itemId, SoundType type) {
+		Collection<ItemSound> itemSounds = itemSoundMapper.findByItemId(itemId);
+		for (ItemSound sound : itemSounds) {
+			SoundConfig config = soundConfigMapper.findById(sound.getSoundConfigId());
+			if (config.getType().equals(type)) {
+				return config;
+			}
+		}
+		return null;
 	}
 
 	@Override
