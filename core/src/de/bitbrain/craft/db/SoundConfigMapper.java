@@ -17,41 +17,46 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.models;
+package de.bitbrain.craft.db;
 
-import de.bitbrain.craft.core.ItemId;
-import de.bitbrain.jpersis.annotations.PrimaryKey;
+import java.util.Collection;
+
+import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.SoundConfig;
+import de.bitbrain.jpersis.annotations.Delete;
+import de.bitbrain.jpersis.annotations.Insert;
+import de.bitbrain.jpersis.annotations.Mapper;
+import de.bitbrain.jpersis.annotations.Select;
+import de.bitbrain.jpersis.annotations.Update;
 
 /**
- * mapping from items to sounds
+ * Data mapper for {@link de.bitbrain.craft.models.Item}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ItemSound {
+@Mapper("de.bitbrain.craft.models.SoundConfig")
+public interface SoundConfigMapper {
+	
+	@Select(condition = "id = $1")
+	Item findById(String id);
+	
+	@Insert
+	boolean insert(SoundConfig sound);
+	
+	@Insert
+	boolean insert(Collection<SoundConfig> sound);
+	
+	@Update
+	boolean update(SoundConfig sound);
 
-	@PrimaryKey(true)
-	private int id;
-
-	private ItemId itemId;
-
-	private String soundConfigId;
-
-	public ItemId getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(ItemId itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getSoundConfigId() {
-		return soundConfigId;
-	}
-
-	public void setSoundConfigId(String soundConfigId) {
-		this.soundConfigId = soundConfigId;
-	}
-
+	@Update
+	boolean update(Collection<SoundConfig> sound);
+	
+	@Delete
+	boolean delete(SoundConfig sound);
+	
+	@Delete
+	boolean delete(Collection<SoundConfig> sounds);	
 }

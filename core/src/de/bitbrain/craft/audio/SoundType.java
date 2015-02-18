@@ -17,41 +17,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.models;
-
-import de.bitbrain.craft.core.ItemId;
-import de.bitbrain.jpersis.annotations.PrimaryKey;
+package de.bitbrain.craft.audio;
 
 /**
- * mapping from items to sounds
+ * Types of different sounds
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class ItemSound {
+public enum SoundType {
 
-	@PrimaryKey(true)
-	private int id;
-
-	private ItemId itemId;
-
-	private String soundConfigId;
-
-	public ItemId getItemId() {
-		return itemId;
-	}
-
-	public void setItemId(ItemId itemId) {
-		this.itemId = itemId;
-	}
-
-	public String getSoundConfigId() {
-		return soundConfigId;
-	}
-
-	public void setSoundConfigId(String soundConfigId) {
-		this.soundConfigId = soundConfigId;
-	}
-
+	DRAG,
+	DROP,
+	CLICK,
+	HOVER;
 }
