@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.SoundPlayEvent;
+import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.SoundConfig;
 
@@ -59,6 +60,11 @@ public class SoundManager implements Disposable {
 		assetManager = new AssetManager();	
 		executor = Executors.newFixedThreadPool(5);
 	}
+	
+	@PostConstruct
+	public void init() {
+		eventBus.subscribe(this);
+	}
 
 	public void play(String id, final float volume, final float pitch, final float pan) {
 		final String file = DEFERRED_SOUNDS + id;
@@ -81,7 +87,7 @@ public class SoundManager implements Disposable {
 		play(config.getFile(), config.getVolume(), config.getPitch(), config.getPan());
 	}
 
-	@Handler
+	@Handler	
 	public void onDeferredSoundPlay(SoundPlayEvent event) {
 		Sound sound = event.getModel();
 		Float volume = (Float) event.getParam(0);
@@ -94,6 +100,7 @@ public class SoundManager implements Disposable {
 	public void dispose() {
 		executor.shutdown();
 		assetManager.dispose();
+		eventBus.unsubscribe(this);
 	}
 
 }
