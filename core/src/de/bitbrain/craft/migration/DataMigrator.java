@@ -29,6 +29,7 @@ import de.bitbrain.craft.core.API.APIException;
 import de.bitbrain.craft.db.MigrationMapper;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.migration.jobs.ItemMigrationJob;
+import de.bitbrain.craft.migration.jobs.ItemSoundMigrationJob;
 import de.bitbrain.craft.migration.jobs.LearnedRecipeMigrationJob;
 import de.bitbrain.craft.migration.jobs.OwnedItemMigrationJob;
 import de.bitbrain.craft.migration.jobs.RecipeMigrationJob;
@@ -146,7 +147,8 @@ public final class DataMigrator {
 	private Class<?>[] getMigrators() {
 		return new Class<?>[]{
 				ItemMigrationJob.class, OwnedItemMigrationJob.class,
-				RecipeMigrationJob.class, LearnedRecipeMigrationJob.class
+				RecipeMigrationJob.class, LearnedRecipeMigrationJob.class,
+				ItemSoundMigrationJob.class
 		};
 	}
 	
