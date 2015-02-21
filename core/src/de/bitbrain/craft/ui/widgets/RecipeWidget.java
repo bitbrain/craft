@@ -102,7 +102,7 @@ public class RecipeWidget extends Table {
 	private Actor generateTop(Item item) {
 		HorizontalGroup group = new HorizontalGroup();
 		group.align(Align.left);
-		IconWidget icon = new IconWidget(item.getIcon(), -1);
+		IconWidget icon = new IconWidget(item, -1);
 		group.addActor(icon);
 		HorizontalGroup wrapper = new HorizontalGroup();
 		Label caption = new Label(Bundles.items.get(item.getId().toString()), Styles.LBL_ITEM);
@@ -124,7 +124,7 @@ public class RecipeWidget extends Table {
 		materialTable.setWidth(500f);
 		int index = 0;
 		for (Entry<Item, Integer> entry : materials) {
-			IconWidget widget = new IconWidget(entry.getKey().getIcon(), entry.getValue());
+			IconWidget widget = new IconWidget(entry.getKey(), entry.getValue());
 			widget.setWidth(Sizes.MATERIAL_ICON);
 			widget.setHeight(Sizes.MATERIAL_ICON);
 			Cell<IconWidget> cell = materialTable.add(widget);
@@ -143,7 +143,7 @@ public class RecipeWidget extends Table {
 		if (recipe != null) {
 			Table rewards = new Table();
 			table.add(rewards).row();
-			IconWidget itemReward = new IconWidget(item.getIcon(), recipe.getAmount());
+			IconWidget itemReward = new IconWidget(item, recipe.getAmount());
 			itemReward.setWidth(Sizes.MATERIAL_ICON);
 			itemReward.setHeight(Sizes.MATERIAL_ICON);
 			rewards.add(itemReward);

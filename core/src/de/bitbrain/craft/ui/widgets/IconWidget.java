@@ -26,17 +26,23 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.events.Event.EventType;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.graphics.GraphicsFactory;
-import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.tweens.ValueTween;
 import de.bitbrain.craft.util.ValueProvider;
 
@@ -64,22 +70,30 @@ public class IconWidget extends Actor implements ValueProvider {
 
 	@Inject
 	private IconManager iconManager;
+	
+	@Inject
+	private EventBus eventBus;
+	
+	private Item item;
 
-	public IconWidget(Icon icon, int amount) {
+	public IconWidget(Item item, int amount) {
 		Tween.registerAccessor(IconWidget.class, new ValueTween());
 		SharedInjector.get().injectMembers(this);
+		this.item = item;
 		this.amount = amount;
 		amountLabel = new Label("1", Styles.LBL_TOOLTIP);
 		amountLabel.setFontScale(2.1f);
 		background = GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_TRANSPARENT_9patch,
 				Sizes.panelTransparentRadius());
-		this.icon = iconManager.fetch(icon);
+		this.icon = iconManager.fetch(item.getIcon());
 		this.currentAmount = amount;
+		registerEvents();
 	}
 
-	public final void setSource(Icon icon, int amount) {
-		this.icon = iconManager.fetch(icon);
+	public final void setSource(Item item, int amount) {
+		this.item = item;
+		this.icon = iconManager.fetch(item.getIcon());
 		tweenManager.killTarget(this);
 		Tween.to(this, ValueTween.VALUE, 1f).target(amount)
 				.ease(TweenEquations.easeOutQuart).start(tweenManager);
@@ -132,5 +146,41 @@ public class IconWidget extends Actor implements ValueProvider {
 	@Override
 	public void setValue(int value) {
 		currentAmount = value;
+	}
+	
+	private void registerEvents() {
+		// Allow dragging for icons only
+		addListener(new DragListener() {
+			@Override
+			public void dragStart(InputEvent event, float x, float y,
+					int pointer) {
+				if (amount > 0) {
+					eventBus.fireEvent(new MouseEvent<Item>(
+							EventType.MOUSEDRAG, item, x, y));
+				}
+			}
+
+			@Override
+			public void dragStop(InputEvent event, float x, float y, int pointer) {
+				if (amount > 0) {
+					eventBus.fireEvent(new MouseEvent<Item>(
+							EventType.MOUSEDROP, item, x, y));
+				}
+			}
+		});
+		addCaptureListener(new InputListener() {
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic
+			 * .gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			 */
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
 	}
 }

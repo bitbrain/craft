@@ -91,7 +91,7 @@ public class ItemWidget extends HorizontalGroup {
 			craftable = isElementCraftable();
 			this.name = new Label(Bundles.items.get(item.getId().toString())
 					+ GAP, Styles.LBL_ITEM);
-			icon = new IconWidget(item.getIcon(), amount);
+			icon = new IconWidget(item, amount);
 			icon.setWidth(name.getHeight() * 4);
 			icon.setHeight(name.getHeight() * 4);
 			addActor(icon);
@@ -137,7 +137,7 @@ public class ItemWidget extends HorizontalGroup {
 	}
 
 	public void setAmount(Item item, int amount) {
-		icon.setSource(item.getIcon(), amount);
+		icon.setSource(item, amount);
 		this.amount = amount;
 	}
 
@@ -162,39 +162,6 @@ public class ItemWidget extends HorizontalGroup {
 	}
 
 	private void registerEvents(Actor actor) {
-		// Allow dragging for icons only
-		icon.addListener(new DragListener() {
-			@Override
-			public void dragStart(InputEvent event, float x, float y,
-					int pointer) {
-				if (amount > 0) {
-					eventBus.fireEvent(new MouseEvent<Item>(
-							EventType.MOUSEDRAG, item, x, y));
-				}
-			}
-
-			@Override
-			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				if (amount > 0) {
-					eventBus.fireEvent(new MouseEvent<Item>(
-							EventType.MOUSEDROP, item, x, y));
-				}
-			}
-		});
-		icon.addCaptureListener(new InputListener() {
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic
-			 * .gdx.scenes.scene2d.InputEvent, float, float, int, int)
-			 */
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-		});
 		actor.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
