@@ -77,12 +77,12 @@ public class ItemWidget extends HorizontalGroup {
 	private boolean craftable;
 
 	private StarLevelWidget level;
-	
+
 	private AvailabilityIcon availability;
 
 	public ItemWidget(Item item, int amount) {
 		SharedInjector.get().injectMembers(this);
-		try {			
+		try {
 			background = GraphicsFactory.createNinePatch(
 					Assets.TEX_PANEL_TRANSPARENT_9patch,
 					Sizes.panelTransparentRadius());
@@ -155,9 +155,8 @@ public class ItemWidget extends HorizontalGroup {
 		Table descContainer = new Table();
 		level = new StarLevelWidget(item.getLevel(), 7);
 		availability = new AvailabilityIcon(item);
-		Tooltip.create(availability).text("Hallo Weltsdcsdv s ");
 		descContainer.add(level);
-		descContainer.right().add(availability);
+		descContainer.right().add(availability).padLeft(70f).padTop(27f);
 		layout.addActor(descContainer);
 		return layout;
 	}
