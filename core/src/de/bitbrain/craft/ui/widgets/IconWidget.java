@@ -23,6 +23,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -75,6 +76,20 @@ public class IconWidget extends Actor implements ValueProvider {
 	private EventBus eventBus;
 	
 	private Item item;
+	
+	private IconText iconText = new IconText() {
+
+		@Override
+		public Color getColor() {
+			return Color.WHITE;
+		}
+
+		@Override
+		public String getContent() {
+			return String.valueOf(currentAmount);
+		}
+		
+	};
 
 	public IconWidget(Item item, int amount) {
 		Tween.registerAccessor(IconWidget.class, new ValueTween());
@@ -97,6 +112,10 @@ public class IconWidget extends Actor implements ValueProvider {
 		tweenManager.killTarget(this);
 		Tween.to(this, ValueTween.VALUE, 1f).target(amount)
 				.ease(TweenEquations.easeOutQuart).start(tweenManager);
+	}
+	
+	public final void setIconText(IconText iconText) {
+		this.iconText = iconText;
 	}
 
 	/*
@@ -126,7 +145,8 @@ public class IconWidget extends Actor implements ValueProvider {
 
 		// Amount
 		if (amount > 0) {
-			amountLabel.setText(String.valueOf(currentAmount));
+			amountLabel.setText(iconText.getContent());
+			amountLabel.setColor(iconText.getColor());
 			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth()
 					- getPadding() / 2f);
 			amountLabel.setY(getY() + getPadding());
@@ -182,5 +202,10 @@ public class IconWidget extends Actor implements ValueProvider {
 				return true;
 			}
 		});
+	}
+	
+	public static interface IconText {
+		Color getColor();
+		String getContent();
 	}
 }

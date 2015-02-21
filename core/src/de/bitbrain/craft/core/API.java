@@ -229,6 +229,14 @@ public interface API {
 	ItemBag findIngredients(Item item);
 	
 	/**
+	 * Returns the amount of owned items 
+	 * 
+	 * @param item
+	 * @return
+	 */
+	int getItemAmount(Item item);
+	
+	/**
 	 * Is thrown as an API error occurs
 	 *
 	 * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>

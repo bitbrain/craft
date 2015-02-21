@@ -410,4 +410,14 @@ class SimpleAPI implements API {
 	public Recipe findRecipe(ItemId itemId) {
 		return recipeMapper.findByItemId(itemId);
 	}
+
+	@Override
+	public int getItemAmount(Item item) {
+		OwnedItem owned = ownedItemMapper.findById(item.getId(), Player.getCurrent().getId());
+		if (owned != null) {
+			return owned.getAmount();
+		} else {
+			return 0;
+		}
+	}
 }

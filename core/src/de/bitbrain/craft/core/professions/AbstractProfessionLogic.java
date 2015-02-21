@@ -36,7 +36,7 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
 	 */
 	@Override
 	public boolean add(Item item) {
-		return false;
+		return true;
 	}
 	
 	/* (non-Javadoc)

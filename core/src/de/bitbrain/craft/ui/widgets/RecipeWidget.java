@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -44,6 +45,8 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.ui.Tabs;
+import de.bitbrain.craft.ui.Tooltip;
+import de.bitbrain.craft.ui.widgets.IconWidget.IconText;
 
 /**
  * Provides the view of a single recipe. This view is blocked by default. If a
@@ -125,8 +128,10 @@ public class RecipeWidget extends Table {
 		int index = 0;
 		for (Entry<Item, Integer> entry : materials) {
 			IconWidget widget = new IconWidget(entry.getKey(), entry.getValue());
+			widget.setIconText(new MaterialIconText(api.getItemAmount(entry.getKey()), entry.getValue()));
 			widget.setWidth(Sizes.MATERIAL_ICON);
 			widget.setHeight(Sizes.MATERIAL_ICON);
+			Tooltip.create(widget).text(Bundles.items.get(entry.getKey().getId().toString()));
 			Cell<IconWidget> cell = materialTable.add(widget);
 			if (index > 0 && index % 2 == 0) {
 				cell.row();
@@ -144,6 +149,7 @@ public class RecipeWidget extends Table {
 			Table rewards = new Table();
 			table.add(rewards).row();
 			IconWidget itemReward = new IconWidget(item, recipe.getAmount());
+			Tooltip.create(itemReward).text(Bundles.items.get(item.getId().toString()));
 			itemReward.setWidth(Sizes.MATERIAL_ICON);
 			itemReward.setHeight(Sizes.MATERIAL_ICON);
 			rewards.add(itemReward);
@@ -154,5 +160,29 @@ public class RecipeWidget extends Table {
 	private void addCaption(String key, Table target) {
 		Label label = new Label(Bundles.general.get(key), Styles.LBL_CAPTION);
 		target.add(label).padTop(25f).padBottom(25f).row();
+	}
+	
+	private class MaterialIconText implements IconText {
+		
+		private int required;
+		
+		private int amount;
+		
+		public MaterialIconText(int amount, int required) {
+			this.required = required;
+			this.amount = amount;
+			
+		}
+
+		@Override
+		public Color getColor() {
+			return amount >= required ? Color.GREEN : Color.RED;
+		}
+
+		@Override
+		public String getContent() {
+			return amount + "/" + required;
+		}
+		
 	}
 }
