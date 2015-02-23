@@ -56,156 +56,145 @@ import de.bitbrain.craft.util.ValueProvider;
  */
 public class IconWidget extends Actor implements ValueProvider {
 
-	public float iconScale;
+  public float iconScale;
 
-	private NinePatch background;
+  private NinePatch background;
 
-	private Label amountLabel;
+  private Label amountLabel;
 
-	private IconDrawable icon;
+  private IconDrawable icon;
 
-	private int currentAmount, amount;
+  private int currentAmount, amount;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private TweenManager tweenManager;
 
-	@Inject
-	private IconManager iconManager;
-	
-	@Inject
-	private EventBus eventBus;
-	
-	private Item item;
-	
-	private IconText iconText = new IconText() {
+  @Inject
+  private IconManager iconManager;
 
-		@Override
-		public Color getColor() {
-			return Color.WHITE;
-		}
+  @Inject
+  private EventBus eventBus;
 
-		@Override
-		public String getContent() {
-			return String.valueOf(currentAmount);
-		}
-		
-	};
+  private Item item;
 
-	public IconWidget(Item item, int amount) {
-		Tween.registerAccessor(IconWidget.class, new ValueTween());
-		SharedInjector.get().injectMembers(this);
-		this.item = item;
-		this.amount = amount;
-		amountLabel = new Label("1", Styles.LBL_TOOLTIP);
-		amountLabel.setFontScale(2.1f);
-		background = GraphicsFactory.createNinePatch(
-				Assets.TEX_PANEL_TRANSPARENT_9patch,
-				Sizes.panelTransparentRadius());
-		this.icon = iconManager.fetch(item.getIcon());
-		this.currentAmount = amount;
-		registerEvents();
-	}
+  private IconText iconText = new IconText() {
 
-	public final void setSource(Item item, int amount) {
-		this.item = item;
-		this.icon = iconManager.fetch(item.getIcon());
-		tweenManager.killTarget(this);
-		Tween.to(this, ValueTween.VALUE, 1f).target(amount)
-				.ease(TweenEquations.easeOutQuart).start(tweenManager);
-	}
-	
-	public final void setIconText(IconText iconText) {
-		this.iconText = iconText;
-	}
+    @Override
+    public Color getColor() {
+      return Color.WHITE;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.
-	 * g2d.Batch, float)
-	 */
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
+    @Override
+    public String getContent() {
+      return String.valueOf(currentAmount);
+    }
 
-		float iconScale = 0.8f;
+  };
 
-		// background
-		background.setColor(getColor());
-		background.draw(batch, getX(), getY(), getWidth(), getHeight());
+  public IconWidget(Item item, int amount) {
+    Tween.registerAccessor(IconWidget.class, new ValueTween());
+    SharedInjector.get().injectMembers(this);
+    this.item = item;
+    this.amount = amount;
+    amountLabel = new Label("1", Styles.LBL_TOOLTIP);
+    amountLabel.setFontScale(2.1f);
+    background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
+    this.icon = iconManager.fetch(item.getIcon());
+    this.currentAmount = amount;
+    registerEvents();
+  }
 
-		// Icon
-		icon.width = getWidth() * iconScale;
-		icon.height = getHeight() * iconScale;
-		icon.x = getX() + (getWidth() - icon.width) / 2;
-		icon.y = getY() + (getHeight() - icon.height) / 2;
-		icon.rotation = 180f;
-		icon.color = getColor();
-		icon.draw(batch, parentAlpha);
+  public final void setSource(Item item, int amount) {
+    this.item = item;
+    this.icon = iconManager.fetch(item.getIcon());
+    tweenManager.killTarget(this);
+    Tween.to(this, ValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
+  }
 
-		// Amount
-		if (amount > 0) {
-			amountLabel.setText(iconText.getContent());
-			amountLabel.setColor(iconText.getColor());
-			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth()
-					- getPadding() / 2f);
-			amountLabel.setY(getY() + getPadding());
-			amountLabel.draw(batch, parentAlpha);
-		}
-	}
+  public final void setIconText(IconText iconText) {
+    this.iconText = iconText;
+  }
 
-	private float getPadding() {
-		return 16f;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics. g2d.Batch, float)
+   */
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
 
-	@Override
-	public int getValue() {
-		return currentAmount;
-	}
+    float iconScale = 0.8f;
 
-	@Override
-	public void setValue(int value) {
-		currentAmount = value;
-	}
-	
-	private void registerEvents() {
-		// Allow dragging for icons only
-		addListener(new DragListener() {
-			@Override
-			public void dragStart(InputEvent event, float x, float y,
-					int pointer) {
-				if (amount > 0) {
-					eventBus.fireEvent(new MouseEvent<Item>(
-							EventType.MOUSEDRAG, item, x, y));
-				}
-			}
+    // background
+    background.setColor(getColor());
+    background.draw(batch, getX(), getY(), getWidth(), getHeight());
 
-			@Override
-			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				if (amount > 0) {
-					eventBus.fireEvent(new MouseEvent<Item>(
-							EventType.MOUSEDROP, item, x, y));
-				}
-			}
-		});
-		addCaptureListener(new InputListener() {
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic
-			 * .gdx.scenes.scene2d.InputEvent, float, float, int, int)
-			 */
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				return true;
-			}
-		});
-	}
-	
-	public static interface IconText {
-		Color getColor();
-		String getContent();
-	}
+    // Icon
+    icon.width = getWidth() * iconScale;
+    icon.height = getHeight() * iconScale;
+    icon.x = getX() + (getWidth() - icon.width) / 2;
+    icon.y = getY() + (getHeight() - icon.height) / 2;
+    icon.rotation = 180f;
+    icon.color = getColor();
+    icon.draw(batch, parentAlpha);
+
+    // Amount
+    amountLabel.setText(iconText.getContent());
+    amountLabel.setColor(iconText.getColor());
+    amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
+    amountLabel.setY(getY() + getPadding());
+    amountLabel.draw(batch, parentAlpha);
+  }
+
+  private float getPadding() {
+    return 16f;
+  }
+
+  @Override
+  public int getValue() {
+    return currentAmount;
+  }
+
+  @Override
+  public void setValue(int value) {
+    currentAmount = value;
+  }
+
+  private void registerEvents() {
+    // Allow dragging for icons only
+    addListener(new DragListener() {
+      @Override
+      public void dragStart(InputEvent event, float x, float y, int pointer) {
+        if (amount > 0) {
+          System.out.println(amount);
+          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, item, x, y));
+        }
+      }
+
+      @Override
+      public void dragStop(InputEvent event, float x, float y, int pointer) {
+        if (amount > 0) {
+          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP, item, x, y));
+        }
+      }
+    });
+    addCaptureListener(new InputListener() {
+      /*
+       * (non-Javadoc)
+       * 
+       * @see com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic .gdx.scenes.scene2d.InputEvent,
+       * float, float, int, int)
+       */
+      @Override
+      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        return true;
+      }
+    });
+  }
+
+  public static interface IconText {
+    Color getColor();
+
+    String getContent();
+  }
 }
