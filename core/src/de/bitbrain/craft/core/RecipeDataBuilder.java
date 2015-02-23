@@ -75,7 +75,7 @@ public class RecipeDataBuilder {
 		ItemId itemId;
 		
 		// Amount of the items to create
-		int amount;
+		int amount = 1;
 		
 		// Profession which can learn this recipe
 		Profession profession;

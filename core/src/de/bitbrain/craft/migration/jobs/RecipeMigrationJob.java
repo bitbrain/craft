@@ -39,6 +39,7 @@ public class RecipeMigrationJob {
 		RecipeDataBuilder builder = new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST);
 		builder.addIngredient(ItemId.WATER, 1);
 		builder.addIngredient(ItemId.DUST, 1);
+		builder.amount(2);
 		api.registerRecipe(builder.build());
 	}
 }
