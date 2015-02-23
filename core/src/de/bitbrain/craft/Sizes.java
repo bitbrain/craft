@@ -67,6 +67,14 @@ public final class Sizes {
 	public static float worldMouseY() {
 		return Gdx.input.getY();
 	}
+	
+	public static float localMouseX() {
+	  return worldMouseX() * worldScreenFactorX();
+	}
+	
+	public static float localMouseY() {
+    return worldMouseY() * worldScreenFactorY();
+  }
 
 	public static float worldScreenFactorX() {
 		return (float) Gdx.graphics.getWidth() / (float) worldWidth();
