@@ -184,6 +184,11 @@ public class RecipeWidget extends Table {
 		public String getContent() {
 			return amount + "/" + required;
 		}
+
+		@Override
+		public boolean isVisible() {
+			return true;
+		}
 		
 	}
 }

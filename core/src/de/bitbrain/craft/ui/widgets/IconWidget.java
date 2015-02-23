@@ -89,6 +89,11 @@ public class IconWidget extends Actor implements ValueProvider {
       return String.valueOf(currentAmount);
     }
 
+	@Override
+	public boolean isVisible() {
+		return amount > 0;
+	}
+
   };
 
   public IconWidget(Item item, int amount) {
@@ -138,12 +143,13 @@ public class IconWidget extends Actor implements ValueProvider {
     icon.color = getColor();
     icon.draw(batch, parentAlpha);
 
-    // Amount
-    amountLabel.setText(iconText.getContent());
-    amountLabel.setColor(iconText.getColor());
-    amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
-    amountLabel.setY(getY() + getPadding());
-    amountLabel.draw(batch, parentAlpha);
+    if (iconText.isVisible()) {
+	    amountLabel.setText(iconText.getContent());
+	    amountLabel.setColor(iconText.getColor());
+	    amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
+	    amountLabel.setY(getY() + getPadding());
+	    amountLabel.draw(batch, parentAlpha);
+    }
   }
 
   private float getPadding() {
@@ -196,5 +202,7 @@ public class IconWidget extends Actor implements ValueProvider {
     Color getColor();
 
     String getContent();
+    
+    boolean isVisible();
   }
 }
