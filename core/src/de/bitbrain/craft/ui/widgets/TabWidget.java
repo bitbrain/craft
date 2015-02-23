@@ -109,11 +109,26 @@ public class TabWidget extends Table {
 			newTab.getContent().setWidth(left.getActorWidth());
 			newTab.setActive(true);
 			activeTabId = tab;
+			showTab(tab);
 			Tween.to(actor, ActorTween.ALPHA, 0.5f)
 				 .target(1f)
 				 .ease(TweenEquations.easeOutQuad)
 				 .start(tweenManager);
 		}
+	}
+	
+	public void showTab(String id) {
+	  Tab tab = tabs.get(id);
+	  if (tab != null) {
+	    tab.setVisible(true);
+	  }
+	}
+	
+	public void hideTab(String id) {
+	  Tab tab = tabs.get(id);
+    if (tab != null) {
+      tab.setVisible(false);
+    }
 	}
 	
 	/**

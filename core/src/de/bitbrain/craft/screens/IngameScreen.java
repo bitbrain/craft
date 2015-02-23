@@ -99,6 +99,7 @@ public class IngameScreen extends AbstractScreen {
 		tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
 		tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
 		tabView.setTab(Tabs.ITEMS);
+		tabView.hideTab(Tabs.CRAFTING);
 	}
 	
 	@Override
