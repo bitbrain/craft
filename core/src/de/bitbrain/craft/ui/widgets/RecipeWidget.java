@@ -18,6 +18,8 @@
  */
 package de.bitbrain.craft.ui.widgets;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
@@ -39,6 +41,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Item;
@@ -67,8 +70,11 @@ public class RecipeWidget extends Table {
 	@Inject
 	private API api;
 	
+	private Map<Item, IconWidget> materialSet;
+	
 	@PostConstruct
 	public void init() {
+	  materialSet = new HashMap<Item, IconWidget>();
 		eventBus.subscribe(this);
 	}
 	
@@ -90,6 +96,24 @@ public class RecipeWidget extends Table {
 				}
 			}
 		}
+	}
+	
+	@Handler
+	public void onItemEvent(ItemEvent event) {
+	  Item item = event.getModel();
+	  IconWidget widget = materialSet.get(item);
+	  if (widget != null) {
+  	  switch (event.getType()) {
+        case ADD:
+          widget.addAmount(event.getAmount());
+          break;
+        case REMOVE:
+          widget.reduceAmount(event.getAmount());
+          break;
+        default:
+          break;
+  	  }
+	  }
 	}
 	
 	private boolean isModified() {
@@ -119,6 +143,7 @@ public class RecipeWidget extends Table {
 	}
 	
 	private Actor generateMaterials(Item item) {
+	  materialSet.clear();
 		Table table = new Table();		
 		addCaption(Bundles.MATERIALS, table);
 		Table materialTable = new Table();
@@ -129,7 +154,8 @@ public class RecipeWidget extends Table {
 		for (Entry<Item, Integer> entry : materials) {
 		  int amount = api.getItemAmount(entry.getKey());
 			IconWidget widget = new IconWidget(entry.getKey(), amount);
-			widget.setIconText(new MaterialIconText(amount, entry.getValue()));
+			materialSet.put(entry.getKey(), widget);
+			widget.setIconText(new MaterialIconText(amount));
 			widget.setWidth(Sizes.MATERIAL_ICON);
 			widget.setHeight(Sizes.MATERIAL_ICON);
 			Tooltip.create(widget).text(Bundles.items.get(entry.getKey().getId().toString()));
@@ -167,26 +193,22 @@ public class RecipeWidget extends Table {
 		
 		private int required;
 		
-		private int amount;
-		
-		public MaterialIconText(int amount, int required) {
-			this.required = required;
-			this.amount = amount;
-			
+		public MaterialIconText(int required) {
+			this.required = required;			
 		}
 
 		@Override
-		public Color getColor() {
-			return amount >= required ? Color.GREEN : Color.RED;
+		public Color getColor(int currentAmount) {
+			return currentAmount >= required ? Color.GREEN : Color.RED;
 		}
 
 		@Override
-		public String getContent() {
-			return amount + "/" + required;
+		public String getContent(int currentAmount) {
+			return currentAmount + "/" + required;
 		}
 
 		@Override
-		public boolean isVisible() {
+		public boolean isVisible(int currentAmount) {
 			return true;
 		}
 		

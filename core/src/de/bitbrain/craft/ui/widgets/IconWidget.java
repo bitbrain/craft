@@ -80,19 +80,19 @@ public class IconWidget extends Actor implements ValueProvider {
   private IconText iconText = new IconText() {
 
     @Override
-    public Color getColor() {
+    public Color getColor(int currentAmount) {
       return Color.WHITE;
     }
 
     @Override
-    public String getContent() {
+    public String getContent(int currentAmount) {
       return String.valueOf(currentAmount);
     }
 
-	@Override
-	public boolean isVisible() {
-		return amount > 0;
-	}
+  	@Override
+  	public boolean isVisible(int currentAmount) {
+  		return amount > 0;
+  	}
 
   };
 
@@ -112,8 +112,7 @@ public class IconWidget extends Actor implements ValueProvider {
   public final void setSource(Item item, int amount) {
     this.item = item;
     this.icon = iconManager.fetch(item.getIcon());
-    tweenManager.killTarget(this);
-    Tween.to(this, ValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
+    animateAmount();
   }
 
   public final void setIconText(IconText iconText) {
@@ -143,13 +142,26 @@ public class IconWidget extends Actor implements ValueProvider {
     icon.color = getColor();
     icon.draw(batch, parentAlpha);
 
-    if (iconText.isVisible()) {
-	    amountLabel.setText(iconText.getContent());
-	    amountLabel.setColor(iconText.getColor());
+    if (iconText.isVisible(currentAmount)) {
+	    amountLabel.setText(iconText.getContent(currentAmount));
+	    amountLabel.setColor(iconText.getColor(currentAmount));
 	    amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
 	    amountLabel.setY(getY() + getPadding());
 	    amountLabel.draw(batch, parentAlpha);
     }
+  }
+  
+  public void addAmount(int amount) {
+    this.amount += amount;
+    animateAmount();
+  }
+  
+  public void reduceAmount(int amount) {
+    this.amount -= amount;
+    if (this.amount < 0) {
+      this.amount = 0;
+    }
+    animateAmount();
   }
 
   private float getPadding() {
@@ -164,6 +176,11 @@ public class IconWidget extends Actor implements ValueProvider {
   @Override
   public void setValue(int value) {
     currentAmount = value;
+  }
+  
+  private void animateAmount() {
+    tweenManager.killTarget(this);
+    Tween.to(this, ValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
   }
 
   private void registerEvents() {
@@ -199,10 +216,10 @@ public class IconWidget extends Actor implements ValueProvider {
   }
 
   public static interface IconText {
-    Color getColor();
+    Color getColor(int currentAmount);
 
-    String getContent();
+    String getContent(int currentAmount);
     
-    boolean isVisible();
+    boolean isVisible(int currentAmount);
   }
 }
