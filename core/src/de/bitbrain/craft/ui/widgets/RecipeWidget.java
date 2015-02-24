@@ -49,7 +49,7 @@ import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.ui.Tabs;
 import de.bitbrain.craft.ui.Tooltip;
-import de.bitbrain.craft.ui.widgets.IconWidget.IconText;
+import de.bitbrain.craft.ui.widgets.IconWidget.IconHandle;
 
 /**
  * Provides the view of a single recipe. This view is blocked by default. If a
@@ -155,7 +155,7 @@ public class RecipeWidget extends Table {
 		  int amount = api.getItemAmount(entry.getKey());
 			IconWidget widget = new IconWidget(entry.getKey(), amount);
 			materialSet.put(entry.getKey(), widget);
-			widget.setIconText(new MaterialIconText(entry.getValue()));
+			widget.setHandle(new MaterialIconHandle(entry.getValue()));
 			widget.setWidth(Sizes.MATERIAL_ICON);
 			widget.setHeight(Sizes.MATERIAL_ICON);
 			Tooltip.create(widget).text(Bundles.items.get(entry.getKey().getId().toString()));
@@ -176,6 +176,13 @@ public class RecipeWidget extends Table {
 			Table rewards = new Table();
 			table.add(rewards).row();
 			IconWidget itemReward = new IconWidget(item, recipe.getAmount());
+			// Set a special handle which is not draggable
+			itemReward.setHandle(itemReward.new DefaultIconHandle() {
+				@Override
+				public boolean isDraggable(int amount) {
+					return false;
+				}
+			});
 			Tooltip.create(itemReward).text(Bundles.items.get(item.getId().toString()));
 			itemReward.setWidth(Sizes.MATERIAL_ICON);
 			itemReward.setHeight(Sizes.MATERIAL_ICON);
@@ -189,11 +196,12 @@ public class RecipeWidget extends Table {
 		target.add(label).padTop(25f).padBottom(25f).row();
 	}
 	
-	private class MaterialIconText implements IconText {
+	
+	private class MaterialIconHandle implements IconHandle {
 		
 		private int required;
 		
-		public MaterialIconText(int required) {
+		public MaterialIconHandle(int required) {
 			this.required = required;			
 		}
 
@@ -210,6 +218,11 @@ public class RecipeWidget extends Table {
 		@Override
 		public boolean isVisible(int currentAmount) {
 			return true;
+		}
+
+		@Override
+		public boolean isDraggable(int amount) {
+			return amount > 0;
 		}
 		
 	}

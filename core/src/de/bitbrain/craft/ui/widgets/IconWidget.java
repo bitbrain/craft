@@ -77,7 +77,9 @@ public class IconWidget extends Actor implements ValueProvider {
 
   private Item item;
 
-  private IconText iconText = new IconText() {
+  private IconHandle iconHandle = new DefaultIconHandle();
+  
+  public class DefaultIconHandle implements IconHandle {
 
     @Override
     public Color getColor(int currentAmount) {
@@ -93,6 +95,11 @@ public class IconWidget extends Actor implements ValueProvider {
   	public boolean isVisible(int currentAmount) {
   		return amount > 0;
   	}
+
+	@Override
+	public boolean isDraggable(int amount) {
+		return amount > 0;
+	}
 
   };
 
@@ -116,8 +123,8 @@ public class IconWidget extends Actor implements ValueProvider {
     animateAmount();
   }
 
-  public final void setIconText(IconText iconText) {
-    this.iconText = iconText;
+  public final void setHandle(IconHandle iconHandle) {
+    this.iconHandle = iconHandle;
   }
 
   /*
@@ -143,9 +150,9 @@ public class IconWidget extends Actor implements ValueProvider {
     icon.color = getColor();
     icon.draw(batch, parentAlpha);
 
-    if (iconText.isVisible(currentAmount)) {
-	    amountLabel.setText(iconText.getContent(currentAmount));
-	    amountLabel.setColor(iconText.getColor(currentAmount));
+    if (iconHandle.isVisible(currentAmount)) {
+	    amountLabel.setText(iconHandle.getContent(currentAmount));
+	    amountLabel.setColor(iconHandle.getColor(currentAmount));
 	    amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
 	    amountLabel.setY(getY() + getPadding());
 	    amountLabel.draw(batch, parentAlpha);
@@ -189,15 +196,14 @@ public class IconWidget extends Actor implements ValueProvider {
     addListener(new DragListener() {
       @Override
       public void dragStart(InputEvent event, float x, float y, int pointer) {
-        if (amount > 0) {
-          System.out.println(amount);
+    	  if (iconHandle.isDraggable(amount)) {
           eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, item, x, y));
         }
       }
 
       @Override
       public void dragStop(InputEvent event, float x, float y, int pointer) {
-        if (amount > 0) {
+        if (iconHandle.isDraggable(amount)) {
           eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP, item, x, y));
         }
       }
@@ -216,11 +222,13 @@ public class IconWidget extends Actor implements ValueProvider {
     });
   }
 
-  public static interface IconText {
+  public static interface IconHandle {
     Color getColor(int currentAmount);
 
     String getContent(int currentAmount);
     
     boolean isVisible(int currentAmount);
+    
+    boolean isDraggable(int amount);
   }
 }
