@@ -23,14 +23,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
@@ -45,7 +43,6 @@ import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.ui.Tooltip;
 
 /**
  * List element which shows basic element info

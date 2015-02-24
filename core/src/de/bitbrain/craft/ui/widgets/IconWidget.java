@@ -112,6 +112,7 @@ public class IconWidget extends Actor implements ValueProvider {
   public final void setSource(Item item, int amount) {
     this.item = item;
     this.icon = iconManager.fetch(item.getIcon());
+    this.amount = amount;
     animateAmount();
   }
 

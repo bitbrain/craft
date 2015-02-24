@@ -155,7 +155,7 @@ public class RecipeWidget extends Table {
 		  int amount = api.getItemAmount(entry.getKey());
 			IconWidget widget = new IconWidget(entry.getKey(), amount);
 			materialSet.put(entry.getKey(), widget);
-			widget.setIconText(new MaterialIconText(amount));
+			widget.setIconText(new MaterialIconText(entry.getValue()));
 			widget.setWidth(Sizes.MATERIAL_ICON);
 			widget.setHeight(Sizes.MATERIAL_ICON);
 			Tooltip.create(widget).text(Bundles.items.get(entry.getKey().getId().toString()));
