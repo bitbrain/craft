@@ -142,7 +142,7 @@ public class IconWidget extends Actor implements ValueProvider {
     background.draw(batch, getX(), getY(), getWidth(), getHeight());
 
     // Icon
-    icon.width = getWidth() * iconScale;
+    icon.width = getWidth() * -iconScale;
     icon.height = getHeight() * iconScale;
     icon.x = getX() + (getWidth() - icon.width) / 2;
     icon.y = getY() + (getHeight() - icon.height) / 2;
