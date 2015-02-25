@@ -34,6 +34,9 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  * @version 1.0
  */
 public class Item {
+	
+	/** if the item's amount is set to the following value, it is stated as infinite */
+	public static final int INFINITE_AMOUNT = -1;
 
 	@PrimaryKey
 	private ItemId id;

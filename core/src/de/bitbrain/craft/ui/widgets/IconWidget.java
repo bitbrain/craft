@@ -83,22 +83,30 @@ public class IconWidget extends Actor implements ValueProvider {
 
     @Override
     public Color getColor(int currentAmount) {
-      return Color.WHITE;
+      if (currentAmount == Item.INFINITE_AMOUNT) {
+    	  return Color.CYAN;
+      } else {
+    	  return Color.WHITE;
+      }
     }
 
     @Override
     public String getContent(int currentAmount) {
-      return String.valueOf(currentAmount);
+      if (currentAmount == Item.INFINITE_AMOUNT) {
+    	  return "INF";
+      } else {
+    	  return String.valueOf(currentAmount);
+      }
     }
 
   	@Override
   	public boolean isVisible(int currentAmount) {
-  		return amount > 0;
+  		return amount >= Item.INFINITE_AMOUNT;
   	}
 
 	@Override
 	public boolean isDraggable(int amount) {
-		return amount > 0;
+		return amount > 0 || amount == Item.INFINITE_AMOUNT;
 	}
 
 	@Override
@@ -165,16 +173,20 @@ public class IconWidget extends Actor implements ValueProvider {
   }
   
   public void addAmount(int amount) {
-    this.amount += amount;
-    animateAmount();
+	if (this.amount != Item.INFINITE_AMOUNT) {
+	    this.amount += amount;
+	    animateAmount();
+	}
   }
   
   public void reduceAmount(int amount) {
-    this.amount -= amount;
-    if (this.amount < 0) {
-      this.amount = 0;
-    }
-    animateAmount();
+	if(this.amount != Item.INFINITE_AMOUNT) {
+	    this.amount -= amount;
+	    if (this.amount < 0) {
+	      this.amount = 0;
+	    }
+	    animateAmount();
+	}
   }
 
   private float getPadding() {
@@ -201,14 +213,14 @@ public class IconWidget extends Actor implements ValueProvider {
     addListener(new DragListener() {
       @Override
       public void dragStart(InputEvent event, float x, float y, int pointer) {
-    	  if (iconHandle.isDraggable(amount) && iconHandle.getDragAmount() <= amount) {
+    	  if (iconHandle.isDraggable(amount) && (amount == Item.INFINITE_AMOUNT || iconHandle.getDragAmount() <= amount)) {
           eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, item, x, y, iconHandle.getDragAmount()));
         }
       }
 
       @Override
       public void dragStop(InputEvent event, float x, float y, int pointer) {
-        if (iconHandle.isDraggable(amount) && iconHandle.getDragAmount() <= amount) {
+        if (iconHandle.isDraggable(amount) && (amount == Item.INFINITE_AMOUNT || iconHandle.getDragAmount() <= amount)) {
           eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP, item, x, y, iconHandle.getDragAmount()));
         }
       }

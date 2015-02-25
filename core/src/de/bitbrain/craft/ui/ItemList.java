@@ -106,6 +106,9 @@ public class ItemList {
 
 	private void removeElements(Item item, int amount) {
 		final ItemWidget widget = widgets.get(item.getId());
+		if (widget.getAmount() == Item.INFINITE_AMOUNT) {
+			return;
+		}
 		int newAmount = widget.getAmount() - amount;
 		widget.setAmount(item, newAmount);
 		if (newAmount <= 0 && !api.canCraft(item.getId())) {

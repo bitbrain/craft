@@ -194,6 +194,9 @@ class SimpleAPI implements API {
 				owned.setAmount(amount);
 				ownedItemMapper.insert(owned);
 			} else {
+				if (owned.getAmount() == Item.INFINITE_AMOUNT) {
+					return item;
+				}
 				owned.setAmount(owned.getAmount() + amount);
 				ownedItemMapper.update(owned);
 			}
@@ -207,9 +210,16 @@ class SimpleAPI implements API {
 	@Override
 	public boolean removeItem(int playerId, ItemId id, int amount) {
 		OwnedItem owned = ownedItemMapper.findById(id, playerId);
+		Item item = itemMapper.findById(id);
+		EventBus eventBus = SharedInjector.get()
+				.getInstance(EventBus.class);
+		if (owned.getAmount() == Item.INFINITE_AMOUNT) {
+			eventBus.fireEvent(new ItemEvent(EventType.REMOVE, item, amount));
+			return true;
+		}
 		int count = owned.getAmount() - amount;
 		if (owned != null && count >= 0) {
-			Item item = itemMapper.findById(id);
+			
 			try {
 				if (count > 0) {
 					owned.setAmount(count);
@@ -220,8 +230,6 @@ class SimpleAPI implements API {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			EventBus eventBus = SharedInjector.get()
-					.getInstance(EventBus.class);
 			eventBus.fireEvent(new ItemEvent(EventType.REMOVE, item, amount));
 			return true;
 		} else {

@@ -129,7 +129,17 @@ public class RecipeWidget extends Table {
 	private Actor generateTop(Item item) {
 		HorizontalGroup group = new HorizontalGroup();
 		group.align(Align.left);
-		IconWidget icon = new IconWidget(item, -1);
+		IconWidget icon = new IconWidget(item, 0);
+		icon.setHandle(icon.new DefaultIconHandle() {
+			@Override
+			public boolean isDraggable(int amount) {
+				return false;
+			}
+			@Override
+			public boolean isVisible(int currentAmount) {
+				return false;
+			}
+		});
 		group.addActor(icon);
 		HorizontalGroup wrapper = new HorizontalGroup();
 		Label caption = new Label(Bundles.items.get(item.getId().toString()), Styles.LBL_ITEM);
@@ -207,12 +217,16 @@ public class RecipeWidget extends Table {
 
 		@Override
 		public Color getColor(int currentAmount) {
-			return currentAmount >= required ? Color.GREEN : Color.RED;
+			return currentAmount == Item.INFINITE_AMOUNT || currentAmount >= required ? Color.GREEN : Color.RED;
 		}
 
 		@Override
 		public String getContent(int currentAmount) {
-			return currentAmount + "/" + required;
+			if (currentAmount != Item.INFINITE_AMOUNT) {
+				return currentAmount + "/" + required;
+			} else {
+				return "INF/" + required;
+			}
 		}
 
 		@Override
@@ -222,7 +236,7 @@ public class RecipeWidget extends Table {
 
 		@Override
 		public boolean isDraggable(int amount) {
-			return amount > 0;
+			return amount > 0 || amount == Item.INFINITE_AMOUNT;
 		}
 
 		@Override

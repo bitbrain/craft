@@ -22,6 +22,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.migration.Migrate;
 import de.bitbrain.craft.migration.Migrations;
+import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 
 /**
@@ -39,7 +40,7 @@ public class OwnedItemMigrationJob {
 		 api.addItem(p.getId(), ItemId.ACID_1, 10);
 		api.addItem(p.getId(), ItemId.XENOCITE, 6);
 		api.addItem(p.getId(), ItemId.FLUX, 2);
-		api.addItem(p.getId(), ItemId.WATER, 2);
+		api.addItem(p.getId(), ItemId.WATER, Item.INFINITE_AMOUNT);
 		api.addItem(p.getId(), ItemId.SULFUR, 22);
 		api.addItem(p.getId(), ItemId.JEWEL_DIAMOND_MEDIUM, 2);
 	}
