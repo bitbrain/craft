@@ -31,8 +31,8 @@ public class MouseEvent<Model> extends Event<Model>{
 	private float x, y;
 
 	public MouseEvent(de.bitbrain.craft.events.Event.EventType type,
-			Model model, float x, float y) {
-		super(type, model);
+			Model model, float x, float y, Object ... args) {
+		super(type, model, args);
 		this.x = x;
 		this.y = y;
 	}

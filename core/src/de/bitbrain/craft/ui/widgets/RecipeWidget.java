@@ -224,6 +224,11 @@ public class RecipeWidget extends Table {
 		public boolean isDraggable(int amount) {
 			return amount > 0;
 		}
+
+		@Override
+		public int getDragAmount() {
+			return required;
+		}
 		
 	}
 }

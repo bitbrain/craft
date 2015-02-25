@@ -76,6 +76,9 @@ public class DragDropHandler {
 	// Contains values to determine if an item has been dropped
 	private Map<ItemId, Boolean> drops;
 	
+	// Contains the amount for a given item
+	private Map<ItemId, Integer> amounts;
+	
 	// Temporary direction variable for target
 	private Vector2 target;
 	
@@ -101,6 +104,7 @@ public class DragDropHandler {
 		sources = new HashMap<ItemId, Vector2>();
 		drops = new HashMap<ItemId, Boolean>();
 		sizes = new HashMap<ItemId, Vector2>();
+		amounts = new HashMap<ItemId, Integer>();
 		target = new Vector2();
 		enabled = true;
 		eventBus.subscribe(this);
@@ -140,14 +144,16 @@ public class DragDropHandler {
 					location.y += (target.y - location.y) * delta * speed; 
 				}
 				
-				// Apply location
 				IconDrawable icon = entry.getValue();
-				icon.x = location.x - size.x / 2f;
-				icon.y = location.y - size.y / 2f;
-				icon.rotation = 180f;
-				icon.width = size.x * Sizes.worldScreenFactorX();
-				icon.height = size.y* Sizes.worldScreenFactorY();
-				icon.draw(batch, 1f);
+				
+				for (int i = 0; i < amounts.get(entry.getKey()); ++i) {
+					icon.x = location.x + size.x / 2f + 10.25f * (float)Math.cos(i * 30f);
+					icon.y = location.y - size.y / 2f + 10.25f * (float)Math.sin(i * 30f);
+					icon.rotation = 180f;
+					icon.width = size.x * -Sizes.worldScreenFactorX();
+					icon.height = size.y* Sizes.worldScreenFactorY();
+					icon.draw(batch, 1f);
+				}
 			}
 		}
 	}
@@ -157,6 +163,7 @@ public class DragDropHandler {
 		drops.clear();
 		locations.clear();
 		sources.clear();
+		amounts.clear();
 	}
 	
 	@Handler
@@ -173,7 +180,11 @@ public class DragDropHandler {
 			final Item item = (Item) event.getModel();
 			
 			if (event.getType() == EventType.MOUSEDRAG) {
-				add(item);
+				int size = 1;
+				if (event.getParam(0) != null) {
+					size = (Integer) event.getParam(0);
+				}
+				add(item, size);
 				SoundUtils.playItemSound(item, SoundType.DRAG, soundManager, api);
 			} else if (event.getType() == EventType.MOUSEDROP) {
 				ItemId id = item.getId();
@@ -194,12 +205,13 @@ public class DragDropHandler {
 		return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY()) + (Gdx.graphics.getHeight() / 8f) * Sizes.worldScreenFactorY();
 	}
 	
-	private void add(final Item item) {
+	private void add(final Item item, int amount) {
 		icons.put(item.getId(), iconManager.fetch(item.getIcon()));
 		locations.put(item.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
 		drops.put(item.getId(), false);
 		sources.put(item.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
 		sizes.put(item.getId(), new Vector2());
+		amounts.put(item.getId(), amount);
 		animateVector(sizes.get(item.getId()), 1f,  Sizes.dragIconSize(), new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
@@ -214,6 +226,7 @@ public class DragDropHandler {
 			locations.remove(id);
 			drops.remove(id);
 			sources.remove(id);
+			amounts.remove(id);
 			tweenManager.killTarget(sizes.get(id));
 			sizes.remove(id);
 		}

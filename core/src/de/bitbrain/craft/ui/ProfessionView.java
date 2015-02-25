@@ -79,7 +79,11 @@ public class ProfessionView extends Actor {
 			Item item = (Item) event.getModel();
 			if (professionLogic.add(item)) {
 				// Item accepted, remove it from system
-				api.removeItem(Player.getCurrent().getId(), item.getId(), 1);
+				int amount = 1;
+				if (event.getParam(0) != null) {
+					amount = (Integer) event.getParam(0);
+				}
+				api.removeItem(Player.getCurrent().getId(), item.getId(), amount);
 			}
 		}
 	}

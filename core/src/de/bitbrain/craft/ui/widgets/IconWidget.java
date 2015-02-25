@@ -101,6 +101,11 @@ public class IconWidget extends Actor implements ValueProvider {
 		return amount > 0;
 	}
 
+	@Override
+	public int getDragAmount() {
+		return 1;
+	}
+
   };
 
   public IconWidget(Item item, int amount) {
@@ -196,15 +201,15 @@ public class IconWidget extends Actor implements ValueProvider {
     addListener(new DragListener() {
       @Override
       public void dragStart(InputEvent event, float x, float y, int pointer) {
-    	  if (iconHandle.isDraggable(amount)) {
-          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, item, x, y));
+    	  if (iconHandle.isDraggable(amount) && iconHandle.getDragAmount() <= amount) {
+          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, item, x, y, iconHandle.getDragAmount()));
         }
       }
 
       @Override
       public void dragStop(InputEvent event, float x, float y, int pointer) {
-        if (iconHandle.isDraggable(amount)) {
-          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP, item, x, y));
+        if (iconHandle.isDraggable(amount) && iconHandle.getDragAmount() <= amount) {
+          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP, item, x, y, iconHandle.getDragAmount()));
         }
       }
     });
@@ -223,6 +228,7 @@ public class IconWidget extends Actor implements ValueProvider {
   }
 
   public static interface IconHandle {
+	  
     Color getColor(int currentAmount);
 
     String getContent(int currentAmount);
@@ -230,5 +236,7 @@ public class IconWidget extends Actor implements ValueProvider {
     boolean isVisible(int currentAmount);
     
     boolean isDraggable(int amount);
+    
+    int getDragAmount();
   }
 }
