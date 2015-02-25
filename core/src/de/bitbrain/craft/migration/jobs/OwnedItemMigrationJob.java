@@ -37,12 +37,10 @@ public class OwnedItemMigrationJob {
 	@Migrate(Migrations.RELEASE)
 	public void migrateOwnedItemsRelease(API api) {
 		Player p = Player.getCurrent();
-		 api.addItem(p.getId(), ItemId.ACID_1, 10);
-		api.addItem(p.getId(), ItemId.XENOCITE, 6);
-		api.addItem(p.getId(), ItemId.FLUX, 2);
 		api.addItem(p.getId(), ItemId.WATER, Item.INFINITE_AMOUNT);
-		api.addItem(p.getId(), ItemId.SULFUR, 22);
-		api.addItem(p.getId(), ItemId.JEWEL_DIAMOND_MEDIUM, 2);
+		api.addItem(p.getId(), ItemId.EARTH, Item.INFINITE_AMOUNT);
+		api.addItem(p.getId(), ItemId.AIR, Item.INFINITE_AMOUNT);
+		api.addItem(p.getId(), ItemId.FIRE, Item.INFINITE_AMOUNT);
 	}
 
 }

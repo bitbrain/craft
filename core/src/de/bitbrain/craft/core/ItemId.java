@@ -28,21 +28,11 @@ package de.bitbrain.craft.core;
  */
 public enum ItemId {
 	
-	FLUX,
-	ACID_1,
-	ACID_2,
-	DUST,
 	WATER,
-	SULFUR,
-	MERCURY,
-	PHIOLE_SMALL,
-	PHIOLE_MEDIUM,
-	GRAYSTONE,
-	BENTAGON,
-	DARKSTONE,
-	MOLTEN_SAND,
-	JEWEL_DIAMOND_MEDIUM,
-	XENOCITE;
+	EARTH,
+	AIR,
+	FIRE, 
+	ACID_1;
 	
 	@Override
 	public String toString() {

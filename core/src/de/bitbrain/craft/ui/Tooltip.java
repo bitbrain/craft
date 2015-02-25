@@ -107,7 +107,7 @@ public class Tooltip extends InputListener implements Poolable, Fadeable {
 	}
 	
 	void draw(Batch batch, float parentAlpha) {
-		if (target != null) {
+		if (target != null && text != null) {
 			final float PADDING = 10f;
 			TextBounds bounds = font.getBounds(text);
 			float x = (Gdx.input.getX() / Sizes.worldScreenFactorX()) + OFFSET;

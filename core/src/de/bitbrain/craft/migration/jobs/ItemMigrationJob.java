@@ -36,21 +36,11 @@ public class ItemMigrationJob {
 
 	@Migrate(Migrations.RELEASE)
 	public void migrateItemsRelease(API api) {
+		api.registerItem(ItemId.EARTH, Icon.EARTH, Rarity.COMMON, 0);
+		api.registerItem(ItemId.WATER, Icon.WATER, Rarity.COMMON, 0);
+		api.registerItem(ItemId.AIR, Icon.AIR, Rarity.COMMON, 0);
+		api.registerItem(ItemId.FIRE, Icon.FIRE, Rarity.COMMON, 0);
 		api.registerItem(ItemId.ACID_1, Icon.ACID_1, Rarity.COMMON, 1);
-		api.registerItem(ItemId.ACID_2, Icon.ACID_2, Rarity.COMMON, 2);
-		api.registerItem(ItemId.BENTAGON, Icon.BENTAGON, Rarity.RARE, 2);
-		api.registerItem(ItemId.DARKSTONE, Icon.DARKSTONE, Rarity.SUPERIOR, 3);
-		api.registerItem(ItemId.DUST, Icon.DUST, Rarity.COMMON, 1);
-		api.registerItem(ItemId.FLUX, Icon.FLUX, Rarity.RARE, 1);
-		api.registerItem(ItemId.GRAYSTONE, Icon.GRAYSTONE, Rarity.RARE, 1);
-		api.registerItem(ItemId.JEWEL_DIAMOND_MEDIUM, Icon.JEWEL_DIAMOND_MEDIUM, Rarity.EPIC, 3);
-		api.registerItem(ItemId.MERCURY, Icon.MERCURY, Rarity.COMMON, 2);
-		api.registerItem(ItemId.MOLTEN_SAND, Icon.MOLTEN_SAND, Rarity.RARE, 2);
-		api.registerItem(ItemId.PHIOLE_MEDIUM, Icon.PHIOLE_MEDIUM, Rarity.COMMON, 2);
-		api.registerItem(ItemId.PHIOLE_SMALL, Icon.PHIOLE_SMALL, Rarity.COMMON, 1);
-		api.registerItem(ItemId.SULFUR, Icon.SULFUR, Rarity.COMMON, 1);
-		api.registerItem(ItemId.WATER, Icon.WATER, Rarity.COMMON, 1);
-		api.registerItem(ItemId.XENOCITE, Icon.XENOCITE, Rarity.RARE, 2);		
 	}
 
 }

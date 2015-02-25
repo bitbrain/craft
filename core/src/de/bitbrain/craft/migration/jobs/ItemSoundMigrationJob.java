@@ -18,9 +18,7 @@
  */
 package de.bitbrain.craft.migration.jobs;
 
-import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.migration.Migrate;
 import de.bitbrain.craft.migration.Migrations;
 
@@ -35,8 +33,7 @@ public class ItemSoundMigrationJob {
 
 	@Migrate(Migrations.RELEASE)
 	public void migrateItemsRelease(API api) {
-		api.applyItemSound(ItemId.ACID_1, "pop.mp3", SoundType.DRAG, 1.5f);
-		api.applyItemSound(ItemId.ACID_1, "pop.mp3", SoundType.DROP, 0.8f);
+		
 	}
 
 }

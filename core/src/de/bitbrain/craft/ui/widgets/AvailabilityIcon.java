@@ -44,15 +44,16 @@ public class AvailabilityIcon extends Actor {
 			sprite.setColor(Color.CYAN);
 			tooltip.text(Bundles.general.get("craftable_external"));
 		} else {
-			sprite = new Sprite(SharedAssetManager.get(Assets.TEX_NOT, Texture.class));
-			tooltip.text(Bundles.general.get("not_craftable"));
+			sprite = null;
 		}
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		sprite.setBounds(getX(), getY(), getWidth(), getHeight());
-		sprite.draw(batch, parentAlpha);
+		if (sprite != null) {
+			sprite.setBounds(getX(), getY(), getWidth(), getHeight());
+			sprite.draw(batch, parentAlpha);
+		}
 	}
 }

@@ -37,9 +37,9 @@ public class RecipeMigrationJob {
 	@Migrate(Migrations.RELEASE)
 	public void migrateRecipesForAlchemist(API api) {
 		RecipeDataBuilder builder = new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST);
-		builder.addIngredient(ItemId.WATER, 1);
-		builder.addIngredient(ItemId.DUST, 1);
-		builder.amount(2);
+		builder.addIngredient(ItemId.WATER, 2);
+		builder.addIngredient(ItemId.EARTH, 2);
+		builder.amount(1);
 		api.registerRecipe(builder.build());
 	}
 }

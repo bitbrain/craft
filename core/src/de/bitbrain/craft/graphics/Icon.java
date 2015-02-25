@@ -31,7 +31,7 @@ public enum Icon {
 	FLUX,
 	ACID_1,
 	ACID_2,
-	DUST,
+	EARTH,
 	WATER,
 	SULFUR,
 	MERCURY,
@@ -46,7 +46,9 @@ public enum Icon {
 	MOLTEN_SAND, 
 	RECIPE, 
 	JEWEL_DIAMOND_MEDIUM,
-	XENOCITE;
+	XENOCITE, 
+	AIR,
+	FIRE;
 	
 	
 	public final String EXTENSION = ".png";
