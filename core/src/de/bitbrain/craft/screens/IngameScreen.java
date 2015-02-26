@@ -51,8 +51,8 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ItemList;
-import de.bitbrain.craft.ui.ProfessionView;
 import de.bitbrain.craft.ui.Tabs;
+import de.bitbrain.craft.ui.widgets.CraftingWidget;
 import de.bitbrain.craft.ui.widgets.RecipeWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget;
 import de.bitbrain.craft.util.DragDropHandler;
@@ -83,11 +83,11 @@ public class IngameScreen extends AbstractScreen {
 	
 	private ItemList itemList;
 	
-	private ProfessionView professionView;
+	private CraftingWidget craftingWidget;
 	
 	@PostConstruct	
 	public void init() {
-		professionView = new ProfessionView(ProfessionLogicFactory.create(Profession.current));
+		craftingWidget = new CraftingWidget(ProfessionLogicFactory.create(Profession.current));
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class IngameScreen extends AbstractScreen {
 		Container<TabWidget> container = new Container<TabWidget>(tabView);
 		stage.addActor(container);
 		stage.addActor(tabView);
-		stage.addActor(professionView);		
+		stage.addActor(craftingWidget);
 		tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
 		tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
 		tabView.setTab(Tabs.ITEMS);
@@ -110,6 +110,10 @@ public class IngameScreen extends AbstractScreen {
 		tabView.setHeight(Sizes.worldHeight() / paddingFactor);
 		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+		craftingWidget.setWidth(Sizes.worldWidth() - tabView.getWidth() * 1.35f);
+		craftingWidget.setHeight(craftingWidget.getWidth() / 2f);
+		craftingWidget.setX(tabView.getX() + tabView.getWidth() + craftingWidget.getWidth() / 3f);
+		craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight() - Sizes.worldHeight() / 3.5f);
 	}
 	
 	/* (non-Javadoc)

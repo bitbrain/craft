@@ -73,7 +73,7 @@ public final class Assets {
 	
 	// ---------- TEXTURES --------
 
-	public static final String TEX_NOT				    = DIR_IMAGES + "ui/not.png";
+	public static final String TEX_BOWL				    = DIR_IMAGES + "ui/bowl.png";
 	public static final String TEX_CHECK 				= DIR_IMAGES + "ui/check.png";
 	public static final String TEX_STAR 				= DIR_IMAGES + "ui/star.png";
 	public static final String TEX_TAB_GRADIENT         = DIR_IMAGES + "ui/tab_gradient.png";

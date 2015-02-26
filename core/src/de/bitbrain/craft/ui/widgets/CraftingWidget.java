@@ -17,14 +17,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.ui;
+package de.bitbrain.craft.ui.widgets;
 
 import net.engio.mbassy.listener.Handler;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event.EventType;
@@ -33,6 +37,7 @@ import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Profession;
 
 /**
  * General view component for professions
@@ -41,7 +46,7 @@ import de.bitbrain.craft.models.Player;
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionView extends Actor {
+public class CraftingWidget extends Actor {
 
 	private ProfessionLogic professionLogic;
 
@@ -50,11 +55,14 @@ public class ProfessionView extends Actor {
 
 	@Inject
 	private API api;
+	
+	private Sprite background;
 
-	public ProfessionView(ProfessionLogic professionLogic) {
+	public CraftingWidget(ProfessionLogic professionLogic) {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
+		background = generateBackground(Profession.current);
 	}
 
 	/*
@@ -66,10 +74,9 @@ public class ProfessionView extends Actor {
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
-		// Texture texture = SharedAssetManager.get(Assets.TEX_BUTTON_GREEN,
-		// Texture.class);
-		// batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+		background.setColor(getColor());
+		background.setBounds(getX(), getY(), getWidth(), getHeight());
+		background.draw(batch, parentAlpha);
 	}
 
 	@Handler
@@ -86,5 +93,16 @@ public class ProfessionView extends Actor {
 				api.removeItem(Player.getCurrent().getId(), item.getId(), amount);
 			}
 		}
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	private Sprite generateBackground(Profession profession) {
+		Texture texture = SharedAssetManager.get(Assets.TEX_LOGO, Texture.class);
+		switch (profession) {
+		case ALCHEMIST:
+			texture = SharedAssetManager.get(Assets.TEX_BOWL, Texture.class);
+			break;		
+		}
+		return new Sprite(texture);
 	}
 }
