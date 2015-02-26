@@ -84,7 +84,7 @@ public class CraftingWidget extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP)
 				&& event.getModel() instanceof Item) {
 			Item item = (Item) event.getModel();
-			if (professionLogic.add(item)) {
+			if (professionLogic.add(item) && collides(event.getMouseX(), event.getMouseY())) {
 				// Item accepted, remove it from system
 				int amount = 1;
 				if (event.getParam(0) != null) {
@@ -104,5 +104,11 @@ public class CraftingWidget extends Actor {
 			break;		
 		}
 		return new Sprite(texture);
+	}
+	
+	private boolean collides(float x, float y) {
+		y += getY();
+		return x >= getX() && x <= getX() + getWidth() &&
+			   y >= getY() && y <= getY() + getHeight();
 	}
 }
