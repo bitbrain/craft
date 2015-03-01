@@ -54,8 +54,8 @@ import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 
 /**
- * Handler which handles drag and drop. This handler is capable of
- * handling multiple drag&drops. It reacts to any mouse and element events.
+ * Handler which handles drag and drop. This handler is capable of handling
+ * multiple drag&drops. It reacts to any mouse and element events.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -63,48 +63,34 @@ import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
  */
 @StateScoped
 public class DragDropHandler {
-	
+
 	// Determines if enabled or not
 	private boolean enabled;
-	
-	// Contains all icons to draw
-	private Map<ItemId, IconDrawable> icons;
-	
-	// Contains all current locations and their sources
-	private Map<ItemId, Vector2> locations, sources, sizes;
-	
-	// Contains values to determine if an item has been dropped
-	private Map<ItemId, Boolean> drops;
-	
-	// Contains the amount for a given item
-	private Map<ItemId, Integer> amounts;
-	
+
+	// Contains all metadata for icons
+	private Map<ItemId, IconMetadata> metadata;
+
 	// Temporary direction variable for target
 	private Vector2 target;
-	
+
 	@Inject
 	private EventBus eventBus;
-	
+
 	@Inject
 	private SoundManager soundManager;
-	
+
 	@Inject
 	private API api;
-	
+
 	@Inject
 	private TweenManager tweenManager;
-	
+
 	@Inject
 	private IconManager iconManager;
-	
+
 	@PostConstruct
 	public void init() {
-		icons = new HashMap<ItemId, IconDrawable>();
-		locations = new HashMap<ItemId, Vector2>();
-		sources = new HashMap<ItemId, Vector2>();
-		drops = new HashMap<ItemId, Boolean>();
-		sizes = new HashMap<ItemId, Vector2>();
-		amounts = new HashMap<ItemId, Integer>();
+		metadata = new HashMap<ItemId, IconMetadata>();
 		target = new Vector2();
 		enabled = true;
 		eventBus.subscribe(this);
@@ -113,27 +99,28 @@ public class DragDropHandler {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	public void draw(Batch batch, float delta) {
 		if (enabled) {
-			for (Entry<ItemId, IconDrawable> entry : icons.entrySet()) {
-				Vector2 location = locations.get(entry.getKey());
-				Vector2 size = sizes.get(entry.getKey());
+			for (Entry<ItemId, IconMetadata> entry : metadata.entrySet()) {
+				IconMetadata data = entry.getValue();
+				Vector2 location = data.location;
+				Vector2 size = data.size;
 				target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
 				target.y = getScreenY();
 				float speed = 0f;
 
-				if (drops.get(entry.getKey())) {
-					target.x = sources.get(entry.getKey()).x;
-					target.y = sources.get(entry.getKey()).y;
+				if (data.drop) {
+					target.x = data.source.x;
+					target.y = data.source.y;
 					speed = 3f;
 					// Check if near, then drop everything
-					if (target.cpy().sub(location).len() <  Sizes.dragIconSize()) {
+					if (target.cpy().sub(location).len() < Sizes.dragIconSize()) {
 						remove(entry.getKey());
 						break;
 					}
 				}
-				
+
 				if (speed <= 0) {
 					// Apply direct mouse position
 					location.x = target.x;
@@ -141,31 +128,29 @@ public class DragDropHandler {
 				} else {
 					// Move the location towards the mouse
 					location.x += (target.x - location.x) * delta * speed;
-					location.y += (target.y - location.y) * delta * speed; 
+					location.y += (target.y - location.y) * delta * speed;
 				}
-				
-				IconDrawable icon = entry.getValue();
-				
-				for (int i = 0; i < amounts.get(entry.getKey()); ++i) {
-					icon.x = location.x + size.x / 2f + 10.25f * (float)Math.cos(i * 30f);
-					icon.y = location.y - size.y / 2f + 10.25f * (float)Math.sin(i * 30f);
+
+				IconDrawable icon = data.drawable;
+
+				for (int i = 0; i < data.amount; ++i) {
+					icon.x = location.x + size.x / 2f + 10.25f
+							* (float) Math.cos(i * 30f);
+					icon.y = location.y - size.y / 2f + 10.25f
+							* (float) Math.sin(i * 30f);
 					icon.rotation = 180f;
 					icon.width = size.x * -Sizes.worldScreenFactorX();
-					icon.height = size.y* Sizes.worldScreenFactorY();
+					icon.height = size.y * Sizes.worldScreenFactorY();
 					icon.draw(batch, 1f);
 				}
 			}
 		}
 	}
-	
+
 	public void clear() {
-		icons.clear();
-		drops.clear();
-		locations.clear();
-		sources.clear();
-		amounts.clear();
+		metadata.clear();
 	}
-	
+
 	@Handler
 	public void onEvent(ItemEvent event) {
 		// ON ITEM REMOVE: Remove it from this handler
@@ -173,88 +158,97 @@ public class DragDropHandler {
 			remove(event.getModel().getId());
 		}
 	}
-	
+
 	@Handler
 	public void onEvent(MouseEvent<?> event) {
-		if (event.getModel() instanceof Item) {			
+		if (event.getModel() instanceof Item) {
 			final Item item = (Item) event.getModel();
-			
+
 			if (event.getType() == EventType.MOUSEDRAG) {
 				int size = 1;
 				if (event.getParam(0) != null) {
 					size = (Integer) event.getParam(0);
 				}
 				add(item, size);
-				SoundUtils.playItemSound(item, SoundType.DRAG, soundManager, api);
+				SoundUtils.playItemSound(item, SoundType.DRAG, soundManager,
+						api);
 			} else if (event.getType() == EventType.MOUSEDROP) {
-				ItemId id = item.getId();
-				drops.put(id, true);
-				tweenManager.killTarget(sizes.get(id));
-				animateVector(sizes.get(id), 1.7f, 0f, new TweenCallback() {
-					@Override 
-					public void onEvent(int type, BaseTween<?> source) {} // do nothing
+				IconMetadata data = metadata.get(item.getId());
+				data.drop = true;
+				tweenManager.killTarget(data.size);
+				animateVector(data.size, 1.7f, 0f, new TweenCallback() {
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+					} // do nothing
 				});
-				SoundUtils.playItemSound(item, SoundType.DROP, soundManager, api);
+				SoundUtils.playItemSound(item, SoundType.DROP, soundManager,
+						api);
 			}
 		} else if (event.getModel() instanceof Tab) {
 			clear();
 		}
 	}
-	
+
 	private float getScreenY() {
-		return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY()) + (Gdx.graphics.getHeight() / 8f) * Sizes.worldScreenFactorY();
+		return (Sizes.worldHeight() / Sizes.worldScreenFactorY())
+				- (Sizes.worldMouseY() / Sizes.worldScreenFactorY())
+				+ (Gdx.graphics.getHeight() / 8f) * Sizes.worldScreenFactorY();
 	}
-	
+
 	private void add(final Item item, int amount) {
-		icons.put(item.getId(), iconManager.fetch(item.getIcon()));
-		locations.put(item.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
-		drops.put(item.getId(), false);
-		sources.put(item.getId(), new Vector2(Sizes.worldMouseX(), getScreenY()));
-		sizes.put(item.getId(), new Vector2());
-		amounts.put(item.getId(), amount);
-		animateVector(sizes.get(item.getId()), 1f,  Sizes.dragIconSize(), new TweenCallback() {
+		final IconMetadata data = new IconMetadata();
+		data.drawable = iconManager.fetch(item.getIcon());
+		data.location = new Vector2(Sizes.worldMouseX(), getScreenY());
+		data.drop = false;
+		data.source = new Vector2(Sizes.worldMouseX(), getScreenY());
+		data.size = new Vector2();
+		data.amount = amount;
+		animateVector(data.size, 1f, Sizes.dragIconSize(), new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				animateDragging(sizes.get(item.getId()));
-			}			
+				animateDragging(data.size);
+			}
 		});
+		metadata.put(item.getId(), data);
 	}
-	
+
 	private void remove(ItemId id) {
-		if (icons.containsKey(id)) {
-			icons.remove(id);
-			locations.remove(id);
-			drops.remove(id);
-			sources.remove(id);
-			amounts.remove(id);
-			tweenManager.killTarget(sizes.get(id));
-			sizes.remove(id);
+		if (metadata.containsKey(id)) {
+			IconMetadata data = metadata.get(id);
+			tweenManager.killTarget(data.size);
+			metadata.remove(id);
 		}
 	}
-	
-	private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
-		Tween.to(vec, VectorTween.X, time)
-			 .target(target)
-			 .ease(TweenEquations.easeOutQuart)
-			 .start(tweenManager);
-		Tween.to(vec, VectorTween.Y, time)
-			 .target(target)
-			 .ease(TweenEquations.easeOutQuart)
-			 .setCallback(callback)
-			 .setCallbackTriggers(TweenCallback.COMPLETE)
-			 .start(tweenManager);
+
+	private void animateVector(Vector2 vec, float time, float target,
+			TweenCallback callback) {
+		Tween.to(vec, VectorTween.X, time).target(target)
+				.ease(TweenEquations.easeOutQuart).start(tweenManager);
+		Tween.to(vec, VectorTween.Y, time).target(target)
+				.ease(TweenEquations.easeOutQuart).setCallback(callback)
+				.setCallbackTriggers(TweenCallback.COMPLETE)
+				.start(tweenManager);
 	}
-	
+
 	private void animateDragging(Vector2 vec) {
 		Tween.to(vec, VectorTween.X, 1.0f)
-			 .target( Sizes.dragIconSize() +  Sizes.dragIconSize() / 3.2f)
-			 .repeatYoyo(Tween.INFINITY, 0f)
-			 .ease(TweenEquations.easeOutBack)
-			 .start(tweenManager);
+				.target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
+				.repeatYoyo(Tween.INFINITY, 0f)
+				.ease(TweenEquations.easeOutBack).start(tweenManager);
 		Tween.to(vec, VectorTween.Y, 1.0f)
-			 .target( Sizes.dragIconSize() +  Sizes.dragIconSize() / 3.2f)
-			 .repeatYoyo(Tween.INFINITY, 0f)
-			 .ease(TweenEquations.easeOutBack)
-			 .start(tweenManager);
+				.target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
+				.repeatYoyo(Tween.INFINITY, 0f)
+				.ease(TweenEquations.easeOutBack).start(tweenManager);
+	}
+
+	private class IconMetadata {
+
+		public IconDrawable drawable;
+
+		public Vector2 location, source, size;
+
+		public Boolean drop;
+
+		public int amount;
 	}
 }
