@@ -50,6 +50,7 @@ import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 
@@ -88,6 +89,10 @@ public class DragDropHandler {
 	@Inject
 	private IconManager iconManager;
 
+	static {
+		Tween.registerAccessor(IconMetadata.class, new FadeableTween());
+	}
+
 	@PostConstruct
 	public void init() {
 		metadata = new HashMap<ItemId, IconMetadata>();
@@ -108,27 +113,29 @@ public class DragDropHandler {
 				Vector2 size = data.size;
 				target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
 				target.y = getScreenY();
-				float speed = 0f;
 
-				if (data.drop) {
-					target.x = data.source.x;
-					target.y = data.source.y;
-					speed = 3f;
-					// Check if near, then drop everything
-					if (target.cpy().sub(location).len() < Sizes.dragIconSize()) {
-						remove(entry.getKey());
-						break;
+				if (!data.frozen) {
+					float speed = 0f;
+					if (data.drop) {
+						target.x = data.source.x;
+						target.y = data.source.y;
+						speed = 3f;
+						// Check if near, then drop everything
+						if (target.cpy().sub(location).len() < Sizes
+								.dragIconSize()) {
+							remove(entry.getKey());
+							break;
+						}
 					}
-				}
-
-				if (speed <= 0) {
-					// Apply direct mouse position
-					location.x = target.x;
-					location.y = target.y;
-				} else {
-					// Move the location towards the mouse
-					location.x += (target.x - location.x) * delta * speed;
-					location.y += (target.y - location.y) * delta * speed;
+					if (speed <= 0) {
+						// Apply direct mouse position
+						location.x = target.x;
+						location.y = target.y;
+					} else {
+						// Move the location towards the mouse
+						location.x += (target.x - location.x) * delta * speed;
+						location.y += (target.y - location.y) * delta * speed;
+					}
 				}
 
 				IconDrawable icon = data.drawable;
@@ -141,6 +148,7 @@ public class DragDropHandler {
 					icon.rotation = 180f;
 					icon.width = size.x * -Sizes.worldScreenFactorX();
 					icon.height = size.y * Sizes.worldScreenFactorY();
+					icon.color.a = data.alpha;
 					icon.draw(batch, 1f);
 				}
 			}
@@ -152,10 +160,24 @@ public class DragDropHandler {
 	}
 
 	@Handler
-	public void onEvent(ItemEvent event) {
+	public void onEvent(final ItemEvent event) {
 		// ON ITEM REMOVE: Remove it from this handler
 		if (event.getType().equals(EventType.REMOVE)) {
-			remove(event.getModel().getId());
+			final IconMetadata data = metadata.get(event.getModel().getId());
+			if (data != null) {
+				tweenManager.killTarget(data);
+				tweenManager.killTarget(data.size);
+				data.frozen = true;
+				Tween.to(data, FadeableTween.DEFAULT, 0.6f).target(0f)
+						.ease(TweenEquations.easeOutCubic)
+						.setCallbackTriggers(TweenCallback.COMPLETE)
+						.setCallback(new TweenCallback() {
+							@Override
+							public void onEvent(int type, BaseTween<?> source) {
+								remove(event.getModel().getId());
+							}
+						}).start(tweenManager);
+			}
 		}
 	}
 
@@ -179,8 +201,10 @@ public class DragDropHandler {
 				animateVector(data.size, 1.7f, 0f, new TweenCallback() {
 					@Override
 					public void onEvent(int type, BaseTween<?> source) {
-					} // do nothing
+					}
 				});
+				Tween.to(data, FadeableTween.DEFAULT, 0.3f).target(0f)
+						.ease(TweenEquations.easeOutCubic).start(tweenManager);
 				SoundUtils.playItemSound(item, SoundType.DROP, soundManager,
 						api);
 			}
@@ -212,11 +236,12 @@ public class DragDropHandler {
 		metadata.put(item.getId(), data);
 	}
 
-	private void remove(ItemId id) {
+	private void remove(final ItemId id) {
 		if (metadata.containsKey(id)) {
-			IconMetadata data = metadata.get(id);
+			final IconMetadata data = metadata.get(id);
 			tweenManager.killTarget(data.size);
 			metadata.remove(id);
+
 		}
 	}
 
@@ -241,7 +266,7 @@ public class DragDropHandler {
 				.ease(TweenEquations.easeOutBack).start(tweenManager);
 	}
 
-	private class IconMetadata {
+	private class IconMetadata implements Fadeable {
 
 		public IconDrawable drawable;
 
@@ -250,5 +275,19 @@ public class DragDropHandler {
 		public Boolean drop;
 
 		public int amount;
+
+		private float alpha = 1f;
+
+		public boolean frozen = false;
+
+		@Override
+		public float getAlpha() {
+			return alpha;
+		}
+
+		@Override
+		public void setAlpha(float alpha) {
+			this.alpha = alpha;
+		}
 	}
 }
