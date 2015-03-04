@@ -84,7 +84,7 @@ public class IconWidget extends Actor implements ValueProvider {
     @Override
     public Color getColor(int currentAmount) {
       if (currentAmount == Item.INFINITE_AMOUNT) {
-    	  return Color.CYAN;
+    	  return Assets.CLR_YELLOW_SAND;
       } else {
     	  return Color.WHITE;
       }
