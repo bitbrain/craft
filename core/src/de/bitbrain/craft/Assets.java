@@ -73,6 +73,7 @@ public final class Assets {
 	
 	// ---------- TEXTURES --------
 
+	public static final String TEX_CIRCLE			    = DIR_IMAGES + "ui/circle.png";
 	public static final String TEX_BOWL				    = DIR_IMAGES + "ui/bowl.png";
 	public static final String TEX_TABLE			    = DIR_IMAGES + "ui/table.png";
 	public static final String TEX_CHECK 				= DIR_IMAGES + "ui/check.png";

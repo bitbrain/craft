@@ -20,13 +20,12 @@
 package de.bitbrain.craft.ui.widgets;
 
 import net.engio.mbassy.listener.Handler;
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -41,6 +40,7 @@ import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
+import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
@@ -72,10 +72,14 @@ public class CraftingWidget extends Actor {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
-		table = new AnimatedBounceObject(Assets.TEX_TABLE);
+		table = new AnimatedBounceObject(Assets.TEX_TABLE, GraphicsFactory.createTexture(32, 16, new Color(0f, 0f, 0f, 0.2f)));
 		table.setSizeOffset(50f, 120f);
 		table.setPositionOffset(0f, -190f);
-		workbench = new AnimatedBounceObject(Assets.TEX_BOWL);
+		table.setShadowSizeOffset(0f, -20f);
+		table.setShadowPositionOffset(0f, -250f);
+		workbench = new AnimatedBounceObject(Assets.TEX_BOWL, Assets.TEX_CIRCLE);
+		workbench.setShadowSizeOffset(-40f, -50f);
+		workbench.setShadowPositionOffset(0f, -30f);
 	}
 
 	/*
@@ -130,15 +134,23 @@ public class CraftingWidget extends Actor {
 
 	private class AnimatedBounceObject {
 
-		private Sprite background;
+		private Sprite background, shadow;
 
-		private Vector2 sizeOffset, posOffset;
+		private Vector2 sizeOffset, posOffset, shadowSizeOffset,
+				shadowPosOffset;
 
-		public AnimatedBounceObject(String assetId) {
+		public AnimatedBounceObject(String assetId, Texture shadowAsset) {
 			sizeOffset = new Vector2();
 			posOffset = new Vector2();
+			shadowSizeOffset = new Vector2();
+			shadowPosOffset = new Vector2();
 			background = new Sprite(SharedAssetManager.get(assetId,
 					Texture.class));
+			shadow = new Sprite(shadowAsset);
+		}
+
+		public AnimatedBounceObject(String assetId, String shadowAssetId) {
+			this(assetId, SharedAssetManager.get(shadowAssetId, Texture.class));
 		}
 
 		public void setSizeOffset(float offsetX, float offsetY) {
@@ -153,11 +165,33 @@ public class CraftingWidget extends Actor {
 			refresh();
 		}
 
+		public void setShadowSizeOffset(float offsetX, float offsetY) {
+			shadowSizeOffset.x = offsetX;
+			shadowSizeOffset.y = offsetY;
+			refreshShadow();
+		}
+
+		public void setShadowPositionOffset(float offsetX, float offsetY) {
+			shadowPosOffset.x = offsetX;
+			shadowPosOffset.y = offsetY;
+			refreshShadow();
+		}
+
 		public void refresh() {
+			refreshShadow();
 			background.setSize(getWidth() + sizeOffset.x, getHeight()
 					+ sizeOffset.y);
-			background.setPosition(getX() + posOffset.x - (getWidth() - (getWidth() - sizeOffset.x)) / 2f, 
-					               getY() + posOffset.y);
+			background.setPosition(getX() + posOffset.x
+					- (getWidth() - (getWidth() - sizeOffset.x)) / 2f, getY()
+					+ posOffset.y);
+		}
+
+		public void refreshShadow() {
+			shadow.setSize(getWidth() + shadowSizeOffset.x, getHeight()
+					+ shadowSizeOffset.y);
+			shadow.setPosition(getX() + shadowPosOffset.x
+					- (getWidth() - (getWidth() - shadowSizeOffset.x)) / 2f,
+					getY() + shadowPosOffset.y);
 		}
 
 		public void animate(TweenManager tweenManager) {
@@ -170,20 +204,31 @@ public class CraftingWidget extends Actor {
 
 		public void animate(TweenManager tweenManager, float delay) {
 			refresh();
+			tweenManager.killTarget(shadow);
 			tweenManager.killTarget(background);
 			// Alpha fading
+			shadow.setAlpha(0f);
 			background.setAlpha(0f);
 			Tween.to(background, SpriteTween.ALPHA, 0.4f).target(1f)
-					.ease(TweenEquations.easeInBack).start(tweenManager);
+					.ease(TweenEquations.easeInCubic).start(tweenManager);
+			Tween.to(shadow, SpriteTween.ALPHA, 0.4f).target(1f)
+					.ease(TweenEquations.easeInCubic).start(tweenManager);
 			// vertical bounce
 			float originalY = background.getY();
 			background.setY(Gdx.graphics.getHeight() + getHeight());
-			Tween tween = Tween.to(background, SpriteTween.Y, 1.0f)
-					.target(originalY).ease(TweenEquations.easeOutBounce)
-					.delay(delay).start(tweenManager);
+			Tween.to(background, SpriteTween.Y, 1.0f).target(originalY)
+					.ease(TweenEquations.easeOutBounce).delay(delay)
+					.start(tweenManager);
+			// Shadow scaling
+			shadow.setOrigin(shadow.getWidth() / 2f, shadow.getHeight() / 2f);
+			shadow.setScale(0.0f);
+			Tween.to(shadow, SpriteTween.SCALE, 1.0f).target(1f)
+					.ease(TweenEquations.easeOutBounce).delay(delay)
+					.delay(0.2f).start(tweenManager);
 		}
 
 		public void draw(Batch batch, float alphaModulation) {
+			shadow.draw(batch, alphaModulation);
 			background.draw(batch, alphaModulation);
 		}
 	}
