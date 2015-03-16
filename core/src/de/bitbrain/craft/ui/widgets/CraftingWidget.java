@@ -20,7 +20,11 @@
 package de.bitbrain.craft.ui.widgets;
 
 import net.engio.mbassy.listener.Handler;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -38,6 +42,7 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.tweens.ActorTween;
 
 /**
  * General view component for professions
@@ -55,14 +60,17 @@ public class CraftingWidget extends Actor {
 
 	@Inject
 	private API api;
-	
-	private Sprite background;
+
+	@Inject
+	private TweenManager tweenManager;
+
+	private Sprite workbench;
 
 	public CraftingWidget(ProfessionLogic professionLogic) {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
-		background = generateBackground(Profession.current);
+		workbench = generateBackground(Profession.current);
 	}
 
 	/*
@@ -74,9 +82,9 @@ public class CraftingWidget extends Actor {
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		background.setColor(getColor());
-		background.setBounds(getX(), getY(), getWidth(), getHeight());
-		background.draw(batch, parentAlpha);
+		workbench.setColor(getColor());
+		workbench.setBounds(getX(), getY(), getWidth(), getHeight());
+		workbench.draw(batch, parentAlpha);
 	}
 
 	@Handler
@@ -84,31 +92,44 @@ public class CraftingWidget extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP)
 				&& event.getModel() instanceof Item) {
 			Item item = (Item) event.getModel();
-			if (professionLogic.add(item) && collides(event.getMouseX(), event.getMouseY())) {
+			if (professionLogic.add(item)
+					&& collides(event.getMouseX(), event.getMouseY())) {
 				// Item accepted, remove it from system
 				int amount = 1;
 				if (event.getParam(0) != null) {
 					amount = (Integer) event.getParam(0);
 				}
-				api.removeItem(Player.getCurrent().getId(), item.getId(), amount);
+				api.removeItem(Player.getCurrent().getId(), item.getId(),
+						amount);
 			}
 		}
 	}
 
+	public void animate() {
+		getColor().a = 0f;
+		float targetY = getY();
+		setY(Gdx.graphics.getHeight());
+		Tween.to(this, ActorTween.ALPHA, 1.6f).target(0.9f)
+				.ease(TweenEquations.easeInBack).start(tweenManager);
+		Tween.to(this, ActorTween.Y, 2.0f).target(targetY)
+				.ease(TweenEquations.easeInOutBounce).start(tweenManager);
+	}
+
 	@SuppressWarnings("incomplete-switch")
 	private Sprite generateBackground(Profession profession) {
-		Texture texture = SharedAssetManager.get(Assets.TEX_LOGO, Texture.class);
+		Texture texture = SharedAssetManager
+				.get(Assets.TEX_LOGO, Texture.class);
 		switch (profession) {
 		case ALCHEMIST:
 			texture = SharedAssetManager.get(Assets.TEX_BOWL, Texture.class);
-			break;		
+			break;
 		}
 		return new Sprite(texture);
 	}
-	
+
 	private boolean collides(float x, float y) {
 		y += getY();
-		return x >= getX() && x <= getX() + getWidth() &&
-			   y >= getY() && y <= getY() + getHeight();
+		return x >= getX() && x <= getX() + getWidth() && y >= getY()
+				&& y <= getY() + getHeight();
 	}
 }
