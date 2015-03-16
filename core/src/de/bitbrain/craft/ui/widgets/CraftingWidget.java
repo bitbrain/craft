@@ -64,13 +64,14 @@ public class CraftingWidget extends Actor {
 	@Inject
 	private TweenManager tweenManager;
 
-	private Sprite workbench;
+	private Sprite workbench, table;
 
 	public CraftingWidget(ProfessionLogic professionLogic) {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
 		workbench = generateBackground(Profession.current);
+		table = new Sprite(SharedAssetManager.get(Assets.TEX_TABLE, Texture.class));
 	}
 
 	/*
@@ -82,6 +83,10 @@ public class CraftingWidget extends Actor {
 	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		table.setColor(getColor());
+		float width = getWidth() * 1.2f;
+		table.setBounds(getX() - ((width - getWidth()) / 2), getY() - getHeight() * 1.3f, width, getWidth());
+		table.draw(batch, parentAlpha);
 		workbench.setColor(getColor());
 		workbench.setBounds(getX(), getY(), getWidth(), getHeight());
 		workbench.draw(batch, parentAlpha);
@@ -109,10 +114,10 @@ public class CraftingWidget extends Actor {
 		getColor().a = 0f;
 		float targetY = getY();
 		setY(Gdx.graphics.getHeight());
-		Tween.to(this, ActorTween.ALPHA, 1.6f).target(0.9f)
+		Tween.to(this, ActorTween.ALPHA, 0.4f).target(1f)
 				.ease(TweenEquations.easeInBack).start(tweenManager);
-		Tween.to(this, ActorTween.Y, 2.0f).target(targetY)
-				.ease(TweenEquations.easeInOutBounce).start(tweenManager);
+		Tween.to(this, ActorTween.Y, 1.2f).target(targetY)
+				.ease(TweenEquations.easeOutBounce).start(tweenManager);
 	}
 
 	@SuppressWarnings("incomplete-switch")

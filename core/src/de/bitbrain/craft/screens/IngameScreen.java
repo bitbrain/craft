@@ -112,8 +112,8 @@ public class IngameScreen extends AbstractScreen {
 		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 		craftingWidget.setWidth(Sizes.worldWidth() - tabView.getWidth() * 1.35f);
 		craftingWidget.setHeight(craftingWidget.getWidth() / 2f);
-		craftingWidget.setX(tabView.getX() + tabView.getWidth() + craftingWidget.getWidth() / 3f);
-		craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight() - Sizes.worldHeight() / 3.5f);
+		craftingWidget.setX(tabView.getX() + tabView.getWidth() + craftingWidget.getWidth() / 3.4f);
+		craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight() - Sizes.worldHeight() / 4f);
 		craftingWidget.animate();
 	}
 	
