@@ -92,8 +92,9 @@ public class ProfessionSelectionView extends Table implements EventListener {
     for (int index = 0; index < Profession.values().length; index++) {
 
       Profession f = Profession.values()[index];
-
-      ProfessionElement element = new ProfessionElement(f.getName(), Styles.BTN_PROFESSION, f);
+      String caption = f.isEnabled() ? f.getName() : "unknown";
+      ProfessionElement element = new ProfessionElement(caption, Styles.BTN_PROFESSION, f);
+      element.setDisabled(!f.isEnabled());
       element.addCaptureListener(this);
       element.addCaptureListener(notifier);
 
@@ -236,12 +237,14 @@ public class ProfessionSelectionView extends Table implements EventListener {
         icon.setOrigin(icon.getWidth() / 2f, icon.getHeight() / 2f);
         icon.draw(batch, parentAlpha * iconAlpha * getColor().a);
       }
-      bar.setColor(getColor());
-      bar.setWidth(getWidth() / 1.4f);
-      bar.setHeight(getHeight() / 11f);
-      bar.setX(getX() + getWidth() / 2f - bar.getWidth() / 2f);
-      bar.setY(getY() + getHeight() / 7.5f);
-      bar.draw(batch, parentAlpha);
+      if (profession.isEnabled()) {
+	      bar.setColor(getColor());
+	      bar.setWidth(getWidth() / 1.4f);
+	      bar.setHeight(getHeight() / 11f);
+	      bar.setX(getX() + getWidth() / 2f - bar.getWidth() / 2f);
+	      bar.setY(getY() + getHeight() / 7.5f);
+	      bar.draw(batch, parentAlpha);
+      }
     }
 
     private Texture getProfessionTexture(Profession profession) {
@@ -304,7 +307,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
         if (playerDataProvider.getLevel(profession) == 1 &&
             playerDataProvider.getProgress(profession) == 0f) {
           text = "Start";
-        }
+        } 
         
         level = new Label(text, lblStyle);
       }
@@ -398,7 +401,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
       super.clicked(event, x, y);
-      SoundUtils.play(Assets.SND_CONFIRM, 1.0f, 1.5f);
 
       Color clrFore = new Color(0.6f, 1.0f, 0.1f, 1.0f);
       Color clrBack = new Color(0.3f, 1.0f, 0.1f, 1.0f);
@@ -410,8 +412,11 @@ public class ProfessionSelectionView extends Table implements EventListener {
       }
 
       if (event.getTarget() instanceof ProfessionElement) {
-
         ProfessionElement e = (ProfessionElement) event.getTarget();
+        if (!e.getProfession().isEnabled()) {
+      	  return;
+        }
+        SoundUtils.play(Assets.SND_CONFIRM, 1.0f, 1.5f);
 
         for (ProfessionSelectListener l : listeners) {
           l.onSelect(e.getProfession());
@@ -426,7 +431,9 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
         if (l.getParent() instanceof ProfessionElement) {
           ProfessionElement e = (ProfessionElement) l.getParent();
-
+          if (!e.getProfession().isEnabled()) {
+        	  return;
+          }
           for (ProfessionSelectListener listener : listeners) {
             listener.onSelect(e.getProfession());
           }

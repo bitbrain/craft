@@ -45,8 +45,12 @@ public enum Profession {
 
 		@Override
 		public String getDescription() {
-			// TODO Auto-generated method stub
-			return null;
+			return "alchemist-description";
+		}
+		
+		@Override
+		public boolean isEnabled() {
+			return true;
 		}
 
 	},
@@ -55,7 +59,7 @@ public enum Profession {
 
 		@Override
 		public String getIcon() {
-			return Assets.TEX_JEWELER;
+			return Assets.TEX_JEWELER_PREVIEW;
 		}
 
 		@Override
@@ -65,7 +69,7 @@ public enum Profession {
 
 		@Override
 		public String getDescription() {
-			return "jeweler-info";
+			return null;
 		}
 	},
 
@@ -73,7 +77,7 @@ public enum Profession {
 
 		@Override
 		public String getIcon() {
-			return Assets.TEX_ENGINEER;
+			return Assets.TEX_ENGINEER_PREVIEW;
 		}
 
 		@Override
@@ -88,6 +92,10 @@ public enum Profession {
 		}
 
 	};
+	
+	public boolean isEnabled() {
+		return false;
+	}
 
 	public abstract String getIcon();
 
