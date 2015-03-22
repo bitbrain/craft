@@ -43,6 +43,7 @@ public final class Styles {
 
 	public static final TextButtonStyle BTN_GREEN = new TextButtonStyle();
 	public static final TextButtonStyle BTN_PROFESSION = new TextButtonStyle();
+	public static final TextButtonStyle BTN_PROFESSION_INACTIVE = new TextButtonStyle();
 	public static final LabelStyle LBL_BROWN = new LabelStyle();
 	public static final LabelStyle LBL_ITEM = new LabelStyle();
 	public static final LabelStyle LBL_TEXT = new LabelStyle();
@@ -83,7 +84,14 @@ public final class Styles {
 		BTN_PROFESSION.fontColor = Assets.CLR_INACTIVE;
 		BTN_PROFESSION.downFontColor = Assets.CLR_YELLOW_SAND;
 		BTN_PROFESSION.overFontColor = Assets.CLR_YELLOW_SAND;
-
+		
+		BTN_PROFESSION_INACTIVE.font = SharedAssetManager.get(Assets.FNT_LARGER,
+				BitmapFont.class);
+		BTN_PROFESSION_INACTIVE.up = new NinePatchDrawable(GraphicsFactory.createNinePatch(
+				Assets.TEX_PANEL_9patch, Sizes.panelRadius()));
+		BTN_PROFESSION_INACTIVE.fontColor = new Color(Assets.CLR_INACTIVE);
+		BTN_PROFESSION_INACTIVE.fontColor.a = 0.3f;
+		
 		LBL_BROWN.fontColor = Assets.CLR_BROWN_TEAK;
 		LBL_BROWN.font = SharedAssetManager.get(Assets.FNT_SMALL,
 				BitmapFont.class);
