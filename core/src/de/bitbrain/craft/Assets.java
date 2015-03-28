@@ -124,7 +124,7 @@ public final class Assets {
 	public static final Color CLR_INACTIVE = Color.valueOf("d5601a");
 	public static final Color CLR_YELLOW_SAND = Color.valueOf("dcc77d");
 	public static final Color CLR_YELLOW_SAND_A = Color.valueOf("dcc77d99");
-	public static final Color CLR_BLUE_SKY = Color.valueOf("84f2ff");
+	public static final Color CLR_BLUE_SKY = Color.valueOf("89789a");
 	public static final Color CLR_RED = Color.valueOf("e74d23");
 	public static final Color CLR_RED_LIGHT = Color.valueOf("f45f37");
 }
