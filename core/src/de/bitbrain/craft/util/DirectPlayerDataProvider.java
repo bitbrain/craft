@@ -30,64 +30,88 @@ import de.bitbrain.craft.models.Progress;
 import de.bitbrain.jpersis.JPersis;
 
 /**
- * 
+ * Base implementation for {@link PlayerDataProvider}
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
 public class DirectPlayerDataProvider implements PlayerDataProvider {
-	
+
 	private Collection<Progress> progress;
-	
+
 	private int playerID;
-	
+
 	@Inject
 	private JPersis jpersis;
-	
+
 	public DirectPlayerDataProvider(int playerID) {
-			SharedInjector.get().injectMembers(this);
-			this.playerID = playerID;
+		SharedInjector.get().injectMembers(this);
+		this.playerID = playerID;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.util.PlayerDataProvider#getLevel(de.bitbrain.craft.models.Profession)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.bitbrain.craft.util.PlayerDataProvider#getLevel(de.bitbrain.craft.
+	 * models.Profession)
 	 */
 	@Override
 	public int getLevel(Profession profession) {
-		
+
 		refresh();
-		
+
 		for (Progress p : progress) {
 			if (p.getProfession().equals(profession)) {
 				return p.getLevel();
 			}
 		}
-		
-		return 0;
-	}
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.util.PlayerDataProvider#getProgress(de.bitbrain.craft.models.Profession)
-	 */
-	@Override
-	public float getProgress(Profession profession) {
-		
-		refresh();
-		
-		for (Progress p : progress) {
-			if (p.getProfession().equals(profession)) {
-				return p.getXp();
-			}
-		}
-		
 		return 0;
 	}
 
 	public void refresh() {
 		if (progress == null) {
-			ProgressMapper mapper = jpersis.map(ProgressMapper.class);		
-			progress = mapper.progressOfPlayer(playerID);	
+			ProgressMapper mapper = jpersis.map(ProgressMapper.class);
+			progress = mapper.progressOfPlayer(playerID);
 		}
+	}
+
+	@Override
+	public int getXp(Profession profession) {
+		Progress p = getProgressByProfession(profession);
+		if (p != null) {
+			return p.getXp();
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public int getXpMax(Profession profession) {
+		Progress p = getProgressByProfession(profession);
+		if (p != null) {
+			return p.getXpMax();
+		} else {
+			return 0;
+		}
+	}
+
+	private Progress getProgressByProfession(Profession profession) {
+		refresh();
+
+		for (Progress p : progress) {
+			if (p.getProfession().equals(profession)) {
+				return p;
+			}
+		}
+
+		return null;
+	}
+
+	@Override
+	public float getProgress(Profession profession) {
+		return (float) getXp(profession) / (float) getXpMax(profession);
 	}
 }

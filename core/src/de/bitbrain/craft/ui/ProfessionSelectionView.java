@@ -164,19 +164,14 @@ public class ProfessionSelectionView extends Table implements EventListener {
 			final ProfessionElement element, final TweenManager tweenManager) {
 		element.getColor().a = 0f;
 		element.getIcon().setScale(0f);
+		final float progress = playerDataProvider.getProgress(element
+				.getProfession());
 		TweenCallback callback = new TweenCallback() {
 
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 
-				float progress = playerDataProvider.getProgress(element
-						.getProfession());
-
-				if (progress < 0f) {
-					progress = 0f;
-				} else if (progress > 1.0f) {
-					progress = 1f;
-				}
+				
 
 				Tween.to(element.getBar(), 1, 0.8f).target(progress)
 						.ease(TweenEquations.easeInOutQuad).start(tweenManager);

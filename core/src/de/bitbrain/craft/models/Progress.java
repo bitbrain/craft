@@ -37,7 +37,7 @@ public class Progress {
 	
 	private Profession profession;
 	
-	private float xp;
+	private int xp;
 	
 	private int playerId;
 	
@@ -83,8 +83,12 @@ public class Progress {
 	/**
 	 * @return the xp
 	 */
-	public float getXp() {
+	public int getXp() {
 		return xp;
+	}
+	
+	public int getXpMax() {
+		return level * 200 * level;
 	}
 	
 	/**
@@ -118,7 +122,7 @@ public class Progress {
 	/**
 	 * @param xp the xp to set
 	 */
-	public void setXp(float xp) {
+	public void setXp(int xp) {
 		this.xp = xp;
 	}
 }

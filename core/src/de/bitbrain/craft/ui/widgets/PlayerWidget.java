@@ -42,6 +42,7 @@ import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.util.DirectPlayerDataProvider;
 import de.bitbrain.craft.util.Fadeable;
 import de.bitbrain.craft.util.PlayerDataProvider;
+import de.bitbrain.craft.util.ValueProvider;
 
 /**
  * Shows information of a player like level and experience
@@ -59,22 +60,28 @@ public class PlayerWidget extends Actor implements Fadeable {
 	@Inject
 	private TweenManager tweenManager;
 
-	private NinePatch patch;
+	private NinePatch background;
 
-	private BitmapFont pointsLeft;
+	private BitmapFont caption;
 
 	private PlayerDataProvider playerData;
+	
+	private ExperienceProvider expData;
+	
+	private float progress;
 
 	@PostConstruct
 	public void initView() {
+		expData = new ExperienceProvider();
 		playerData = new DirectPlayerDataProvider(Player.getCurrent().getId());
-		patch = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BAR_9patch,
-				Sizes.panelRadius());
-		pointsLeft = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
+		progress = 0.4f; // TODO: playerData.getProgress(Profession.current);
+		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BAR_9patch,
+				5);
+		caption = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
 		getColor().a = 0f;
-		Tween.to(this, FadeableTween.DEFAULT, 5f).target(0.65f)
+		Tween.to(this, FadeableTween.DEFAULT, 5f).target(0.95f)
 				.ease(TweenEquations.easeOutCubic).start(tweenManager);
-		Tween.to(this, FadeableTween.DEFAULT, 1f).target(0.2f).delay(1f)
+		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.5f).delay(1f)
 				.repeatYoyo(Tween.INFINITY, 0f).ease(TweenEquations.easeInOutCubic)
 				.start(tweenManager);
 	}
@@ -82,15 +89,32 @@ public class PlayerWidget extends Actor implements Fadeable {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		patch.setColor(getColor());
-		patch.draw(batch, getX(), getY(), getWidth(), getHeight());
-
+		drawBackground(batch);
+		drawProgress(batch);
+		drawForeground(batch);
+	}
+	
+	private void drawBackground(Batch batch) {
+		getColor().a -= 0.3f;
+		background.setColor(getColor());
+		background.draw(batch, getX(), getY(), getWidth(), getHeight());
+		getColor().a += 0.3f;
+	}
+	
+	private void drawProgress(Batch batch) {
+		if (progress > 0.1f) {
+			float percentage = progress;
+			background.draw(batch, getX(), getY(), getWidth() * percentage, getHeight());
+		}
+	}
+	
+	private void drawForeground(Batch batch) {
 		String text = getText();
-		pointsLeft.setColor(getColor());
-		pointsLeft.draw(batch, text,
-				getX() + getWidth() / 2f - pointsLeft.getBounds(text).width
+		caption.setColor(getColor());
+		caption.draw(batch, text,
+				getX() + getWidth() / 2f - caption.getBounds(text).width
 						/ 2f,
-				getY() + getHeight() / 2f + pointsLeft.getLineHeight() / 2f);
+				getY() + getHeight() / 2f + caption.getLineHeight() / 2f);
 	}
 
 	@Override
@@ -108,5 +132,21 @@ public class PlayerWidget extends Actor implements Fadeable {
 		text += playerData.getLevel(Profession.current) + " ";
 		text += Profession.current.getName();
 		return text;
+	}
+	
+	private class ExperienceProvider implements ValueProvider {
+		
+		public int xp;
+
+		@Override
+		public int getValue() {
+			return xp;
+		}
+
+		@Override
+		public void setValue(int value) {
+			this.xp = value;
+		}
+		
 	}
 }

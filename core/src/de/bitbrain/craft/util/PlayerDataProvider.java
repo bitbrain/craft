@@ -39,10 +39,23 @@ public interface PlayerDataProvider {
 	int getLevel(Profession profession);
 	
 	/**
-	 * Returns the percentage of progress
+	 * Returns currently gained XP
 	 * 
 	 * @param profession target profession
 	 * @return current profession level
+	 */
+	int getXp(Profession profession);
+	
+	/**
+	 * Returns currently max XP
+	 * 
+	 * @param profession target profession
+	 * @return current profession level
+	 */
+	int getXpMax(Profession profession);
+	
+	/**
+	 * Gets the progress
 	 */
 	float getProgress(Profession profession);
 }
