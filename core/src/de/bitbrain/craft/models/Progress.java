@@ -33,8 +33,6 @@ public class Progress {
 	@PrimaryKey(true)
 	private int id;
 	
-	private int level;
-	
 	private Profession profession;
 	
 	private int xp;
@@ -49,7 +47,6 @@ public class Progress {
 		this.playerId = playerId;
 		this.profession = profession;
 		this.xp = 0;
-		this.level = 1;
 	}
 	
 	/**
@@ -57,13 +54,6 @@ public class Progress {
 	 */
 	public int getId() {
 		return id;
-	}
-	
-	/**
-	 * @return the level
-	 */
-	public int getLevel() {
-		return level;
 	}
 	
 	/**
@@ -87,7 +77,22 @@ public class Progress {
 		return xp;
 	}
 	
+	/**
+	 * @return the level
+	 */
+	public int getLevel() {
+		return xp / 200 + 1;
+	}
+	
+	public float getCurrentProgress() {
+		return (getXp() - getXpMax(getLevel() - 1)) / getXpMax();
+	}
+	
 	public int getXpMax() {
+		return getXpMax(getLevel());
+	}
+	
+	private int getXpMax(int level) {
 		return level * 200 * level;
 	}
 	
@@ -96,13 +101,6 @@ public class Progress {
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	/**
-	 * @param level the level to set
-	 */
-	public void setLevel(int level) {
-		this.level = level;
 	}
 	
 	/**

@@ -32,11 +32,9 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ProfessionSelectionView;
 import de.bitbrain.craft.ui.ProfessionSelectionView.ProfessionSelectListener;
-import de.bitbrain.craft.util.DirectPlayerDataProvider;
 
 /**
  * Shows up a selection for available professions
@@ -45,20 +43,22 @@ import de.bitbrain.craft.util.DirectPlayerDataProvider;
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
-	
+public class ProfessionScreen extends AbstractScreen implements
+		ProfessionSelectListener {
+
 	private ProfessionSelectionView selection;
 
 	@Override
 	protected void onCreateStage(Stage stage) {
-	  int playerId = Player.getCurrent().getId();
-		selection = new ProfessionSelectionView(new DirectPlayerDataProvider(playerId));		
+		selection = new ProfessionSelectionView();
 		selection.addProfessionSelectListener(this);
 		selection.align(Align.center);
 		stage.addActor(selection);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.bitbrain.craft.screens.MenuScreen#resize(int, int)
 	 */
 	@Override
@@ -77,20 +77,24 @@ public class ProfessionScreen extends AbstractScreen implements ProfessionSelect
 
 	}
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener#onSelect(de.bitbrain.craft.models.Profession)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener#onSelect
+	 * (de.bitbrain.craft.models.Profession)
 	 */
 	@Override
 	public void onSelect(Profession profession) {
 		Profession.current = profession;
 		setScreen(IngameScreen.class);
 	}
-	
+
 	@Override
 	protected Viewport createViewport() {
 		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
 	}
-	
+
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {

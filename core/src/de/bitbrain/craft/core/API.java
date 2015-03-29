@@ -28,6 +28,7 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Item.Rarity;
 import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.models.Recipe;
 import de.bitbrain.craft.models.SoundConfig;
 
@@ -235,6 +236,14 @@ public interface API {
 	 * @return
 	 */
 	int getItemAmount(Item item);
+	
+	/**
+	 * Gets a snapshot of the current progress
+	 * 
+	 * @param profession
+	 * @return
+	 */
+	Progress getProgress(Profession profession);
 	
 	/**
 	 * Is thrown as an API error occurs

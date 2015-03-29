@@ -57,12 +57,13 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
-import de.bitbrain.craft.util.PlayerDataProvider;
 
 /**
  * This element shows a selection for all professions. It is also possible to
@@ -79,15 +80,15 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 	private List<ProfessionSelectListener> listeners;
 
-	private PlayerDataProvider playerDataProvider;
-
 	@Inject
 	private TweenManager tweenManager;
+	
+	@Inject
+	private API api;
 
-	public ProfessionSelectionView(PlayerDataProvider playerDataProvider) {
+	public ProfessionSelectionView() {
 		SharedInjector.get().injectMembers(this);
 		listeners = new ArrayList<ProfessionSelectListener>();
-		this.playerDataProvider = playerDataProvider;
 
 		ClickNotifier notifier = new ClickNotifier();
 
@@ -98,8 +99,9 @@ public class ProfessionSelectionView extends Table implements EventListener {
 					: "unknown";
 			TextButtonStyle style = profession.isEnabled() ? Styles.BTN_PROFESSION
 					: Styles.BTN_PROFESSION_INACTIVE;
+			Progress progressData = api.getProgress(profession);
 			ProfessionElement element = new ProfessionElement(caption, style,
-					profession);
+					profession, progressData);
 			element.setDisabled(!profession.isEnabled());
 			element.addCaptureListener(this);
 
@@ -107,7 +109,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 			elements.put(cell, element);
 			if (profession.isEnabled()) {
 				element.addCaptureListener(notifier);
-				animateElement(index, element, tweenManager);
+				animateElement(index, element, progressData, tweenManager);
 			}
 		}
 
@@ -161,11 +163,10 @@ public class ProfessionSelectionView extends Table implements EventListener {
 	}
 
 	private void animateElement(final int index,
-			final ProfessionElement element, final TweenManager tweenManager) {
+			final ProfessionElement element, Progress progressData, final TweenManager tweenManager) {
 		element.getColor().a = 0f;
 		element.getIcon().setScale(0f);
-		final float progress = playerDataProvider.getProgress(element
-				.getProfession());
+		final float progress = progressData.getCurrentProgress();
 		TweenCallback callback = new TweenCallback() {
 
 			@Override
@@ -212,14 +213,14 @@ public class ProfessionSelectionView extends Table implements EventListener {
 		 * @param skin
 		 */
 		public ProfessionElement(String text, TextButtonStyle style,
-				Profession profession) {
+				Profession profession, Progress progressData) {
 			super(text, style);
 			Tween.registerAccessor(ProfessionBar.class,
 					new ProfessionBarTween());
 			this.profession = profession;
 
 			Texture tex = getProfessionTexture(profession);
-			bar = new ProfessionBar();
+			bar = new ProfessionBar(progressData);
 
 			if (tex != null) {
 				icon = new Sprite(tex);
@@ -331,7 +332,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 			public float progress = 0.0f;
 
-			public ProfessionBar() {
+			public ProfessionBar(Progress progressData) {
 				background = GraphicsFactory.createNinePatch(
 						Assets.TEX_PANEL_BAR_9patch,
 						Sizes.panelTransparentRadius());
@@ -342,11 +343,10 @@ public class ProfessionSelectionView extends Table implements EventListener {
 				lblStyle.font = SharedAssetManager.get(Assets.FNT_SMALL,
 						BitmapFont.class);
 				lblStyle.fontColor = Assets.CLR_BLUE_SKY;
-				String text = String.valueOf(playerDataProvider
-						.getLevel(profession));
+				String text = String.valueOf(progressData.getLevel());
 
-				if (playerDataProvider.getLevel(profession) == 1
-						&& playerDataProvider.getProgress(profession) == 0f) {
+				if (progressData.getLevel() == 1
+						&& progressData.getXp() == 0) {
 					text = "New game";
 				}
 

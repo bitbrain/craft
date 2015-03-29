@@ -429,4 +429,9 @@ class SimpleAPI implements API {
 			return 0;
 		}
 	}
+
+	@Override
+	public Progress getProgress(Profession profession) {
+		return progressMapper.findProgress(Player.getCurrent().getId(), profession);
+	}
 }

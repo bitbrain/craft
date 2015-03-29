@@ -31,17 +31,15 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
-import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
-import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.tweens.FadeableTween;
-import de.bitbrain.craft.util.DirectPlayerDataProvider;
 import de.bitbrain.craft.util.Fadeable;
-import de.bitbrain.craft.util.PlayerDataProvider;
 import de.bitbrain.craft.util.ValueProvider;
 
 /**
@@ -59,21 +57,24 @@ public class PlayerWidget extends Actor implements Fadeable {
 
 	@Inject
 	private TweenManager tweenManager;
+	
+	@Inject
+	private API api;
 
 	private NinePatch background;
 
 	private BitmapFont caption;
-
-	private PlayerDataProvider playerData;
 	
 	private ExperienceProvider expData;
 	
 	private float progress;
+	
+	private Progress progressData;
 
 	@PostConstruct
 	public void initView() {
 		expData = new ExperienceProvider();
-		playerData = new DirectPlayerDataProvider(Player.getCurrent().getId());
+		progressData = api.getProgress(Profession.current);
 		progress = 0.4f; // TODO: playerData.getProgress(Profession.current);
 		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BAR_9patch,
 				5);
@@ -129,7 +130,7 @@ public class PlayerWidget extends Actor implements Fadeable {
 
 	private String getText() {
 		String text = "Level ";
-		text += playerData.getLevel(Profession.current) + " ";
+		text += progressData.getLevel() + " ";
 		text += Profession.current.getName();
 		return text;
 	}

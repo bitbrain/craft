@@ -21,6 +21,7 @@ package de.bitbrain.craft.db;
 
 import java.util.Collection;
 
+import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
 import de.bitbrain.jpersis.annotations.Delete;
 import de.bitbrain.jpersis.annotations.Insert;
@@ -40,6 +41,9 @@ public interface ProgressMapper {
 	
 	@Select(condition = "player_id = $1")
 	Collection<Progress> progressOfPlayer(int id);
+	
+	@Select(condition = "player_id = $1 AND profession = $2")
+	Progress findProgress(int playerId, Profession profession);
 	
 	@Insert
 	boolean insert(Progress progress);
