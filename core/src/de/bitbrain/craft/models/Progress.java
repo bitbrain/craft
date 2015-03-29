@@ -85,7 +85,8 @@ public class Progress {
 	}
 	
 	public float getCurrentProgress() {
-		return (getXp() - getXpMax(getLevel() - 1)) / getXpMax();
+		final int delta = getXpMax() - getXpMax(getLevel() - 1);
+		return (float)(getXp() - getXpMax(getLevel() - 1)) / (float)(delta);
 	}
 	
 	public int getXpMax() {
@@ -93,7 +94,7 @@ public class Progress {
 	}
 	
 	private int getXpMax(int level) {
-		return level * 200 * level;
+		return level * 200;
 	}
 	
 	/**
