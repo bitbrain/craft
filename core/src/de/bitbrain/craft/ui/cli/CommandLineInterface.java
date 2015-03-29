@@ -44,6 +44,7 @@ import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.ui.cli.commands.AddCommand;
 import de.bitbrain.craft.ui.cli.commands.RemoveCommand;
+import de.bitbrain.craft.ui.cli.commands.SetCommand;
 
 /**
  * UI implementation of a CLI
@@ -190,6 +191,7 @@ public class CommandLineInterface extends Table {
 	}
 	
 	private void registerCommands() {
+		commandHandler.register("set", new SetCommand());
 		commandHandler.register("add", new AddCommand());
 		commandHandler.register("remove", new RemoveCommand());
 	}

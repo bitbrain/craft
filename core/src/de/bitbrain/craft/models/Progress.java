@@ -125,6 +125,6 @@ public class Progress {
 	}
 
 	public void addXp(int xp) {
-		xp += Math.abs(xp);
+		this.xp += Math.abs(xp);
 	}
 }

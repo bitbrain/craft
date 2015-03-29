@@ -131,7 +131,6 @@ class SimpleAPI implements API {
 		// TODO: Implement later when system is more flexible
 		Collection<LearnedRecipe> learnedRecipes = learnedRecipeMapper
 				.findByPlayerId(playerId);
-		System.out.println(learnedRecipes.size());
 		for (LearnedRecipe learned : learnedRecipes) {
 			Recipe recipe = recipeMapper.findById(learned.getRecipeId());
 			Item item = itemMapper.findById(recipe.getItemId());

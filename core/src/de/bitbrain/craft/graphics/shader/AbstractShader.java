@@ -22,7 +22,6 @@ public abstract class AbstractShader<Type extends Shader<Type>> implements
 		FileHandle vertHandle = Gdx.files.internal(vert);
 		FileHandle fragHandle = Gdx.files.internal(frag);
 		program = new ShaderProgram(vertHandle, fragHandle);
-		System.out.println(program.getLog());
 	}
 
 	@Override
