@@ -246,6 +246,24 @@ public interface API {
 	Progress getProgress(Profession profession);
 	
 	/**
+	 * Adds xp to the given profession
+	 * 
+	 * @param profession the professsion which should be affected
+	 * @param xp amount of xp to add
+	 * @return updated progress model
+	 */
+	Progress addXp(Profession profession, int xp);
+	
+	/**
+	 * Sets the complete xp of a profession
+	 * 
+	 * @param profession the professsion which should be affected
+	 * @param xp amount of xp to set
+	 * @return updated progress model
+	 */
+	Progress setXp(Profession profession, int xp);
+	
+	/**
 	 * Is thrown as an API error occurs
 	 *
 	 * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>

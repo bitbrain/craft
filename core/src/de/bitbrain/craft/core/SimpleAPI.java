@@ -40,6 +40,7 @@ import de.bitbrain.craft.db.SoundConfigMapper;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
+import de.bitbrain.craft.events.ProgressEvent;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -433,5 +434,25 @@ class SimpleAPI implements API {
 	@Override
 	public Progress getProgress(Profession profession) {
 		return progressMapper.findProgress(Player.getCurrent().getId(), profession);
+	}
+
+	@Override
+	public Progress addXp(Profession profession, int xp) {
+		Progress progress = getProgress(profession);
+		progress.addXp(xp);
+		if (progressMapper.update(progress)) {
+			bus().fireEvent(new ProgressEvent(progress));
+		}
+		return progress;
+	}
+
+	@Override
+	public Progress setXp(Profession profession, int xp) {
+		Progress progress = getProgress(profession);
+		progress.setXp(xp);
+		if (progressMapper.update(progress)) {
+			bus().fireEvent(new ProgressEvent(progress));
+		}
+		return progress;
 	}
 }

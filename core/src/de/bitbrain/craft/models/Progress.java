@@ -123,4 +123,8 @@ public class Progress {
 	public void setXp(int xp) {
 		this.xp = xp;
 	}
+
+	public void addXp(int xp) {
+		xp += Math.abs(xp);
+	}
 }
