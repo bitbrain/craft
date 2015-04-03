@@ -36,7 +36,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ProgressEvent;
 import de.bitbrain.craft.graphics.GraphicsFactory;
-import de.bitbrain.craft.inject.PostConstruct;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
@@ -67,11 +67,14 @@ public class PlayerWidget extends Actor implements Fadeable {
 	private BitmapFont caption;
 
 	private Progress progressData;
+	
+	private Profession profession;
 
-	@PostConstruct
-	public void initView() {
+	public PlayerWidget(Profession profession) {
+		SharedInjector.get().injectMembers(this);
+		this.profession = profession;
 		eventBus.subscribe(this);
-		progressData = api.getProgress(Profession.current);
+		progressData = api.getProgress(profession);
 		background = GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_BAR_9patch, 5);
 		caption = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
@@ -126,14 +129,14 @@ public class PlayerWidget extends Actor implements Fadeable {
 	private String getText() {
 		String text = "Level ";
 		text += progressData.getLevel() + " ";
-		text += Profession.current.getName();
+		text += profession.getName();
 		return text;
 	}
 	
 	@Handler
 	private void onProgressUpdated(ProgressEvent event) {
 		Progress progress = event.getModel();
-		if (progress.getProfession().equals(Profession.current)) {
+		if (progress.getProfession().equals(profession)) {
 			progressData = progress;
 		}
 	}

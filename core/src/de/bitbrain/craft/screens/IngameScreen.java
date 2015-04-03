@@ -75,7 +75,6 @@ public class IngameScreen extends AbstractScreen {
 	@Inject
 	private RecipeWidget recipeView;
 
-	@Inject
 	private PlayerWidget playerWidget;
 
 	private ItemList itemList;
@@ -86,6 +85,7 @@ public class IngameScreen extends AbstractScreen {
 	public void init() {
 		craftingWidget = new CraftingWidget(
 				ProfessionLogicFactory.create(Profession.current));
+		playerWidget = new PlayerWidget(Profession.current);
 	}
 
 	@Override

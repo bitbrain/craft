@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenAccessor;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
@@ -36,8 +35,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -45,7 +42,6 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -58,12 +54,12 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.ui.widgets.PlayerWidget;
 
 /**
  * This element shows a selection for all professions. It is also possible to
@@ -82,7 +78,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 	@Inject
 	private TweenManager tweenManager;
-	
+
 	@Inject
 	private API api;
 
@@ -163,7 +159,8 @@ public class ProfessionSelectionView extends Table implements EventListener {
 	}
 
 	private void animateElement(final int index,
-			final ProfessionElement element, Progress progressData, final TweenManager tweenManager) {
+			final ProfessionElement element, Progress progressData,
+			final TweenManager tweenManager) {
 		element.getColor().a = 0f;
 		element.getIcon().setScale(0f);
 		final float progress = progressData.getCurrentProgress();
@@ -171,8 +168,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-
-				
 
 				Tween.to(element.getBar(), 1, 0.8f).target(progress)
 						.ease(TweenEquations.easeInOutQuad).start(tweenManager);
@@ -206,7 +201,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 		private Profession profession;
 
-		private ProfessionBar bar;
+		private PlayerWidget bar;
 
 		/**
 		 * @param text
@@ -215,12 +210,10 @@ public class ProfessionSelectionView extends Table implements EventListener {
 		public ProfessionElement(String text, TextButtonStyle style,
 				Profession profession, Progress progressData) {
 			super(text, style);
-			Tween.registerAccessor(ProfessionBar.class,
-					new ProfessionBarTween());
 			this.profession = profession;
 
 			Texture tex = getProfessionTexture(profession);
-			bar = new ProfessionBar(progressData);
+			bar = new PlayerWidget(profession);
 
 			if (tex != null) {
 				icon = new Sprite(tex);
@@ -238,7 +231,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 			return icon;
 		}
 
-		public ProfessionBar getBar() {
+		public PlayerWidget getBar() {
 			return bar;
 		}
 
@@ -284,101 +277,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
 			}
 		}
 
-		private class ProfessionBarTween implements
-				TweenAccessor<ProfessionBar> {
-
-			public static final int PROGRESS = 1;
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * aurelienribon.tweenengine.TweenAccessor#getValues(java.lang.Object
-			 * , int, float[])
-			 */
-			@Override
-			public int getValues(ProfessionBar target, int tweenType,
-					float[] returnValues) {
-				if (tweenType == PROGRESS) {
-					returnValues[0] = target.progress;
-					return 1;
-				}
-				return 0;
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * aurelienribon.tweenengine.TweenAccessor#setValues(java.lang.Object
-			 * , int, float[])
-			 */
-			@Override
-			public void setValues(ProfessionBar target, int tweenType,
-					float[] newValues) {
-				if (tweenType == PROGRESS) {
-					target.progress = newValues[0];
-				}
-			}
-		}
-
-		private class ProfessionBar extends Actor {
-
-			private NinePatch background, foreground;
-
-			private Label level;
-
-			public float alpha = 0.5f;
-
-			public float progress = 0.0f;
-
-			public ProfessionBar(Progress progressData) {
-				background = GraphicsFactory.createNinePatch(
-						Assets.TEX_PANEL_BAR_9patch,
-						Sizes.panelTransparentRadius());
-				foreground = GraphicsFactory.createNinePatch(
-						Assets.TEX_PANEL_BAR_9patch,
-						Sizes.panelTransparentRadius());
-				LabelStyle lblStyle = new LabelStyle();
-				lblStyle.font = SharedAssetManager.get(Assets.FNT_SMALL,
-						BitmapFont.class);
-				lblStyle.fontColor = Assets.CLR_BLUE_SKY;
-				String text = String.valueOf(progressData.getLevel());
-
-				if (progressData.getLevel() == 1
-						&& progressData.getXp() == 0) {
-					text = "New game";
-				}
-
-				level = new Label(text, lblStyle);
-			}
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see
-			 * com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics
-			 * .g2d.Batch, float)
-			 */
-			@Override
-			public void draw(Batch batch, float parentAlpha) {
-				super.draw(batch, parentAlpha);
-				background.setColor(Assets.CLR_YELLOW_SAND);
-				background.draw(batch, getX(), getY(), getWidth(), getHeight());
-				if (progress > 0) {
-					foreground.setColor(getColor());
-					foreground.draw(batch, getX(), getY(), getWidth()
-							* progress, getHeight());
-				}
-				level.setColor(getColor());
-				level.setX(getX() + getWidth() / 2f - level.getPrefWidth() / 2f);
-				level.setY(getY() + getHeight() / 2f - level.getPrefHeight()
-						/ 2f);
-				level.setFontScale(getHeight() / 45f);
-				level.draw(batch, parentAlpha * alpha);
-			}
-		}
-
 		private class IconModulator extends ClickListener {
 
 			/*
@@ -392,7 +290,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 			public void clicked(InputEvent event, float x, float y) {
 				super.clicked(event, x, y);
 				iconAlpha = 1.0f;
-				bar.alpha = 1.0f;
+				bar.getColor().a = 1.0f;
 			}
 
 			/*
@@ -408,7 +306,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 					Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
 				iconAlpha = 1.0f;
-				bar.alpha = 1.0f;
+				bar.getColor().a = 1.0f;
 			}
 
 			/*
@@ -423,7 +321,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 					int pointer, int button) {
 				super.touchUp(event, x, y, pointer, button);
 				iconAlpha = 1.0f;
-				bar.alpha = 1.0f;
+				bar.getColor().a = 1.0f;
 			}
 
 			/*
@@ -439,7 +337,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 					Actor toActor) {
 				super.exit(event, x, y, pointer, toActor);
 				iconAlpha = 0.5f;
-				bar.alpha = 0.5f;
+				bar.getColor().a = 0.5f;
 			}
 		}
 	}
