@@ -22,6 +22,7 @@ package de.bitbrain.craft.ui;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.engio.mbassy.listener.Handler;
 import aurelienribon.tweenengine.BaseTween;
@@ -36,12 +37,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.ui.widgets.ItemWidget;
 import de.bitbrain.craft.util.ItemComparator;
@@ -69,7 +72,7 @@ public class ItemList {
 
 	@Inject
 	private API api;
-	
+
 	@Inject
 	private TweenManager tweenManager;
 
@@ -80,6 +83,10 @@ public class ItemList {
 		items = new HashMap<Actor, Item>();
 		comparator = new ItemWidgetComparator();
 		eventBus.subscribe(this);
+		ItemBag itemBag = api.getOwnedItems(Player.getCurrent().getId());
+		for (Entry<Item, Integer> entry : itemBag) {
+			addElements(entry.getKey(), entry.getValue());
+		}
 	}
 
 	@Handler
@@ -114,16 +121,15 @@ public class ItemList {
 		if (newAmount <= 0 && !api.canCraft(item.getId())) {
 			widgets.remove(item.getId());
 			items.remove(widget);
-			Tween.to(widget, ActorTween.ALPHA, 0.65f)
-			.target(0f)
-			.ease(TweenEquations.easeOutQuad)
-			.setCallbackTriggers(TweenCallback.COMPLETE)
-			.setCallback(new TweenCallback() {
-				@Override
-				public void onEvent(int type, BaseTween<?> source) {
-					group.removeActor(widget);
-				}				
-			}).start(tweenManager);
+			Tween.to(widget, ActorTween.ALPHA, 0.65f).target(0f)
+					.ease(TweenEquations.easeOutQuad)
+					.setCallbackTriggers(TweenCallback.COMPLETE)
+					.setCallback(new TweenCallback() {
+						@Override
+						public void onEvent(int type, BaseTween<?> source) {
+							group.removeActor(widget);
+						}
+					}).start(tweenManager);
 			Gdx.app.log("INFO", "Removed element with id='" + item.getId()
 					+ "' from " + group);
 		}

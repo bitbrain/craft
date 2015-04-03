@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft.screens;
 
-import java.util.Map.Entry;
-
 import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.Input.Keys;
@@ -39,16 +37,11 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
-import de.bitbrain.craft.events.Event.EventType;
-import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.inject.PostConstruct;
-import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.models.Player;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ItemList;
 import de.bitbrain.craft.ui.Tabs;
@@ -66,32 +59,33 @@ import de.bitbrain.craft.util.DragDropHandler;
  * @version 1.0
  */
 public class IngameScreen extends AbstractScreen {
-	
+
 	@Inject
 	private DragDropHandler dragDropHandler;
-	
+
 	@Inject
 	private API api;
-	
+
 	@Inject
 	private IconManager iconManager;
-	
+
 	@Inject
 	private TabWidget tabView;
-	
-	@Inject 
+
+	@Inject
 	private RecipeWidget recipeView;
-	
+
 	@Inject
 	private PlayerWidget playerWidget;
-	
+
 	private ItemList itemList;
-	
+
 	private CraftingWidget craftingWidget;
-	
-	@PostConstruct	
+
+	@PostConstruct
 	public void init() {
-		craftingWidget = new CraftingWidget(ProfessionLogicFactory.create(Profession.current));
+		craftingWidget = new CraftingWidget(
+				ProfessionLogicFactory.create(Profession.current));
 	}
 
 	@Override
@@ -106,7 +100,7 @@ public class IngameScreen extends AbstractScreen {
 		tabView.setTab(Tabs.ITEMS);
 		tabView.hideTab(Tabs.CRAFTING);
 	}
-	
+
 	@Override
 	public void resize(int width, int height) {
 		final float paddingFactor = 1.1f;
@@ -115,18 +109,25 @@ public class IngameScreen extends AbstractScreen {
 		tabView.setHeight(Sizes.worldHeight() / paddingFactor);
 		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
-		craftingWidget.setWidth(Sizes.worldWidth() - tabView.getWidth() * 1.35f);
+		craftingWidget
+				.setWidth(Sizes.worldWidth() - tabView.getWidth() * 1.35f);
 		craftingWidget.setHeight(craftingWidget.getWidth() / 2f);
-		craftingWidget.setX(tabView.getX() + tabView.getWidth() + craftingWidget.getWidth() / 3.4f);
-		craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight() - Sizes.worldHeight() / 4f);
+		craftingWidget.setX(tabView.getX() + tabView.getWidth()
+				+ craftingWidget.getWidth() / 3.4f);
+		craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight()
+				- Sizes.worldHeight() / 4f);
 		craftingWidget.animate();
 		playerWidget.setWidth(450f);
 		playerWidget.setHeight(75f);
-		playerWidget.setX(Sizes.worldWidth() - playerWidget.getWidth() - Sizes.borderPadding() * 2);
-		playerWidget.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)));
+		playerWidget.setX(Sizes.worldWidth() - playerWidget.getWidth()
+				- Sizes.borderPadding() * 2);
+		playerWidget
+				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)));
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.bitbrain.craft.screens.AbstractScreen#dispose()
 	 */
 	@Override
@@ -136,8 +137,10 @@ public class IngameScreen extends AbstractScreen {
 		itemList.dispose();
 		dragDropHandler.clear();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.bitbrain.craft.screens.AbstractScreen#onUpdate(float)
 	 */
 	@Override
@@ -148,18 +151,14 @@ public class IngameScreen extends AbstractScreen {
 	@Override
 	protected void onShow() {
 	}
-	
-	private Actor generateItemView() {		
+
+	private Actor generateItemView() {
 		VerticalGroup itemView = new VerticalGroup();
 		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
 		itemList = new ItemList(itemView);
-		ItemBag itemBag = api.getOwnedItems(Player.getCurrent().getId());
-		for (Entry<Item, Integer> entry : itemBag) {
-			eventBus.fireEvent(new ItemEvent(EventType.ADD, entry.getKey(), entry.getValue()));
-		}		
 		return generateScrollPane(itemView);
 	}
-	
+
 	private ScrollPane generateScrollPane(Actor actor) {
 		ScrollPane pane = new ScrollPane(actor);
 		pane.setCancelTouchFocus(false);
@@ -167,17 +166,22 @@ public class IngameScreen extends AbstractScreen {
 		return pane;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.AbstractScreen#onDraw(com.badlogic.gdx.graphics.g2d.Batch, float)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.bitbrain.craft.screens.AbstractScreen#onDraw(com.badlogic.gdx.graphics
+	 * .g2d.Batch, float)
 	 */
 	@Override
-	protected void onDraw(Batch batch, float delta) { }
-	
+	protected void onDraw(Batch batch, float delta) {
+	}
+
 	@Override
 	protected Viewport createViewport() {
 		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
 	}
-	
+
 	@Handler
 	void onEvent(KeyEvent event) {
 		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
