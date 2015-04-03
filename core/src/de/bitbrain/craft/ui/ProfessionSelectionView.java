@@ -60,6 +60,7 @@ import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.widgets.PlayerWidget;
+import de.bitbrain.craft.ui.widgets.PlayerWidget.LevelTextProvider;
 
 /**
  * This element shows a selection for all professions. It is also possible to
@@ -214,6 +215,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 			Texture tex = getProfessionTexture(profession);
 			bar = new PlayerWidget(profession);
+			bar.setTextProvider(new LevelTextProvider());
 
 			if (tex != null) {
 				icon = new Sprite(tex);

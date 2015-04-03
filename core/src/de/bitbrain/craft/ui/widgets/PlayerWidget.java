@@ -67,11 +67,14 @@ public class PlayerWidget extends Actor implements Fadeable {
 	private BitmapFont caption;
 
 	private Progress progressData;
-	
+
 	private Profession profession;
+
+	private PlayerWidgetTextProvider textProvider;
 
 	public PlayerWidget(Profession profession) {
 		SharedInjector.get().injectMembers(this);
+		textProvider = new DefaultTextProvider();
 		this.profession = profession;
 		eventBus.subscribe(this);
 		progressData = api.getProgress(profession);
@@ -84,6 +87,10 @@ public class PlayerWidget extends Actor implements Fadeable {
 		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.5f).delay(1f)
 				.repeatYoyo(Tween.INFINITY, 0f)
 				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
+	}
+
+	public void setTextProvider(PlayerWidgetTextProvider provider) {
+		this.textProvider = provider;
 	}
 
 	@Override
@@ -103,13 +110,15 @@ public class PlayerWidget extends Actor implements Fadeable {
 
 	private void drawProgress(Batch batch) {
 		if (progressData.getCurrentProgress() > 0.1f) {
-			background.draw(batch, getX(), getY(), getWidth() * progressData.getCurrentProgress(),
-					getHeight());
+			background
+					.draw(batch, getX(), getY(),
+							getWidth() * progressData.getCurrentProgress(),
+							getHeight());
 		}
 	}
 
 	private void drawForeground(Batch batch) {
-		String text = getText();
+		String text = textProvider.getText(progressData, profession);
 		caption.setColor(getColor());
 		caption.draw(batch, text,
 				getX() + getWidth() / 2f - caption.getBounds(text).width / 2f,
@@ -126,18 +135,38 @@ public class PlayerWidget extends Actor implements Fadeable {
 		getColor().a = alpha;
 	}
 
-	private String getText() {
-		String text = "Level ";
-		text += progressData.getLevel() + " ";
-		text += profession.getName();
-		return text;
-	}
-	
 	@Handler
 	private void onProgressUpdated(ProgressEvent event) {
 		Progress progress = event.getModel();
 		if (progress.getProfession().equals(profession)) {
 			progressData = progress;
+		}
+	}
+
+	public static interface PlayerWidgetTextProvider {
+		String getText(Progress progress, Profession profession);
+	}
+
+	public static class DefaultTextProvider implements PlayerWidgetTextProvider {
+
+		@Override
+		public String getText(Progress progress, Profession profession) {
+			String text = "Level ";
+			text += progress.getLevel() + " ";
+			text += profession.getName();
+			return text;
+		}
+	}
+
+	public static class LevelTextProvider implements PlayerWidgetTextProvider {
+
+		@Override
+		public String getText(Progress progress, Profession profession) {
+			if (progress.getXp() == 0) {
+				return "Start";
+			} else {
+				return String.valueOf(progress.getLevel());
+			}
 		}
 	}
 }
