@@ -95,12 +95,6 @@ public class PlayerWidget extends Actor implements Fadeable {
 				Assets.TEX_PANEL_BAR_9patch, 5);
 		caption = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
 		setColor(new Color(Assets.CLR_YELLOW_SAND));
-		getColor().a = 0f;
-		Tween.to(this, FadeableTween.DEFAULT, 5f).target(0.6f)
-				.ease(TweenEquations.easeOutCubic).start(tweenManager);
-		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.4f).delay(1f)
-				.repeatYoyo(Tween.INFINITY, 0f)
-				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
 	}
 	
 	public void setPadding(float padding) {
@@ -171,13 +165,7 @@ public class PlayerWidget extends Actor implements Fadeable {
 		final Tween tween = Tween
 				.to(progressProvider, FloatValueTween.VALUE, duration)
 				.ease(TweenEquations.easeOutQuad)				
-				.setCallbackTriggers(TweenCallback.COMPLETE)
-				.setCallback(new TweenCallback() {
-					@Override
-					public void onEvent(int type, BaseTween<?> source) {
-						animate();
-					}					
-				});
+				.setCallbackTriggers(TweenCallback.COMPLETE);
 		if (progress.getLevel() == this.progress.getLevel()) {
 			tween.target(progress.getCurrentProgress());
 		} else if (progress.getLevel() > this.progress.getLevel()) {
@@ -192,21 +180,12 @@ public class PlayerWidget extends Actor implements Fadeable {
 							.target(progress.getCurrentProgress())
 							.ease(TweenEquations.easeOutQuad)
 							.start(tweenManager);
-					animate();
 				}
 			});
 		}
 
 		tween.start(tweenManager);
 		this.progress = progress;
-	}
-	
-	private void animate() {
-		Tween.to(this, FadeableTween.DEFAULT, 0.5f).target(0.6f)
-			.ease(TweenEquations.easeOutCubic).start(tweenManager);
-		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.4f).delay(0.5f)
-			.repeatYoyo(Tween.INFINITY, 0f)
-			.ease(TweenEquations.easeInOutCubic).start(tweenManager);
 	}
 
 	public static interface PlayerWidgetTextProvider {
