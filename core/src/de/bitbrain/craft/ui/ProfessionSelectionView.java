@@ -356,7 +356,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 		@Override
 		public void clicked(InputEvent event, float x, float y) {
 			super.clicked(event, x, y);
-
+			SoundUtils.play(Assets.SND_CONFIRM, 1.0f, 1.5f);
 			Color clrFore = new Color(0.6f, 1.0f, 0.1f, 1.0f);
 			Color clrBack = new Color(0.3f, 1.0f, 0.1f, 1.0f);
 
@@ -365,14 +365,11 @@ public class ProfessionSelectionView extends Table implements EventListener {
 				e.getLabel().setColor(Color.WHITE);
 				e.getIcon().setColor(Color.WHITE);
 			}
-
 			if (event.getTarget() instanceof ProfessionElement) {
 				ProfessionElement e = (ProfessionElement) event.getTarget();
 				if (!e.getProfession().isEnabled()) {
 					return;
 				}
-				SoundUtils.play(Assets.SND_CONFIRM, 1.0f, 1.5f);
-
 				for (ProfessionSelectListener l : listeners) {
 					l.onSelect(e.getProfession());
 				}
