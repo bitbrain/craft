@@ -69,11 +69,11 @@ public final class Sizes {
 	}
 	
 	public static float localMouseX() {
-	  return worldMouseX() * worldScreenFactorX();
+	  return worldMouseX() / worldScreenFactorX();
 	}
 	
 	public static float localMouseY() {
-    return worldMouseY() * worldScreenFactorY();
+    return worldMouseY() / worldScreenFactorY();
   }
 
 	public static float worldScreenFactorX() {

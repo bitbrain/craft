@@ -45,7 +45,6 @@ import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.tweens.IntegerValueTween;
-import de.bitbrain.craft.ui.Tooltip;
 import de.bitbrain.craft.util.IntegerValueProvider;
 
 /**
@@ -57,199 +56,216 @@ import de.bitbrain.craft.util.IntegerValueProvider;
  */
 public class IconWidget extends Actor implements IntegerValueProvider {
 
-  public float iconScale;
+	public float iconScale;
 
-  private NinePatch background;
+	private NinePatch background;
 
-  private Label amountLabel;
+	private Label amountLabel;
 
-  private IconDrawable icon;
+	private IconDrawable icon;
 
-  private int currentAmount, amount;
+	private int currentAmount, amount;
 
-  @Inject
-  private TweenManager tweenManager;
+	@Inject
+	private TweenManager tweenManager;
 
-  @Inject
-  private IconManager iconManager;
+	@Inject
+	private IconManager iconManager;
 
-  @Inject
-  private EventBus eventBus;
+	@Inject
+	private EventBus eventBus;
 
-  private Item item;
+	private Item item;
 
-  private IconHandle iconHandle = new DefaultIconHandle();
-  
-  public class DefaultIconHandle implements IconHandle {
+	private IconHandle iconHandle = new DefaultIconHandle();
 
-    @Override
-    public Color getColor(int currentAmount) {
-      if (currentAmount == Item.INFINITE_AMOUNT) {
-    	  return Assets.CLR_YELLOW_SAND;
-      } else {
-    	  return Color.WHITE;
-      }
-    }
+	public class DefaultIconHandle implements IconHandle {
 
-    @Override
-    public String getContent(int currentAmount) {
-      if (currentAmount == Item.INFINITE_AMOUNT) {
-    	  return "INF";
-      } else {
-    	  return String.valueOf(currentAmount);
-      }
-    }
+		@Override
+		public Color getColor(int currentAmount) {
+			if (currentAmount == Item.INFINITE_AMOUNT) {
+				return Assets.CLR_YELLOW_SAND;
+			} else {
+				return Color.WHITE;
+			}
+		}
 
-  	@Override
-  	public boolean isVisible(int currentAmount) {
-  		return amount >= Item.INFINITE_AMOUNT;
-  	}
+		@Override
+		public String getContent(int currentAmount) {
+			if (currentAmount == Item.INFINITE_AMOUNT) {
+				return "INF";
+			} else {
+				return String.valueOf(currentAmount);
+			}
+		}
+
+		@Override
+		public boolean isVisible(int currentAmount) {
+			return amount >= Item.INFINITE_AMOUNT;
+		}
+
+		@Override
+		public boolean isDraggable(int amount) {
+			return amount > 0 || amount == Item.INFINITE_AMOUNT;
+		}
+
+		@Override
+		public int getDragAmount() {
+			return 1;
+		}
+
+	};
+
+	public IconWidget(Item item, int amount) {
+		Tween.registerAccessor(IconWidget.class, new IntegerValueTween());
+		SharedInjector.get().injectMembers(this);
+		this.item = item;
+		this.amount = amount;
+		amountLabel = new Label("1", Styles.LBL_TOOLTIP);
+		amountLabel.setFontScale(2.1f);
+		background = GraphicsFactory.createNinePatch(
+				Assets.TEX_PANEL_TRANSPARENT_9patch,
+				Sizes.panelTransparentRadius());
+		this.icon = iconManager.fetch(item.getIcon());
+		this.currentAmount = amount;
+		registerEvents();
+	}
+
+	public final void setSource(Item item, int amount) {
+		this.item = item;
+		this.icon = iconManager.fetch(item.getIcon());
+		this.amount = amount;
+		animateAmount();
+	}
+
+	public final void setHandle(IconHandle iconHandle) {
+		this.iconHandle = iconHandle;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.
+	 * g2d.Batch, float)
+	 */
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+
+		float iconScale = 0.8f;
+
+		// background
+		background.setColor(getColor());
+		background.draw(batch, getX(), getY(), getWidth(), getHeight());
+
+		// Icon
+		icon.width = getWidth() * -iconScale;
+		icon.height = getHeight() * iconScale;
+		icon.x = getX() + (getWidth() - icon.width) / 2;
+		icon.y = getY() + (getHeight() - icon.height) / 2;
+		icon.rotation = 180f;
+		icon.color = getColor();
+		icon.draw(batch, parentAlpha);
+
+		if (iconHandle.isVisible(currentAmount)) {
+			amountLabel.setText(iconHandle.getContent(currentAmount));
+			amountLabel.setColor(iconHandle.getColor(currentAmount));
+			amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth()
+					- getPadding() / 2f);
+			amountLabel.setY(getY() + getPadding());
+			amountLabel.draw(batch, parentAlpha);
+		}
+	}
+
+	public void addAmount(int amount) {
+		if (this.amount != Item.INFINITE_AMOUNT) {
+			this.amount += amount;
+			animateAmount();
+		}
+	}
+
+	public void reduceAmount(int amount) {
+		if (this.amount != Item.INFINITE_AMOUNT) {
+			this.amount -= amount;
+			if (this.amount < 0) {
+				this.amount = 0;
+			}
+			animateAmount();
+		}
+	}
+
+	private float getPadding() {
+		return 16f;
+	}
 
 	@Override
-	public boolean isDraggable(int amount) {
-		return amount > 0 || amount == Item.INFINITE_AMOUNT;
+	public int getValue() {
+		return currentAmount;
 	}
 
 	@Override
-	public int getDragAmount() {
-		return 1;
+	public void setValue(int value) {
+		currentAmount = value;
 	}
 
-  };
-
-  public IconWidget(Item item, int amount) {
-    Tween.registerAccessor(IconWidget.class, new IntegerValueTween());
-    SharedInjector.get().injectMembers(this);
-    this.item = item;
-    this.amount = amount;
-    amountLabel = new Label("1", Styles.LBL_TOOLTIP);
-    amountLabel.setFontScale(2.1f);
-    background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
-    this.icon = iconManager.fetch(item.getIcon());
-    this.currentAmount = amount;
-    registerEvents();
-  }
-
-  public final void setSource(Item item, int amount) {
-    this.item = item;
-    this.icon = iconManager.fetch(item.getIcon());
-    this.amount = amount;
-    animateAmount();
-  }
-
-  public final void setHandle(IconHandle iconHandle) {
-    this.iconHandle = iconHandle;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics. g2d.Batch, float)
-   */
-  @Override
-  public void draw(Batch batch, float parentAlpha) {
-
-    float iconScale = 0.8f;
-
-    // background
-    background.setColor(getColor());
-    background.draw(batch, getX(), getY(), getWidth(), getHeight());
-
-    // Icon
-    icon.width = getWidth() * -iconScale;
-    icon.height = getHeight() * iconScale;
-    icon.x = getX() + (getWidth() - icon.width) / 2;
-    icon.y = getY() + (getHeight() - icon.height) / 2;
-    icon.rotation = 180f;
-    icon.color = getColor();
-    icon.draw(batch, parentAlpha);
-
-    if (iconHandle.isVisible(currentAmount)) {
-	    amountLabel.setText(iconHandle.getContent(currentAmount));
-	    amountLabel.setColor(iconHandle.getColor(currentAmount));
-	    amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
-	    amountLabel.setY(getY() + getPadding());
-	    amountLabel.draw(batch, parentAlpha);
-    }
-  }
-  
-  public void addAmount(int amount) {
-	if (this.amount != Item.INFINITE_AMOUNT) {
-	    this.amount += amount;
-	    animateAmount();
+	private void animateAmount() {
+		tweenManager.killTarget(this);
+		Tween.to(this, IntegerValueTween.VALUE, 1f).target(amount)
+				.ease(TweenEquations.easeOutQuart).start(tweenManager);
 	}
-  }
-  
-  public void reduceAmount(int amount) {
-	if(this.amount != Item.INFINITE_AMOUNT) {
-	    this.amount -= amount;
-	    if (this.amount < 0) {
-	      this.amount = 0;
-	    }
-	    animateAmount();
+
+	private void registerEvents() {
+		// Allow dragging for icons only
+		addListener(new DragListener() {
+			@Override
+			public void dragStart(InputEvent event, float x, float y,
+					int pointer) {
+				if (iconHandle.isDraggable(amount)
+						&& (amount == Item.INFINITE_AMOUNT || iconHandle
+								.getDragAmount() <= amount)) {
+					eventBus.fireEvent(new MouseEvent<Item>(
+							EventType.MOUSEDRAG, item, Sizes.localMouseX(),
+							Sizes.localMouseY(), iconHandle.getDragAmount()));
+				}
+			}
+
+			@Override
+			public void dragStop(InputEvent event, float x, float y, int pointer) {
+				if (iconHandle.isDraggable(amount)
+						&& (amount == Item.INFINITE_AMOUNT || iconHandle
+								.getDragAmount() <= amount)) {
+					eventBus.fireEvent(new MouseEvent<Item>(
+							EventType.MOUSEDROP, item, Sizes.localMouseX(),
+							Sizes.localMouseY(), iconHandle.getDragAmount()));
+				}
+			}
+		});
+		addCaptureListener(new InputListener() {
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic
+			 * .gdx.scenes.scene2d.InputEvent, float, float, int, int)
+			 */
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				return true;
+			}
+		});
 	}
-  }
 
-  private float getPadding() {
-    return 16f;
-  }
+	public static interface IconHandle {
 
-  @Override
-  public int getValue() {
-    return currentAmount;
-  }
+		Color getColor(int currentAmount);
 
-  @Override
-  public void setValue(int value) {
-    currentAmount = value;
-  }
-  
-  private void animateAmount() {
-    tweenManager.killTarget(this);
-    Tween.to(this, IntegerValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
-  }
+		String getContent(int currentAmount);
 
-  private void registerEvents() {
-    // Allow dragging for icons only
-    addListener(new DragListener() {
-      @Override
-      public void dragStart(InputEvent event, float x, float y, int pointer) {
-    	  if (iconHandle.isDraggable(amount) && (amount == Item.INFINITE_AMOUNT || iconHandle.getDragAmount() <= amount)) {
-          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, item, x, y, iconHandle.getDragAmount()));
-        }
-      }
+		boolean isVisible(int currentAmount);
 
-      @Override
-      public void dragStop(InputEvent event, float x, float y, int pointer) {
-        if (iconHandle.isDraggable(amount) && (amount == Item.INFINITE_AMOUNT || iconHandle.getDragAmount() <= amount)) {
-          eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP, item, x, y, iconHandle.getDragAmount()));
-        }
-      }
-    });
-    addCaptureListener(new InputListener() {
-      /*
-       * (non-Javadoc)
-       * 
-       * @see com.badlogic.gdx.scenes.scene2d.InputListener#touchDown(com.badlogic .gdx.scenes.scene2d.InputEvent,
-       * float, float, int, int)
-       */
-      @Override
-      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        return true;
-      }
-    });
-  }
+		boolean isDraggable(int amount);
 
-  public static interface IconHandle {
-	  
-    Color getColor(int currentAmount);
-
-    String getContent(int currentAmount);
-    
-    boolean isVisible(int currentAmount);
-    
-    boolean isDraggable(int amount);
-    
-    int getDragAmount();
-  }
+		int getDragAmount();
+	}
 }
