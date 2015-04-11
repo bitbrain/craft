@@ -118,11 +118,11 @@ public class IngameScreen extends AbstractScreen {
 				- Sizes.worldHeight() / 4f);
 		craftingWidget.animate();
 		playerWidget.setWidth(450f);
-		playerWidget.setHeight(75f);
+		playerWidget.setHeight(90f);
 		playerWidget.setX(Sizes.worldWidth() - playerWidget.getWidth()
 				- Sizes.borderPadding() * 2);
 		playerWidget
-				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)));
+				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
 	}
 
 	/*

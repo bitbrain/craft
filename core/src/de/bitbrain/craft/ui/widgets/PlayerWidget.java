@@ -20,10 +20,13 @@
 package de.bitbrain.craft.ui.widgets;
 
 import net.engio.mbassy.listener.Handler;
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -41,7 +44,9 @@ import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
 import de.bitbrain.craft.tweens.FadeableTween;
+import de.bitbrain.craft.tweens.FloatValueTween;
 import de.bitbrain.craft.util.Fadeable;
+import de.bitbrain.craft.util.FloatValueProvider;
 
 /**
  * Shows information of a player like level and experience
@@ -52,6 +57,8 @@ import de.bitbrain.craft.util.Fadeable;
  */
 @StateScoped
 public class PlayerWidget extends Actor implements Fadeable {
+	
+	private float padding = 15f;
 
 	@Inject
 	private EventBus eventBus;
@@ -62,31 +69,42 @@ public class PlayerWidget extends Actor implements Fadeable {
 	@Inject
 	private API api;
 
-	private NinePatch background;
+	private NinePatch background1, background2;
 
 	private BitmapFont caption;
 
-	private Progress progressData;
+	private Progress progress;
 
 	private Profession profession;
 
 	private PlayerWidgetTextProvider textProvider;
 
+	private FloatValueProvider progressProvider;
+
 	public PlayerWidget(Profession profession) {
 		SharedInjector.get().injectMembers(this);
+		progressProvider = new FloatValueProvider();
 		textProvider = new DefaultTextProvider();
 		this.profession = profession;
 		eventBus.subscribe(this);
-		progressData = api.getProgress(profession);
-		background = GraphicsFactory.createNinePatch(
+		this.progress = api.getProgress(profession);
+		setProgress(progress);
+		background1 = GraphicsFactory.createNinePatch(
+				Assets.TEX_PANEL_TRANSPARENT_9patch, 5);
+		background2 = GraphicsFactory.createNinePatch(
 				Assets.TEX_PANEL_BAR_9patch, 5);
 		caption = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
+		setColor(new Color(Assets.CLR_YELLOW_SAND));
 		getColor().a = 0f;
-		Tween.to(this, FadeableTween.DEFAULT, 5f).target(0.95f)
+		Tween.to(this, FadeableTween.DEFAULT, 5f).target(0.6f)
 				.ease(TweenEquations.easeOutCubic).start(tweenManager);
-		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.5f).delay(1f)
+		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.4f).delay(1f)
 				.repeatYoyo(Tween.INFINITY, 0f)
 				.ease(TweenEquations.easeInOutCubic).start(tweenManager);
+	}
+	
+	public void setPadding(float padding) {
+		this.padding = padding;
 	}
 
 	public void setTextProvider(PlayerWidgetTextProvider provider) {
@@ -102,27 +120,27 @@ public class PlayerWidget extends Actor implements Fadeable {
 	}
 
 	private void drawBackground(Batch batch) {
-		getColor().a -= 0.3f;
-		background.setColor(getColor());
-		background.draw(batch, getX(), getY(), getWidth(), getHeight());
-		getColor().a += 0.3f;
+		background1.setColor(getColor());
+		background1.draw(batch, getX(), getY(), getWidth(), getHeight());
+		background1.draw(batch, getX() + padding, getY() + padding, getWidth() - padding * 2, getHeight() - padding * 2);
 	}
 
 	private void drawProgress(Batch batch) {
-		if (progressData.getCurrentProgress() > 0.1f) {
-			background
-					.draw(batch, getX(), getY(),
-							getWidth() * progressData.getCurrentProgress(),
-							getHeight());
+		if (progressProvider.getValue() > 0.05f) {
+			background2.setColor(getColor());
+			background2.draw(batch, getX() + padding, getY() + padding, (getWidth()
+					* progressProvider.getValue()) - padding * 2, getHeight() - padding * 2);
 		}
 	}
 
 	private void drawForeground(Batch batch) {
-		String text = textProvider.getText(progressData, profession);
+		String text = textProvider.getText(progress, profession);
 		caption.setColor(getColor());
+		caption.getColor().a -= 0.2f;
 		caption.draw(batch, text,
 				getX() + getWidth() / 2f - caption.getBounds(text).width / 2f,
 				getY() + getHeight() / 2f + caption.getLineHeight() / 2f);
+		caption.getColor().a += 0.2f;
 	}
 
 	@Override
@@ -139,8 +157,56 @@ public class PlayerWidget extends Actor implements Fadeable {
 	private void onProgressUpdated(ProgressEvent event) {
 		Progress progress = event.getModel();
 		if (progress.getProfession().equals(profession)) {
-			progressData = progress;
+			setProgress(progress);
 		}
+	}
+
+	private void setProgress(final Progress progress) {
+		tweenManager.killTarget(this);
+		tweenManager.killTarget(progressProvider);
+		final float oldProgress = this.progress.getCurrentProgress();
+		float duration = 1f;
+		duration = progress.getLevel() == this.progress.getLevel() ? 1f
+				: (1.3f - oldProgress);
+		final Tween tween = Tween
+				.to(progressProvider, FloatValueTween.VALUE, duration)
+				.ease(TweenEquations.easeOutQuad)				
+				.setCallbackTriggers(TweenCallback.COMPLETE)
+				.setCallback(new TweenCallback() {
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+						animate();
+					}					
+				});
+		if (progress.getLevel() == this.progress.getLevel()) {
+			tween.target(progress.getCurrentProgress());
+		} else if (progress.getLevel() > this.progress.getLevel()) {
+			tween.target(1f);
+			tween.ease(TweenEquations.easeNone);
+			tween.setCallback(new TweenCallback() {
+				@Override
+				public void onEvent(int type, BaseTween<?> source) {
+					progressProvider.setValue(0f);
+					Tween.to(progressProvider, FloatValueTween.VALUE,
+							oldProgress * 1f)
+							.target(progress.getCurrentProgress())
+							.ease(TweenEquations.easeOutQuad)
+							.start(tweenManager);
+					animate();
+				}
+			});
+		}
+
+		tween.start(tweenManager);
+		this.progress = progress;
+	}
+	
+	private void animate() {
+		Tween.to(this, FadeableTween.DEFAULT, 0.5f).target(0.6f)
+			.ease(TweenEquations.easeOutCubic).start(tweenManager);
+		Tween.to(this, FadeableTween.DEFAULT, 2f).target(0.4f).delay(0.5f)
+			.repeatYoyo(Tween.INFINITY, 0f)
+			.ease(TweenEquations.easeInOutCubic).start(tweenManager);
 	}
 
 	public static interface PlayerWidgetTextProvider {

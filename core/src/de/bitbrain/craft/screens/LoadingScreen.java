@@ -48,10 +48,12 @@ import de.bitbrain.craft.migration.DataMigrator;
 import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.tweens.BlurShaderTween;
 import de.bitbrain.craft.tweens.FadeableTween;
+import de.bitbrain.craft.tweens.FloatValueTween;
 import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.LoadingIndicator;
 import de.bitbrain.craft.util.AssetReflector;
+import de.bitbrain.craft.util.FloatValueProvider;
 
 /**
  * Screen which is shown in the very beginning
@@ -84,6 +86,7 @@ public class LoadingScreen extends AbstractScreen {
 		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
 		Tween.registerAccessor(Vector2.class, new VectorTween());
 		Tween.registerAccessor(BlurShader.class, new BlurShaderTween());
+		Tween.registerAccessor(FloatValueProvider.class, new FloatValueTween());
 		Gdx.app.log("INFO", "Tween accessors registered.");
 	}
 

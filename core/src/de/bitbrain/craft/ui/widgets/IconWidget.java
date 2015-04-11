@@ -44,8 +44,8 @@ import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.tweens.ValueTween;
-import de.bitbrain.craft.util.ValueProvider;
+import de.bitbrain.craft.tweens.IntegerValueTween;
+import de.bitbrain.craft.util.IntegerValueProvider;
 
 /**
  * An icon which also shows rarity and special effects
@@ -54,7 +54,7 @@ import de.bitbrain.craft.util.ValueProvider;
  * @since 1.0
  * @version 1.0
  */
-public class IconWidget extends Actor implements ValueProvider {
+public class IconWidget extends Actor implements IntegerValueProvider {
 
   public float iconScale;
 
@@ -117,7 +117,7 @@ public class IconWidget extends Actor implements ValueProvider {
   };
 
   public IconWidget(Item item, int amount) {
-    Tween.registerAccessor(IconWidget.class, new ValueTween());
+    Tween.registerAccessor(IconWidget.class, new IntegerValueTween());
     SharedInjector.get().injectMembers(this);
     this.item = item;
     this.amount = amount;
@@ -205,7 +205,7 @@ public class IconWidget extends Actor implements ValueProvider {
   
   private void animateAmount() {
     tweenManager.killTarget(this);
-    Tween.to(this, ValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
+    Tween.to(this, IntegerValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
   }
 
   private void registerEvents() {

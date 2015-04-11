@@ -1,6 +1,6 @@
 package de.bitbrain.craft.util;
 
-public interface ValueProvider {
+public interface IntegerValueProvider {
 
 	int getValue();
 	

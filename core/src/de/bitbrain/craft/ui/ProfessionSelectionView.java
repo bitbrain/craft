@@ -215,6 +215,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
 			Texture tex = getProfessionTexture(profession);
 			bar = new PlayerWidget(profession);
+			bar.setPadding(4f);
 			bar.setTextProvider(new LevelTextProvider());
 
 			if (tex != null) {
