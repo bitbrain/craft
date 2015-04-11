@@ -103,13 +103,13 @@ public class CraftingWidget extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP)
 				&& event.getModel() instanceof Item) {
 			Item item = (Item) event.getModel();
-			if (professionLogic.add(item)
-					&& collides(event.getMouseX(), event.getMouseY())) {
+			if (collides(event.getMouseX(), event.getMouseY())) {
 				// Item accepted, remove it from system
 				int amount = 1;
 				if (event.getParam(0) != null) {
 					amount = (Integer) event.getParam(0);
 				}
+				professionLogic.add(item, amount);
 				api.removeItem(Player.getCurrent().getId(), item.getId(),
 						amount);
 			}

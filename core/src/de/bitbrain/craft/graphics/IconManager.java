@@ -183,6 +183,7 @@ public class IconManager implements Fadeable {
 		}
 
 		public IconDrawable(IconDrawable iconDrawable) {
+			this();
 			this.scale = iconDrawable.scale;
 			this.x = iconDrawable.x;
 			this.y = iconDrawable.y;

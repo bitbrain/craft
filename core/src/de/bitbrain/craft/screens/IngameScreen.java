@@ -46,6 +46,7 @@ import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.ui.ItemList;
 import de.bitbrain.craft.ui.Tabs;
 import de.bitbrain.craft.ui.widgets.CraftingWidget;
+import de.bitbrain.craft.ui.widgets.ItemBagThumblist;
 import de.bitbrain.craft.ui.widgets.PlayerWidget;
 import de.bitbrain.craft.ui.widgets.RecipeWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget;
@@ -74,6 +75,9 @@ public class IngameScreen extends AbstractScreen {
 
 	@Inject
 	private RecipeWidget recipeView;
+	
+	@Inject
+	private ItemBagThumblist itemBagThumblistView;
 
 	private PlayerWidget playerWidget;
 
@@ -95,6 +99,7 @@ public class IngameScreen extends AbstractScreen {
 		stage.addActor(tabView);
 		stage.addActor(craftingWidget);
 		stage.addActor(playerWidget);
+		stage.addActor(itemBagThumblistView);
 		tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
 		tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
 		tabView.setTab(Tabs.ITEMS);
@@ -123,6 +128,14 @@ public class IngameScreen extends AbstractScreen {
 				- Sizes.borderPadding() * 2);
 		playerWidget
 				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+		itemBagThumblistView.setX(Sizes.worldWidth() - playerWidget.getWidth()
+				- Sizes.borderPadding() * 2);
+		itemBagThumblistView
+				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+		itemBagThumblistView.setWidth(450f);
+		itemBagThumblistView.setHeight(200f);
+		
+		
 	}
 
 	/*

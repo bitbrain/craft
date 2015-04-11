@@ -66,6 +66,8 @@ public class Event<Model> {
 		REMOVE,
 		CLICK,
 		CRAFTED,
+		CRAFT_SUBMIT,
+		CRAFT_REMOVE,
 		MOUSEDOWN,
 		MOUSEUP,
 		MOUSEMOVE,

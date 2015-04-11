@@ -19,31 +19,29 @@
 
 package de.bitbrain.craft.core.professions;
 
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 
 /**
- * General handler for a profession. Implement this interface to
- * create new logic for a profession.
+ * General handler for a profession. Implement this interface to create new
+ * logic for a profession.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
 public interface ProfessionLogic {
+	
+	void add(Item item, int amount);
+	
+	void clear(Item id);
 
 	/**
-	 * Is called when an item is dropped onto the profession
-	 * 
-	 * @param item dropped item
-	 * @return returns true when item is accepted as material
-	 */
-	boolean add(Item item);
-	
-	/**
 	 * Set a new recipe to this logic
-	 *  
-	 * @param recipe new recipe to set
+	 * 
+	 * @param recipe
+	 *            new recipe to set
 	 */
 	void setRecipe(Recipe recipe);
 }

@@ -19,6 +19,13 @@
 
 package de.bitbrain.craft.core.professions;
 
+import com.google.inject.Inject;
+
+import de.bitbrain.craft.core.ItemBag;
+import de.bitbrain.craft.events.Event.EventType;
+import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.ItemEvent;
+import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 
@@ -31,18 +38,38 @@ import de.bitbrain.craft.models.Recipe;
  */
 abstract class AbstractProfessionLogic implements ProfessionLogic {
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.core.professions.ProfessionLogic#add(de.bitbrain.craft.models.Item)
-	 */
-	@Override
-	public boolean add(Item item) {
-		return true;
+	private ItemBag items;
+
+	@Inject
+	private EventBus eventBus;
+
+	public AbstractProfessionLogic() {
+		SharedInjector.get().injectMembers(this);
+		items = new ItemBag();
 	}
-	
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.core.professions.ProfessionLogic#setRecipe(de.bitbrain.craft.models.Recipe)
+
+	@Override
+	public void add(Item item, int amount) {
+		eventBus.fireEvent(new ItemEvent(EventType.CRAFT_SUBMIT, item, amount));
+		items.add(item, amount);
+	}
+
+	@Override
+	public void clear(Item item) {
+		eventBus.fireEvent(new ItemEvent(EventType.CRAFT_REMOVE, item, items
+				.getAmount(item)));
+		items.clear(item.getId());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.bitbrain.craft.core.professions.ProfessionLogic#setRecipe(de.bitbrain
+	 * .craft.models.Recipe)
 	 */
 	@Override
 	public void setRecipe(Recipe recipe) {
+
 	}
 }

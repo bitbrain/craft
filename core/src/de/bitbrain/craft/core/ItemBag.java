@@ -36,9 +36,12 @@ import de.bitbrain.craft.models.Item;
 public class ItemBag implements Iterable<Entry<Item, Integer>> {
 
 	private Map<Item, Integer> items;
+	
+	private Map<ItemId, Item> itemIds;
 
 	public ItemBag() {
 		items = new HashMap<Item, Integer>();
+		itemIds = new HashMap<ItemId, Item>();
 	}
 
 	public void add(Item item, Integer amount) {
@@ -47,6 +50,7 @@ public class ItemBag implements Iterable<Entry<Item, Integer>> {
 			items.put(item,  currentAmount + amount);
 		} else {
 			items.put(item, amount);
+			itemIds.put(item.getId(), item);
 		}
 	}
 
@@ -66,5 +70,13 @@ public class ItemBag implements Iterable<Entry<Item, Integer>> {
 
 	public int size() {
 		return items.size();
+	}
+
+	public void clear(ItemId id) {
+		Item item = itemIds.get(id);
+		if (item != null) {
+			items.remove(item);
+			itemIds.remove(id);
+		}
 	}
 }
