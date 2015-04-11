@@ -35,6 +35,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
+import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event.EventType;
@@ -72,7 +73,9 @@ public class CraftingWidget extends Actor {
 		SharedInjector.get().injectMembers(this);
 		eventBus.subscribe(this);
 		this.professionLogic = professionLogic;
-		table = new AnimatedBounceObject(Assets.TEX_TABLE, GraphicsFactory.createTexture(32, 16, new Color(0f, 0f, 0f, 0.2f)));
+		table = new AnimatedBounceObject(Assets.TEX_TABLE,
+				GraphicsFactory.createTexture(32, 16, new Color(0f, 0f, 0f,
+						0.2f)));
 		table.setSizeOffset(50f, 120f);
 		table.setPositionOffset(0f, -190f);
 		table.setShadowSizeOffset(0f, -20f);
@@ -127,7 +130,9 @@ public class CraftingWidget extends Actor {
 	}
 
 	private boolean collides(float x, float y) {
-		y += getY();
+		x /= Sizes.worldScreenFactorX();
+		y /= Sizes.worldScreenFactorY();
+		y += getHeight() / 1.2f;
 		return x >= getX() && x <= getX() + getWidth() && y >= getY()
 				&& y <= getY() + getHeight();
 	}
