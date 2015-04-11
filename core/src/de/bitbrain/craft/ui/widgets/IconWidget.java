@@ -45,6 +45,7 @@ import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.tweens.IntegerValueTween;
+import de.bitbrain.craft.ui.Tooltip;
 import de.bitbrain.craft.util.IntegerValueProvider;
 
 /**

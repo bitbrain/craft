@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -77,6 +78,8 @@ public class ItemWidget extends HorizontalGroup {
 
 	private AvailabilityIcon availability;
 
+	private boolean hovered = false;
+
 	public ItemWidget(Item item, int amount) {
 		SharedInjector.get().injectMembers(this);
 		try {
@@ -97,6 +100,20 @@ public class ItemWidget extends HorizontalGroup {
 			pad(10f);
 			registerEvents(this);
 			setItem(item, amount);
+			setTouchable(Touchable.enabled);
+			addListener(new ClickListener() {
+				@Override
+				public void enter(InputEvent event, float x, float y,
+						int pointer, Actor fromActor) {
+					hovered = true;
+				}
+
+				@Override
+				public void exit(InputEvent event, float x, float y,
+						int pointer, Actor toActor) {
+					hovered = false;
+				}
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -130,6 +147,9 @@ public class ItemWidget extends HorizontalGroup {
 		setWidth(getParent().getWidth() - Sizes.borderPadding() * 2);
 		background.getColor().a = parentAlpha * getColor().a;
 		background.draw(batch, getX(), getY(), getWidth(), getHeight());
+		if (hovered) {
+			background.draw(batch, getX(), getY(), getWidth(), getHeight());
+		}
 		super.draw(batch, parentAlpha);
 	}
 
