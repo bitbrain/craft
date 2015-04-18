@@ -20,6 +20,7 @@
 package de.bitbrain.craft.core;
 
 import java.util.Collection;
+import java.util.List;
 
 import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.core.RecipeDataBuilder.RecipeData;
@@ -262,6 +263,14 @@ public interface API {
 	 * @return updated progress model
 	 */
 	Progress setXp(Profession profession, int xp);
+	
+	/**
+	 * Filters out all possible recipes which have the given items as ingredients in common.
+	 * 
+	 * @param ingredients list of items
+	 * @return new list of recipes. Is empty if no recipes could be found.
+	 */
+	List<Recipe> getRecipesByIngredients(Collection<Item> items);
 	
 	/**
 	 * Is thrown as an API error occurs

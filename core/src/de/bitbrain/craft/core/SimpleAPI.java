@@ -19,7 +19,9 @@
 
 package de.bitbrain.craft.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
@@ -438,5 +440,11 @@ class SimpleAPI implements API {
 			bus().fireEvent(new ProgressEvent(progress));
 		}
 		return progress;
+	}
+
+	@Override
+	public List<Recipe> getRecipesByIngredients(Collection<Item> items) {
+		List<Recipe> recipes = new ArrayList<Recipe>();
+		return recipes;
 	}
 }
