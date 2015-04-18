@@ -29,7 +29,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import de.bitbrain.craft.tweens.SpriteTween;
+import de.bitbrain.craft.animations.SpriteTween;
 
 /**
  * Fades screen in and out

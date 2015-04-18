@@ -52,13 +52,13 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.animations.ActorTween;
+import de.bitbrain.craft.animations.SpriteTween;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
-import de.bitbrain.craft.tweens.ActorTween;
-import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.widgets.PlayerWidget;
 import de.bitbrain.craft.ui.widgets.PlayerWidget.LevelTextProvider;
 

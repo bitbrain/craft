@@ -29,8 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.animations.ActorTween;
 import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.ui.UIFactory;
 
 /**

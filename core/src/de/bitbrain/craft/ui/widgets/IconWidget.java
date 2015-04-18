@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.animations.IntegerValueTween;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.MouseEvent;
@@ -44,7 +45,6 @@ import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.tweens.IntegerValueTween;
 import de.bitbrain.craft.util.IntegerValueProvider;
 
 /**

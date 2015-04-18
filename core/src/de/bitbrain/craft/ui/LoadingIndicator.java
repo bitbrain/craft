@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 
 import de.bitbrain.craft.Assets;
+import de.bitbrain.craft.animations.FadeableTween;
+import de.bitbrain.craft.animations.SpriteTween;
 import de.bitbrain.craft.graphics.GraphicsFactory;
-import de.bitbrain.craft.tweens.FadeableTween;
-import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.util.Fadeable;
 
 public class LoadingIndicator extends Actor implements Fadeable, Disposable {

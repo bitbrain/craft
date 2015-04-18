@@ -35,14 +35,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.animations.BlurShaderTween;
+import de.bitbrain.craft.animations.SpriteTween;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.graphics.shader.ShadeArea;
 import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.tweens.BlurShaderTween;
-import de.bitbrain.craft.tweens.SpriteTween;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
 import de.bitbrain.craft.util.DragDropHandler;
 

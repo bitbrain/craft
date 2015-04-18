@@ -38,9 +38,9 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.animations.FadeableTween;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.util.Fadeable;
 
 

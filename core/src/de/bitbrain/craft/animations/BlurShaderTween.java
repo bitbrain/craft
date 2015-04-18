@@ -1,4 +1,4 @@
-package de.bitbrain.craft.tweens;
+package de.bitbrain.craft.animations;
 
 import aurelienribon.tweenengine.TweenAccessor;
 import de.bitbrain.craft.graphics.shader.BlurShader;

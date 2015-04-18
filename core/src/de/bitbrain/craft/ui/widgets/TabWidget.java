@@ -46,13 +46,13 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.animations.ActorTween;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.StateScoped;
-import de.bitbrain.craft.tweens.ActorTween;
 
 /**
  * Responsive tab view which can be extendable

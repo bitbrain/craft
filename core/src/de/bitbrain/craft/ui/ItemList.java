@@ -36,6 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.google.inject.Inject;
 
+import de.bitbrain.craft.animations.ActorTween;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.core.ItemId;
@@ -45,7 +46,6 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
-import de.bitbrain.craft.tweens.ActorTween;
 import de.bitbrain.craft.ui.widgets.ItemWidget;
 import de.bitbrain.craft.util.ItemComparator;
 

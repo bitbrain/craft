@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package de.bitbrain.craft.tweens;
+package de.bitbrain.craft.animations;
 
 import aurelienribon.tweenengine.TweenAccessor;
 

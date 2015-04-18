@@ -36,6 +36,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.animations.FadeableTween;
+import de.bitbrain.craft.animations.VectorTween;
 import de.bitbrain.craft.audio.SoundManager;
 import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.audio.SoundUtils;
@@ -50,8 +52,6 @@ import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Item;
-import de.bitbrain.craft.tweens.FadeableTween;
-import de.bitbrain.craft.tweens.VectorTween;
 import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 
 /**
