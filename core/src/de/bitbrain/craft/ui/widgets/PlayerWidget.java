@@ -43,7 +43,6 @@ import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.inject.StateScoped;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
-import de.bitbrain.craft.tweens.FadeableTween;
 import de.bitbrain.craft.tweens.FloatValueTween;
 import de.bitbrain.craft.util.Fadeable;
 import de.bitbrain.craft.util.FloatValueProvider;

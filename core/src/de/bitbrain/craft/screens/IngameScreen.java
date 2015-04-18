@@ -36,7 +36,6 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
-import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.graphics.Icon;
@@ -63,9 +62,6 @@ public class IngameScreen extends AbstractScreen {
 
 	@Inject
 	private DragDropHandler dragDropHandler;
-
-	@Inject
-	private API api;
 
 	@Inject
 	private IconManager iconManager;

@@ -55,11 +55,6 @@ public class RecipeDataBuilder {
 		return this;
 	}
 	
-	public RecipeDataBuilder addGoal(Class<? extends GoalProcessor> processor, Integer modulator) {
-		data.goals.put(processor, modulator);
-		return this;
-	}
-	
 	public RecipeDataBuilder addIngredient(ItemId itemId, Integer amount) {
 		data.ingredients.put(itemId, amount);
 		return this;
@@ -79,9 +74,6 @@ public class RecipeDataBuilder {
 		
 		// Profession which can learn this recipe
 		Profession profession;
-		
-		// Goals which relate to the recipe
-		Map<Class<? extends GoalProcessor>, Integer> goals = new HashMap<Class<? extends GoalProcessor>, Integer>();
 		
 		// Ingredients which relate to the recipe
 		Map<ItemId, Integer> ingredients = new HashMap<ItemId, Integer>();
