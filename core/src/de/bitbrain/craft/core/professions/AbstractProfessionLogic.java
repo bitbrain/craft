@@ -19,9 +19,13 @@
 
 package de.bitbrain.craft.core.professions;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.ItemBag;
+import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -42,9 +46,12 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
 
 	@Inject
 	private EventBus eventBus;
+	
+	private Queue<Item> itemOrder;
 
 	public AbstractProfessionLogic() {
 		SharedInjector.get().injectMembers(this);
+		itemOrder = new LinkedList<Item>();
 		items = new ItemBag();
 	}
 
@@ -52,6 +59,20 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
 	public void add(Item item, int amount) {
 		eventBus.fireEvent(new ItemEvent(EventType.CRAFT_SUBMIT, item, amount));
 		items.add(item, amount);
+		itemOrder.add(item);
+	}
+	
+	@Override
+	public void fetch() {
+		Item head = null;
+		do {
+			head = itemOrder.poll();
+		} while (!itemOrder.isEmpty() && !items.contains(head));
+		if (head != null && items.contains(head)) {
+			int amount = items.getAmount(head);
+			items.clear(head.getId());
+			eventBus.fireEvent(new ItemEvent(EventType.CRAFT_REMOVE, head, amount));
+		}
 	}
 
 	@Override

@@ -19,7 +19,6 @@
 
 package de.bitbrain.craft.core.professions;
 
-import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 
@@ -34,6 +33,8 @@ import de.bitbrain.craft.models.Recipe;
 public interface ProfessionLogic {
 	
 	void add(Item item, int amount);
+	
+	void fetch();
 	
 	void clear(Item id);
 

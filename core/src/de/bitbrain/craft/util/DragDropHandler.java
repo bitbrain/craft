@@ -57,7 +57,7 @@ import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 /**
  * Handler which handles drag and drop. This handler is capable of handling
  * multiple drag&drops. It reacts to any mouse and element events.
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
@@ -115,7 +115,7 @@ public class DragDropHandler {
 				target.y = getScreenY();
 
 				if (!data.frozen) {
-					float speed = 0f;
+					float speed = 0.4f * entry.getKey().ordinal() + 1.6f;
 					if (data.drop) {
 						target.x = data.source.x;
 						target.y = data.source.y;
@@ -230,7 +230,7 @@ public class DragDropHandler {
 		animateVector(data.size, 1f, Sizes.dragIconSize(), new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				animateDragging(data.size);
+				animateDragging(data);
 			}
 		});
 		metadata.put(item.getId(), data);
@@ -255,15 +255,20 @@ public class DragDropHandler {
 				.start(tweenManager);
 	}
 
-	private void animateDragging(Vector2 vec) {
-		Tween.to(vec, VectorTween.X, 1.0f)
+	private void animateDragging(IconMetadata data) {
+		tweenManager.killTarget(data);
+		tweenManager.killTarget(data.size);
+		Tween.to(data.size, VectorTween.X, 1.0f)
 				.target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
 				.repeatYoyo(Tween.INFINITY, 0f)
 				.ease(TweenEquations.easeOutBack).start(tweenManager);
-		Tween.to(vec, VectorTween.Y, 1.0f)
+		Tween.to(data.size, VectorTween.Y, 1.0f)
 				.target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
 				.repeatYoyo(Tween.INFINITY, 0f)
 				.ease(TweenEquations.easeOutBack).start(tweenManager);
+		Tween.to(data, FadeableTween.DEFAULT, 2.2f).target(0.3f)
+				.repeatYoyo(Tween.INFINITY, 0f)
+				.ease(TweenEquations.easeInCubic).start(tweenManager);
 	}
 
 	private class IconMetadata implements Fadeable {

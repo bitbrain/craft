@@ -103,11 +103,7 @@ public class Item {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((effect == null) ? 0 : effect.hashCode());
-		result = prime * result + ((icon == null) ? 0 : icon.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + level;
-		result = prime * result + ((rarity == null) ? 0 : rarity.hashCode());
 		return result;
 	}
 
@@ -120,18 +116,7 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		if (effect == null) {
-			if (other.effect != null)
-				return false;
-		} else if (!effect.equals(other.effect))
-			return false;
-		if (icon != other.icon)
-			return false;
 		if (id != other.id)
-			return false;
-		if (level != other.level)
-			return false;
-		if (rarity != other.rarity)
 			return false;
 		return true;
 	}

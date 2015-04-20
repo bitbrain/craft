@@ -31,6 +31,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
@@ -41,6 +43,7 @@ import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -49,7 +52,7 @@ import de.bitbrain.craft.models.Player;
 
 /**
  * General view component for professions
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
@@ -68,6 +71,10 @@ public class CraftingWidget extends Actor {
 	private TweenManager tweenManager;
 
 	private AnimatedBounceObject workbench, table;
+	
+	private Item dragItem;
+	
+	private int dragAmount;
 
 	public CraftingWidget(ProfessionLogic professionLogic) {
 		SharedInjector.get().injectMembers(this);
@@ -83,6 +90,7 @@ public class CraftingWidget extends Actor {
 		workbench = new AnimatedBounceObject(Assets.TEX_BOWL, Assets.TEX_CIRCLE);
 		workbench.setShadowSizeOffset(-40f, -50f);
 		workbench.setShadowPositionOffset(0f, -30f);
+		registerEvents();
 	}
 
 	/*
@@ -116,6 +124,17 @@ public class CraftingWidget extends Actor {
 		}
 	}
 
+	@Handler
+	public void onEvent(ItemEvent event) {
+		if (event.getType().equals(EventType.CRAFT_REMOVE)) {
+			dragItem = event.getModel();
+			dragAmount = event.getAmount();
+			eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, event
+					.getModel(), Sizes.localMouseX(), Sizes.localMouseY(),
+					event.getAmount()));
+		}
+	}
+
 	@Override
 	public void setY(float y) {
 		super.setY(y);
@@ -135,6 +154,25 @@ public class CraftingWidget extends Actor {
 		y += getHeight() / 1.2f;
 		return x >= getX() && x <= getX() + getWidth() && y >= getY()
 				&& y <= getY() + getHeight();
+	}
+
+	private void registerEvents() {
+		addListener(new DragListener() {
+			@Override
+			public void dragStart(InputEvent event, float x, float y,
+					int pointer) {
+				professionLogic.fetch();
+			}
+
+			@Override
+			public void dragStop(InputEvent event, float x, float y, int pointer) {
+				eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP,
+						dragItem, Sizes.localMouseX(), Sizes.localMouseY(),
+						dragAmount));
+				dragItem = null;
+				dragAmount = 0;
+			}
+		});
 	}
 
 	private class AnimatedBounceObject {
