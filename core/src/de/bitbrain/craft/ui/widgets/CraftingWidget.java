@@ -111,15 +111,18 @@ public class CraftingWidget extends Actor {
 		if (event.getType().equals(EventType.MOUSEDROP)
 				&& event.getModel() instanceof Item) {
 			Item item = (Item) event.getModel();
-			if (collides(event.getMouseX(), event.getMouseY())) {
-				// Item accepted, remove it from system
-				int amount = 1;
-				if (event.getParam(0) != null) {
-					amount = (Integer) event.getParam(0);
-				}
+			// Item accepted, remove it from system
+			int amount = 1;
+			if (event.getParam(0) != null) {
+				amount = (Integer) event.getParam(0);
+			}
+			if (collides(event.getMouseX(), event.getMouseY())) {				
 				professionLogic.add(item, amount);
 				api.removeItem(Player.getCurrent().getId(), item.getId(),
 						amount);
+			// Check if the element got dropped by this widget
+			} else if (event.getParam(1) != null && event.getParam(1).equals(this)) {
+				api.addItem(Player.getCurrent().getId(), item.getId(), amount);
 			}
 		}
 	}
@@ -168,7 +171,7 @@ public class CraftingWidget extends Actor {
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
 				eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP,
 						dragItem, Sizes.localMouseX(), Sizes.localMouseY(),
-						dragAmount));
+						dragAmount, CraftingWidget.this));
 				dragItem = null;
 				dragAmount = 0;
 			}
