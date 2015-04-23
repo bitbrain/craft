@@ -42,6 +42,7 @@ import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Profession;
+import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.ItemList;
 import de.bitbrain.craft.ui.Tabs;
 import de.bitbrain.craft.ui.widgets.CraftingWidget;
@@ -49,7 +50,6 @@ import de.bitbrain.craft.ui.widgets.ItemBagThumblist;
 import de.bitbrain.craft.ui.widgets.PlayerWidget;
 import de.bitbrain.craft.ui.widgets.RecipeWidget;
 import de.bitbrain.craft.ui.widgets.TabWidget;
-import de.bitbrain.craft.util.DragDropHandler;
 
 /**
  * Displays the main game

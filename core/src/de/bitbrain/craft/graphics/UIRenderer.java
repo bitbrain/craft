@@ -43,8 +43,8 @@ import de.bitbrain.craft.events.InputEventProcessor;
 import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.graphics.shader.ShadeArea;
 import de.bitbrain.craft.inject.SharedInjector;
+import de.bitbrain.craft.ui.DragDropHandler;
 import de.bitbrain.craft.ui.cli.CommandLineInterface;
-import de.bitbrain.craft.util.DragDropHandler;
 
 /**
  * Manages rendering of UI elements
