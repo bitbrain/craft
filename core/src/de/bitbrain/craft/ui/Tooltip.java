@@ -39,7 +39,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.animations.FadeableTween;
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.util.Fadeable;
@@ -142,12 +142,12 @@ public class Tooltip extends InputListener implements Poolable, Fadeable {
 
   private void animateFadeIn() {
     tweenManager.killTarget(this);
-    Tween.to(this, AnimationType.ALPHA.ordinal(), 0.2f).target(1f).ease(TweenEquations.easeInQuad).start(tweenManager);
+    Tween.to(this, TweenType.ALPHA.ordinal(), 0.2f).target(1f).ease(TweenEquations.easeInQuad).start(tweenManager);
   }
 
   private void animateFadeOut() {
     tweenManager.killTarget(this);
-    Tween.to(this, AnimationType.ALPHA.ordinal(), 0.1f).target(0f).ease(TweenEquations.easeInQuad).start(tweenManager);
+    Tween.to(this, TweenType.ALPHA.ordinal(), 0.1f).target(0f).ease(TweenEquations.easeInQuad).start(tweenManager);
   }
 
   @Override

@@ -36,8 +36,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.animations.FadeableTween;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.audio.SoundManager;
 import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.audio.SoundUtils;
@@ -167,7 +167,7 @@ public class DragDropHandler {
         tweenManager.killTarget(data);
         tweenManager.killTarget(data.size);
         data.frozen = true;
-        Tween.to(data, AnimationType.ALPHA.ordinal(), 0.6f).target(0f).ease(TweenEquations.easeOutCubic)
+        Tween.to(data, TweenType.ALPHA.ordinal(), 0.6f).target(0f).ease(TweenEquations.easeOutCubic)
             .setCallbackTriggers(TweenCallback.COMPLETE).setCallback(new TweenCallback() {
               @Override
               public void onEvent(int type, BaseTween<?> source) {
@@ -203,7 +203,7 @@ public class DragDropHandler {
           public void onEvent(int type, BaseTween<?> source) {
           }
         });
-        Tween.to(data, AnimationType.ALPHA.ordinal(), 0.3f).target(0f).ease(TweenEquations.easeOutCubic)
+        Tween.to(data, TweenType.ALPHA.ordinal(), 0.3f).target(0f).ease(TweenEquations.easeOutCubic)
             .start(tweenManager);
         SoundUtils.playItemSound(item, SoundType.DROP, soundManager, api);
       }
@@ -244,20 +244,20 @@ public class DragDropHandler {
   }
 
   private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
-    Tween.to(vec, AnimationType.POS_X.ordinal(), time).target(target).ease(TweenEquations.easeOutQuart)
+    Tween.to(vec, TweenType.POS_X.ordinal(), time).target(target).ease(TweenEquations.easeOutQuart)
         .start(tweenManager);
-    Tween.to(vec, AnimationType.POS_Y.ordinal(), time).target(target).ease(TweenEquations.easeOutQuart)
+    Tween.to(vec, TweenType.POS_Y.ordinal(), time).target(target).ease(TweenEquations.easeOutQuart)
         .setCallback(callback).setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
   }
 
   private void animateDragging(IconMetadata data) {
     tweenManager.killTarget(data);
     tweenManager.killTarget(data.size);
-    Tween.to(data.size, AnimationType.POS_X.ordinal(), 1.0f).target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
+    Tween.to(data.size, TweenType.POS_X.ordinal(), 1.0f).target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
         .repeatYoyo(Tween.INFINITY, 0f).ease(TweenEquations.easeOutBack).start(tweenManager);
-    Tween.to(data.size, AnimationType.POS_Y.ordinal(), 1.0f).target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
+    Tween.to(data.size, TweenType.POS_Y.ordinal(), 1.0f).target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
         .repeatYoyo(Tween.INFINITY, 0f).ease(TweenEquations.easeOutBack).start(tweenManager);
-    Tween.to(data, AnimationType.ALPHA.ordinal(), 2.2f).target(0.3f).repeatYoyo(Tween.INFINITY, 0f)
+    Tween.to(data, TweenType.ALPHA.ordinal(), 2.2f).target(0.3f).repeatYoyo(Tween.INFINITY, 0f)
         .ease(TweenEquations.easeInCubic).start(tweenManager);
   }
 

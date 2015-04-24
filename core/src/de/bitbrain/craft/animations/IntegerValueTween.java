@@ -1,12 +1,12 @@
 package de.bitbrain.craft.animations;
 
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.util.IntegerValueProvider;
 
 public class IntegerValueTween extends AbstractTween<IntegerValueProvider> {
 
   @Override
-  public int getValues(IntegerValueProvider target, AnimationType type, float[] returnValues) {
+  public int getValues(IntegerValueProvider target, TweenType type, float[] returnValues) {
     switch (type) {
       case VALUE:
         returnValues[0] = target.getValue();
@@ -18,7 +18,7 @@ public class IntegerValueTween extends AbstractTween<IntegerValueProvider> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(IntegerValueProvider target, AnimationType type, float[] newValues) {
+  public void setValues(IntegerValueProvider target, TweenType type, float[] newValues) {
     switch (type) {
       case VALUE:
         target.setValue(Math.round(newValues[0]));

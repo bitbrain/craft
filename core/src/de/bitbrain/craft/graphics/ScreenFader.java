@@ -29,7 +29,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 
 /**
  * Fades screen in and out
@@ -76,7 +76,7 @@ public class ScreenFader implements TweenCallback {
     fadeIn = true;
     tweenManager.killTarget(sprite);
     sprite.setAlpha(1f);
-    Tween.to(sprite, AnimationType.ALPHA.ordinal(), interval).target(0f).setCallbackTriggers(TweenCallback.COMPLETE)
+    Tween.to(sprite, TweenType.ALPHA.ordinal(), interval).target(0f).setCallbackTriggers(TweenCallback.COMPLETE)
         .setCallback(this).ease(TweenEquations.easeOutCubic).start(tweenManager);
     if (callback != null) {
       callback.beforeFadeIn();
@@ -87,7 +87,7 @@ public class ScreenFader implements TweenCallback {
     init();
     fadeIn = false;
     tweenManager.killTarget(sprite);
-    Tween.to(sprite, AnimationType.ALPHA.ordinal(), interval).target(1f).setCallbackTriggers(TweenCallback.COMPLETE)
+    Tween.to(sprite, TweenType.ALPHA.ordinal(), interval).target(1f).setCallbackTriggers(TweenCallback.COMPLETE)
         .setCallback(this).ease(TweenEquations.easeOutCubic).start(tweenManager);
     if (callback != null) {
       callback.beforeFadeOut();

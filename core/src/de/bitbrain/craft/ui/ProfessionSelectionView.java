@@ -52,7 +52,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.inject.SharedInjector;
@@ -163,7 +163,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
         Tween.to(element.getBar(), 1, 0.8f).target(progress).ease(TweenEquations.easeInOutQuad).start(tweenManager);
 
-        Tween.to(element.getIcon(), AnimationType.SCALE.ordinal(), 1.0f).delay(0.3f).setCallbackTriggers(TweenCallback.START)
+        Tween.to(element.getIcon(), TweenType.SCALE.ordinal(), 1.0f).delay(0.3f).setCallbackTriggers(TweenCallback.START)
             .setCallback(new TweenCallback() {
               @Override
               public void onEvent(int type, BaseTween<?> source) {
@@ -174,7 +174,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
       }
     };
 
-    Tween.to(element, AnimationType.ALPHA.ordinal(), 0.6f).delay(index / 5f).target(1.0f).setCallback(callback)
+    Tween.to(element, TweenType.ALPHA.ordinal(), 0.6f).delay(index / 5f).target(1.0f).setCallback(callback)
         .setCallbackTriggers(TweenCallback.START).ease(TweenEquations.easeInOutQuart).start(tweenManager);
   }
 

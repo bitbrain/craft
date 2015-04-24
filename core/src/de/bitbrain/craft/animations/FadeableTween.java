@@ -1,12 +1,12 @@
 package de.bitbrain.craft.animations;
 
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.util.Fadeable;
 
 public class FadeableTween extends AbstractTween<Fadeable> {
 
   @Override
-  public int getValues(Fadeable target, AnimationType type, float[] returnValues) {
+  public int getValues(Fadeable target, TweenType type, float[] returnValues) {
     switch (type) {
       case ALPHA:
         returnValues[0] = target.getAlpha();
@@ -18,7 +18,7 @@ public class FadeableTween extends AbstractTween<Fadeable> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(Fadeable target, AnimationType type, float[] newValues) {
+  public void setValues(Fadeable target, TweenType type, float[] newValues) {
     switch (type) {
       case ALPHA:
         target.setAlpha(newValues[0]);

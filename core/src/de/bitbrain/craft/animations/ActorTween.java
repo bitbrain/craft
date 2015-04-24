@@ -2,12 +2,12 @@ package de.bitbrain.craft.animations;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 
 public class ActorTween extends AbstractTween<Actor> {
 
   @Override
-  public int getValues(Actor target, AnimationType type, float[] returnValues) {
+  public int getValues(Actor target, TweenType type, float[] returnValues) {
     switch (type) {
       case ALPHA:
         returnValues[0] = target.getColor().a;
@@ -34,7 +34,7 @@ public class ActorTween extends AbstractTween<Actor> {
   }
 
   @Override
-  public void setValues(Actor target, AnimationType type, float[] newValues) {
+  public void setValues(Actor target, TweenType type, float[] newValues) {
     switch (type) {
       case ALPHA:
         target.setColor(target.getColor().r, target.getColor().g, target.getColor().b, newValues[0]);

@@ -2,12 +2,12 @@ package de.bitbrain.craft.animations;
 
 import com.badlogic.gdx.math.Vector2;
 
-import de.bitbrain.craft.animations.Animations.AnimationType;
+import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 
 public class VectorTween extends AbstractTween<Vector2> {
 
   @Override
-  public int getValues(Vector2 target, AnimationType type, float[] returnValues) {
+  public int getValues(Vector2 target, TweenType type, float[] returnValues) {
     switch (type) {
       case POS_X:
         returnValues[0] = target.x;
@@ -22,7 +22,7 @@ public class VectorTween extends AbstractTween<Vector2> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(Vector2 target, AnimationType type, float[] newValues) {
+  public void setValues(Vector2 target, TweenType type, float[] newValues) {
     switch (type) {
       case POS_X:
         target.x = newValues[0];
