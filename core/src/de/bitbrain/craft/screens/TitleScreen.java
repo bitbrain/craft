@@ -23,8 +23,10 @@ import net.engio.mbassy.listener.Handler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -44,6 +46,8 @@ import de.bitbrain.craft.events.KeyEvent;
 import de.bitbrain.craft.ui.UIFactory;
 import de.bitbrain.craft.ui.dialog.Dialog;
 import de.bitbrain.craft.ui.dialog.DialogBuilder;
+import de.bitbrain.craft.ui.widgets.AnimatedLabel;
+import de.bitbrain.craft.ui.widgets.AnimatedLabel.AnimatedLabelStyle;
 
 /**
  * Title screen of the gameO
@@ -91,7 +95,7 @@ public class TitleScreen extends AbstractScreen {
     btnPlay.getLabel().setFontScale(1.3f);
 
     // Credits
-    lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
+    lblCredits = new AnimatedLabel(Bundles.general.get(Bundles.CREDITS), new AnimatedLabelStyle(Styles.LBL_BROWN), tweenManager);
     layout.add(lblCredits).row();
 
     stage.addActor(layout);
