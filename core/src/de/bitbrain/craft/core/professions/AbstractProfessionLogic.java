@@ -19,14 +19,12 @@
 
 package de.bitbrain.craft.core.professions;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Stack;
 
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Vector2;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.ItemBag;
+import de.bitbrain.craft.events.BasicGestureListener;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -48,11 +46,11 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
   @Inject
   private EventBus eventBus;
 
-  private Queue<Item> itemOrder;
+  private Stack<Item> itemOrder;
 
   public AbstractProfessionLogic() {
     SharedInjector.get().injectMembers(this);
-    itemOrder = new LinkedList<Item>();
+    itemOrder = new Stack<Item>();
     items = new ItemBag();
   }
 
@@ -66,9 +64,9 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
   @Override
   public void fetch() {
     Item head = null;
-    do {
-      head = itemOrder.poll();
-    } while (!itemOrder.isEmpty() && !items.contains(head));
+    while (!itemOrder.isEmpty() && !items.contains(head)) {
+      head = itemOrder.pop();
+    }
     if (head != null && items.contains(head)) {
       int amount = items.getAmount(head);
       items.clear(head.getId());
@@ -92,55 +90,7 @@ abstract class AbstractProfessionLogic implements ProfessionLogic {
 
   }
 
-  protected class AbstractCraftingGesture implements GestureListener {
-
-    @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean tap(float x, float y, int count, int button) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean longPress(float x, float y) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean fling(float velocityX, float velocityY, int button) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean pan(float x, float y, float deltaX, float deltaY) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean panStop(float x, float y, int pointer, int button) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean zoom(float initialDistance, float distance) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-      // TODO Auto-generated method stub
-      return false;
-    }
+  protected class AbstractCraftingGesture extends BasicGestureListener {
 
   }
 

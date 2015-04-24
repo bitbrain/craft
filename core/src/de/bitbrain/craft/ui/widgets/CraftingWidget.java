@@ -41,6 +41,7 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
+import de.bitbrain.craft.events.BasicGestureListener;
 import de.bitbrain.craft.events.Event;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -162,6 +163,12 @@ public class CraftingWidget extends Actor {
 
   private void registerEvents() {
     gestureManager.addListener(professionLogic.getCraftingGesture());
+    gestureManager.addListener(new BasicGestureListener() {
+      @Override
+      public boolean fling(float velocityX, float velocityY, int button) {
+        return super.fling(velocityX, velocityY, button);
+      }
+    });
     addListener(new DragListener() {
       @Override
       public void dragStart(InputEvent event, float x, float y, int pointer) {
