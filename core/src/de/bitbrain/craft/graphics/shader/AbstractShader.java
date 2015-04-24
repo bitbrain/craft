@@ -11,35 +11,34 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * @since 1.0
  * @version 1.0
  */
-public abstract class AbstractShader<Type extends Shader<Type>> implements
-		Shader<Type> {
+public abstract class AbstractShader<Type extends Shader<Type>> implements Shader<Type> {
 
-	private ShaderProgram program;
+  private ShaderProgram program;
 
-	private ShaderBehavior<Type> behavior;
+  private ShaderBehavior<Type> behavior;
 
-	public AbstractShader(String vert, String frag) {
-		FileHandle vertHandle = Gdx.files.internal(vert);
-		FileHandle fragHandle = Gdx.files.internal(frag);
-		program = new ShaderProgram(vertHandle, fragHandle);
-	}
+  public AbstractShader(String vert, String frag) {
+    FileHandle vertHandle = Gdx.files.internal(vert);
+    FileHandle fragHandle = Gdx.files.internal(frag);
+    program = new ShaderProgram(vertHandle, fragHandle);
+  }
 
-	@Override
-	public ShaderProgram getProgram() {
-		return program;
-	}
+  @Override
+  public ShaderProgram getProgram() {
+    return program;
+  }
 
-	@Override
-	public void setBehavior(ShaderBehavior<Type> behavior) {
-		this.behavior = behavior;
-	}
+  @Override
+  public void setBehavior(ShaderBehavior<Type> behavior) {
+    this.behavior = behavior;
+  }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void update(float delta) {
-		if (behavior != null) {
-			behavior.update(delta, (Type) this);
-		}
-	}
+  @SuppressWarnings("unchecked")
+  @Override
+  public void update(float delta) {
+    if (behavior != null) {
+      behavior.update(delta, (Type) this);
+    }
+  }
 
 }

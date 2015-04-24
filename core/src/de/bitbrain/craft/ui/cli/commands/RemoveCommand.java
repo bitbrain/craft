@@ -11,7 +11,7 @@ import de.bitbrain.craft.ui.cli.CommandHandler;
  */
 public class RemoveCommand extends CommandHandler implements Command {
 
-	public RemoveCommand() {
-		register("item", new RemoveItemCommand());
-	}
+  public RemoveCommand() {
+    register("item", new RemoveItemCommand());
+  }
 }

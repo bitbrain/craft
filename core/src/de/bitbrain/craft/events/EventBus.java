@@ -29,33 +29,37 @@ import de.bitbrain.craft.events.Event.EventType;
  * @version 1.0
  */
 public interface EventBus {
-	
-	/**
-	 * Subscribes a new object to the bus
-	 * 
-	 * @param obj object to subscribe
-	 */
-	public void subscribe(Object obj);
-	
-	/**
-	 * Unsubscribes an existing object from this bus
-	 * 
-	 * @param obj object to unsubscribe
-	 */
-	public void unsubscribe(Object obj);
-	
-	/**
-	 * Fires an event
-	 * 
-	 * @param event
-	 */
-	public <T> void fireEvent(Event<T> event);
-	
-	/**
-	 * Fires a new event
-	 * 
-	 * @param type event type
-	 * @param item element
-	 */
-	public <T> void fireEvent(EventType type, T item);
+
+  /**
+   * Subscribes a new object to the bus
+   * 
+   * @param obj
+   *          object to subscribe
+   */
+  public void subscribe(Object obj);
+
+  /**
+   * Unsubscribes an existing object from this bus
+   * 
+   * @param obj
+   *          object to unsubscribe
+   */
+  public void unsubscribe(Object obj);
+
+  /**
+   * Fires an event
+   * 
+   * @param event
+   */
+  public <T> void fireEvent(Event<T> event);
+
+  /**
+   * Fires a new event
+   * 
+   * @param type
+   *          event type
+   * @param item
+   *          element
+   */
+  public <T> void fireEvent(EventType type, T item);
 }

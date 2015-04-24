@@ -55,144 +55,144 @@ import de.bitbrain.craft.ui.cli.commands.SetCommand;
  */
 @StateScoped
 public class CommandLineInterface extends Table {
-	
-	private static final int BUFFER_SIZE = 50;
 
-	private TextField textField;
-	
-	@Inject
-	private CommandHandler commandHandler;
-	
-	@Inject
-	private API api;
-	
-	@Inject
-	private EventBus eventBus;
-	
-	private boolean initialized;
-	
-	private History history;
-	
-	@PostConstruct
-	public void initView() {
-		history = new History(BUFFER_SIZE);
-		setVisible(false);
-		align(Align.left);
-		setWidth(Sizes.worldWidth() -1);
-		eventBus.subscribe(this);
-		registerCommands();
-	}
+  private static final int BUFFER_SIZE = 50;
 
-	public void focus() {
-		if (getStage() != null) {
-			getStage().setKeyboardFocus(textField);
-		}
-	}
-	
-	@Override
-	public void act(float delta) {
-		if (!initialized) {
-			initialized = initialize();
-		}
-		if (isVisible()) {
-			if (!textField.getText().isEmpty() && Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-				commandHandler.executeString(api, textField.getText());
-				history.add(textField.getText());
-				textField.setText("");
-				textField.setCursorPosition(0);
-			}
-			if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.UP)) {
-				textField.setText(history.back());
-				textField.setCursorPosition(textField.getText().length());
-			}
-			if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.DOWN)) {
-				textField.setText(history.forward());
-				textField.setCursorPosition(textField.getText().length());
-			}
-		}
-		super.act(delta);
-	}
-	
-	private boolean initialize() {
-		if (SharedAssetManager.isLoaded(Assets.TEX_PANEL_TRANSPARENT_9patch) &&
-			SharedAssetManager.isLoaded(Assets.FNT_MONO) &&
-			Styles.TXT_COMMANDLINE != null && 
-			Styles.TXT_COMMANDLINE.font != null) {
-			setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius())));
-			textField = new TextField("", Styles.TXT_COMMANDLINE);
-			textField.setWidth(getWidth());
-			LabelStyle consoleStyle = new LabelStyle();
-			consoleStyle.font = SharedAssetManager.get(Assets.FNT_MONO, BitmapFont.class);
-			consoleStyle.fontColor = Color.GRAY;
-			add(new Label("$ ", consoleStyle));
-			add(textField).width(getWidth());	
-			setY(Sizes.worldHeight() - textField.getHeight());
-			setHeight(textField.getHeight());
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private class History {
-		
-		private int bufferSize;
-		
-		private Stack<String> back, forward;
-		
-		private String last;
-		
-		public History(int bufferSize) {
-			last = "";
-			back = new Stack<String>();
-			forward = new Stack<String>();
-			this.bufferSize = bufferSize;
-		}
-		
-		public boolean isEmpty() {
-			return back.isEmpty() && forward.isEmpty();
-		}
-		
-		public int size() {
-			return back.size() + forward.size();
-		}
-		
-		public void add(String line) {
-			if (size() >= bufferSize) {
-				if (!back.isEmpty()) {
-					back.remove(0);
-				} else if (!forward.isEmpty()){
-					forward.remove(0);
-				}
-			}
-			for (int i = 0; i < forward.size(); ++i) {
-				back.add(forward.pop());
-			}
-			back.add(line);
-			last = line;
-		}
-		
-		public String back() {
-			if (!back.isEmpty()) {
-				last = back.pop();
-				forward.add(last);
-			}
-			return last;
-		}
-		
-		public String forward() {
-			if (!forward.isEmpty()) {
-				last = forward.pop();
-				back.add(last);
-				return last;
-			}
-			return "";
-		}
-	}
-	
-	private void registerCommands() {
-		commandHandler.register("set", new SetCommand());
-		commandHandler.register("add", new AddCommand());
-		commandHandler.register("remove", new RemoveCommand());
-	}
+  private TextField textField;
+
+  @Inject
+  private CommandHandler commandHandler;
+
+  @Inject
+  private API api;
+
+  @Inject
+  private EventBus eventBus;
+
+  private boolean initialized;
+
+  private History history;
+
+  @PostConstruct
+  public void initView() {
+    history = new History(BUFFER_SIZE);
+    setVisible(false);
+    align(Align.left);
+    setWidth(Sizes.worldWidth() - 1);
+    eventBus.subscribe(this);
+    registerCommands();
+  }
+
+  public void focus() {
+    if (getStage() != null) {
+      getStage().setKeyboardFocus(textField);
+    }
+  }
+
+  @Override
+  public void act(float delta) {
+    if (!initialized) {
+      initialized = initialize();
+    }
+    if (isVisible()) {
+      if (!textField.getText().isEmpty() && Gdx.input.isKeyJustPressed(Keys.ENTER)) {
+        commandHandler.executeString(api, textField.getText());
+        history.add(textField.getText());
+        textField.setText("");
+        textField.setCursorPosition(0);
+      }
+      if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.UP)) {
+        textField.setText(history.back());
+        textField.setCursorPosition(textField.getText().length());
+      }
+      if (!history.isEmpty() && Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+        textField.setText(history.forward());
+        textField.setCursorPosition(textField.getText().length());
+      }
+    }
+    super.act(delta);
+  }
+
+  private boolean initialize() {
+    if (SharedAssetManager.isLoaded(Assets.TEX_PANEL_TRANSPARENT_9patch)
+        && SharedAssetManager.isLoaded(Assets.FNT_MONO) && Styles.TXT_COMMANDLINE != null
+        && Styles.TXT_COMMANDLINE.font != null) {
+      setBackground(new NinePatchDrawable(GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch,
+          Sizes.panelTransparentRadius())));
+      textField = new TextField("", Styles.TXT_COMMANDLINE);
+      textField.setWidth(getWidth());
+      LabelStyle consoleStyle = new LabelStyle();
+      consoleStyle.font = SharedAssetManager.get(Assets.FNT_MONO, BitmapFont.class);
+      consoleStyle.fontColor = Color.GRAY;
+      add(new Label("$ ", consoleStyle));
+      add(textField).width(getWidth());
+      setY(Sizes.worldHeight() - textField.getHeight());
+      setHeight(textField.getHeight());
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  private class History {
+
+    private int bufferSize;
+
+    private Stack<String> back, forward;
+
+    private String last;
+
+    public History(int bufferSize) {
+      last = "";
+      back = new Stack<String>();
+      forward = new Stack<String>();
+      this.bufferSize = bufferSize;
+    }
+
+    public boolean isEmpty() {
+      return back.isEmpty() && forward.isEmpty();
+    }
+
+    public int size() {
+      return back.size() + forward.size();
+    }
+
+    public void add(String line) {
+      if (size() >= bufferSize) {
+        if (!back.isEmpty()) {
+          back.remove(0);
+        } else if (!forward.isEmpty()) {
+          forward.remove(0);
+        }
+      }
+      for (int i = 0; i < forward.size(); ++i) {
+        back.add(forward.pop());
+      }
+      back.add(line);
+      last = line;
+    }
+
+    public String back() {
+      if (!back.isEmpty()) {
+        last = back.pop();
+        forward.add(last);
+      }
+      return last;
+    }
+
+    public String forward() {
+      if (!forward.isEmpty()) {
+        last = forward.pop();
+        back.add(last);
+        return last;
+      }
+      return "";
+    }
+  }
+
+  private void registerCommands() {
+    commandHandler.register("set", new SetCommand());
+    commandHandler.register("add", new AddCommand());
+    commandHandler.register("remove", new RemoveCommand());
+  }
 }

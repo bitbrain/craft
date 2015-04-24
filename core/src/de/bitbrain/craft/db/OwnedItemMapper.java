@@ -39,21 +39,21 @@ import de.bitbrain.jpersis.annotations.Update;
 @Mapper("de.bitbrain.craft.models.OwnedItem")
 public interface OwnedItemMapper {
 
-	@Select(condition = "player_id = $1")
-	Collection<OwnedItem> findAllByPlayerId(int playerId);
-	
-	@Select(condition = "item_id = $1 AND player_id = $2")
-	OwnedItem findById(ItemId itemId, int playerId);
-	
-	@Update
-	boolean update(OwnedItem ownedItem);
-	
-	@Insert
-	boolean insert(OwnedItem ownedItem);
-	
-	@Delete
-	boolean delete(OwnedItem ownedItem);
+  @Select(condition = "player_id = $1")
+  Collection<OwnedItem> findAllByPlayerId(int playerId);
 
-	@Delete
-	boolean delete(Collection<OwnedItem> items);
+  @Select(condition = "item_id = $1 AND player_id = $2")
+  OwnedItem findById(ItemId itemId, int playerId);
+
+  @Update
+  boolean update(OwnedItem ownedItem);
+
+  @Insert
+  boolean insert(OwnedItem ownedItem);
+
+  @Delete
+  boolean delete(OwnedItem ownedItem);
+
+  @Delete
+  boolean delete(Collection<OwnedItem> items);
 }

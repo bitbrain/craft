@@ -34,34 +34,40 @@ import de.bitbrain.craft.inject.StateScoped;
 @StateScoped
 public final class MBassadorEventBus implements EventBus {
 
-	@SuppressWarnings("deprecation")
-	private MBassador<Event<?> > bus = new MBassador<Event<?> >(BusConfiguration.SyncAsync());	
-	
-	public MBassadorEventBus() { }
-	
-	@Override
-	public void subscribe(Object obj) {
-		bus.subscribe(obj);
-	}
-	
-	@Override	
-	public void unsubscribe(Object obj) {
-		bus.unsubscribe(obj);
-	}
+  @SuppressWarnings("deprecation")
+  private MBassador<Event<?>> bus = new MBassador<Event<?>>(BusConfiguration.SyncAsync());
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.events.EventBus#fireEvent(de.bitbrain.craft.events.EventMessage.MessageType, java.lang.Object)
-	 */
-	@Override
-	public <T> void fireEvent(EventType type, T item) {
-		fireEvent(new Event<T>(type, item));
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.events.EventBus#fireEvent(de.bitbrain.craft.events.Event)
-	 */
-	@Override
-	public <T> void fireEvent(Event<T> event) {
-		bus.publish(event);
-	}
+  public MBassadorEventBus() {
+  }
+
+  @Override
+  public void subscribe(Object obj) {
+    bus.subscribe(obj);
+  }
+
+  @Override
+  public void unsubscribe(Object obj) {
+    bus.unsubscribe(obj);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.events.EventBus#fireEvent(de.bitbrain.craft.events.EventMessage.MessageType,
+   * java.lang.Object)
+   */
+  @Override
+  public <T> void fireEvent(EventType type, T item) {
+    fireEvent(new Event<T>(type, item));
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.events.EventBus#fireEvent(de.bitbrain.craft.events.Event)
+   */
+  @Override
+  public <T> void fireEvent(Event<T> event) {
+    bus.publish(event);
+  }
 }

@@ -33,14 +33,14 @@ import de.bitbrain.craft.core.APIModule;
  * @version 1.0
  */
 public final class SharedInjector {
-	
-	private static Injector injector;
-	
-	static {
-		injector = Guice.createInjector(Stage.PRODUCTION, new StateModule(), new APIModule());
-	}
 
-	public static Injector get() {
-		return injector;
-	}
+  private static Injector injector;
+
+  static {
+    injector = Guice.createInjector(Stage.PRODUCTION, new StateModule(), new APIModule());
+  }
+
+  public static Injector get() {
+    return injector;
+  }
 }

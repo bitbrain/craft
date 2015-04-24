@@ -39,99 +39,94 @@ import de.bitbrain.craft.animations.SpriteTween;
  * @version 1.0
  */
 public class ScreenFader implements TweenCallback {
-	
-	public static final float DEFAULT_INTERVAL = 0.7f;
-	
-	private FadeCallback callback;
-	
-	private float interval = DEFAULT_INTERVAL;
-	
-	private boolean fadeIn = true;
 
-	private Sprite sprite;
-	
-	private TweenManager tweenManager;
-	
-	private int width, height;
-	
-	public ScreenFader(TweenManager tweenManager) {
-		this.tweenManager = tweenManager;
-	}
-	
-	public void resize(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
+  public static final float DEFAULT_INTERVAL = 0.7f;
 
-	public void setInterval(float seconds) {
-		this.interval = seconds;
-	}
-	
-	public void setCallback(FadeCallback callback) {
-		this.callback = callback;
-	}
+  private FadeCallback callback;
 
-	public void fadeIn() {
-		init();
-		fadeIn = true;
-		tweenManager.killTarget(sprite);
-		sprite.setAlpha(1f);
-		Tween.to(sprite, SpriteTween.ALPHA, interval)
-			 .target(0f)
-			 .setCallbackTriggers(TweenCallback.COMPLETE)
-			 .setCallback(this)
-			 .ease(TweenEquations.easeOutCubic)
-			 .start(tweenManager);
-		if (callback != null) {
-			callback.beforeFadeIn();
-		}
-	}
-	
-	public void fadeOut() {
-		init();
-		fadeIn = false;
-		tweenManager.killTarget(sprite);
-		Tween.to(sprite, SpriteTween.ALPHA, interval)
-		 .target(1f)
-		 .setCallbackTriggers(TweenCallback.COMPLETE)
-		 .setCallback(this)
-		 .ease(TweenEquations.easeOutCubic)
-		 .start(tweenManager);
-		if (callback != null) {
-			callback.beforeFadeOut();
-		}
-	}
-	
-	public void render(Batch batch) {
-		if (sprite != null) {
-			sprite.setBounds(0, 0, width, height);
-			batch.begin();
-			sprite.draw(batch);
-			batch.end();
-		}
-	}
+  private float interval = DEFAULT_INTERVAL;
 
-	@Override
-	public void onEvent(int type, BaseTween<?> source) {
-		if (callback != null) {
-			if (fadeIn) {
-				callback.afterFadeIn();
-			} else {
-				callback.afterFadeOut();
-			}
-		}
-	}
-	
-	private void init() {
-		if (sprite == null) {
-			sprite = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
-		}
-	}
-	
-	public static interface FadeCallback {
-		void beforeFadeIn();		
-		void beforeFadeOut();
-		void afterFadeIn();		
-		void afterFadeOut();
-	}
+  private boolean fadeIn = true;
+
+  private Sprite sprite;
+
+  private TweenManager tweenManager;
+
+  private int width, height;
+
+  public ScreenFader(TweenManager tweenManager) {
+    this.tweenManager = tweenManager;
+  }
+
+  public void resize(int width, int height) {
+    this.width = width;
+    this.height = height;
+  }
+
+  public void setInterval(float seconds) {
+    this.interval = seconds;
+  }
+
+  public void setCallback(FadeCallback callback) {
+    this.callback = callback;
+  }
+
+  public void fadeIn() {
+    init();
+    fadeIn = true;
+    tweenManager.killTarget(sprite);
+    sprite.setAlpha(1f);
+    Tween.to(sprite, SpriteTween.ALPHA, interval).target(0f).setCallbackTriggers(TweenCallback.COMPLETE)
+        .setCallback(this).ease(TweenEquations.easeOutCubic).start(tweenManager);
+    if (callback != null) {
+      callback.beforeFadeIn();
+    }
+  }
+
+  public void fadeOut() {
+    init();
+    fadeIn = false;
+    tweenManager.killTarget(sprite);
+    Tween.to(sprite, SpriteTween.ALPHA, interval).target(1f).setCallbackTriggers(TweenCallback.COMPLETE)
+        .setCallback(this).ease(TweenEquations.easeOutCubic).start(tweenManager);
+    if (callback != null) {
+      callback.beforeFadeOut();
+    }
+  }
+
+  public void render(Batch batch) {
+    if (sprite != null) {
+      sprite.setBounds(0, 0, width, height);
+      batch.begin();
+      sprite.draw(batch);
+      batch.end();
+    }
+  }
+
+  @Override
+  public void onEvent(int type, BaseTween<?> source) {
+    if (callback != null) {
+      if (fadeIn) {
+        callback.afterFadeIn();
+      } else {
+        callback.afterFadeOut();
+      }
+    }
+  }
+
+  private void init() {
+    if (sprite == null) {
+      sprite = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
+    }
+  }
+
+  public static interface FadeCallback {
+    void beforeFadeIn();
+
+    void beforeFadeOut();
+
+    void afterFadeIn();
+
+    void afterFadeOut();
+  }
 }

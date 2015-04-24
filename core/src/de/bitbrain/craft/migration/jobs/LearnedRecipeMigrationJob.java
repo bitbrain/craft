@@ -34,15 +34,15 @@ import de.bitbrain.craft.migration.Migrations;
  */
 public class LearnedRecipeMigrationJob {
 
-	@Migrate(Migrations.RELEASE)
-	public void migrateLearnedRecipes(API api) {
-		learn(api, ItemId.ACID_1);
-	}
-	
-	private void learn(API api, ItemId id) {
-		if (!api.learnRecipe(id)) {
-			Gdx.app.error("ERROR", "Can not learn recipe: " + id);
-		}
-	}
+  @Migrate(Migrations.RELEASE)
+  public void migrateLearnedRecipes(API api) {
+    learn(api, ItemId.ACID_1);
+  }
+
+  private void learn(API api, ItemId id) {
+    if (!api.learnRecipe(id)) {
+      Gdx.app.error("ERROR", "Can not learn recipe: " + id);
+    }
+  }
 
 }

@@ -31,27 +31,27 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class ItemSound {
 
-	@PrimaryKey(true)
-	private int id;
+  @PrimaryKey(true)
+  private int id;
 
-	private ItemId itemId;
+  private ItemId itemId;
 
-	private int soundConfigId;
+  private int soundConfigId;
 
-	public ItemId getItemId() {
-		return itemId;
-	}
+  public ItemId getItemId() {
+    return itemId;
+  }
 
-	public void setItemId(ItemId itemId) {
-		this.itemId = itemId;
-	}
+  public void setItemId(ItemId itemId) {
+    this.itemId = itemId;
+  }
 
-	public int getSoundConfigId() {
-		return soundConfigId;
-	}
+  public int getSoundConfigId() {
+    return soundConfigId;
+  }
 
-	public void setSoundConfigId(int soundConfigId) {
-		this.soundConfigId = soundConfigId;
-	}
+  public void setSoundConfigId(int soundConfigId) {
+    this.soundConfigId = soundConfigId;
+  }
 
 }

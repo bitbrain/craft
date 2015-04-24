@@ -11,21 +11,21 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  */
 public interface Shader<Type extends Shader<Type>> {
 
-	/**
-	 * 
-	 * @return
-	 */
-	ShaderProgram getProgram();
+  /**
+   * 
+   * @return
+   */
+  ShaderProgram getProgram();
 
-	/**
-	 * 
-	 * @param delta
-	 */
-	void update(float delta);
+  /**
+   * 
+   * @param delta
+   */
+  void update(float delta);
 
-	/**
-	 * 
-	 * @param behavior
-	 */
-	void setBehavior(ShaderBehavior<Type> behavior);
+  /**
+   * 
+   * @param behavior
+   */
+  void setBehavior(ShaderBehavior<Type> behavior);
 }

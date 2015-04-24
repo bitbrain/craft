@@ -11,7 +11,7 @@ import de.bitbrain.craft.ui.cli.CommandHandler;
  */
 public class SetCommand extends CommandHandler implements Command {
 
-	public SetCommand() {
-		register("xp", new SetXpCommand());
-	}
+  public SetCommand() {
+    register("xp", new SetXpCommand());
+  }
 }

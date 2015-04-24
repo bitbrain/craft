@@ -30,12 +30,14 @@ import com.google.inject.AbstractModule;
  */
 public class APIModule extends AbstractModule {
 
-	/* (non-Javadoc)
-	 * @see com.google.inject.AbstractModule#configure()
-	 */
-	@Override
-	protected void configure() {
-		bind(API.class).to(SimpleAPI.class).asEagerSingleton();
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.inject.AbstractModule#configure()
+   */
+  @Override
+  protected void configure() {
+    bind(API.class).to(SimpleAPI.class).asEagerSingleton();
+  }
 
 }

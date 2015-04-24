@@ -34,112 +34,116 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  * @version 1.0
  */
 public class Item {
-	
-	/** if the item's amount is set to the following value, it is stated as infinite */
-	public static final int INFINITE_AMOUNT = -1;
 
-	@PrimaryKey
-	private ItemId id;
+  /** if the item's amount is set to the following value, it is stated as infinite */
+  public static final int INFINITE_AMOUNT = -1;
 
-	private Icon icon;
+  @PrimaryKey
+  private ItemId id;
 
-	private Rarity rarity = Rarity.COMMON;
+  private Icon icon;
 
-	private int level = 1;
+  private Rarity rarity = Rarity.COMMON;
 
-	private Class<? extends Effect> effect = Effect.class;
+  private int level = 1;
 
-	public Item() {
+  private Class<? extends Effect> effect = Effect.class;
 
-	}
+  public Item() {
 
-	public Item(ItemId id, Icon icon, Rarity rarity) {
-		this.id = id;
-		this.icon = icon;
-		this.rarity = rarity;
-	}
+  }
 
-	public Icon getIcon() {
-		return icon;
-	}
+  public Item(ItemId id, Icon icon, Rarity rarity) {
+    this.id = id;
+    this.icon = icon;
+    this.rarity = rarity;
+  }
 
-	public ItemId getId() {
-		return id;
-	}
+  public Icon getIcon() {
+    return icon;
+  }
 
-	public Rarity getRarity() {
-		return rarity;
-	}
+  public ItemId getId() {
+    return id;
+  }
 
-	public void setIcon(Icon icon) {
-		this.icon = icon;
-	}
+  public Rarity getRarity() {
+    return rarity;
+  }
 
-	public void setId(ItemId id) {
-		this.id = id;
-	}
+  public void setIcon(Icon icon) {
+    this.icon = icon;
+  }
 
-	public void setRarity(Rarity rarity) {
-		this.rarity = rarity;
-	}
+  public void setId(ItemId id) {
+    this.id = id;
+  }
 
-	public void setEffect(Class<? extends Effect> effect) {
-		this.effect = effect;
-	}
+  public void setRarity(Rarity rarity) {
+    this.rarity = rarity;
+  }
 
-	public Class<? extends Effect> getEffect() {
-		return effect;
-	}
+  public void setEffect(Class<? extends Effect> effect) {
+    this.effect = effect;
+  }
 
-	public int getLevel() {
-		return level;
-	}
+  public Class<? extends Effect> getEffect() {
+    return effect;
+  }
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
+  public int getLevel() {
+    return level;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+  public void setLevel(int level) {
+    this.level = level;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Item other = (Item) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    return result;
+  }
 
-	public static enum Rarity {
-		COMMON("dddddd", 1), RARE("00ff00", 2), SUPERIOR("0043b1", 3), EPIC(
-				"8500b0", 4), UNIQUE("ff6600", 5), LEGENDARY("ff00d2", 6);
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Item other = (Item) obj;
+    if (id != other.id)
+      return false;
+    return true;
+  }
 
-		private Color color;
+  public static enum Rarity {
+    COMMON("dddddd", 1),
+    RARE("00ff00", 2),
+    SUPERIOR("0043b1", 3),
+    EPIC("8500b0", 4),
+    UNIQUE("ff6600", 5),
+    LEGENDARY("ff00d2", 6);
 
-		private int level;
+    private Color color;
 
-		Rarity(String color, int level) {
-			this.color = Color.valueOf(color);
-			this.level = level;
-		}
+    private int level;
 
-		public int getLevel() {
-			return level;
-		}
+    Rarity(String color, int level) {
+      this.color = Color.valueOf(color);
+      this.level = level;
+    }
 
-		public Color getColor() {
-			return color;
-		}
-	}
+    public int getLevel() {
+      return level;
+    }
+
+    public Color getColor() {
+      return color;
+    }
+  }
 }

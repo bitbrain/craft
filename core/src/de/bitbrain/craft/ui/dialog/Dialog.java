@@ -46,109 +46,103 @@ import de.bitbrain.craft.util.Pair;
  * @version 1.0
  */
 public class Dialog extends Table {
-	
-	private static final float PADDING = 30f;
 
-	@Inject
-	private Overlay overlay;
+  private static final float PADDING = 30f;
 
-	private Table buttonLayout;
-	
-	private NinePatch background;
-	
-	private Table window;
-	
-	private Cell<?> contentCell;
-	
-	private boolean visible;
+  @Inject
+  private Overlay overlay;
 
-	Dialog(Pair<String, ClickListener> submit,
-			Pair<String, ClickListener> abort, Actor content) {
-		SharedInjector.get().injectMembers(this);
-		window = new Table();
-		add(window);
-		if (content != null) {
-			contentCell = window.add(content)
-					            .fill()
-					            .align(Align.center)
-					            .pad(PADDING);
-		}
-		if (submit != null || abort != null) {
-			buttonLayout = new Table();
-			window.row().row().padTop(PADDING);
-			window.add(buttonLayout);
-		}
-		if (abort != null) {
-			initAbort(abort);
-		}
-		if (submit != null) {
-			Cell<?> c = initSubmit(submit);
-			if (abort != null) {
-				c.padLeft(PADDING);
-			}
-		}
-		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BLACK_9patch, Sizes.panelTransparentRadius());
-	}
-	
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		if (contentCell != null) {
-			background.getColor().a = parentAlpha;
-			background.draw(batch, 
-				window.getX() + contentCell.getActorX() - contentCell.getPadLeft(), 
-				window.getY() + contentCell.getActorY() - contentCell.getPadTop(), 
-				contentCell.getActorWidth() + contentCell.getPadRight() * 2, 
-				contentCell.getActorHeight() + contentCell.getPadBottom() * 2);		
-		}
-		super.draw(batch, parentAlpha);
-	}
-	
-	@Override
-	public void invalidate() {
-		setWidth(Sizes.worldWidth());
-		setHeight(Sizes.worldHeight());
-		window.setWidth(Sizes.worldWidth() / 2f);
-		super.invalidate();
-	}
-	
-	public boolean isVisible() {
-		return visible;
-	}
+  private Table buttonLayout;
 
-	public void show() {
-		if (!isVisible()) {
-			overlay.show(this);
-			visible = true;
-		}
-	}
+  private NinePatch background;
 
-	public void hide() {
-		if (isVisible()) {
-			overlay.hide();
-			visible = false;
-		}
-	}
+  private Table window;
 
-	private Cell<TextButton> initSubmit(Pair<String, ClickListener> submit) {
-		TextButton button = UIFactory.createPrimaryButton(submit.getFirst());
-		if (submit.getSecond() != null) {
-			button.addCaptureListener(submit.getSecond());
-		}
-		return buttonLayout.add(button);
-	}
+  private Cell<?> contentCell;
 
-	private Cell<TextButton> initAbort(Pair<String, ClickListener> abort) {
-		TextButton button = UIFactory.createAbortButton(abort.getFirst());
-		if (abort.getSecond() != null) {
-			button.addCaptureListener(abort.getSecond());
-		}
-		button.addCaptureListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				Dialog.this.hide();
-			}
-		});
-		return buttonLayout.add(button);
-	}
+  private boolean visible;
+
+  Dialog(Pair<String, ClickListener> submit, Pair<String, ClickListener> abort, Actor content) {
+    SharedInjector.get().injectMembers(this);
+    window = new Table();
+    add(window);
+    if (content != null) {
+      contentCell = window.add(content).fill().align(Align.center).pad(PADDING);
+    }
+    if (submit != null || abort != null) {
+      buttonLayout = new Table();
+      window.row().row().padTop(PADDING);
+      window.add(buttonLayout);
+    }
+    if (abort != null) {
+      initAbort(abort);
+    }
+    if (submit != null) {
+      Cell<?> c = initSubmit(submit);
+      if (abort != null) {
+        c.padLeft(PADDING);
+      }
+    }
+    background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BLACK_9patch, Sizes.panelTransparentRadius());
+  }
+
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
+    if (contentCell != null) {
+      background.getColor().a = parentAlpha;
+      background.draw(batch, window.getX() + contentCell.getActorX() - contentCell.getPadLeft(), window.getY()
+          + contentCell.getActorY() - contentCell.getPadTop(), contentCell.getActorWidth() + contentCell.getPadRight()
+          * 2, contentCell.getActorHeight() + contentCell.getPadBottom() * 2);
+    }
+    super.draw(batch, parentAlpha);
+  }
+
+  @Override
+  public void invalidate() {
+    setWidth(Sizes.worldWidth());
+    setHeight(Sizes.worldHeight());
+    window.setWidth(Sizes.worldWidth() / 2f);
+    super.invalidate();
+  }
+
+  public boolean isVisible() {
+    return visible;
+  }
+
+  public void show() {
+    if (!isVisible()) {
+      overlay.show(this);
+      visible = true;
+    }
+  }
+
+  public void hide() {
+    if (isVisible()) {
+      overlay.hide();
+      visible = false;
+    }
+  }
+
+  private Cell<TextButton> initSubmit(Pair<String, ClickListener> submit) {
+    TextButton button = UIFactory.createPrimaryButton(submit.getFirst());
+    if (submit.getSecond() != null) {
+      button.addCaptureListener(submit.getSecond());
+    }
+    return buttonLayout.add(button);
+  }
+
+  private Cell<TextButton> initAbort(Pair<String, ClickListener> abort) {
+    TextButton button = UIFactory.createAbortButton(abort.getFirst());
+    if (abort.getSecond() != null) {
+      button.addCaptureListener(abort.getSecond());
+    }
+    button.addCaptureListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        super.clicked(event, x, y);
+        Dialog.this.hide();
+      }
+    });
+    return buttonLayout.add(button);
+  }
 }

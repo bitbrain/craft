@@ -29,26 +29,26 @@ import de.bitbrain.craft.inject.StateScoped;
 @StateScoped
 public class Overlay {
 
-	private UIRenderer renderer;
-	
-	public void setRenderer(UIRenderer renderer) {
-		this.renderer = renderer;
-	}
-	
-	public void show(Actor ... actors) {
-		if (renderer != null) {
-			Stage stage = renderer.getOverlay();
-			stage.clear();
-			for (Actor actor : actors) {
-				stage.addActor(actor);
-			}
-			renderer.setMode(UIMode.OVERLAY);
-		}
-	}
-	
-	public void hide() {
-		if (renderer != null) {
-			renderer.setMode(UIMode.NORMAL);
-		}
-	}
+  private UIRenderer renderer;
+
+  public void setRenderer(UIRenderer renderer) {
+    this.renderer = renderer;
+  }
+
+  public void show(Actor... actors) {
+    if (renderer != null) {
+      Stage stage = renderer.getOverlay();
+      stage.clear();
+      for (Actor actor : actors) {
+        stage.addActor(actor);
+      }
+      renderer.setMode(UIMode.OVERLAY);
+    }
+  }
+
+  public void hide() {
+    if (renderer != null) {
+      renderer.setMode(UIMode.NORMAL);
+    }
+  }
 }

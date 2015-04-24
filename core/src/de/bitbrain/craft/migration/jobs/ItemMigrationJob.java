@@ -34,13 +34,13 @@ import de.bitbrain.craft.models.Item.Rarity;
  */
 public class ItemMigrationJob {
 
-	@Migrate(Migrations.RELEASE)
-	public void migrateItemsRelease(API api) {
-		api.registerItem(ItemId.EARTH, Icon.EARTH, Rarity.COMMON, 0);
-		api.registerItem(ItemId.WATER, Icon.WATER, Rarity.COMMON, 0);
-		api.registerItem(ItemId.AIR, Icon.AIR, Rarity.COMMON, 0);
-		api.registerItem(ItemId.FIRE, Icon.FIRE, Rarity.COMMON, 0);
-		api.registerItem(ItemId.ACID_1, Icon.ACID_1, Rarity.COMMON, 1);
-	}
+  @Migrate(Migrations.RELEASE)
+  public void migrateItemsRelease(API api) {
+    api.registerItem(ItemId.EARTH, Icon.EARTH, Rarity.COMMON, 0);
+    api.registerItem(ItemId.WATER, Icon.WATER, Rarity.COMMON, 0);
+    api.registerItem(ItemId.AIR, Icon.AIR, Rarity.COMMON, 0);
+    api.registerItem(ItemId.FIRE, Icon.FIRE, Rarity.COMMON, 0);
+    api.registerItem(ItemId.ACID_1, Icon.ACID_1, Rarity.COMMON, 1);
+  }
 
 }

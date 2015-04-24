@@ -11,8 +11,8 @@ import de.bitbrain.craft.ui.cli.CommandHandler;
  */
 public class AddCommand extends CommandHandler implements Command {
 
-	public AddCommand() {
-		register("item", new AddItemCommand());
-		register("xp", new AddXpCommand());
-	}
+  public AddCommand() {
+    register("item", new AddItemCommand());
+    register("xp", new AddXpCommand());
+  }
 }

@@ -36,46 +36,47 @@ import com.google.inject.TypeLiteral;
  */
 public class StateScope implements Scope {
 
-	private Class<?> state;
+  private Class<?> state;
 
-	private final ThreadLocal<Map<Class<?>, Map<TypeLiteral<?>, Object>> > values = new ThreadLocal<Map<Class<?>, Map<TypeLiteral<?>, Object>>>();
+  private final ThreadLocal<Map<Class<?>, Map<TypeLiteral<?>, Object>>> values =
+      new ThreadLocal<Map<Class<?>, Map<TypeLiteral<?>, Object>>>();
 
-	public void enter(Class<?> state) {
-		this.state = state;
-	}
+  public void enter(Class<?> state) {
+    this.state = state;
+  }
 
-	public void leave() {
-		values.remove();
-	}
+  public void leave() {
+    values.remove();
+  }
 
-	public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
-		return new Provider<T>() {
-			@SuppressWarnings("unchecked")
-			public T get() {				
-				if (state == null) {
-					return unscoped.get();
-				}				
-				Map<Class<?>, Map<TypeLiteral<?>, Object>> map = getScopedObjectMap();				
-				Map<TypeLiteral<?>, Object> objects = map.get(state);
+  public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
+    return new Provider<T>() {
+      @SuppressWarnings("unchecked")
+      public T get() {
+        if (state == null) {
+          return unscoped.get();
+        }
+        Map<Class<?>, Map<TypeLiteral<?>, Object>> map = getScopedObjectMap();
+        Map<TypeLiteral<?>, Object> objects = map.get(state);
 
-				if (objects == null) {
-					objects = new HashMap<TypeLiteral<?>, Object>();					
-					map.put(state, objects);
-				}				
-				if (!objects.containsKey(key.getTypeLiteral())) {
-					objects.put(key.getTypeLiteral(), unscoped.get());
-				}				
-				return (T) objects.get(key.getTypeLiteral());
-			}
-		};
-	}
+        if (objects == null) {
+          objects = new HashMap<TypeLiteral<?>, Object>();
+          map.put(state, objects);
+        }
+        if (!objects.containsKey(key.getTypeLiteral())) {
+          objects.put(key.getTypeLiteral(), unscoped.get());
+        }
+        return (T) objects.get(key.getTypeLiteral());
+      }
+    };
+  }
 
-	private <T> Map<Class<?>, Map<TypeLiteral<?>, Object>> getScopedObjectMap() {
-		Map<Class<?>, Map<TypeLiteral<?>, Object>> scopedObjects = values.get();
-		if (scopedObjects == null) {
-			scopedObjects = new HashMap<Class<?>, Map<TypeLiteral<?>, Object>>();
-			values.set(scopedObjects);
-		}
-		return scopedObjects;
-	}
+  private <T> Map<Class<?>, Map<TypeLiteral<?>, Object>> getScopedObjectMap() {
+    Map<Class<?>, Map<TypeLiteral<?>, Object>> scopedObjects = values.get();
+    if (scopedObjects == null) {
+      scopedObjects = new HashMap<Class<?>, Map<TypeLiteral<?>, Object>>();
+      values.set(scopedObjects);
+    }
+    return scopedObjects;
+  }
 }

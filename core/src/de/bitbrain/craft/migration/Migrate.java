@@ -32,7 +32,8 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @version 1.0
  */
-@Target({ METHOD }) @Retention(RUNTIME)
+@Target({ METHOD })
+@Retention(RUNTIME)
 public @interface Migrate {
-	String value();
+  String value();
 }

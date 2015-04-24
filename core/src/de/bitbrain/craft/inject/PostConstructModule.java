@@ -30,47 +30,47 @@ import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 
 public enum PostConstructModule implements Module, TypeListener {
-	 
-    INSTANCE;
- 
-    /**
-     * {@inheritDoc}
-     *
-     * @see com.google.inject.Module#configure(com.google.inject.Binder)
-     */
-    @Override
-    public void configure(final Binder binder) {
-        binder.bindListener(Matchers.any(), this);
-    }
- 
-    /**
-     * Ruft nach der Injection die Postconstruct Methode(n) auf, wenn sie existieren.
-     *
-     * <p>
-     * {@inheritDoc}
-     *
-     * @see com.google.inject.spi.TypeListener#hear(com.google.inject.TypeLiteral, com.google.inject.spi.TypeEncounter)
-     */
-    @Override
-    public <I> void hear(final TypeLiteral<I> type, final TypeEncounter<I> encounter) {
-        encounter.register(new InjectionListener<I>() {
- 
-            @Override
-            public void afterInjection(final I injectee) {
-                for (final Method postConstructMethod : injectee.getClass().getMethods()) {
-                	boolean accessable = postConstructMethod.isAccessible();
-                    try {
-                    	postConstructMethod.setAccessible(true);
-                    	if (postConstructMethod.getAnnotation(PostConstruct.class) != null) {
-                    		postConstructMethod.invoke(injectee);
-                    	}
-                    } catch (final Exception e) {
-                        throw new RuntimeException(e);
-                    } finally {
-                    	postConstructMethod.setAccessible(accessable);
-                    }
-                }
+
+  INSTANCE;
+
+  /**
+   * {@inheritDoc}
+   *
+   * @see com.google.inject.Module#configure(com.google.inject.Binder)
+   */
+  @Override
+  public void configure(final Binder binder) {
+    binder.bindListener(Matchers.any(), this);
+  }
+
+  /**
+   * Ruft nach der Injection die Postconstruct Methode(n) auf, wenn sie existieren.
+   *
+   * <p>
+   * {@inheritDoc}
+   *
+   * @see com.google.inject.spi.TypeListener#hear(com.google.inject.TypeLiteral, com.google.inject.spi.TypeEncounter)
+   */
+  @Override
+  public <I> void hear(final TypeLiteral<I> type, final TypeEncounter<I> encounter) {
+    encounter.register(new InjectionListener<I>() {
+
+      @Override
+      public void afterInjection(final I injectee) {
+        for (final Method postConstructMethod : injectee.getClass().getMethods()) {
+          boolean accessable = postConstructMethod.isAccessible();
+          try {
+            postConstructMethod.setAccessible(true);
+            if (postConstructMethod.getAnnotation(PostConstruct.class) != null) {
+              postConstructMethod.invoke(injectee);
             }
-        });
-    } 
+          } catch (final Exception e) {
+            throw new RuntimeException(e);
+          } finally {
+            postConstructMethod.setAccessible(accessable);
+          }
+        }
+      }
+    });
+  }
 }

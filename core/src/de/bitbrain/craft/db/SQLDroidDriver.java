@@ -36,34 +36,34 @@ import de.bitbrain.jpersis.util.Naming;
  * @version 1.0
  */
 public class SQLDroidDriver extends JDBCDriver {
-	  
-	  private String file;
 
-	  public SQLDroidDriver(String file) {
-	    super("", "", "", "", "");
-	    this.file = file;
-	  }
+  private String file;
 
-	  @Override
-	  protected String getURL(String host, String port, String database) {
-	    return null;
-	  }
-	  
-	  @Override
-	protected Query createQuery(Class<?> model, Naming naming) {
-		return new SQLiteQuery(model, naming, statement);
-	}
+  public SQLDroidDriver(String file) {
+    super("", "", "", "", "");
+    this.file = file;
+  }
 
-	  @Override
-	  public void connect() {
-	    try {
-	      Class.forName("org.sqldroid.SQLDroidDriver");
-	      connection = DriverManager.getConnection("jdbc:sqldroid:" + file);
-	      statement = connection.createStatement();
-	    } catch (ClassNotFoundException e) {
-	      throw new JPersisException(e);
-	    } catch (SQLException e) {
-	      throw new JPersisException(e);
-	    }
-	  }
-	}
+  @Override
+  protected String getURL(String host, String port, String database) {
+    return null;
+  }
+
+  @Override
+  protected Query createQuery(Class<?> model, Naming naming) {
+    return new SQLiteQuery(model, naming, statement);
+  }
+
+  @Override
+  public void connect() {
+    try {
+      Class.forName("org.sqldroid.SQLDroidDriver");
+      connection = DriverManager.getConnection("jdbc:sqldroid:" + file);
+      statement = connection.createStatement();
+    } catch (ClassNotFoundException e) {
+      throw new JPersisException(e);
+    } catch (SQLException e) {
+      throw new JPersisException(e);
+    }
+  }
+}

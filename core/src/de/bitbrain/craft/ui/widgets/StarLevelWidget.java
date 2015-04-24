@@ -42,57 +42,55 @@ import de.bitbrain.craft.ui.UIFactory;
  */
 public class StarLevelWidget extends Table {
 
-	private static final int STAR_SIZE = 16;
+  private static final int STAR_SIZE = 16;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private TweenManager tweenManager;
 
-	private int level, max;
+  private int level, max;
 
-	public StarLevelWidget(int level, int max) {
-		SharedInjector.get().injectMembers(this);
-		setMaximum(max);
-		setLevel(level);
-	}
+  public StarLevelWidget(int level, int max) {
+    SharedInjector.get().injectMembers(this);
+    setMaximum(max);
+    setLevel(level);
+  }
 
-	public void setLevel(int level) {
-		if (level > 0 && level <= max) {
-			this.level = level;
-			updateStars();
-		}
-	}
+  public void setLevel(int level) {
+    if (level > 0 && level <= max) {
+      this.level = level;
+      updateStars();
+    }
+  }
 
-	public void setMaximum(int max) {
-		if (max > 0) {
-			if (this.level > max) {
-				setLevel(max);
-			}
-			this.max = max;
-			updateStars();
-		}
-	}
+  public void setMaximum(int max) {
+    if (max > 0) {
+      if (this.level > max) {
+        setLevel(max);
+      }
+      this.max = max;
+      updateStars();
+    }
+  }
 
-	private void updateStars() {
-		clearChildren();
-		for (int i = 0; i < max; ++i) {
-			Image star = generateStar(i, i < level);
-			add(star).padRight(7f).padTop(22f);
-		}
-	}
+  private void updateStars() {
+    clearChildren();
+    for (int i = 0; i < max; ++i) {
+      Image star = generateStar(i, i < level);
+      add(star).padRight(7f).padTop(22f);
+    }
+  }
 
-	private Image generateStar(int index, boolean active) {
-		Color color = Assets.CLR_YELLOW_SAND.cpy();
-		if (!active) {
-			color = new Color(0f, 0f, 0f, 0.35f);
-		}
-		Image star = UIFactory.createImage(Assets.TEX_STAR, STAR_SIZE,
-				STAR_SIZE, color);
-		if (active) {
-			star.getColor().a = 0f;
-			Tween.to(star, ActorTween.ALPHA, 0.4f).target(1f)
-					.ease(TweenEquations.easeInQuad).delay((index + 1) * 0.1f)
-					.start(tweenManager);
-		}
-		return star;
-	}
+  private Image generateStar(int index, boolean active) {
+    Color color = Assets.CLR_YELLOW_SAND.cpy();
+    if (!active) {
+      color = new Color(0f, 0f, 0f, 0.35f);
+    }
+    Image star = UIFactory.createImage(Assets.TEX_STAR, STAR_SIZE, STAR_SIZE, color);
+    if (active) {
+      star.getColor().a = 0f;
+      Tween.to(star, ActorTween.ALPHA, 0.4f).target(1f).ease(TweenEquations.easeInQuad).delay((index + 1) * 0.1f)
+          .start(tweenManager);
+    }
+    return star;
+  }
 }

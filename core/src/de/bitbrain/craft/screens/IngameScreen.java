@@ -60,142 +60,131 @@ import de.bitbrain.craft.ui.widgets.TabWidget;
  */
 public class IngameScreen extends AbstractScreen {
 
-	@Inject
-	private DragDropHandler dragDropHandler;
+  @Inject
+  private DragDropHandler dragDropHandler;
 
-	@Inject
-	private IconManager iconManager;
+  @Inject
+  private IconManager iconManager;
 
-	@Inject
-	private TabWidget tabView;
+  @Inject
+  private TabWidget tabView;
 
-	@Inject
-	private RecipeWidget recipeView;
-	
-	@Inject
-	private ItemBagThumblist itemBagThumblistView;
+  @Inject
+  private RecipeWidget recipeView;
 
-	private PlayerWidget playerWidget;
+  @Inject
+  private ItemBagThumblist itemBagThumblistView;
 
-	private ItemList itemList;
+  private PlayerWidget playerWidget;
 
-	private CraftingWidget craftingWidget;
+  private ItemList itemList;
 
-	@PostConstruct
-	public void init() {
-		craftingWidget = new CraftingWidget(
-				ProfessionLogicFactory.create(Profession.current));
-		playerWidget = new PlayerWidget(Profession.current);
-	}
+  private CraftingWidget craftingWidget;
 
-	@Override
-	protected void onCreateStage(Stage stage) {
-		Container<TabWidget> container = new Container<TabWidget>(tabView);
-		stage.addActor(container);
-		stage.addActor(tabView);
-		stage.addActor(craftingWidget);
-		stage.addActor(playerWidget);
-		stage.addActor(itemBagThumblistView);
-		tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
-		tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
-		tabView.setTab(Tabs.ITEMS);
-		tabView.hideTab(Tabs.CRAFTING);
-	}
+  @PostConstruct
+  public void init() {
+    craftingWidget = new CraftingWidget(ProfessionLogicFactory.create(Profession.current));
+    playerWidget = new PlayerWidget(Profession.current);
+  }
 
-	@Override
-	public void resize(int width, int height) {
-		final float paddingFactor = 1.1f;
-		super.resize(width, height);
-		tabView.setWidth(Sizes.worldWidth() / 2f);
-		tabView.setHeight(Sizes.worldHeight() / paddingFactor);
-		tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
-		tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
-		craftingWidget
-				.setWidth(Sizes.worldWidth() - tabView.getWidth() * 1.35f);
-		craftingWidget.setHeight(craftingWidget.getWidth() / 2f);
-		craftingWidget.setX(tabView.getX() + tabView.getWidth()
-				+ craftingWidget.getWidth() / 3.4f);
-		craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight()
-				- Sizes.worldHeight() / 4f);
-		craftingWidget.animate();
-		playerWidget.setWidth(450f);
-		playerWidget.setHeight(90f);
-		playerWidget.setX(Sizes.worldWidth() - playerWidget.getWidth()
-				- Sizes.borderPadding() * 2);
-		playerWidget
-				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
-		itemBagThumblistView.setX(Sizes.worldWidth() - playerWidget.getWidth()
-				- Sizes.borderPadding() * 2);
-		itemBagThumblistView
-				.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
-		itemBagThumblistView.setWidth(450f);
-		itemBagThumblistView.setHeight(200f);
-		
-		
-	}
+  @Override
+  protected void onCreateStage(Stage stage) {
+    Container<TabWidget> container = new Container<TabWidget>(tabView);
+    stage.addActor(container);
+    stage.addActor(tabView);
+    stage.addActor(craftingWidget);
+    stage.addActor(playerWidget);
+    stage.addActor(itemBagThumblistView);
+    tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
+    tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
+    tabView.setTab(Tabs.ITEMS);
+    tabView.hideTab(Tabs.CRAFTING);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.bitbrain.craft.screens.AbstractScreen#dispose()
-	 */
-	@Override
-	public void dispose() {
-		super.dispose();
-		iconManager.dispose();
-		itemList.dispose();
-		dragDropHandler.clear();
-	}
+  @Override
+  public void resize(int width, int height) {
+    final float paddingFactor = 1.1f;
+    super.resize(width, height);
+    tabView.setWidth(Sizes.worldWidth() / 2f);
+    tabView.setHeight(Sizes.worldHeight() / paddingFactor);
+    tabView.setX((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+    tabView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+    craftingWidget.setWidth(Sizes.worldWidth() - tabView.getWidth() * 1.35f);
+    craftingWidget.setHeight(craftingWidget.getWidth() / 2f);
+    craftingWidget.setX(tabView.getX() + tabView.getWidth() + craftingWidget.getWidth() / 3.4f);
+    craftingWidget.setY(Sizes.worldHeight() - craftingWidget.getHeight() - Sizes.worldHeight() / 4f);
+    craftingWidget.animate();
+    playerWidget.setWidth(450f);
+    playerWidget.setHeight(90f);
+    playerWidget.setX(Sizes.worldWidth() - playerWidget.getWidth() - Sizes.borderPadding() * 2);
+    playerWidget.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+    itemBagThumblistView.setX(Sizes.worldWidth() - playerWidget.getWidth() - Sizes.borderPadding() * 2);
+    itemBagThumblistView.setY((Sizes.worldHeight() - (Sizes.worldHeight() / paddingFactor)) / 2f);
+    itemBagThumblistView.setWidth(450f);
+    itemBagThumblistView.setHeight(200f);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.bitbrain.craft.screens.AbstractScreen#onUpdate(float)
-	 */
-	@Override
-	protected void onUpdate(float delta) {
-		iconManager.update();
-	}
+  }
 
-	@Override
-	protected void onShow() {
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.screens.AbstractScreen#dispose()
+   */
+  @Override
+  public void dispose() {
+    super.dispose();
+    iconManager.dispose();
+    itemList.dispose();
+    dragDropHandler.clear();
+  }
 
-	private Actor generateItemView() {
-		VerticalGroup itemView = new VerticalGroup();
-		itemView.align(Align.left).fill().pad(Sizes.borderPadding());
-		itemList = new ItemList(itemView);
-		return generateScrollPane(itemView);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.screens.AbstractScreen#onUpdate(float)
+   */
+  @Override
+  protected void onUpdate(float delta) {
+    iconManager.update();
+  }
 
-	private ScrollPane generateScrollPane(Actor actor) {
-		ScrollPane pane = new ScrollPane(actor);
-		pane.setCancelTouchFocus(false);
-		pane.setScrollingDisabled(true, false);
-		return pane;
-	}
+  @Override
+  protected void onShow() {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.bitbrain.craft.screens.AbstractScreen#onDraw(com.badlogic.gdx.graphics
-	 * .g2d.Batch, float)
-	 */
-	@Override
-	protected void onDraw(Batch batch, float delta) {
-	}
+  private Actor generateItemView() {
+    VerticalGroup itemView = new VerticalGroup();
+    itemView.align(Align.left).fill().pad(Sizes.borderPadding());
+    itemList = new ItemList(itemView);
+    return generateScrollPane(itemView);
+  }
 
-	@Override
-	protected Viewport createViewport() {
-		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
-	}
+  private ScrollPane generateScrollPane(Actor actor) {
+    ScrollPane pane = new ScrollPane(actor);
+    pane.setCancelTouchFocus(false);
+    pane.setScrollingDisabled(true, false);
+    return pane;
+  }
 
-	@Handler
-	void onEvent(KeyEvent event) {
-		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
-			setScreen(ProfessionScreen.class);
-			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.screens.AbstractScreen#onDraw(com.badlogic.gdx.graphics .g2d.Batch, float)
+   */
+  @Override
+  protected void onDraw(Batch batch, float delta) {
+  }
+
+  @Override
+  protected Viewport createViewport() {
+    return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
+  }
+
+  @Handler
+  void onEvent(KeyEvent event) {
+    if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
+      setScreen(ProfessionScreen.class);
+      SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
+    }
+  }
 }

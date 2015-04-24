@@ -30,11 +30,13 @@ import de.bitbrain.craft.core.API;
  */
 public interface Command {
 
-	/**
-	 * Executes a command with the given arguments
-	 * 
-	 * @param api target api
-	 * @param args arguments
-	 */
-	void execute(API api, String ... args);
+  /**
+   * Executes a command with the given arguments
+   * 
+   * @param api
+   *          target api
+   * @param args
+   *          arguments
+   */
+  void execute(API api, String... args);
 }

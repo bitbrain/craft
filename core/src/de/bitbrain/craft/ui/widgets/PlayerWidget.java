@@ -56,161 +56,153 @@ import de.bitbrain.craft.util.FloatValueProvider;
  */
 @StateScoped
 public class PlayerWidget extends Actor implements Fadeable {
-	
-	private float padding = 15f;
 
-	@Inject
-	private EventBus eventBus;
+  private float padding = 15f;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private EventBus eventBus;
 
-	@Inject
-	private API api;
+  @Inject
+  private TweenManager tweenManager;
 
-	private NinePatch background1, background2;
+  @Inject
+  private API api;
 
-	private BitmapFont caption;
+  private NinePatch background1, background2;
 
-	private Progress progress;
+  private BitmapFont caption;
 
-	private Profession profession;
+  private Progress progress;
 
-	private PlayerWidgetTextProvider textProvider;
+  private Profession profession;
 
-	private FloatValueProvider progressProvider;
+  private PlayerWidgetTextProvider textProvider;
 
-	public PlayerWidget(Profession profession) {
-		SharedInjector.get().injectMembers(this);
-		progressProvider = new FloatValueProvider();
-		textProvider = new DefaultTextProvider();
-		this.profession = profession;
-		eventBus.subscribe(this);
-		this.progress = api.getProgress(profession);
-		setProgress(progress);
-		background1 = GraphicsFactory.createNinePatch(
-				Assets.TEX_PANEL_TRANSPARENT_9patch, 5);
-		background2 = GraphicsFactory.createNinePatch(
-				Assets.TEX_PANEL_BAR_9patch, 5);
-		caption = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
-		setColor(new Color(Assets.CLR_YELLOW_SAND));
-	}
-	
-	public void setPadding(float padding) {
-		this.padding = padding;
-	}
+  private FloatValueProvider progressProvider;
 
-	public void setTextProvider(PlayerWidgetTextProvider provider) {
-		this.textProvider = provider;
-	}
+  public PlayerWidget(Profession profession) {
+    SharedInjector.get().injectMembers(this);
+    progressProvider = new FloatValueProvider();
+    textProvider = new DefaultTextProvider();
+    this.profession = profession;
+    eventBus.subscribe(this);
+    this.progress = api.getProgress(profession);
+    setProgress(progress);
+    background1 = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, 5);
+    background2 = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BAR_9patch, 5);
+    caption = SharedAssetManager.get(Assets.FNT_SMALL, BitmapFont.class);
+    setColor(new Color(Assets.CLR_YELLOW_SAND));
+  }
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
-		drawBackground(batch);
-		drawProgress(batch);
-		drawForeground(batch);
-	}
+  public void setPadding(float padding) {
+    this.padding = padding;
+  }
 
-	private void drawBackground(Batch batch) {
-		background1.setColor(getColor());
-		background1.draw(batch, getX(), getY(), getWidth(), getHeight());
-		background1.draw(batch, getX() + padding, getY() + padding, getWidth() - padding * 2, getHeight() - padding * 2);
-	}
+  public void setTextProvider(PlayerWidgetTextProvider provider) {
+    this.textProvider = provider;
+  }
 
-	private void drawProgress(Batch batch) {
-		if (progressProvider.getValue() > 0.05f) {
-			background2.setColor(getColor());
-			background2.draw(batch, getX() + padding, getY() + padding, (getWidth()
-					* progressProvider.getValue()) - padding * 2, getHeight() - padding * 2);
-		}
-	}
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
+    super.draw(batch, parentAlpha);
+    drawBackground(batch);
+    drawProgress(batch);
+    drawForeground(batch);
+  }
 
-	private void drawForeground(Batch batch) {
-		String text = textProvider.getText(progress, profession);
-		caption.setColor(getColor());
-		caption.getColor().a -= 0.2f;
-		caption.draw(batch, text,
-				getX() + getWidth() / 2f - caption.getBounds(text).width / 2f,
-				getY() + getHeight() / 2f + caption.getLineHeight() / 2f);
-		caption.getColor().a += 0.2f;
-	}
+  private void drawBackground(Batch batch) {
+    background1.setColor(getColor());
+    background1.draw(batch, getX(), getY(), getWidth(), getHeight());
+    background1.draw(batch, getX() + padding, getY() + padding, getWidth() - padding * 2, getHeight() - padding * 2);
+  }
 
-	@Override
-	public float getAlpha() {
-		return getColor().a;
-	}
+  private void drawProgress(Batch batch) {
+    if (progressProvider.getValue() > 0.05f) {
+      background2.setColor(getColor());
+      background2.draw(batch, getX() + padding, getY() + padding, (getWidth() * progressProvider.getValue()) - padding
+          * 2, getHeight() - padding * 2);
+    }
+  }
 
-	@Override
-	public void setAlpha(float alpha) {
-		getColor().a = alpha;
-	}
+  private void drawForeground(Batch batch) {
+    String text = textProvider.getText(progress, profession);
+    caption.setColor(getColor());
+    caption.getColor().a -= 0.2f;
+    caption.draw(batch, text, getX() + getWidth() / 2f - caption.getBounds(text).width / 2f, getY() + getHeight() / 2f
+        + caption.getLineHeight() / 2f);
+    caption.getColor().a += 0.2f;
+  }
 
-	@Handler
-	private void onProgressUpdated(ProgressEvent event) {
-		Progress progress = event.getModel();
-		if (progress.getProfession().equals(profession)) {
-			setProgress(progress);
-		}
-	}
+  @Override
+  public float getAlpha() {
+    return getColor().a;
+  }
 
-	private void setProgress(final Progress progress) {
-		tweenManager.killTarget(this);
-		tweenManager.killTarget(progressProvider);
-		final float oldProgress = this.progress.getCurrentProgress();
-		float duration = 1f;
-		duration = progress.getLevel() == this.progress.getLevel() ? 1f
-				: (1.3f - oldProgress);
-		final Tween tween = Tween
-				.to(progressProvider, FloatValueTween.VALUE, duration)
-				.ease(TweenEquations.easeOutQuad)				
-				.setCallbackTriggers(TweenCallback.COMPLETE);
-		if (progress.getLevel() == this.progress.getLevel()) {
-			tween.target(progress.getCurrentProgress());
-		} else if (progress.getLevel() > this.progress.getLevel()) {
-			tween.target(1f);
-			tween.ease(TweenEquations.easeNone);
-			tween.setCallback(new TweenCallback() {
-				@Override
-				public void onEvent(int type, BaseTween<?> source) {
-					progressProvider.setValue(0f);
-					Tween.to(progressProvider, FloatValueTween.VALUE,
-							oldProgress * 1f)
-							.target(progress.getCurrentProgress())
-							.ease(TweenEquations.easeOutQuad)
-							.start(tweenManager);
-				}
-			});
-		}
+  @Override
+  public void setAlpha(float alpha) {
+    getColor().a = alpha;
+  }
 
-		tween.start(tweenManager);
-		this.progress = progress;
-	}
+  @Handler
+  private void onProgressUpdated(ProgressEvent event) {
+    Progress progress = event.getModel();
+    if (progress.getProfession().equals(profession)) {
+      setProgress(progress);
+    }
+  }
 
-	public static interface PlayerWidgetTextProvider {
-		String getText(Progress progress, Profession profession);
-	}
+  private void setProgress(final Progress progress) {
+    tweenManager.killTarget(this);
+    tweenManager.killTarget(progressProvider);
+    final float oldProgress = this.progress.getCurrentProgress();
+    float duration = 1f;
+    duration = progress.getLevel() == this.progress.getLevel() ? 1f : (1.3f - oldProgress);
+    final Tween tween =
+        Tween.to(progressProvider, FloatValueTween.VALUE, duration).ease(TweenEquations.easeOutQuad)
+            .setCallbackTriggers(TweenCallback.COMPLETE);
+    if (progress.getLevel() == this.progress.getLevel()) {
+      tween.target(progress.getCurrentProgress());
+    } else if (progress.getLevel() > this.progress.getLevel()) {
+      tween.target(1f);
+      tween.ease(TweenEquations.easeNone);
+      tween.setCallback(new TweenCallback() {
+        @Override
+        public void onEvent(int type, BaseTween<?> source) {
+          progressProvider.setValue(0f);
+          Tween.to(progressProvider, FloatValueTween.VALUE, oldProgress * 1f).target(progress.getCurrentProgress())
+              .ease(TweenEquations.easeOutQuad).start(tweenManager);
+        }
+      });
+    }
 
-	public static class DefaultTextProvider implements PlayerWidgetTextProvider {
+    tween.start(tweenManager);
+    this.progress = progress;
+  }
 
-		@Override
-		public String getText(Progress progress, Profession profession) {
-			String text = "Level ";
-			text += progress.getLevel() + " ";
-			text += profession.getName();
-			return text;
-		}
-	}
+  public static interface PlayerWidgetTextProvider {
+    String getText(Progress progress, Profession profession);
+  }
 
-	public static class LevelTextProvider implements PlayerWidgetTextProvider {
+  public static class DefaultTextProvider implements PlayerWidgetTextProvider {
 
-		@Override
-		public String getText(Progress progress, Profession profession) {
-			if (progress.getXp() == 0) {
-				return "Start";
-			} else {
-				return String.valueOf(progress.getLevel());
-			}
-		}
-	}
+    @Override
+    public String getText(Progress progress, Profession profession) {
+      String text = "Level ";
+      text += progress.getLevel() + " ";
+      text += profession.getName();
+      return text;
+    }
+  }
+
+  public static class LevelTextProvider implements PlayerWidgetTextProvider {
+
+    @Override
+    public String getText(Progress progress, Profession profession) {
+      if (progress.getXp() == 0) {
+        return "Start";
+      } else {
+        return String.valueOf(progress.getLevel());
+      }
+    }
+  }
 }

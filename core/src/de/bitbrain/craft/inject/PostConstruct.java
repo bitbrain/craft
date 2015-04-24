@@ -32,5 +32,7 @@ import java.lang.annotation.Target;
  * @since 1.0
  * @version 1.0
  */
-@Target({ METHOD }) @Retention(RUNTIME)
-public @interface PostConstruct {}
+@Target({ METHOD })
+@Retention(RUNTIME)
+public @interface PostConstruct {
+}

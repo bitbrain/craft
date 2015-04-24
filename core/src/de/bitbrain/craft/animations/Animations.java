@@ -33,22 +33,22 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class Animations {
-	
-	public static enum AnimationType {
-		SCALE_X,
-		SCALE_Y,
-		SCALE,
-		FADE,
-		WIDTH,
-		HEIGHT,
-		RED,
-		GREEN,
-		BLUE,
-		BOUNCE
-	}
 
-	@SuppressWarnings("unused")
-	@Inject
-	private TweenManager tweenManager;
-	
+  public static enum AnimationType {
+    SCALE_X,
+    SCALE_Y,
+    SCALE,
+    FADE,
+    WIDTH,
+    HEIGHT,
+    RED,
+    GREEN,
+    BLUE,
+    BOUNCE
+  }
+
+  @SuppressWarnings("unused")
+  @Inject
+  private TweenManager tweenManager;
+
 }

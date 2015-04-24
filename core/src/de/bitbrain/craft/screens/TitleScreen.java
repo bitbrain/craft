@@ -17,7 +17,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-
 package de.bitbrain.craft.screens;
 
 import net.engio.mbassy.listener.Handler;
@@ -53,83 +52,80 @@ import de.bitbrain.craft.ui.dialog.DialogBuilder;
  * @since 1.0
  * @version 1.0
  */
-public class TitleScreen extends AbstractScreen {	
-	
-	private TextButton btnPlay;
-	
-	private Label lblCredits;
+public class TitleScreen extends AbstractScreen {
 
-	private Dialog closeDialog;
-	
-	private Table layout;
+  private TextButton btnPlay;
 
-	/* (non-Javadoc)
-	 * @see de.bitbrain.craft.screens.MenuScreen#onCreateStage(com.badlogic.gdx.scenes.scene2d.Stage)
-	 */
-	@Override
-	protected void onCreateStage(Stage stage) {
-		
-		layout = new Table();
-		layout.setFillParent(true);
-		
-		// Logo
-		Image logo = new Image(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
-		layout.add(logo)
-			  .padTop(70f)
-			  .center()
-			  .width(logo.getWidth() * 2f)
-			  .height(logo.getHeight() * 2f);
-		layout.row().padTop(80f);
-		
-		// Play button
-		btnPlay = UIFactory.createPrimaryButton(Bundles.general.get(Bundles.START));
-		btnPlay.addCaptureListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				super.clicked(event, x, y);
-				TitleScreen.this.setScreen(ProfessionScreen.class);
-			}
-		});		
-		layout.add(btnPlay)
-		      .width(btnPlay.getWidth() * 1.15f)
-		      .height(btnPlay.getHeight() * 1.15f)
-		      .row().padTop(70f);
-		btnPlay.getLabel().setFontScale(1.3f);
-		
-		// Credits
-		lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
-		layout.add(lblCredits).row();
-		
-		stage.addActor(layout);
-		
-		// Dialog
-		DialogBuilder dBuilder = new DialogBuilder();
-		closeDialog = dBuilder.content("Do you really want to quit the game?")
-				.enableAbort("No")
-				.enableSubmit("Yes", new ClickListener() {
-					 @Override
-					public void clicked(InputEvent event, float x, float y) {
-						Gdx.app.exit();
-					}
-				}).build(false);
-		
-	}
-	
-	@Handler
-	void onEvent(KeyEvent event) {
-		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
-			closeDialog.show();
-		}
-	}
+  private Label lblCredits;
 
-	@Override
-	protected void onDraw(Batch batch, float delta) { }
+  private Dialog closeDialog;
 
-	@Override
-	protected void onShow() {	}
+  private Table layout;
 
-	@Override
-	protected Viewport createViewport() {
-		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.screens.MenuScreen#onCreateStage(com.badlogic.gdx.scenes.scene2d.Stage)
+   */
+  @Override
+  protected void onCreateStage(Stage stage) {
+
+    layout = new Table();
+    layout.setFillParent(true);
+
+    // Logo
+    Image logo = new Image(SharedAssetManager.get(Assets.TEX_LOGO, Texture.class));
+    layout.add(logo).padTop(70f).center().width(logo.getWidth() * 2f).height(logo.getHeight() * 2f);
+    layout.row().padTop(80f);
+
+    // Play button
+    btnPlay = UIFactory.createPrimaryButton(Bundles.general.get(Bundles.START));
+    btnPlay.addCaptureListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        super.clicked(event, x, y);
+        TitleScreen.this.setScreen(ProfessionScreen.class);
+      }
+    });
+    layout.add(btnPlay).width(btnPlay.getWidth() * 1.15f).height(btnPlay.getHeight() * 1.15f).row().padTop(70f);
+    btnPlay.getLabel().setFontScale(1.3f);
+
+    // Credits
+    lblCredits = new Label(Bundles.general.get(Bundles.CREDITS), Styles.LBL_BROWN);
+    layout.add(lblCredits).row();
+
+    stage.addActor(layout);
+
+    // Dialog
+    DialogBuilder dBuilder = new DialogBuilder();
+    closeDialog =
+        dBuilder.content("Do you really want to quit the game?").enableAbort("No")
+            .enableSubmit("Yes", new ClickListener() {
+              @Override
+              public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+              }
+            }).build(false);
+
+  }
+
+  @Handler
+  void onEvent(KeyEvent event) {
+    if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
+      closeDialog.show();
+    }
+  }
+
+  @Override
+  protected void onDraw(Batch batch, float delta) {
+  }
+
+  @Override
+  protected void onShow() {
+  }
+
+  @Override
+  protected Viewport createViewport() {
+    return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
+  }
 }

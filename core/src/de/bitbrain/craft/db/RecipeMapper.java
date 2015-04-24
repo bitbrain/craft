@@ -40,33 +40,33 @@ import de.bitbrain.jpersis.annotations.Update;
 @Mapper("de.bitbrain.craft.models.Recipe")
 public interface RecipeMapper {
 
-	@Select
-	Collection<Recipe> findAll();
+  @Select
+  Collection<Recipe> findAll();
 
-	@Select(condition = "id = $1")
-	Recipe findById(int id);
+  @Select(condition = "id = $1")
+  Recipe findById(int id);
 
-	@Select(condition = "item_id = $1")
-	Recipe findByItemId(ItemId itemId);
+  @Select(condition = "item_id = $1")
+  Recipe findByItemId(ItemId itemId);
 
-	@Insert
-	boolean insert(Recipe recipe);
+  @Insert
+  boolean insert(Recipe recipe);
 
-	@Insert
-	boolean insert(Collection<Recipe> recipes);
+  @Insert
+  boolean insert(Collection<Recipe> recipes);
 
-	@Update
-	boolean update(Recipe recipe);
+  @Update
+  boolean update(Recipe recipe);
 
-	@Update
-	boolean update(Collection<Recipe> recipes);
+  @Update
+  boolean update(Collection<Recipe> recipes);
 
-	@Delete
-	boolean delete(Recipe recipe);
+  @Delete
+  boolean delete(Recipe recipe);
 
-	@Delete
-	boolean delete(Collection<Recipe> recipes);
+  @Delete
+  boolean delete(Collection<Recipe> recipes);
 
-	@Count
-	int count();
+  @Count
+  int count();
 }

@@ -18,167 +18,165 @@ import de.bitbrain.craft.Sizes;
  */
 public class SimpleShaderManager implements ShaderManager {
 
-	private List<ShaderData> data;
+  private List<ShaderData> data;
 
-	private FrameBuffer initialBuffer, bufferA, bufferB;
+  private FrameBuffer initialBuffer, bufferA, bufferB;
 
-	public SimpleShaderManager() {
-		data = new ArrayList<ShaderData>();
-		initBuffers(Sizes.worldWidth(), Sizes.worldHeight());
-	}
-	
-	@Override
-	public void add(ShadeArea shaderTarget, Shader<?>... shaders) {
-		ShaderData shaderData = new ShaderData(shaderTarget, shaders);
-		data.add(shaderData);
-	}
+  public SimpleShaderManager() {
+    data = new ArrayList<ShaderData>();
+    initBuffers(Sizes.worldWidth(), Sizes.worldHeight());
+  }
 
-	@Override
-	public void updateAndRender(Batch batch, float delta) {
+  @Override
+  public void add(ShadeArea shaderTarget, Shader<?>... shaders) {
+    ShaderData shaderData = new ShaderData(shaderTarget, shaders);
+    data.add(shaderData);
+  }
 
-		FrameBuffer previousBuffer = initialBuffer;
-		FrameBuffer currentBuffer = bufferA;
+  @Override
+  public void updateAndRender(Batch batch, float delta) {
 
-		// Iterate through each shader data and apply a buffer to it
-		for (int dataIndex = 0; dataIndex < data.size(); ++dataIndex) {
-			ShaderData shaderData = data.get(dataIndex);
-			ShadeArea area = shaderData.getTarget();
-			Shader<?>[] shaders = shaderData.getShaders();
+    FrameBuffer previousBuffer = initialBuffer;
+    FrameBuffer currentBuffer = bufferA;
 
-			// Draw the area onto the previous buffer
-			if (shaders.length > 0) {
-				previousBuffer.begin();
-			}
-			drawTo(delta, batch, area);
-			if (shaders.length > 0) {
-				previousBuffer.end();
-			}
+    // Iterate through each shader data and apply a buffer to it
+    for (int dataIndex = 0; dataIndex < data.size(); ++dataIndex) {
+      ShaderData shaderData = data.get(dataIndex);
+      ShadeArea area = shaderData.getTarget();
+      Shader<?>[] shaders = shaderData.getShaders();
 
-			for (int index = 0; index < shaders.length; ++index) {
+      // Draw the area onto the previous buffer
+      if (shaders.length > 0) {
+        previousBuffer.begin();
+      }
+      drawTo(delta, batch, area);
+      if (shaders.length > 0) {
+        previousBuffer.end();
+      }
 
-				Shader<?> shader = shaders[index];
-				currentBuffer = flipBuffer(currentBuffer);
+      for (int index = 0; index < shaders.length; ++index) {
 
-				// If it's not the last element, draw to the buffer. Otherwise
-				// draw to screen
-				if (index < shaders.length - 1 || dataIndex < data.size() - 1) {
-					currentBuffer.begin();
-					drawTo(previousBuffer, delta, batch, shader);
-					currentBuffer.end();
-				} else {
-					drawTo(previousBuffer, delta, batch, shader);
-				}
+        Shader<?> shader = shaders[index];
+        currentBuffer = flipBuffer(currentBuffer);
 
-				previousBuffer = currentBuffer;
-			}
-		}
-	}
+        // If it's not the last element, draw to the buffer. Otherwise
+        // draw to screen
+        if (index < shaders.length - 1 || dataIndex < data.size() - 1) {
+          currentBuffer.begin();
+          drawTo(previousBuffer, delta, batch, shader);
+          currentBuffer.end();
+        } else {
+          drawTo(previousBuffer, delta, batch, shader);
+        }
 
-	@Override
-	public void clear() {
-		data.clear();
-	}
-	
-	@Override
-	public int size() {
-		return data.size();
-	}
+        previousBuffer = currentBuffer;
+      }
+    }
+  }
 
-	@Override
-	public boolean isEmpty() {
-		return data.isEmpty();
-	}
+  @Override
+  public void clear() {
+    data.clear();
+  }
 
-	@Override
-	public void dispose() {
-		initialBuffer.dispose();
-		bufferA.dispose();
-		bufferB.dispose();
-	}
-	
-	@Override
-	public void resize(int width, int height) {
-		initialBuffer.dispose();
-		bufferA.dispose();
-		bufferB.dispose();
-		initBuffers(width, height);
-	}
+  @Override
+  public int size() {
+    return data.size();
+  }
 
-	private void drawTo(FrameBuffer buffer, float delta, Batch batch,
-			Shader<?> shader, ShadeArea area) {
+  @Override
+  public boolean isEmpty() {
+    return data.isEmpty();
+  }
 
-		// Apply the current shader
-		if (shader != null) {
-			batch.setShader(shader.getProgram());
-		} else {
-			batch.setShader(null);
-		}
+  @Override
+  public void dispose() {
+    initialBuffer.dispose();
+    bufferA.dispose();
+    bufferB.dispose();
+  }
 
-		batch.begin();
-		if (shader != null) // Update shader
-			shader.update(delta);
-		if (buffer != null) // Draw buffer
-			batch.draw(buffer.getColorBufferTexture(), 0f, 0f);
-		if (area != null) // Draw area
-			area.draw(batch, delta);
-		batch.end();
+  @Override
+  public void resize(int width, int height) {
+    initialBuffer.dispose();
+    bufferA.dispose();
+    bufferB.dispose();
+    initBuffers(width, height);
+  }
 
-		// Send the data directly through the graphics pipeline
-		batch.flush();
+  private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader<?> shader, ShadeArea area) {
 
-		// Reset the current shader
-		batch.setShader(null);
-	}
+    // Apply the current shader
+    if (shader != null) {
+      batch.setShader(shader.getProgram());
+    } else {
+      batch.setShader(null);
+    }
 
-	private void drawTo(float delta, Batch batch, ShadeArea area) {
-		drawTo(null, delta, batch, null, area);
-	}
+    batch.begin();
+    if (shader != null) // Update shader
+      shader.update(delta);
+    if (buffer != null) // Draw buffer
+      batch.draw(buffer.getColorBufferTexture(), 0f, 0f);
+    if (area != null) // Draw area
+      area.draw(batch, delta);
+    batch.end();
 
-	private void drawTo(FrameBuffer buffer, float delta, Batch batch,
-			Shader<?> shader) {
-		drawTo(buffer, delta, batch, shader, null);
-	}
+    // Send the data directly through the graphics pipeline
+    batch.flush();
 
-	private FrameBuffer flipBuffer(FrameBuffer current) {
-		return current.equals(bufferA) ? bufferB : bufferA;
-	}
+    // Reset the current shader
+    batch.setShader(null);
+  }
 
-	private void initBuffers(int width, int height) {
-		initialBuffer = new FrameBuffer(Format.RGBA4444, width, height, false);
-		bufferA = new FrameBuffer(Format.RGBA4444, width, height, false);
-		bufferB = new FrameBuffer(Format.RGBA4444, width, height, false);
-	}
+  private void drawTo(float delta, Batch batch, ShadeArea area) {
+    drawTo(null, delta, batch, null, area);
+  }
 
-	private class ShaderData {
+  private void drawTo(FrameBuffer buffer, float delta, Batch batch, Shader<?> shader) {
+    drawTo(buffer, delta, batch, shader, null);
+  }
 
-		private Shader<?>[] shaders;
+  private FrameBuffer flipBuffer(FrameBuffer current) {
+    return current.equals(bufferA) ? bufferB : bufferA;
+  }
 
-		private ShadeArea target;
+  private void initBuffers(int width, int height) {
+    initialBuffer = new FrameBuffer(Format.RGBA4444, width, height, false);
+    bufferA = new FrameBuffer(Format.RGBA4444, width, height, false);
+    bufferB = new FrameBuffer(Format.RGBA4444, width, height, false);
+  }
 
-		/**
-		 * @param shaders
-		 * @param target
-		 */
-		public ShaderData(ShadeArea target, Shader<?>[] shaders) {
-			super();
-			this.shaders = shaders;
-			this.target = target;
-		}
+  private class ShaderData {
 
-		/**
-		 * @return the shaders
-		 */
-		public Shader<?>[] getShaders() {
-			return shaders;
-		}
+    private Shader<?>[] shaders;
 
-		/**
-		 * @return the target
-		 */
-		public ShadeArea getTarget() {
-			return target;
-		}
+    private ShadeArea target;
 
-	}
+    /**
+     * @param shaders
+     * @param target
+     */
+    public ShaderData(ShadeArea target, Shader<?>[] shaders) {
+      super();
+      this.shaders = shaders;
+      this.target = target;
+    }
+
+    /**
+     * @return the shaders
+     */
+    public Shader<?>[] getShaders() {
+      return shaders;
+    }
+
+    /**
+     * @return the target
+     */
+    public ShadeArea getTarget() {
+      return target;
+    }
+
+  }
 
 }

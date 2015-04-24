@@ -11,35 +11,35 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  */
 public interface ShaderManager {
 
-	/**
+  /**
 	 * 
 	 */
-	void add(ShadeArea shaderTarget, Shader<?>... shaders);
+  void add(ShadeArea shaderTarget, Shader<?>... shaders);
 
-	/**
+  /**
 	 * 
 	 * 
 	 */
-	void clear();
+  void clear();
 
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	int size();
+  /**
+   * 
+   * 
+   * @return
+   */
+  int size();
 
-	/**
-	 * 
-	 * 
-	 * @return
-	 */
-	boolean isEmpty();
+  /**
+   * 
+   * 
+   * @return
+   */
+  boolean isEmpty();
 
-	void dispose();
+  void dispose();
 
-	void resize(int width, int height);
+  void resize(int width, int height);
 
-	void updateAndRender(Batch batch, float delta);
+  void updateAndRender(Batch batch, float delta);
 
 }

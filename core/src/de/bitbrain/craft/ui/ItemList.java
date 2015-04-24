@@ -59,116 +59,111 @@ import de.bitbrain.craft.util.ItemComparator;
 @StateScoped
 public class ItemList {
 
-	private final WidgetGroup group;
+  private final WidgetGroup group;
 
-	private final Map<ItemId, ItemWidget> widgets;
+  private final Map<ItemId, ItemWidget> widgets;
 
-	private final Map<Actor, Item> items;
+  private final Map<Actor, Item> items;
 
-	private ItemWidgetComparator comparator;
+  private ItemWidgetComparator comparator;
 
-	@Inject
-	private EventBus eventBus;
+  @Inject
+  private EventBus eventBus;
 
-	@Inject
-	private API api;
+  @Inject
+  private API api;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private TweenManager tweenManager;
 
-	public ItemList(WidgetGroup group) {
-		SharedInjector.get().injectMembers(this);
-		this.group = group;
-		widgets = new HashMap<ItemId, ItemWidget>();
-		items = new HashMap<Actor, Item>();
-		comparator = new ItemWidgetComparator();
-		eventBus.subscribe(this);
-		ItemBag itemBag = api.getOwnedItems(Player.getCurrent().getId());
-		for (Entry<Item, Integer> entry : itemBag) {
-			addElements(entry.getKey(), entry.getValue());
-		}
-	}
+  public ItemList(WidgetGroup group) {
+    SharedInjector.get().injectMembers(this);
+    this.group = group;
+    widgets = new HashMap<ItemId, ItemWidget>();
+    items = new HashMap<Actor, Item>();
+    comparator = new ItemWidgetComparator();
+    eventBus.subscribe(this);
+    ItemBag itemBag = api.getOwnedItems(Player.getCurrent().getId());
+    for (Entry<Item, Integer> entry : itemBag) {
+      addElements(entry.getKey(), entry.getValue());
+    }
+  }
 
-	@Handler
-	public void onEvent(ItemEvent message) {
-		switch (message.getType()) {
-		case ADD:
-			addElements(message.getModel(), message.getAmount());
-			break;
-		case REMOVE:
-			removeElements(message.getModel(), message.getAmount());
-			break;
-		case UPDATE:
-			break;
-		default:
-			break;
-		}
+  @Handler
+  public void onEvent(ItemEvent message) {
+    switch (message.getType()) {
+      case ADD:
+        addElements(message.getModel(), message.getAmount());
+        break;
+      case REMOVE:
+        removeElements(message.getModel(), message.getAmount());
+        break;
+      case UPDATE:
+        break;
+      default:
+        break;
+    }
 
-	}
+  }
 
-	public void dispose() {
-		widgets.clear();
-		group.clear();
-	}
+  public void dispose() {
+    widgets.clear();
+    group.clear();
+  }
 
-	private void removeElements(Item item, int amount) {
-		final ItemWidget widget = widgets.get(item.getId());
-		if (widget.getAmount() == Item.INFINITE_AMOUNT) {
-			return;
-		}
-		int newAmount = widget.getAmount() - amount;
-		widget.setAmount(item, newAmount);
-		if (newAmount <= 0 && !api.canCraft(item.getId())) {
-			widgets.remove(item.getId());
-			items.remove(widget);
-			Tween.to(widget, ActorTween.ALPHA, 0.65f).target(0f)
-					.ease(TweenEquations.easeOutQuad)
-					.setCallbackTriggers(TweenCallback.COMPLETE)
-					.setCallback(new TweenCallback() {
-						@Override
-						public void onEvent(int type, BaseTween<?> source) {
-							group.removeActor(widget);
-						}
-					}).start(tweenManager);
-			Gdx.app.log("INFO", "Removed element with id='" + item.getId()
-					+ "' from " + group);
-		}
+  private void removeElements(Item item, int amount) {
+    final ItemWidget widget = widgets.get(item.getId());
+    if (widget.getAmount() == Item.INFINITE_AMOUNT) {
+      return;
+    }
+    int newAmount = widget.getAmount() - amount;
+    widget.setAmount(item, newAmount);
+    if (newAmount <= 0 && !api.canCraft(item.getId())) {
+      widgets.remove(item.getId());
+      items.remove(widget);
+      Tween.to(widget, ActorTween.ALPHA, 0.65f).target(0f).ease(TweenEquations.easeOutQuad)
+          .setCallbackTriggers(TweenCallback.COMPLETE).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+              group.removeActor(widget);
+            }
+          }).start(tweenManager);
+      Gdx.app.log("INFO", "Removed element with id='" + item.getId() + "' from " + group);
+    }
 
-		group.getChildren().begin();
-		group.getChildren().sort(comparator);
-		group.getChildren().end();
-	}
+    group.getChildren().begin();
+    group.getChildren().sort(comparator);
+    group.getChildren().end();
+  }
 
-	private void addElements(Item item, int amount) {
-		if (!widgets.containsKey(item.getId())) {
-			ItemWidget panel = new ItemWidget(item, amount);
-			widgets.put(item.getId(), panel);
-			group.addActor(panel);
-			items.put(panel, item);
-			Gdx.app.log("INFO", "Attached element with id='" + item.getId()
-					+ "' to " + group);
-		} else {
-			ItemWidget panel = widgets.get(item.getId());
-			tweenManager.killTarget(panel);
-			panel.setAmount(item, panel.getAmount() + amount);
-			Gdx.app.log("INFO", "Updated element with id='" + item.getId()
-					+ "' in " + group);
-		}
-		group.getChildren().begin();
-		group.getChildren().sort(comparator);
-		group.getChildren().end();
-	}
+  private void addElements(Item item, int amount) {
+    if (!widgets.containsKey(item.getId())) {
+      ItemWidget panel = new ItemWidget(item, amount);
+      widgets.put(item.getId(), panel);
+      group.addActor(panel);
+      items.put(panel, item);
+      Gdx.app.log("INFO", "Attached element with id='" + item.getId() + "' to " + group);
+    } else {
+      ItemWidget panel = widgets.get(item.getId());
+      tweenManager.killTarget(panel);
+      panel.setAmount(item, panel.getAmount() + amount);
+      Gdx.app.log("INFO", "Updated element with id='" + item.getId() + "' in " + group);
+    }
+    group.getChildren().begin();
+    group.getChildren().sort(comparator);
+    group.getChildren().end();
+  }
 
-	private class ItemWidgetComparator implements Comparator<Actor> {
+  private class ItemWidgetComparator implements Comparator<Actor> {
 
-		private ItemComparator itemComparator = new ItemComparator();
+    private ItemComparator itemComparator = new ItemComparator();
 
-		@Override
-		public int compare(Actor actorA, Actor actorB) {
-			Item itemA = items.get(actorA);
-			Item itemB = items.get(actorB);
-			return itemComparator.compare(itemA, itemB);
-		}
+    @Override
+    public int compare(Actor actorA, Actor actorB) {
+      Item itemA = items.get(actorA);
+      Item itemB = items.get(actorB);
+      return itemComparator.compare(itemA, itemB);
+    }
 
-	}
+  }
 }

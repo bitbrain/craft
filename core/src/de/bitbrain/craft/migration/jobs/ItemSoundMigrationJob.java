@@ -31,9 +31,9 @@ import de.bitbrain.craft.migration.Migrations;
  */
 public class ItemSoundMigrationJob {
 
-	@Migrate(Migrations.RELEASE)
-	public void migrateItemsRelease(API api) {
-		
-	}
+  @Migrate(Migrations.RELEASE)
+  public void migrateItemsRelease(API api) {
+
+  }
 
 }

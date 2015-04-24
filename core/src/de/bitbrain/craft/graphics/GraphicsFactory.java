@@ -36,17 +36,16 @@ import de.bitbrain.craft.SharedAssetManager;
  */
 public class GraphicsFactory {
 
-	public static Texture createTexture(int width, int height, Color color) {
-		Pixmap map = new Pixmap(width, height, Format.RGBA8888);
-		map.setColor(color);
-		map.fill();
-		Texture texture = new Texture(map);
-		map.dispose();
-		return texture;
-	}
+  public static Texture createTexture(int width, int height, Color color) {
+    Pixmap map = new Pixmap(width, height, Format.RGBA8888);
+    map.setColor(color);
+    map.fill();
+    Texture texture = new Texture(map);
+    map.dispose();
+    return texture;
+  }
 
-	public static NinePatch createNinePatch(String textureId, int radius) {
-		return new NinePatch(SharedAssetManager.get(textureId, Texture.class),
-				radius, radius, radius, radius);
-	}
+  public static NinePatch createNinePatch(String textureId, int radius) {
+    return new NinePatch(SharedAssetManager.get(textureId, Texture.class), radius, radius, radius, radius);
+  }
 }

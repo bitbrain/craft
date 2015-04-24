@@ -33,57 +33,57 @@ import de.bitbrain.craft.core.API;
  */
 public class CommandHandler implements Command {
 
-	private Map<String, Command> commands = new HashMap<String, Command>();
+  private Map<String, Command> commands = new HashMap<String, Command>();
 
-	/**
-	 * Registers a new command to the handler
-	 * 
-	 * @param id
-	 *            command id
-	 * @param command
-	 *            target command
-	 */
-	public void register(String id, Command command) {
-		if (!commands.containsKey(id)) {
-			commands.put(id, command);
-		}
-	}
+  /**
+   * Registers a new command to the handler
+   * 
+   * @param id
+   *          command id
+   * @param command
+   *          target command
+   */
+  public void register(String id, Command command) {
+    if (!commands.containsKey(id)) {
+      commands.put(id, command);
+    }
+  }
 
-	/**
-	 * 
-	 * 
-	 * @param string
-	 */
-	public void executeString(API api, String string) {
-		String[] partials = partialString(string);
-		if (partials.length > 0) {
-			execute(api, partials);
-		}
-	}
+  /**
+   * 
+   * 
+   * @param string
+   */
+  public void executeString(API api, String string) {
+    String[] partials = partialString(string);
+    if (partials.length > 0) {
+      execute(api, partials);
+    }
+  }
 
-	@Override
-	public void execute(API api, String... args) {
-		if (args.length > 0) {
-			Command command = commands.get(args[0]);
-			if (command != null) {
-				command.execute(api, toArguments(args));
-			}
-		}
-	}
+  @Override
+  public void execute(API api, String... args) {
+    if (args.length > 0) {
+      Command command = commands.get(args[0]);
+      if (command != null) {
+        command.execute(api, toArguments(args));
+      }
+    }
+  }
 
-	private String[] toArguments(String[] partials) {
-		if (partials.length > 1) {
-			String[] shortened = new String[partials.length - 1];
-			for (int i = 1; i < partials.length; ++i) {
-				shortened[i - 1] = partials[i];
-			}
-			return shortened;
-		} else {
-			return new String[] {};
-		}
-	}
+  private String[] toArguments(String[] partials) {
+    if (partials.length > 1) {
+      String[] shortened = new String[partials.length - 1];
+      for (int i = 1; i < partials.length; ++i) {
+        shortened[i - 1] = partials[i];
+      }
+      return shortened;
+    } else {
+      return new String[] {};
+    }
+  }
 
-	private String[] partialString(String string) {
-		return string.split(" ");
-	}
+  private String[] partialString(String string) {
+    return string.split(" ");
+  }
 }

@@ -31,77 +31,77 @@ import de.bitbrain.craft.Bundles;
  */
 public enum Profession {
 
-	ALCHEMIST {
+  ALCHEMIST {
 
-		@Override
-		public String getIcon() {
-			return Assets.TEX_ALCHEMIST;
-		}
+    @Override
+    public String getIcon() {
+      return Assets.TEX_ALCHEMIST;
+    }
 
-		@Override
-		public String getName() {
-			return Bundles.general.get(Bundles.ALCHEMIST);
-		}
+    @Override
+    public String getName() {
+      return Bundles.general.get(Bundles.ALCHEMIST);
+    }
 
-		@Override
-		public String getDescription() {
-			return "alchemist-description";
-		}
-		
-		@Override
-		public boolean isEnabled() {
-			return true;
-		}
+    @Override
+    public String getDescription() {
+      return "alchemist-description";
+    }
 
-	},
+    @Override
+    public boolean isEnabled() {
+      return true;
+    }
 
-	JEWELER {
+  },
 
-		@Override
-		public String getIcon() {
-			return Assets.TEX_JEWELER_PREVIEW;
-		}
+  JEWELER {
 
-		@Override
-		public String getName() {
-			return Bundles.general.get(Bundles.JEWELER);
-		}
+    @Override
+    public String getIcon() {
+      return Assets.TEX_JEWELER_PREVIEW;
+    }
 
-		@Override
-		public String getDescription() {
-			return null;
-		}
-	},
+    @Override
+    public String getName() {
+      return Bundles.general.get(Bundles.JEWELER);
+    }
 
-	ENGINEER {
+    @Override
+    public String getDescription() {
+      return null;
+    }
+  },
 
-		@Override
-		public String getIcon() {
-			return Assets.TEX_ENGINEER_PREVIEW;
-		}
+  ENGINEER {
 
-		@Override
-		public String getName() {
-			return Bundles.general.get(Bundles.ENGINEER);
-		}
+    @Override
+    public String getIcon() {
+      return Assets.TEX_ENGINEER_PREVIEW;
+    }
 
-		@Override
-		public String getDescription() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+    @Override
+    public String getName() {
+      return Bundles.general.get(Bundles.ENGINEER);
+    }
 
-	};
-	
-	public boolean isEnabled() {
-		return false;
-	}
+    @Override
+    public String getDescription() {
+      // TODO Auto-generated method stub
+      return null;
+    }
 
-	public abstract String getIcon();
+  };
 
-	public abstract String getName();
+  public boolean isEnabled() {
+    return false;
+  }
 
-	public abstract String getDescription();
+  public abstract String getIcon();
 
-	public static Profession current;
+  public abstract String getName();
+
+  public abstract String getDescription();
+
+  public static Profession current;
 }

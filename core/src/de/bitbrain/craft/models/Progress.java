@@ -30,102 +30,106 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class Progress {
 
-	@PrimaryKey(true)
-	private int id;
-	
-	private Profession profession;
-	
-	private int xp;
-	
-	private int playerId;
-	
-	public Progress() {
-		
-	}
-	
-	public Progress(int playerId, Profession profession) {
-		this.playerId = playerId;
-		this.profession = profession;
-		this.xp = 0;
-	}
-	
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-	
-	/**
-	 * @return the playerId
-	 */
-	public int getPlayerId() {
-		return playerId;
-	}
+  @PrimaryKey(true)
+  private int id;
 
-	/**
-	 * @return the profession
-	 */
-	public Profession getProfession() {
-		return profession;
-	}
-	
-	/**
-	 * @return the xp
-	 */
-	public int getXp() {
-		return xp;
-	}
-	
-	/**
-	 * @return the level
-	 */
-	public int getLevel() {
-		return xp / 200 + 1;
-	}
-	
-	public float getCurrentProgress() {
-		final int delta = getXpMax() - getXpMax(getLevel() - 1);
-		return (float)(getXp() - getXpMax(getLevel() - 1)) / (float)(delta);
-	}
-	
-	public int getXpMax() {
-		return getXpMax(getLevel());
-	}
-	
-	private int getXpMax(int level) {
-		return level * 200;
-	}
-	
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	/**
-	 * @param playerId the playerId to set
-	 */
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-	
-	/**
-	 * @param profession the profession to set
-	 */
-	public void setProfession(Profession profession) {
-		this.profession = profession;
-	}
-	
-	/**
-	 * @param xp the xp to set
-	 */
-	public void setXp(int xp) {
-		this.xp = xp;
-	}
+  private Profession profession;
 
-	public void addXp(int xp) {
-		this.xp += Math.abs(xp);
-	}
+  private int xp;
+
+  private int playerId;
+
+  public Progress() {
+
+  }
+
+  public Progress(int playerId, Profession profession) {
+    this.playerId = playerId;
+    this.profession = profession;
+    this.xp = 0;
+  }
+
+  /**
+   * @return the id
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
+   * @return the playerId
+   */
+  public int getPlayerId() {
+    return playerId;
+  }
+
+  /**
+   * @return the profession
+   */
+  public Profession getProfession() {
+    return profession;
+  }
+
+  /**
+   * @return the xp
+   */
+  public int getXp() {
+    return xp;
+  }
+
+  /**
+   * @return the level
+   */
+  public int getLevel() {
+    return xp / 200 + 1;
+  }
+
+  public float getCurrentProgress() {
+    final int delta = getXpMax() - getXpMax(getLevel() - 1);
+    return (float) (getXp() - getXpMax(getLevel() - 1)) / (float) (delta);
+  }
+
+  public int getXpMax() {
+    return getXpMax(getLevel());
+  }
+
+  private int getXpMax(int level) {
+    return level * 200;
+  }
+
+  /**
+   * @param id
+   *          the id to set
+   */
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  /**
+   * @param playerId
+   *          the playerId to set
+   */
+  public void setPlayerId(int playerId) {
+    this.playerId = playerId;
+  }
+
+  /**
+   * @param profession
+   *          the profession to set
+   */
+  public void setProfession(Profession profession) {
+    this.profession = profession;
+  }
+
+  /**
+   * @param xp
+   *          the xp to set
+   */
+  public void setXp(int xp) {
+    this.xp = xp;
+  }
+
+  public void addXp(int xp) {
+    this.xp += Math.abs(xp);
+  }
 }

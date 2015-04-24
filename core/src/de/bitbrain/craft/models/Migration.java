@@ -28,33 +28,33 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  * @version 1.0
  */
 public class Migration {
-	
-	@PrimaryKey(true)
-	private int id;
-	
-	private String version;
-	
-	private int playerId;
-	
-	public Migration() {
-		
-	}
-	
-	public Migration(String version, int playerId) {
-		this.version = version;
-		this.playerId = playerId;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public int getPlayerId() {
-		return playerId;
-	}
-	
-	public String getVersion() {
-		return version;
-	}
+
+  @PrimaryKey(true)
+  private int id;
+
+  private String version;
+
+  private int playerId;
+
+  public Migration() {
+
+  }
+
+  public Migration(String version, int playerId) {
+    this.version = version;
+    this.playerId = playerId;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public int getPlayerId() {
+    return playerId;
+  }
+
+  public String getVersion() {
+    return version;
+  }
 
 }

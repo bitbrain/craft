@@ -28,17 +28,17 @@ package de.bitbrain.craft.util;
  */
 public interface Fadeable {
 
-	/**
-	 * Returns the current alpha value
-	 * 
-	 * @return
-	 */
-	float getAlpha();
-	
-	/**
-	 * Sets the current alpha value
-	 * 
-	 * @param alpha
-	 */
-	void setAlpha(float alpha);
+  /**
+   * Returns the current alpha value
+   * 
+   * @return
+   */
+  float getAlpha();
+
+  /**
+   * Sets the current alpha value
+   * 
+   * @param alpha
+   */
+  void setAlpha(float alpha);
 }

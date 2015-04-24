@@ -30,15 +30,15 @@ import com.badlogic.gdx.Application;
  */
 public final class Settings {
 
-	public static final int WIDTH = 1020;	
-	public static final int HEIGHT = 600;
-	
-	public static final String VERSION = "0.6.31";	
-	public static final String NAME = "Craft";
-	public static final String PHASE = "dev";
-	
-	public static final String DIR_DATA = ".craft/";
-	public static final String DATABASE = "game.db";
-	
-	public static final int LOGLEVEL = Application.LOG_DEBUG;
+  public static final int WIDTH = 1020;
+  public static final int HEIGHT = 600;
+
+  public static final String VERSION = "0.6.31";
+  public static final String NAME = "Craft";
+  public static final String PHASE = "dev";
+
+  public static final String DIR_DATA = ".craft/";
+  public static final String DATABASE = "game.db";
+
+  public static final int LOGLEVEL = Application.LOG_DEBUG;
 }

@@ -32,19 +32,19 @@ import de.bitbrain.craft.models.Item;
  */
 public class ItemComparator implements Comparator<Item> {
 
-	@Override
-	public int compare(Item itemA, Item itemB) {
-		if (itemA.getLevel() > itemB.getLevel()) {
-			return -1;
-		} else if (itemA.getLevel() < itemB.getLevel()) {
-			return 1;
-		}
-		if (itemA.getRarity().getLevel() > itemB.getRarity().getLevel()) {
-			return -1;
-		} else if (itemA.getRarity().getLevel() < itemB.getRarity().getLevel()) {
-			return 1;
-		}		
-		return 0;
-	}
+  @Override
+  public int compare(Item itemA, Item itemB) {
+    if (itemA.getLevel() > itemB.getLevel()) {
+      return -1;
+    } else if (itemA.getLevel() < itemB.getLevel()) {
+      return 1;
+    }
+    if (itemA.getRarity().getLevel() > itemB.getRarity().getLevel()) {
+      return -1;
+    } else if (itemA.getRarity().getLevel() < itemB.getRarity().getLevel()) {
+      return 1;
+    }
+    return 0;
+  }
 
 }

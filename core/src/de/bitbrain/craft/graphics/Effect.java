@@ -29,6 +29,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  */
 public interface Effect {
 
-	void render(Batch batch, float delta, int x, int y, int w, int h);
-	
+  void render(Batch batch, float delta, int x, int y, int w, int h);
+
 }

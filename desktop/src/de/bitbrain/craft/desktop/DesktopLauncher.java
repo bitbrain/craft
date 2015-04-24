@@ -8,12 +8,12 @@ import de.bitbrain.craft.Settings;
 import de.bitbrain.craft.inject.SharedInjector;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = Settings.WIDTH;
-		config.height = Settings.HEIGHT;
-		config.title = Settings.NAME + " v. " + Settings.VERSION;
-		
-		new LwjglApplication(SharedInjector.get().getInstance(CraftGame.class), config);
-	}
+  public static void main(String[] arg) {
+    LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+    config.width = Settings.WIDTH;
+    config.height = Settings.HEIGHT;
+    config.title = Settings.NAME + " v. " + Settings.VERSION;
+
+    new LwjglApplication(SharedInjector.get().getInstance(CraftGame.class), config);
+  }
 }

@@ -31,78 +31,82 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class OwnedItem {
 
-	@PrimaryKey(true)
-	private int id;
-	
-	private ItemId itemId;
-	
-	private int playerId;
-	
-	private int amount;
-	
-	public OwnedItem() {
-		
-	}
-	
-	public OwnedItem(ItemId itemId, int playerId, int amount) {
-		this.itemId = itemId;
-		this.playerId = playerId;
-		this.amount = amount;
-	}
-	
-	/**
-	 * @param amount the amount to set
-	 */
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	/**
-	 * @param itemId the itemId to set
-	 */
-	public void setItemId(ItemId itemId) {
-		this.itemId = itemId;
-	}
-	
-	/**
-	 * @param playerId the playerId to set
-	 */
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
-	
-	/**
-	 * @return the amount
-	 */
-	public int getAmount() {
-		return amount;
-	}
-	
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-	
-	/**
-	 * @return the itemId
-	 */
-	public ItemId getItemId() {
-		return itemId;
-	}
-	
-	/**
-	 * @return the playerId
-	 */
-	public int getPlayerId() {
-		return playerId;
-	}
+  @PrimaryKey(true)
+  private int id;
+
+  private ItemId itemId;
+
+  private int playerId;
+
+  private int amount;
+
+  public OwnedItem() {
+
+  }
+
+  public OwnedItem(ItemId itemId, int playerId, int amount) {
+    this.itemId = itemId;
+    this.playerId = playerId;
+    this.amount = amount;
+  }
+
+  /**
+   * @param amount
+   *          the amount to set
+   */
+  public void setAmount(int amount) {
+    this.amount = amount;
+  }
+
+  /**
+   * @param id
+   *          the id to set
+   */
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  /**
+   * @param itemId
+   *          the itemId to set
+   */
+  public void setItemId(ItemId itemId) {
+    this.itemId = itemId;
+  }
+
+  /**
+   * @param playerId
+   *          the playerId to set
+   */
+  public void setPlayerId(int playerId) {
+    this.playerId = playerId;
+  }
+
+  /**
+   * @return the amount
+   */
+  public int getAmount() {
+    return amount;
+  }
+
+  /**
+   * @return the id
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
+   * @return the itemId
+   */
+  public ItemId getItemId() {
+    return itemId;
+  }
+
+  /**
+   * @return the playerId
+   */
+  public int getPlayerId() {
+    return playerId;
+  }
 }

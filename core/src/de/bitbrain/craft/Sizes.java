@@ -30,57 +30,57 @@ import com.badlogic.gdx.Gdx;
  */
 public final class Sizes {
 
-	public static final float MATERIAL_ICON = 75f;
+  public static final float MATERIAL_ICON = 75f;
 
-	public static int worldWidth() {
-		return 1020;
-	}
+  public static int worldWidth() {
+    return 1020;
+  }
 
-	public static int worldHeight() {
-		return 600;
-	}
+  public static int worldHeight() {
+    return 600;
+  }
 
-	public static float borderPadding() {
-		return 20f;
-	}
+  public static float borderPadding() {
+    return 20f;
+  }
 
-	public static float tabPadding() {
-		return worldHeight() / 25f;
-	}
+  public static float tabPadding() {
+    return worldHeight() / 25f;
+  }
 
-	public static int panelRadius() {
-		return 15;
-	}
+  public static int panelRadius() {
+    return 15;
+  }
 
-	public static int panelTransparentRadius() {
-		return 8;
-	}
+  public static int panelTransparentRadius() {
+    return 8;
+  }
 
-	public static int dragIconSize() {
-		return 100;
-	}
+  public static int dragIconSize() {
+    return 100;
+  }
 
-	public static float worldMouseX() {
-		return Gdx.input.getX();
-	}
+  public static float worldMouseX() {
+    return Gdx.input.getX();
+  }
 
-	public static float worldMouseY() {
-		return Gdx.input.getY();
-	}
-	
-	public static float localMouseX() {
-	  return worldMouseX() / worldScreenFactorX();
-	}
-	
-	public static float localMouseY() {
+  public static float worldMouseY() {
+    return Gdx.input.getY();
+  }
+
+  public static float localMouseX() {
+    return worldMouseX() / worldScreenFactorX();
+  }
+
+  public static float localMouseY() {
     return worldMouseY() / worldScreenFactorY();
   }
 
-	public static float worldScreenFactorX() {
-		return (float) Gdx.graphics.getWidth() / (float) worldWidth();
-	}
+  public static float worldScreenFactorX() {
+    return (float) Gdx.graphics.getWidth() / (float) worldWidth();
+  }
 
-	public static float worldScreenFactorY() {
-		return (float) Gdx.graphics.getHeight() / (float) worldHeight();
-	}
+  public static float worldScreenFactorY() {
+    return (float) Gdx.graphics.getHeight() / (float) worldHeight();
+  }
 }

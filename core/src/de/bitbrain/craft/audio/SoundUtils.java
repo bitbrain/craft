@@ -36,26 +36,26 @@ import de.bitbrain.craft.models.SoundConfig;
  */
 public final class SoundUtils {
 
-	public static void play(String id, float volume, float pitch) {
-		Sound sound = SharedAssetManager.get(id, Sound.class);
-		
-		if (sound != null) {
-			sound.play(volume, pitch, 1.0f);
-		} else {
-			Gdx.app.error("ERROR", "[SoundUtils] Sound with id='" + id + "' not found.");
-		}
-	}
-	
-	public static void play(String id) {
-		play(id, 1.0f, 1.0f);
-	}
-	
-	public static void playItemSound(Item item, SoundType type, SoundManager manager, API api) {
-		SoundConfig config = api.getItemSoundConfig(item.getId(), type);
-		if (config != null) {
-			manager.play(config);
-		} else {
-			Gdx.app.log("AUDIO", "Couldn't find sound mapping for item " + item + " and type " + type);
-		}
-	}
+  public static void play(String id, float volume, float pitch) {
+    Sound sound = SharedAssetManager.get(id, Sound.class);
+
+    if (sound != null) {
+      sound.play(volume, pitch, 1.0f);
+    } else {
+      Gdx.app.error("ERROR", "[SoundUtils] Sound with id='" + id + "' not found.");
+    }
+  }
+
+  public static void play(String id) {
+    play(id, 1.0f, 1.0f);
+  }
+
+  public static void playItemSound(Item item, SoundType type, SoundManager manager, API api) {
+    SoundConfig config = api.getItemSoundConfig(item.getId(), type);
+    if (config != null) {
+      manager.play(config);
+    } else {
+      Gdx.app.log("AUDIO", "Couldn't find sound mapping for item " + item + " and type " + type);
+    }
+  }
 }

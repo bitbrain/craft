@@ -55,182 +55,178 @@ import de.bitbrain.craft.ui.cli.CommandLineInterface;
  */
 public class UIRenderer implements ShadeArea {
 
-	private static final float OVERLAY_OPACITY = 0.5f;
+  private static final float OVERLAY_OPACITY = 0.5f;
 
-	private static final float OVERLAY_FADE = 0.35f;
+  private static final float OVERLAY_FADE = 0.35f;
 
-	private FrameBuffer buffer;
+  private FrameBuffer buffer;
 
-	protected InputEventProcessor baseStage, overlayStage, cliStage;
+  protected InputEventProcessor baseStage, overlayStage, cliStage;
 
-	private Batch batch;
+  private Batch batch;
 
-	@Inject
-	private EventBus eventBus;
+  @Inject
+  private EventBus eventBus;
 
-	@Inject
-	private DragDropHandler ddHandler;
+  @Inject
+  private DragDropHandler ddHandler;
 
-	@Inject
-	private CommandLineInterface cli;
+  @Inject
+  private CommandLineInterface cli;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private TweenManager tweenManager;
 
-	private Sprite overlay;
+  private Sprite overlay;
 
-	private UIMode mode = UIMode.NORMAL;
-	
-	private GaussianBlur blurHandler;
+  private UIMode mode = UIMode.NORMAL;
 
-	public UIRenderer(int width, int height, Viewport viewport, Batch batch) {
-		SharedInjector.get().injectMembers(this);
-		this.batch = batch;
-		blurHandler = new GaussianBlur(this);
-		buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
-		baseStage = new InputEventProcessor(viewport, batch);
-		overlayStage = new InputEventProcessor(viewport, batch);
-		cliStage = new InputEventProcessor(viewport, batch);
-		cliStage.addActor(cli);
-		eventBus.subscribe(baseStage);
-		eventBus.subscribe(overlayStage);
-		eventBus.subscribe(this);
-		overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
-		overlay.setAlpha(0f);
-	}
+  private GaussianBlur blurHandler;
 
-	public Stage getBase() {
-		return baseStage;
-	}
+  public UIRenderer(int width, int height, Viewport viewport, Batch batch) {
+    SharedInjector.get().injectMembers(this);
+    this.batch = batch;
+    blurHandler = new GaussianBlur(this);
+    buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
+    baseStage = new InputEventProcessor(viewport, batch);
+    overlayStage = new InputEventProcessor(viewport, batch);
+    cliStage = new InputEventProcessor(viewport, batch);
+    cliStage.addActor(cli);
+    eventBus.subscribe(baseStage);
+    eventBus.subscribe(overlayStage);
+    eventBus.subscribe(this);
+    overlay = new Sprite(GraphicsFactory.createTexture(16, 16, Color.BLACK));
+    overlay.setAlpha(0f);
+  }
 
-	public Stage getOverlay() {
-		return overlayStage;
-	}
+  public Stage getBase() {
+    return baseStage;
+  }
 
-	public void syncMode() {
-		setMode(getMode());
-	}
+  public Stage getOverlay() {
+    return overlayStage;
+  }
 
-	public void setMode(UIMode mode) {
-		switch (mode) {
-		case OVERLAY:
-			Gdx.input.setInputProcessor(overlayStage);
-			if (this.mode != mode) {
-				animateFadeIn();
-			}
-			break;
-		case NORMAL:
-		default:
-			Gdx.input.setInputProcessor(baseStage);
-			if (this.mode != mode) {
-				animateFadeOut();
-			}
-			break;
-		}
-		this.mode = mode;
-	}
+  public void syncMode() {
+    setMode(getMode());
+  }
 
-	public UIMode getMode() {
-		return mode;
-	}
+  public void setMode(UIMode mode) {
+    switch (mode) {
+      case OVERLAY:
+        Gdx.input.setInputProcessor(overlayStage);
+        if (this.mode != mode) {
+          animateFadeIn();
+        }
+        break;
+      case NORMAL:
+      default:
+        Gdx.input.setInputProcessor(baseStage);
+        if (this.mode != mode) {
+          animateFadeOut();
+        }
+        break;
+    }
+    this.mode = mode;
+  }
 
-	public void resize(int width, int height) {
-		buffer.dispose();
-		buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
-		baseStage.getViewport().update(width, height, true);
-		overlayStage.getViewport().update(width, height, true);
-		cliStage.getViewport().update(width, height, true);
-		blurHandler.resize(width, height);
-	}
+  public UIMode getMode() {
+    return mode;
+  }
 
-	@Handler
-	public void keyEvent(KeyEvent event) {
-		int key = event.getKey();
-		if (key == Keys.F3 && event.getType() == EventType.KEYDOWN) {
-			Gdx.input.setInputProcessor(cliStage);
-			cli.setVisible(!cli.isVisible());
-			if (cli.isVisible()) {
-				cli.focus();
-			} else {
-				setMode(mode);
-			}
-		}
-	}
+  public void resize(int width, int height) {
+    buffer.dispose();
+    buffer = new FrameBuffer(Format.RGBA8888, width, height, false);
+    baseStage.getViewport().update(width, height, true);
+    overlayStage.getViewport().update(width, height, true);
+    cliStage.getViewport().update(width, height, true);
+    blurHandler.resize(width, height);
+  }
 
-	public void render(float delta) {
-		baseStage.act(delta);
-		cliStage.act(delta);
-		if (isOverlayMode()) {
-			overlayStage.act(delta);
-			buffer.begin();
-		}
-		baseStage.draw();
-		batch.begin();
-		ddHandler.draw(batch, delta);
-		batch.end();
-		if (isOverlayMode()) {
-			buffer.end();
-		}
-		blurHandler.updateAndRender(batch, delta);
-		if (isOverlayMode()) {
-			overlayStage.draw();
-		}
-		cliStage.draw();
-	}
+  @Handler
+  public void keyEvent(KeyEvent event) {
+    int key = event.getKey();
+    if (key == Keys.F3 && event.getType() == EventType.KEYDOWN) {
+      Gdx.input.setInputProcessor(cliStage);
+      cli.setVisible(!cli.isVisible());
+      if (cli.isVisible()) {
+        cli.focus();
+      } else {
+        setMode(mode);
+      }
+    }
+  }
 
-	private boolean isOverlayMode() {
-		return mode.equals(UIMode.OVERLAY);
-	}
+  public void render(float delta) {
+    baseStage.act(delta);
+    cliStage.act(delta);
+    if (isOverlayMode()) {
+      overlayStage.act(delta);
+      buffer.begin();
+    }
+    baseStage.draw();
+    batch.begin();
+    ddHandler.draw(batch, delta);
+    batch.end();
+    if (isOverlayMode()) {
+      buffer.end();
+    }
+    blurHandler.updateAndRender(batch, delta);
+    if (isOverlayMode()) {
+      overlayStage.draw();
+    }
+    cliStage.draw();
+  }
 
-	public void dispose() {
-		eventBus.unsubscribe(baseStage);
-		eventBus.unsubscribe(overlayStage);
-		eventBus.unsubscribe(this);
-		buffer.dispose();
-		baseStage.dispose();
-		overlayStage.dispose();
-		cliStage.dispose();
-	}
+  private boolean isOverlayMode() {
+    return mode.equals(UIMode.OVERLAY);
+  }
 
-	public static enum UIMode {
-		NORMAL, OVERLAY;
-	}
+  public void dispose() {
+    eventBus.unsubscribe(baseStage);
+    eventBus.unsubscribe(overlayStage);
+    eventBus.unsubscribe(this);
+    buffer.dispose();
+    baseStage.dispose();
+    overlayStage.dispose();
+    cliStage.dispose();
+  }
 
-	@Override
-	public void draw(Batch batch, float delta) {
-		if (isOverlayMode() || overlay.getColor().a > 0) {
-			batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(),
-					buffer.getHeight(), 0, 0, buffer.getWidth(),
-					buffer.getHeight(), false, true);
-			overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
-			overlay.draw(batch);
-		}
-	}
-	
-	private void killAnimations() {
-		tweenManager.killTarget(overlay);
-		tweenManager.killTarget(blurHandler.getHorizontalBlur());
-		tweenManager.killTarget(blurHandler.getVerticalBlur());
-	}
-	
-	private void animateFadeIn() {
-		killAnimations();
-		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE)
-				.target(OVERLAY_OPACITY)
-				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0.4f)
-				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE)
-				.target(0.4f)
-				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-	}
-	
-	private void animateFadeOut() {
-		killAnimations();
-		Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f)
-				.ease(TweenEquations.easeOutQuad).start(tweenManager);
-		blurHandler.getVerticalBlur().setBlurSize(0);
-		blurHandler.getHorizontalBlur().setBlurSize(0);
-	}
+  public static enum UIMode {
+    NORMAL,
+    OVERLAY;
+  }
+
+  @Override
+  public void draw(Batch batch, float delta) {
+    if (isOverlayMode() || overlay.getColor().a > 0) {
+      batch.draw(buffer.getColorBufferTexture(), 0, 0, buffer.getWidth(), buffer.getHeight(), 0, 0, buffer.getWidth(),
+          buffer.getHeight(), false, true);
+      overlay.setBounds(0, 0, buffer.getWidth(), buffer.getHeight());
+      overlay.draw(batch);
+    }
+  }
+
+  private void killAnimations() {
+    tweenManager.killTarget(overlay);
+    tweenManager.killTarget(blurHandler.getHorizontalBlur());
+    tweenManager.killTarget(blurHandler.getVerticalBlur());
+  }
+
+  private void animateFadeIn() {
+    killAnimations();
+    Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(OVERLAY_OPACITY).ease(TweenEquations.easeOutQuad)
+        .start(tweenManager);
+    Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE).target(0.4f)
+        .ease(TweenEquations.easeOutQuad).start(tweenManager);
+    Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE).target(0.4f)
+        .ease(TweenEquations.easeOutQuad).start(tweenManager);
+  }
+
+  private void animateFadeOut() {
+    killAnimations();
+    Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f).ease(TweenEquations.easeOutQuad).start(tweenManager);
+    blurHandler.getVerticalBlur().setBlurSize(0);
+    blurHandler.getHorizontalBlur().setBlurSize(0);
+  }
 }

@@ -35,5 +35,8 @@ import com.google.inject.ScopeAnnotation;
  * @since 1.0
  * @version 1.0
  */
-@Target({ TYPE, METHOD }) @Retention(RUNTIME) @ScopeAnnotation
-public @interface StateScoped {}
+@Target({ TYPE, METHOD })
+@Retention(RUNTIME)
+@ScopeAnnotation
+public @interface StateScoped {
+}

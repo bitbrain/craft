@@ -38,28 +38,28 @@ import de.bitbrain.jpersis.annotations.Update;
  */
 @Mapper("de.bitbrain.craft.models.ItemSound")
 public interface ItemSoundMapper {
-	
-	@Select(condition = "id = $1")
-	ItemSound findById(String id);
-	
-	@Insert
-	boolean insert(ItemSound sound);
-	
-	@Insert
-	boolean insert(Collection<ItemSound> sound);
-	
-	@Update
-	boolean update(ItemSound sound);
 
-	@Update
-	boolean update(Collection<ItemSound> sound);
-	
-	@Delete
-	boolean delete(ItemSound sound);
-	
-	@Delete
-	boolean delete(Collection<ItemSound> sounds);
+  @Select(condition = "id = $1")
+  ItemSound findById(String id);
 
-	@Select(condition = "item_id = $1")
-	Collection<ItemSound> findByItemId(ItemId itemId);	
+  @Insert
+  boolean insert(ItemSound sound);
+
+  @Insert
+  boolean insert(Collection<ItemSound> sound);
+
+  @Update
+  boolean update(ItemSound sound);
+
+  @Update
+  boolean update(Collection<ItemSound> sound);
+
+  @Delete
+  boolean delete(ItemSound sound);
+
+  @Delete
+  boolean delete(Collection<ItemSound> sounds);
+
+  @Select(condition = "item_id = $1")
+  Collection<ItemSound> findByItemId(ItemId itemId);
 }

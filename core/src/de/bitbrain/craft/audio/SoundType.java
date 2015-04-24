@@ -28,8 +28,8 @@ package de.bitbrain.craft.audio;
  */
 public enum SoundType {
 
-	DRAG,
-	DROP,
-	CLICK,
-	HOVER;
+  DRAG,
+  DROP,
+  CLICK,
+  HOVER;
 }

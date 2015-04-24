@@ -40,37 +40,37 @@ import de.bitbrain.jpersis.annotations.Update;
 @Mapper("de.bitbrain.craft.models.Ingredient")
 public interface IngredientMapper {
 
-	@Select
-	Collection<Ingredient> findAll();
-	
-	@Select(condition = "id = $1")
-	Ingredient findById(int id);
-	
-	@Select(condition = "recipe_id = $1")
-	Collection<Ingredient> findByRecipeId(int recipe_id);
-	
-	@Select(condition = "item_id = $1")
-	Collection<Ingredient> findByItemId(ItemId item_id);
-	
-	@Insert
-	boolean insert(Ingredient Ingredient);
-	
-	@Insert
-	boolean insert(Collection<Ingredient> Ingredients);
-	
-	@Update
-	boolean update(Ingredient Ingredient);
+  @Select
+  Collection<Ingredient> findAll();
 
-	@Update
-	boolean update(Collection<Ingredient> Ingredients);
-	
-	@Delete
-	boolean delete(Ingredient Ingredient);
-	
-	@Delete
-	boolean delete(Collection<Ingredient> Ingredients);
-	
-	@Count
-    int count();
-	
+  @Select(condition = "id = $1")
+  Ingredient findById(int id);
+
+  @Select(condition = "recipe_id = $1")
+  Collection<Ingredient> findByRecipeId(int recipe_id);
+
+  @Select(condition = "item_id = $1")
+  Collection<Ingredient> findByItemId(ItemId item_id);
+
+  @Insert
+  boolean insert(Ingredient Ingredient);
+
+  @Insert
+  boolean insert(Collection<Ingredient> Ingredients);
+
+  @Update
+  boolean update(Ingredient Ingredient);
+
+  @Update
+  boolean update(Collection<Ingredient> Ingredients);
+
+  @Delete
+  boolean delete(Ingredient Ingredient);
+
+  @Delete
+  boolean delete(Collection<Ingredient> Ingredients);
+
+  @Count
+  int count();
+
 }

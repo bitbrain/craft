@@ -64,74 +64,74 @@ import de.bitbrain.craft.util.FloatValueProvider;
  */
 public class LoadingScreen extends AbstractScreen {
 
-	@Inject
-	private DataMigrator migrator;
+  @Inject
+  private DataMigrator migrator;
 
-	private ExecutorService executor;
+  private ExecutorService executor;
 
-	private Future<?> future;
-	
-	private AssetReflector reflector;
+  private Future<?> future;
 
-	public LoadingScreen() {
-		executor = Executors.newFixedThreadPool(5);
-	}
+  private AssetReflector reflector;
 
-	private void registerTweens() {
-		Gdx.app.log("INFO", "Registering tweens...");
-		Tween.registerAccessor(Sprite.class, new SpriteTween());
-		Tween.registerAccessor(Actor.class, new ActorTween());
-		Tween.registerAccessor(IconManager.class, new FadeableTween());
-		Tween.registerAccessor(LoadingIndicator.class, new FadeableTween());
-		Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
-		Tween.registerAccessor(Vector2.class, new VectorTween());
-		Tween.registerAccessor(BlurShader.class, new BlurShaderTween());
-		Tween.registerAccessor(FloatValueProvider.class, new FloatValueTween());
-		Gdx.app.log("INFO", "Tween accessors registered.");
-	}
+  public LoadingScreen() {
+    executor = Executors.newFixedThreadPool(5);
+  }
 
-	@Override
-	protected void onCreateStage(Stage stage) {
-		Table layout = new Table();
-		layout.setFillParent(true);
-		LoadingIndicator indicator = new LoadingIndicator(tweenManager);
-		indicator.setWidth(150f);
-		indicator.setHeight(150f);
-		layout.add(indicator);
-		stage.addActor(layout);
-	}
+  private void registerTweens() {
+    Gdx.app.log("INFO", "Registering tweens...");
+    Tween.registerAccessor(Sprite.class, new SpriteTween());
+    Tween.registerAccessor(Actor.class, new ActorTween());
+    Tween.registerAccessor(IconManager.class, new FadeableTween());
+    Tween.registerAccessor(LoadingIndicator.class, new FadeableTween());
+    Tween.registerAccessor(ParticleRenderer.class, new FadeableTween());
+    Tween.registerAccessor(Vector2.class, new VectorTween());
+    Tween.registerAccessor(BlurShader.class, new BlurShaderTween());
+    Tween.registerAccessor(FloatValueProvider.class, new FloatValueTween());
+    Gdx.app.log("INFO", "Tween accessors registered.");
+  }
 
-	@Override
-	protected void onDraw(Batch batch, float delta) {
-		if (future.isDone() && !reflector.loadNext()) {
-			Styles.load();
-			Gdx.app.log("INFO", "Done loading assets.");
-			game.setScreen(TitleScreen.class);
-		}
-	}
+  @Override
+  protected void onCreateStage(Stage stage) {
+    Table layout = new Table();
+    layout.setFillParent(true);
+    LoadingIndicator indicator = new LoadingIndicator(tweenManager);
+    indicator.setWidth(150f);
+    indicator.setHeight(150f);
+    layout.add(indicator);
+    stage.addActor(layout);
+  }
 
-	@Override
-	protected void onShow() {
-		registerTweens();
-		future = executor.submit(new GameLoader());
-		reflector = new AssetReflector(SharedAssetManager.getInstance());
-	}
+  @Override
+  protected void onDraw(Batch batch, float delta) {
+    if (future.isDone() && !reflector.loadNext()) {
+      Styles.load();
+      Gdx.app.log("INFO", "Done loading assets.");
+      game.setScreen(TitleScreen.class);
+    }
+  }
 
-	private class GameLoader implements Runnable {
-		@Override
-		public void run() {
-			try {
-				DriverProvider.initialize();
-				Bundles.load();
-				migrator.migrate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+  @Override
+  protected void onShow() {
+    registerTweens();
+    future = executor.submit(new GameLoader());
+    reflector = new AssetReflector(SharedAssetManager.getInstance());
+  }
 
-	@Override
-	protected Viewport createViewport() {
-		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
-	}
+  private class GameLoader implements Runnable {
+    @Override
+    public void run() {
+      try {
+        DriverProvider.initialize();
+        Bundles.load();
+        migrator.migrate();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  @Override
+  protected Viewport createViewport() {
+    return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
+  }
 }

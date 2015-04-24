@@ -34,12 +34,12 @@ import de.bitbrain.craft.models.Profession;
  */
 public class RecipeMigrationJob {
 
-	@Migrate(Migrations.RELEASE)
-	public void migrateRecipesForAlchemist(API api) {
-		RecipeDataBuilder builder = new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST);
-		builder.addIngredient(ItemId.WATER, 2);
-		builder.addIngredient(ItemId.EARTH, 2);
-		builder.amount(1);
-		api.registerRecipe(builder.build());
-	}
+  @Migrate(Migrations.RELEASE)
+  public void migrateRecipesForAlchemist(API api) {
+    RecipeDataBuilder builder = new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST);
+    builder.addIngredient(ItemId.WATER, 2);
+    builder.addIngredient(ItemId.EARTH, 2);
+    builder.amount(1);
+    api.registerRecipe(builder.build());
+  }
 }

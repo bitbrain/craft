@@ -28,17 +28,17 @@ package de.bitbrain.craft.util;
  */
 public final class MemoryInfo {
 
-	public static long freeMemory() {
-		Runtime runtime = Runtime.getRuntime();
-		return runtime.freeMemory() / 1024 / 1024;
-	}
-	
-	public static long totalMemory() {
-		Runtime runtime = Runtime.getRuntime();
-		return runtime.totalMemory() / 1024 / 1024;
-	}
-	
-	public static long usedMemory() {
-		return totalMemory() - freeMemory();
-	}
+  public static long freeMemory() {
+    Runtime runtime = Runtime.getRuntime();
+    return runtime.freeMemory() / 1024 / 1024;
+  }
+
+  public static long totalMemory() {
+    Runtime runtime = Runtime.getRuntime();
+    return runtime.totalMemory() / 1024 / 1024;
+  }
+
+  public static long usedMemory() {
+    return totalMemory() - freeMemory();
+  }
 }

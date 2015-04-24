@@ -31,8 +31,8 @@ import com.badlogic.gdx.graphics.Texture;
  * @version 1.0
  */
 public class ColorCalculator {
-	
-	public Color getColor(Texture texture) {
-		return new Color(0f, 0f, 0f, 1.0f);
-	}
+
+  public Color getColor(Texture texture) {
+    return new Color(0f, 0f, 0f, 1.0f);
+  }
 }

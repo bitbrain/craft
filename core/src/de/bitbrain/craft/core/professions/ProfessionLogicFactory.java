@@ -30,16 +30,16 @@ import de.bitbrain.craft.models.Profession;
  */
 public final class ProfessionLogicFactory {
 
-	public static ProfessionLogic create(Profession profession) {
-		switch (profession) {
-		case ALCHEMIST: 
-			return new AlchemistLogic();
-		case ENGINEER:  
-			return new EngineerLogic();
-		case JEWELER:	 
-			return new JewelerLogic();
-		default:        
-			return new NotImplementedLogic();
-		}
-	}
+  public static ProfessionLogic create(Profession profession) {
+    switch (profession) {
+      case ALCHEMIST:
+        return new AlchemistLogic();
+      case ENGINEER:
+        return new EngineerLogic();
+      case JEWELER:
+        return new JewelerLogic();
+      default:
+        return new NotImplementedLogic();
+    }
+  }
 }

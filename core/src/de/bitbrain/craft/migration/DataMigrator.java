@@ -46,118 +46,115 @@ import de.bitbrain.jpersis.JPersis;
  * @version 1.0
  */
 public final class DataMigrator {
-	
-	@Inject
-	private API api;
-	
-	@Inject
-	private JPersis jpersis;
-	
-	private MigrationMapper migrationMapper;
-	
-	private Class<?>[] targets;
-	
-	@PostConstruct
-	public void initMigrator() {
-		migrationMapper = jpersis.map(MigrationMapper.class);
-		targets = getMigrators();
-	}
 
-	public void migrate() {
-		try {
-			Gdx.app.log("LOAD", "Load game data..");
-			migratePlayer();
-			migrateAll();
-		} catch (APIException e) {
-			Gdx.app.error("ERROR", "Unable to migrate data. " + e.getMessage());
-		}
-	}
-	
-	private void migratePlayer() throws APIException {
-		Player p = api.getFirstPlayer();
-		if (p == null) {
-			Gdx.app.log("INFO", "No profile yet. Create a new one..");
-			p = api.createPlayer("guest");
-		} else {
-			Gdx.app.log("INFO", "Player profile found.");
-		}
-		PlayerUtils.setCurrentPlayer(p);
-	}
-	
-	private void migrateAll() {
-		for (Class<?> c : targets) {
-			Object o = createMigrator(c);
-			Method[] methods = o.getClass().getDeclaredMethods();
-			for (Method m : methods) {
-				if (m.isAnnotationPresent(Migrate.class)) {
-					Migrate migrate = m.getAnnotation(Migrate.class);
-					migrateSingle(c.getName() + "::" + migrate.value(), o, m);
-				}
-			}
-		}
-	}
-	
-	private Object createMigrator(Class<?> c) {
-		try {
-			return c.getConstructor().newInstance();
-		} catch (InstantiationException e) {
-			throw new MigrateException(e);
-		} catch (IllegalAccessException e) {
-			throw new MigrateException(e);
-		} catch (IllegalArgumentException e) {
-			throw new MigrateException(e);
-		} catch (InvocationTargetException e) {
-			throw new MigrateException(e);
-		} catch (NoSuchMethodException e) {
-			throw new MigrateException(e);
-		} catch (SecurityException e) {
-			throw new MigrateException(e);
-		}
-	}
-	
-	private void migrateSingle(String id, Object o, Method m) {
-		if (!migrationExists(id)) {
-			Gdx.app.log("INFO", "Migration '" + id + "' Did not happen. Migrate data..");
-			try {
-				m.invoke(o, api);
-			} catch (IllegalAccessException e) {
-				throw new MigrateException(e);
-			} catch (IllegalArgumentException e) {
-				throw new MigrateException(e);
-			} catch (InvocationTargetException e) {
-				throw new MigrateException(e);
-			}
-			addMigration(id);
-			Gdx.app.log("INFO", "Success migrating data for migration '" + id + "'!");
-		} else {
-			Gdx.app.log("INFO", "Migration '" + id + "' found.");
-		}
-	}
-	
-	private boolean migrationExists(String migrationId) {
-		Player p = Player.getCurrent();
-		return migrationMapper.findByPlayerId(p.getId(), migrationId) != null;
-	}
-	
-	private void addMigration(String migrationId) {
-		Player p = Player.getCurrent();
-		migrationMapper.insert(new Migration(migrationId, p.getId()));
-	}
-	
-	private Class<?>[] getMigrators() {
-		return new Class<?>[]{
-				ItemMigrationJob.class, OwnedItemMigrationJob.class,
-				RecipeMigrationJob.class, LearnedRecipeMigrationJob.class,
-				ItemSoundMigrationJob.class
-		};
-	}
-	
-	private class MigrateException extends RuntimeException {
-		
-		private static final long serialVersionUID = 1L;
+  @Inject
+  private API api;
 
-		public MigrateException(Throwable t) {
-			super(t);
-		}
-	}
+  @Inject
+  private JPersis jpersis;
+
+  private MigrationMapper migrationMapper;
+
+  private Class<?>[] targets;
+
+  @PostConstruct
+  public void initMigrator() {
+    migrationMapper = jpersis.map(MigrationMapper.class);
+    targets = getMigrators();
+  }
+
+  public void migrate() {
+    try {
+      Gdx.app.log("LOAD", "Load game data..");
+      migratePlayer();
+      migrateAll();
+    } catch (APIException e) {
+      Gdx.app.error("ERROR", "Unable to migrate data. " + e.getMessage());
+    }
+  }
+
+  private void migratePlayer() throws APIException {
+    Player p = api.getFirstPlayer();
+    if (p == null) {
+      Gdx.app.log("INFO", "No profile yet. Create a new one..");
+      p = api.createPlayer("guest");
+    } else {
+      Gdx.app.log("INFO", "Player profile found.");
+    }
+    PlayerUtils.setCurrentPlayer(p);
+  }
+
+  private void migrateAll() {
+    for (Class<?> c : targets) {
+      Object o = createMigrator(c);
+      Method[] methods = o.getClass().getDeclaredMethods();
+      for (Method m : methods) {
+        if (m.isAnnotationPresent(Migrate.class)) {
+          Migrate migrate = m.getAnnotation(Migrate.class);
+          migrateSingle(c.getName() + "::" + migrate.value(), o, m);
+        }
+      }
+    }
+  }
+
+  private Object createMigrator(Class<?> c) {
+    try {
+      return c.getConstructor().newInstance();
+    } catch (InstantiationException e) {
+      throw new MigrateException(e);
+    } catch (IllegalAccessException e) {
+      throw new MigrateException(e);
+    } catch (IllegalArgumentException e) {
+      throw new MigrateException(e);
+    } catch (InvocationTargetException e) {
+      throw new MigrateException(e);
+    } catch (NoSuchMethodException e) {
+      throw new MigrateException(e);
+    } catch (SecurityException e) {
+      throw new MigrateException(e);
+    }
+  }
+
+  private void migrateSingle(String id, Object o, Method m) {
+    if (!migrationExists(id)) {
+      Gdx.app.log("INFO", "Migration '" + id + "' Did not happen. Migrate data..");
+      try {
+        m.invoke(o, api);
+      } catch (IllegalAccessException e) {
+        throw new MigrateException(e);
+      } catch (IllegalArgumentException e) {
+        throw new MigrateException(e);
+      } catch (InvocationTargetException e) {
+        throw new MigrateException(e);
+      }
+      addMigration(id);
+      Gdx.app.log("INFO", "Success migrating data for migration '" + id + "'!");
+    } else {
+      Gdx.app.log("INFO", "Migration '" + id + "' found.");
+    }
+  }
+
+  private boolean migrationExists(String migrationId) {
+    Player p = Player.getCurrent();
+    return migrationMapper.findByPlayerId(p.getId(), migrationId) != null;
+  }
+
+  private void addMigration(String migrationId) {
+    Player p = Player.getCurrent();
+    migrationMapper.insert(new Migration(migrationId, p.getId()));
+  }
+
+  private Class<?>[] getMigrators() {
+    return new Class<?>[] { ItemMigrationJob.class, OwnedItemMigrationJob.class, RecipeMigrationJob.class,
+        LearnedRecipeMigrationJob.class, ItemSoundMigrationJob.class };
+  }
+
+  private class MigrateException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public MigrateException(Throwable t) {
+      super(t);
+    }
+  }
 }

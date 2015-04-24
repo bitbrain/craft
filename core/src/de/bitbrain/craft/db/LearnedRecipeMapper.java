@@ -39,37 +39,37 @@ import de.bitbrain.jpersis.annotations.Update;
 @Mapper("de.bitbrain.craft.models.LearnedRecipe")
 public interface LearnedRecipeMapper {
 
-	@Select
-	Collection<LearnedRecipe> findAll();
-	
-	@Select(condition = "id = $1")
-	LearnedRecipe findById(int id);
-	
-	@Select(condition = "recipe_id = $1 AND player_id = $2")
-	LearnedRecipe findByRecipeId(int recipeId, int playerId);
-	
-	@Select(condition = "player_id = $1")
-	Collection<LearnedRecipe> findByPlayerId(int playerId);
-	
-	@Insert
-	boolean insert(LearnedRecipe recipe);
-	
-	@Insert
-	boolean insert(Collection<LearnedRecipe> recipes);
-	
-	@Update
-	boolean update(LearnedRecipe recipe);
+  @Select
+  Collection<LearnedRecipe> findAll();
 
-	@Update
-	boolean update(Collection<LearnedRecipe> recipes);
-	
-	@Delete
-	boolean delete(LearnedRecipe recipe);
-	
-	@Delete
-	boolean delete(Collection<LearnedRecipe> recipes);
-	
-	@Count
-    int count();
-	
+  @Select(condition = "id = $1")
+  LearnedRecipe findById(int id);
+
+  @Select(condition = "recipe_id = $1 AND player_id = $2")
+  LearnedRecipe findByRecipeId(int recipeId, int playerId);
+
+  @Select(condition = "player_id = $1")
+  Collection<LearnedRecipe> findByPlayerId(int playerId);
+
+  @Insert
+  boolean insert(LearnedRecipe recipe);
+
+  @Insert
+  boolean insert(Collection<LearnedRecipe> recipes);
+
+  @Update
+  boolean update(LearnedRecipe recipe);
+
+  @Update
+  boolean update(Collection<LearnedRecipe> recipes);
+
+  @Delete
+  boolean delete(LearnedRecipe recipe);
+
+  @Delete
+  boolean delete(Collection<LearnedRecipe> recipes);
+
+  @Count
+  int count();
+
 }

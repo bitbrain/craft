@@ -40,26 +40,24 @@ import de.bitbrain.craft.Assets;
  */
 public class ParticleLoader extends SynchronousAssetLoader<ParticleEffect, ParticleLoader.ParticleParameter> {
 
-	public ParticleLoader(FileHandleResolver resolver) {
-		super(resolver);
-	}
+  public ParticleLoader(FileHandleResolver resolver) {
+    super(resolver);
+  }
 
-	static public class ParticleParameter extends AssetLoaderParameters<ParticleEffect> {
+  static public class ParticleParameter extends AssetLoaderParameters<ParticleEffect> {
 
-	}
+  }
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Array<AssetDescriptor> getDependencies(String fileName,
-			FileHandle file, ParticleParameter parameter) {
-		return null;
-	}
+  @SuppressWarnings("rawtypes")
+  @Override
+  public Array<AssetDescriptor> getDependencies(String fileName, FileHandle file, ParticleParameter parameter) {
+    return null;
+  }
 
-	@Override
-	public ParticleEffect load(AssetManager assetManager, String fileName,
-			FileHandle file, ParticleParameter parameter) {
-		ParticleEffect effect = new ParticleEffect();		
-		effect.load(file, Gdx.files.internal(Assets.DIR_PARTICLES));		
-		return effect;
-	}
+  @Override
+  public ParticleEffect load(AssetManager assetManager, String fileName, FileHandle file, ParticleParameter parameter) {
+    ParticleEffect effect = new ParticleEffect();
+    effect.load(file, Gdx.files.internal(Assets.DIR_PARTICLES));
+    return effect;
+  }
 }

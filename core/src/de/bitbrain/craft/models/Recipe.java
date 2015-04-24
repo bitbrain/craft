@@ -31,70 +31,69 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class Recipe {
 
-	@PrimaryKey(true)
-	private int id;
-	
-	private ItemId itemId;
-	
-	private int amount;
-	
-	private Profession profession;
-	
-	public int getAmount() {
-		return amount;
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	
-	public ItemId getItemId() {
-		return itemId;
-	}
-	
-	public void setItemId(ItemId itemId) {
-		this.itemId = itemId;
-	}
-	
-	public void setProfession(Profession profession) {
-		this.profession = profession;
-	}
-	
-	public Profession getProfession() {
-		return profession;
-	}
+  @PrimaryKey(true)
+  private int id;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + amount;
-		result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
-		return result;
-	}
+  private ItemId itemId;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Recipe other = (Recipe) obj;
-		if (amount != other.amount)
-			return false;
-		if (itemId == null) {
-			if (other.itemId != null)
-				return false;
-		} else if (!itemId.equals(other.itemId))
-			return false;
-		return true;
-	}
-	
-	
+  private int amount;
+
+  private Profession profession;
+
+  public int getAmount() {
+    return amount;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public void setAmount(int amount) {
+    this.amount = amount;
+  }
+
+  public ItemId getItemId() {
+    return itemId;
+  }
+
+  public void setItemId(ItemId itemId) {
+    this.itemId = itemId;
+  }
+
+  public void setProfession(Profession profession) {
+    this.profession = profession;
+  }
+
+  public Profession getProfession() {
+    return profession;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + amount;
+    result = prime * result + ((itemId == null) ? 0 : itemId.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Recipe other = (Recipe) obj;
+    if (amount != other.amount)
+      return false;
+    if (itemId == null) {
+      if (other.itemId != null)
+        return false;
+    } else if (!itemId.equals(other.itemId))
+      return false;
+    return true;
+  }
+
 }

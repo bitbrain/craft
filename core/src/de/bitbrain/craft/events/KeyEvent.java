@@ -29,20 +29,20 @@ import com.badlogic.gdx.Input;
  * @version 1.0
  */
 public class KeyEvent extends Event<Input> {
-	
-	private int key;
 
-	/**
-	 * @param type
-	 * @param model
-	 */
-	public KeyEvent(de.bitbrain.craft.events.Event.EventType type, Input model, int key) {
-		super(type, model);
-		this.key = key;
-	}
-	
-	public int getKey() {
-		return key;
-	}
+  private int key;
+
+  /**
+   * @param type
+   * @param model
+   */
+  public KeyEvent(de.bitbrain.craft.events.Event.EventType type, Input model, int key) {
+    super(type, model);
+    this.key = key;
+  }
+
+  public int getKey() {
+    return key;
+  }
 
 }

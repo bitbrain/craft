@@ -32,28 +32,28 @@ import com.badlogic.gdx.graphics.g2d.Batch;
  * @version 1.0
  */
 public class TooltipManager {
-	
-	private List<Tooltip> tooltips = new ArrayList<Tooltip>();
-	
-	public void draw(Batch batch) {
-		batch.begin();
-		for (Tooltip tooltip : tooltips) {
-			tooltip.draw(batch, 1f);
-		}
-		batch.end();
-	}
-	
-	public void clear() {
-		tooltips.clear();
-	}
 
-	void register(Tooltip tooltip) {
-		if (!tooltips.contains(tooltip)) {
-			tooltips.add(tooltip);
-		}
-	}
-	
-	void unregister(Tooltip tooltip) {
-		tooltips.remove(tooltip);
-	}
+  private List<Tooltip> tooltips = new ArrayList<Tooltip>();
+
+  public void draw(Batch batch) {
+    batch.begin();
+    for (Tooltip tooltip : tooltips) {
+      tooltip.draw(batch, 1f);
+    }
+    batch.end();
+  }
+
+  public void clear() {
+    tooltips.clear();
+  }
+
+  void register(Tooltip tooltip) {
+    if (!tooltips.contains(tooltip)) {
+      tooltips.add(tooltip);
+    }
+  }
+
+  void unregister(Tooltip tooltip) {
+    tooltips.remove(tooltip);
+  }
 }

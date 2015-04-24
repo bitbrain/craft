@@ -18,7 +18,6 @@
  */
 package de.bitbrain.craft.migration;
 
-
 /**
  * Contains migrations
  *
@@ -27,6 +26,6 @@ package de.bitbrain.craft.migration;
  * @version 1.0
  */
 public final class Migrations {
-	
-	public static final String RELEASE = "release_items";
+
+  public static final String RELEASE = "release_items";
 }

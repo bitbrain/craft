@@ -35,48 +35,48 @@ import de.bitbrain.craft.models.Item;
  */
 public class ItemBag implements Iterable<Entry<Item, Integer>> {
 
-	private Map<Item, Integer> items;
-	
-	private Map<ItemId, Item> itemIds;
+  private Map<Item, Integer> items;
 
-	public ItemBag() {
-		items = new HashMap<Item, Integer>();
-		itemIds = new HashMap<ItemId, Item>();
-	}
+  private Map<ItemId, Item> itemIds;
 
-	public void add(Item item, Integer amount) {
-		if (items.containsKey(item)) {
-			Integer currentAmount = items.get(item);
-			items.put(item,  currentAmount + amount);
-		} else {
-			items.put(item, amount);
-			itemIds.put(item.getId(), item);
-		}
-	}
+  public ItemBag() {
+    items = new HashMap<Item, Integer>();
+    itemIds = new HashMap<ItemId, Item>();
+  }
 
-	@Override
-	public Iterator<Entry<Item, Integer>> iterator() {
-		return items.entrySet().iterator();
-	}
-	
-	public int getAmount(Item item) {
-		Integer amount = items.get(item);
-		return amount != null ? amount : 0;
-	}
+  public void add(Item item, Integer amount) {
+    if (items.containsKey(item)) {
+      Integer currentAmount = items.get(item);
+      items.put(item, currentAmount + amount);
+    } else {
+      items.put(item, amount);
+      itemIds.put(item.getId(), item);
+    }
+  }
 
-	public boolean contains(Item item) {
-		return items.containsKey(item);
-	}
+  @Override
+  public Iterator<Entry<Item, Integer>> iterator() {
+    return items.entrySet().iterator();
+  }
 
-	public int size() {
-		return items.size();
-	}
+  public int getAmount(Item item) {
+    Integer amount = items.get(item);
+    return amount != null ? amount : 0;
+  }
 
-	public void clear(ItemId id) {
-		Item item = itemIds.get(id);
-		if (item != null) {
-			items.remove(item);
-			itemIds.remove(id);
-		}
-	}
+  public boolean contains(Item item) {
+    return items.containsKey(item);
+  }
+
+  public int size() {
+    return items.size();
+  }
+
+  public void clear(ItemId id) {
+    Item item = itemIds.get(id);
+    if (item != null) {
+      items.remove(item);
+      itemIds.remove(id);
+    }
+  }
 }

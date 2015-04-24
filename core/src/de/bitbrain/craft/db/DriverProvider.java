@@ -40,102 +40,111 @@ import de.bitbrain.jpersis.util.Naming;
  * @version 1.0
  */
 public final class DriverProvider {
-	
-	private static LibGdxDriver driver;
 
-	public static Driver getDriver() {
-		driver = new LibGdxDriver();
-		return driver;
-	}
-	public static void initialize() {
-		if (driver != null && !driver.isLoaded()) {
-			FileHandle handle = setup();
-			driver.load(handle.file().getAbsolutePath());
-		}
-	}
-	
-	private static class LibGdxDriver implements Driver {
-		
-		private Driver driver;
-		
-		public void load(String path) {
-			if (Gdx.app.getType().equals(ApplicationType.Android)) {
-				driver = new SQLDroidDriver(path);
-			} else {
-				driver = new SQLiteDriver(path);
-			}
-		}
-		
-		public boolean isLoaded() {
-			return driver != null;
-		}
+  private static LibGdxDriver driver;
 
-		/* (non-Javadoc)
-		 * @see de.bitbrain.jpersis.drivers.Driver#close()
-		 */
-		@Override
-		public void close() throws DriverException {
-			if (driver != null) {
-				driver.close();
-			}
-		}
+  public static Driver getDriver() {
+    driver = new LibGdxDriver();
+    return driver;
+  }
 
-		/* (non-Javadoc)
-		 * @see de.bitbrain.jpersis.drivers.Driver#commit(de.bitbrain.jpersis.drivers.Query, java.lang.Class, java.lang.Object[], java.lang.Class, de.bitbrain.jpersis.util.Naming)
-		 */
-		@Override
-		public Object commit(Query arg0, Class<?> arg1, Object[] arg2,
-				Class<?> arg3, Naming arg4) throws DriverException {
-			if (driver != null) {
-				return driver.commit(arg0, arg1, arg2, arg3, arg4);
-			} else {
-				throw new RuntimeException("Driver is not initialized yet.");
-			}
-		}
+  public static void initialize() {
+    if (driver != null && !driver.isLoaded()) {
+      FileHandle handle = setup();
+      driver.load(handle.file().getAbsolutePath());
+    }
+  }
 
-		/* (non-Javadoc)
-		 * @see de.bitbrain.jpersis.drivers.Driver#connect()
-		 */
-		@Override
-		public void connect() throws DriverException {
-			if (driver != null) {
-				driver.connect();
-			}
-		}
+  private static class LibGdxDriver implements Driver {
 
-		/* (non-Javadoc)
-		 * @see de.bitbrain.jpersis.drivers.Driver#query(java.lang.Class, de.bitbrain.jpersis.util.Naming)
-		 */
-		@Override
-		public Query query(Class<?> arg0, Naming arg1) {
-			if (driver != null) {
-				return driver.query(arg0, arg1);
-			} else {
-				throw new RuntimeException("Driver is not initialized yet.");
-			}
-		}
-		
-	}
-	
-	private static FileHandle setup() {
-		FileHandle handle = Gdx.files.external(Settings.DIR_DATA + Settings.DATABASE);		
-		try {
-			if (!handle.file().getParentFile().exists()) {
-				Gdx.app.log("INFO", "External directory not found. Creating a new one...");
-				handle.file().getParentFile().mkdirs();
-				Gdx.app.log("INFO", "Successfully created external directory.");
-			} else {
-				Gdx.app.log("INFO", "External directory found.");
-			}
-			if (!handle.file().exists()) {
-				Gdx.app.log("INFO", "Datasource not found Create a new one..");
-				handle.file().createNewFile();
-			} else {
-				Gdx.app.log("INFO", "Datasource found.");
-			}
-		} catch (IOException e) {
-			Gdx.app.error("ERROR", "Could not create external directory.", e);
-		}
-		return handle;
-	}
+    private Driver driver;
+
+    public void load(String path) {
+      if (Gdx.app.getType().equals(ApplicationType.Android)) {
+        driver = new SQLDroidDriver(path);
+      } else {
+        driver = new SQLiteDriver(path);
+      }
+    }
+
+    public boolean isLoaded() {
+      return driver != null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.bitbrain.jpersis.drivers.Driver#close()
+     */
+    @Override
+    public void close() throws DriverException {
+      if (driver != null) {
+        driver.close();
+      }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.bitbrain.jpersis.drivers.Driver#commit(de.bitbrain.jpersis.drivers.Query, java.lang.Class,
+     * java.lang.Object[], java.lang.Class, de.bitbrain.jpersis.util.Naming)
+     */
+    @Override
+    public Object commit(Query arg0, Class<?> arg1, Object[] arg2, Class<?> arg3, Naming arg4) throws DriverException {
+      if (driver != null) {
+        return driver.commit(arg0, arg1, arg2, arg3, arg4);
+      } else {
+        throw new RuntimeException("Driver is not initialized yet.");
+      }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.bitbrain.jpersis.drivers.Driver#connect()
+     */
+    @Override
+    public void connect() throws DriverException {
+      if (driver != null) {
+        driver.connect();
+      }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see de.bitbrain.jpersis.drivers.Driver#query(java.lang.Class, de.bitbrain.jpersis.util.Naming)
+     */
+    @Override
+    public Query query(Class<?> arg0, Naming arg1) {
+      if (driver != null) {
+        return driver.query(arg0, arg1);
+      } else {
+        throw new RuntimeException("Driver is not initialized yet.");
+      }
+    }
+
+  }
+
+  private static FileHandle setup() {
+    FileHandle handle = Gdx.files.external(Settings.DIR_DATA + Settings.DATABASE);
+    try {
+      if (!handle.file().getParentFile().exists()) {
+        Gdx.app.log("INFO", "External directory not found. Creating a new one...");
+        handle.file().getParentFile().mkdirs();
+        Gdx.app.log("INFO", "Successfully created external directory.");
+      } else {
+        Gdx.app.log("INFO", "External directory found.");
+      }
+      if (!handle.file().exists()) {
+        Gdx.app.log("INFO", "Datasource not found Create a new one..");
+        handle.file().createNewFile();
+      } else {
+        Gdx.app.log("INFO", "Datasource found.");
+      }
+    } catch (IOException e) {
+      Gdx.app.error("ERROR", "Could not create external directory.", e);
+    }
+    return handle;
+  }
 }

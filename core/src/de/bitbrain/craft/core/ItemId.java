@@ -27,15 +27,15 @@ package de.bitbrain.craft.core;
  * @version 1.0
  */
 public enum ItemId {
-	
-	WATER,
-	EARTH,
-	AIR,
-	FIRE, 
-	ACID_1;
-	
-	@Override
-	public String toString() {
-		return name();
-	}
+
+  WATER,
+  EARTH,
+  AIR,
+  FIRE,
+  ACID_1;
+
+  @Override
+  public String toString() {
+    return name();
+  }
 }

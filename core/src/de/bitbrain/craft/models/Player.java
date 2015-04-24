@@ -21,7 +21,6 @@ package de.bitbrain.craft.models;
 
 import de.bitbrain.jpersis.annotations.PrimaryKey;
 
-
 /**
  * Player which owns a game
  * 
@@ -30,48 +29,50 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  * @version 1.0
  */
 public class Player {
-	
-	static Player current = null;
 
-	@PrimaryKey(true)
-	private int id;
-	
-	private String name;
-	
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-	
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public static Player getCurrent() {
-		
-		if (current == null) {
-			throw new RuntimeException("Current player is not set.");
-		}
-		
-		return current;
-	}
+  static Player current = null;
+
+  @PrimaryKey(true)
+  private int id;
+
+  private String name;
+
+  /**
+   * @return the id
+   */
+  public int getId() {
+    return id;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @param id
+   *          the id to set
+   */
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  /**
+   * @param name
+   *          the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public static Player getCurrent() {
+
+    if (current == null) {
+      throw new RuntimeException("Current player is not set.");
+    }
+
+    return current;
+  }
 }

@@ -35,44 +35,45 @@ import de.bitbrain.craft.loader.ParticleLoader;
  */
 public class SharedAssetManager {
 
-	private static AssetManager instance = null;
-	
-	private SharedAssetManager() { }
-	
-	public static AssetManager getInstance() {
-		
-		if (instance == null) {
-			loadInternal();
-		}
-		
-		return instance;
-	}
-	
-	public static <T> T get(String s, Class<T> clss) {
-		return getInstance().get(s, clss);
-	}
-	
-	public static boolean isLoaded(String s) {
-		return getInstance().isLoaded(s);
-	}
-	
-	public static void dispose() {
-		if (instance != null) {
-			Gdx.app.log("DISPOSE", "Unload resources..");
-			getInstance().dispose();
-			instance = null;
-		}
-	}
-	
-	private static void loadInternal() {
-		
-		if (Gdx.files == null) {
-			throw new RuntimeException("LibGDX is not initialized yet!");
-		}
-		
-		if (Gdx.files.isLocalStorageAvailable()) {		
-			instance = new AssetManager();		
-			instance.setLoader(ParticleEffect.class, new ParticleLoader(new InternalFileHandleResolver()));
-		}
-	}
+  private static AssetManager instance = null;
+
+  private SharedAssetManager() {
+  }
+
+  public static AssetManager getInstance() {
+
+    if (instance == null) {
+      loadInternal();
+    }
+
+    return instance;
+  }
+
+  public static <T> T get(String s, Class<T> clss) {
+    return getInstance().get(s, clss);
+  }
+
+  public static boolean isLoaded(String s) {
+    return getInstance().isLoaded(s);
+  }
+
+  public static void dispose() {
+    if (instance != null) {
+      Gdx.app.log("DISPOSE", "Unload resources..");
+      getInstance().dispose();
+      instance = null;
+    }
+  }
+
+  private static void loadInternal() {
+
+    if (Gdx.files == null) {
+      throw new RuntimeException("LibGDX is not initialized yet!");
+    }
+
+    if (Gdx.files.isLocalStorageAvailable()) {
+      instance = new AssetManager();
+      instance.setLoader(ParticleEffect.class, new ParticleLoader(new InternalFileHandleResolver()));
+    }
+  }
 }

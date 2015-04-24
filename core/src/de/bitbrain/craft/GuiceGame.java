@@ -36,34 +36,34 @@ import de.bitbrain.craft.inject.StateScope;
  */
 public abstract class GuiceGame extends Game {
 
-	private Screen current;
+  private Screen current;
 
-	@Inject
-	@Named("stateScope")
-	StateScope scope;
-	
-	public GuiceGame() {
-		current = null;
-	}
+  @Inject
+  @Named("stateScope")
+  StateScope scope;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.badlogic.gdx.Game#setScreen(com.badlogic.gdx.Screen)
-	 */
-	public final void setScreen(Class<? extends Screen> screenClass) {		
-		if (current != null) {
-			scope.leave();
-			current.dispose();
-		}
-		scope.enter(screenClass);
-		Screen screen = SharedInjector.get().getInstance(screenClass);
-		super.setScreen(screen);
-		current = screen;
-	}
-	
-	@Override
-	public void setScreen(Screen screen) {
-		setScreen(screen.getClass());
-	}
+  public GuiceGame() {
+    current = null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.Game#setScreen(com.badlogic.gdx.Screen)
+   */
+  public final void setScreen(Class<? extends Screen> screenClass) {
+    if (current != null) {
+      scope.leave();
+      current.dispose();
+    }
+    scope.enter(screenClass);
+    Screen screen = SharedInjector.get().getInstance(screenClass);
+    super.setScreen(screen);
+    current = screen;
+  }
+
+  @Override
+  public void setScreen(Screen screen) {
+    setScreen(screen.getClass());
+  }
 }

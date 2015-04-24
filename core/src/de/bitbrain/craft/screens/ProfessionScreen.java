@@ -43,63 +43,61 @@ import de.bitbrain.craft.ui.ProfessionSelectionView.ProfessionSelectListener;
  * @since 1.0
  * @version 1.0
  */
-public class ProfessionScreen extends AbstractScreen implements
-		ProfessionSelectListener {
+public class ProfessionScreen extends AbstractScreen implements ProfessionSelectListener {
 
-	private ProfessionSelectionView selection;
+  private ProfessionSelectionView selection;
 
-	@Override
-	protected void onCreateStage(Stage stage) {
-		selection = new ProfessionSelectionView();
-		selection.addProfessionSelectListener(this);
-		selection.align(Align.center);
-		stage.addActor(selection);
-	}
+  @Override
+  protected void onCreateStage(Stage stage) {
+    selection = new ProfessionSelectionView();
+    selection.addProfessionSelectListener(this);
+    selection.align(Align.center);
+    stage.addActor(selection);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see de.bitbrain.craft.screens.MenuScreen#resize(int, int)
-	 */
-	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
-		selection.setWidth(Sizes.worldWidth());
-		selection.setHeight(Sizes.worldHeight());
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.screens.MenuScreen#resize(int, int)
+   */
+  @Override
+  public void resize(int width, int height) {
+    super.resize(width, height);
+    selection.setWidth(Sizes.worldWidth());
+    selection.setHeight(Sizes.worldHeight());
+  }
 
-	@Override
-	protected void onDraw(Batch batch, float delta) {
-	}
+  @Override
+  protected void onDraw(Batch batch, float delta) {
+  }
 
-	@Override
-	protected void onShow() {
+  @Override
+  protected void onShow() {
 
-	}
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener#onSelect
-	 * (de.bitbrain.craft.models.Profession)
-	 */
-	@Override
-	public void onSelect(Profession profession) {
-		Profession.current = profession;
-		setScreen(IngameScreen.class);
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.ui.ProfessionSelection.ProfessionSelectListener#onSelect
+   * (de.bitbrain.craft.models.Profession)
+   */
+  @Override
+  public void onSelect(Profession profession) {
+    Profession.current = profession;
+    setScreen(IngameScreen.class);
+  }
 
-	@Override
-	protected Viewport createViewport() {
-		return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
-	}
+  @Override
+  protected Viewport createViewport() {
+    return new FillViewport(Sizes.worldWidth(), Sizes.worldHeight());
+  }
 
-	@Handler
-	void onEvent(KeyEvent event) {
-		if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
-			setScreen(TitleScreen.class);
-			SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
-		}
-	}
+  @Handler
+  void onEvent(KeyEvent event) {
+    if (event.getKey() == Keys.ESCAPE || event.getKey() == Keys.BACK) {
+      setScreen(TitleScreen.class);
+      SoundUtils.play(Assets.SND_ABORT, 1.0f, 0.7f);
+    }
+  }
 }

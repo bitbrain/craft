@@ -34,13 +34,13 @@ import de.bitbrain.craft.models.Player;
  */
 public class OwnedItemMigrationJob {
 
-	@Migrate(Migrations.RELEASE)
-	public void migrateOwnedItemsRelease(API api) {
-		Player p = Player.getCurrent();
-		api.addItem(p.getId(), ItemId.WATER, Item.INFINITE_AMOUNT);
-		api.addItem(p.getId(), ItemId.EARTH, Item.INFINITE_AMOUNT);
-		api.addItem(p.getId(), ItemId.AIR, Item.INFINITE_AMOUNT);
-		api.addItem(p.getId(), ItemId.FIRE, Item.INFINITE_AMOUNT);
-	}
+  @Migrate(Migrations.RELEASE)
+  public void migrateOwnedItemsRelease(API api) {
+    Player p = Player.getCurrent();
+    api.addItem(p.getId(), ItemId.WATER, Item.INFINITE_AMOUNT);
+    api.addItem(p.getId(), ItemId.EARTH, Item.INFINITE_AMOUNT);
+    api.addItem(p.getId(), ItemId.AIR, Item.INFINITE_AMOUNT);
+    api.addItem(p.getId(), ItemId.FIRE, Item.INFINITE_AMOUNT);
+  }
 
 }

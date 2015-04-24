@@ -32,116 +32,115 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.util.Fadeable;
 
 /**
- * Manages particle effect rendering. This renderer manages loops and single particle
- * effects. It also checks if the particle effect has to be disposed. Furthermore it
- * is possible to set overall alpha of the renderer.
+ * Manages particle effect rendering. This renderer manages loops and single particle effects. It also checks if the
+ * particle effect has to be disposed. Furthermore it is possible to set overall alpha of the renderer.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
 public class ParticleRenderer implements Fadeable {
-    
-    private Map<ParticleEffect, Boolean> effects;
-    
-    private float alpha = 1.0f;
-    
-    public ParticleRenderer() {
-            effects = new ConcurrentHashMap<ParticleEffect, Boolean>();
+
+  private Map<ParticleEffect, Boolean> effects;
+
+  private float alpha = 1.0f;
+
+  public ParticleRenderer() {
+    effects = new ConcurrentHashMap<ParticleEffect, Boolean>();
+  }
+
+  public ParticleEffect create(String particleResource) {
+    return create(particleResource, false);
+  }
+
+  public ParticleEffect create(String particleResource, boolean endless) {
+    ParticleEffect original = SharedAssetManager.get(particleResource, ParticleEffect.class);
+    ParticleEffect copy = new ParticleEffect(original);
+    effects.put(copy, endless);
+    return copy;
+  }
+
+  @Override
+  public void setAlpha(float alpha) {
+
+    // TODO: Alpha doesn't work for particles here as intended :(
+
+    this.alpha = alpha;
+
+    for (ParticleEffect e : effects.keySet()) {
+
+      for (ParticleEmitter emitter : e.getEmitters()) {
+        ScaledNumericValue v = emitter.getTransparency();
+        v.setHigh(alpha);
+        v.setLow(alpha);
+      }
     }
-    
-    public ParticleEffect create(String particleResource) {
-    	return create(particleResource, false);
+  }
+
+  @Override
+  public float getAlpha() {
+    return alpha;
+  }
+
+  public void setColor(ParticleEffect effect, float[] colors, float[] timeline) {
+    for (ParticleEmitter emitter : effect.getEmitters()) {
+      emitter.getTint().setTimeline(timeline);
+      emitter.getTint().setColors(colors);
     }
-    
-    public ParticleEffect create(String particleResource, boolean endless) {
-    		ParticleEffect original = SharedAssetManager.get(particleResource, ParticleEffect.class);
-            ParticleEffect copy = new ParticleEffect(original);                
-            effects.put(copy, endless);
-            return copy;
+  }
+
+  public void setParticleCount(ParticleEffect effect, int count) {
+    for (ParticleEmitter emitter : effect.getEmitters()) {
+      emitter.setMaxParticleCount(count);
     }
-    
-    @Override
-    public void setAlpha(float alpha) {
-    	
-    	// TODO: Alpha doesn't work for particles here as intended :(
-    	
-    	this.alpha = alpha;
-    	
-    	for (ParticleEffect e : effects.keySet()) {
-    		
-    		for (ParticleEmitter emitter : e.getEmitters()) {
-    			ScaledNumericValue v = emitter.getTransparency();
-    			v.setHigh(alpha);
-    			v.setLow(alpha);
-    		}
-    	}
+  }
+
+  public int getParticleCount(ParticleEffect effect) {
+
+    int count = 0;
+
+    for (ParticleEmitter emitter : effect.getEmitters()) {
+      if (count < emitter.getMaxParticleCount()) {
+        count = emitter.getMaxParticleCount();
+      }
     }
-    
-    @Override
-    public float getAlpha() {
-    	return alpha;
+
+    return count;
+  }
+
+  public void render(Batch batch, float delta) {
+
+    for (Entry<ParticleEffect, Boolean> entries : effects.entrySet()) {
+
+      if (!entries.getValue() && entries.getKey().isComplete()) {
+        ParticleEffect effect = entries.getKey();
+        effects.remove(effect);
+      } else {
+        entries.getKey().draw(batch, delta);
+      }
     }
-    
-    public void setColor(ParticleEffect effect, float[] colors, float[] timeline) {
-            for (ParticleEmitter emitter : effect.getEmitters()) {
-                    emitter.getTint().setTimeline(timeline);
-                    emitter.getTint().setColors(colors);
-            }
+  }
+
+  public void unload(ParticleEffect effect) {
+    effects.remove(effect);
+  }
+
+  public void setEndless(ParticleEffect effect, boolean endless) {
+
+    if (effect != null) {
+      effects.put(effect, endless);
+
+      for (ParticleEmitter emitter : effect.getEmitters()) {
+        emitter.setContinuous(endless);
+      }
     }
-    
-    public void setParticleCount(ParticleEffect effect, int count) {
-            for (ParticleEmitter emitter : effect.getEmitters()) {
-                    emitter.setMaxParticleCount(count);
-            }
+  }
+
+  public void clear() {
+    for (Entry<ParticleEffect, Boolean> entries : effects.entrySet()) {
+      entries.getKey().setDuration(0);
     }
-    
-    public int getParticleCount(ParticleEffect effect) {
-            
-            int count = 0;
-            
-            for (ParticleEmitter emitter : effect.getEmitters()) {
-                    if (count < emitter.getMaxParticleCount()) {
-                            count = emitter.getMaxParticleCount();
-                    }
-            }
-            
-            return count;
-    }
-    
-    public void render(Batch batch, float delta) {
-            
-            for (Entry<ParticleEffect, Boolean> entries : effects.entrySet()) {
-                    
-                    if (!entries.getValue() && entries.getKey().isComplete()) {
-                            ParticleEffect effect = entries.getKey();
-                            effects.remove(effect);
-                    } else {                                
-                            entries.getKey().draw(batch, delta);
-                    }
-            }
-    }
-    
-    public void unload(ParticleEffect effect) {
-            effects.remove(effect);
-    }
-    
-    public void setEndless(ParticleEffect effect, boolean endless) {
-            
-            if (effect != null) {
-                    effects.put(effect, endless);
-                    
-                    for (ParticleEmitter emitter : effect.getEmitters()) {
-                            emitter.setContinuous(endless);
-                    }
-            }
-    }
-    
-    public void clear() {
-            for (Entry<ParticleEffect, Boolean> entries : effects.entrySet()) {
-                    entries.getKey().setDuration(0);
-            }
-            
-            effects.clear();
-    }
+
+    effects.clear();
+  }
 }

@@ -34,60 +34,60 @@ import de.bitbrain.craft.util.Pair;
  * @version 1.0
  */
 public class DialogBuilder {
-	
-	private Pair<String, ClickListener> abort;
-	private Pair<String, ClickListener> submit;
-	
-	private Actor content;
-	
-	public DialogBuilder disableAbort() {
-		abort = null;
-		return this;
-	}
-	
-	public DialogBuilder enableAbort(String text, ClickListener listener) {
-		abort = new Pair<String, ClickListener>(text, listener);
-		return this;
-	}
-	
-	public DialogBuilder enableAbort(String text) {
-		return enableAbort(text, null);
-	}
-	
-	public DialogBuilder disableSubmit() {
-		submit = null;
-		return this;
-	}
 
-	public DialogBuilder enableSubmit(String text, ClickListener listener) {
-		submit = new Pair<String, ClickListener>(text, listener);
-		return this;
-	}
-	
-	public DialogBuilder enableSubmit(String text) {
-		return enableSubmit(text, null);
-	}
-	
-	public DialogBuilder content(Actor actor) {
-		content = actor;
-		return this;
-	}
-	
-	public DialogBuilder content(String text) {
-		Label label = new Label(text, Styles.LBL_ITEM);
-		label.setWrap(true);
-		return content(label);
-	}
-	
-	public Dialog build(boolean show) {
-		Dialog dialog = new Dialog(submit, abort, content);
-		if (show) {
-			dialog.show();
-		}
-		return dialog;
-	}
-	
-	public Dialog build() {
-		return build(true);
-	}
+  private Pair<String, ClickListener> abort;
+  private Pair<String, ClickListener> submit;
+
+  private Actor content;
+
+  public DialogBuilder disableAbort() {
+    abort = null;
+    return this;
+  }
+
+  public DialogBuilder enableAbort(String text, ClickListener listener) {
+    abort = new Pair<String, ClickListener>(text, listener);
+    return this;
+  }
+
+  public DialogBuilder enableAbort(String text) {
+    return enableAbort(text, null);
+  }
+
+  public DialogBuilder disableSubmit() {
+    submit = null;
+    return this;
+  }
+
+  public DialogBuilder enableSubmit(String text, ClickListener listener) {
+    submit = new Pair<String, ClickListener>(text, listener);
+    return this;
+  }
+
+  public DialogBuilder enableSubmit(String text) {
+    return enableSubmit(text, null);
+  }
+
+  public DialogBuilder content(Actor actor) {
+    content = actor;
+    return this;
+  }
+
+  public DialogBuilder content(String text) {
+    Label label = new Label(text, Styles.LBL_ITEM);
+    label.setWrap(true);
+    return content(label);
+  }
+
+  public Dialog build(boolean show) {
+    Dialog dialog = new Dialog(submit, abort, content);
+    if (show) {
+      dialog.show();
+    }
+    return dialog;
+  }
+
+  public Dialog build() {
+    return build(true);
+  }
 }

@@ -30,90 +30,90 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class LearnedRecipe {
 
-	@PrimaryKey(true)
-	private int id;
+  @PrimaryKey(true)
+  private int id;
 
-	private int recipeId;
+  private int recipeId;
 
-	private int playerId;
+  private int playerId;
 
-	public LearnedRecipe() {
+  public LearnedRecipe() {
 
-	}
+  }
 
-	public LearnedRecipe(int i, int playerId) {
-		this.recipeId = i;
-		this.playerId = playerId;
-	}
+  public LearnedRecipe(int i, int playerId) {
+    this.recipeId = i;
+    this.playerId = playerId;
+  }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+  /**
+   * @param id
+   *          the id to set
+   */
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	/**
-	 * @param itemId
-	 *            the itemId to set
-	 */
-	public void setRecipeId(int recipeId) {
-		this.recipeId = recipeId;
-	}
+  /**
+   * @param itemId
+   *          the itemId to set
+   */
+  public void setRecipeId(int recipeId) {
+    this.recipeId = recipeId;
+  }
 
-	/**
-	 * @param playerId
-	 *            the playerId to set
-	 */
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
-	}
+  /**
+   * @param playerId
+   *          the playerId to set
+   */
+  public void setPlayerId(int playerId) {
+    this.playerId = playerId;
+  }
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
+  /**
+   * @return the id
+   */
+  public int getId() {
+    return id;
+  }
 
-	/**
-	 * @return the itemId
-	 */
-	public int getRecipeId() {
-		return recipeId;
-	}
+  /**
+   * @return the itemId
+   */
+  public int getRecipeId() {
+    return recipeId;
+  }
 
-	/**
-	 * @return the playerId
-	 */
-	public int getPlayerId() {
-		return playerId;
-	}
+  /**
+   * @return the playerId
+   */
+  public int getPlayerId() {
+    return playerId;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + playerId;
-		result = prime * result + recipeId;
-		return result;
-	}
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + playerId;
+    result = prime * result + recipeId;
+    return result;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		LearnedRecipe other = (LearnedRecipe) obj;
-		if (playerId != other.playerId)
-			return false;
-		if (recipeId != other.recipeId)
-			return false;
-		return true;
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    LearnedRecipe other = (LearnedRecipe) obj;
+    if (playerId != other.playerId)
+      return false;
+    if (recipeId != other.recipeId)
+      return false;
+    return true;
+  }
 
 }

@@ -32,18 +32,19 @@ import de.bitbrain.craft.screens.LoadingScreen;
  * @version 1.0
  */
 public class CraftGame extends GuiceGame {
-	
-	@Inject
-	private LoadingScreen screen;
-	@Override
-	public void create() {			
-		Gdx.app.setLogLevel(Settings.LOGLEVEL);
-		Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
-		setScreen(screen);
-	}
-	
-	@Override
-	public void dispose() {
-		SharedAssetManager.dispose();
-	}
+
+  @Inject
+  private LoadingScreen screen;
+
+  @Override
+  public void create() {
+    Gdx.app.setLogLevel(Settings.LOGLEVEL);
+    Gdx.app.log("INFO", "Craft v. " + Settings.VERSION + " (" + Settings.PHASE + ")");
+    setScreen(screen);
+  }
+
+  @Override
+  public void dispose() {
+    SharedAssetManager.dispose();
+  }
 }

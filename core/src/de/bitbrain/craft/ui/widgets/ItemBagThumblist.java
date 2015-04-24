@@ -19,38 +19,38 @@ import de.bitbrain.craft.models.Item;
 
 @StateScoped
 public class ItemBagThumblist extends Table {
-	
-	private Map<ItemId, IconWidget> icons;
-	
-	@Inject
-	private EventBus eventBus;
-	
-	@PostConstruct
-	public void initView() {
-		eventBus.subscribe(this);
-		icons = new HashMap<ItemId, IconWidget>();
-	}
-	
-	@Handler
-	private void onCraftEvent(ItemEvent event) {
-		Item item = event.getModel();
-		if (event.getType().equals(EventType.CRAFT_SUBMIT)) {
-			if (icons.containsKey(item.getId())) {
-				IconWidget icon = new IconWidget(item, event.getAmount());
-				icon.setWidth(75f);
-				icon.setHeight(75f);
-				add(icon).row();
-			} else {
-				icons.get(item.getId()).addAmount(event.getAmount());
-			}
-		} else if (event.getType().equals(EventType.CRAFT_REMOVE)) {
-			
-		} 
-	}
-	
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
-		
-	}
+
+  private Map<ItemId, IconWidget> icons;
+
+  @Inject
+  private EventBus eventBus;
+
+  @PostConstruct
+  public void initView() {
+    eventBus.subscribe(this);
+    icons = new HashMap<ItemId, IconWidget>();
+  }
+
+  @Handler
+  private void onCraftEvent(ItemEvent event) {
+    Item item = event.getModel();
+    if (event.getType().equals(EventType.CRAFT_SUBMIT)) {
+      if (icons.containsKey(item.getId())) {
+        IconWidget icon = new IconWidget(item, event.getAmount());
+        icon.setWidth(75f);
+        icon.setHeight(75f);
+        add(icon).row();
+      } else {
+        icons.get(item.getId()).addAmount(event.getAmount());
+      }
+    } else if (event.getType().equals(EventType.CRAFT_REMOVE)) {
+
+    }
+  }
+
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
+    super.draw(batch, parentAlpha);
+
+  }
 }

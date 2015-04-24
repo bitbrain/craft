@@ -31,105 +31,105 @@ import de.bitbrain.jpersis.annotations.PrimaryKey;
  */
 public class SoundConfig {
 
-	@PrimaryKey(true)
-	private int id;
+  @PrimaryKey(true)
+  private int id;
 
-	private String file;
+  private String file;
 
-	private float volume, pitch, pan;
+  private float volume, pitch, pan;
 
-	private SoundType type;
+  private SoundType type;
 
-	public SoundConfig() {
-	}
+  public SoundConfig() {
+  }
 
-	public SoundConfig(String file, SoundType type) {
-		this.file = file;
-		this.setType(type);
-	}
+  public SoundConfig(String file, SoundType type) {
+    this.file = file;
+    this.setType(type);
+  }
 
-	public int getId() {
-		return id;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getFile() {
-		return file;
-	}
+  public String getFile() {
+    return file;
+  }
 
-	public void setFile(String file) {
-		this.file = file;
-	}
+  public void setFile(String file) {
+    this.file = file;
+  }
 
-	public float getVolume() {
-		return volume;
-	}
+  public float getVolume() {
+    return volume;
+  }
 
-	public void setVolume(float volume) {
-		this.volume = volume;
-	}
+  public void setVolume(float volume) {
+    this.volume = volume;
+  }
 
-	public float getPitch() {
-		return pitch;
-	}
+  public float getPitch() {
+    return pitch;
+  }
 
-	public void setPitch(float pitch) {
-		this.pitch = pitch;
-	}
+  public void setPitch(float pitch) {
+    this.pitch = pitch;
+  }
 
-	public float getPan() {
-		return pan;
-	}
+  public float getPan() {
+    return pan;
+  }
 
-	public void setPan(float pan) {
-		this.pan = pan;
-	}
+  public void setPan(float pan) {
+    this.pan = pan;
+  }
 
-	public SoundType getType() {
-		return type;
-	}
+  public SoundType getType() {
+    return type;
+  }
 
-	public void setType(SoundType type) {
-		this.type = type;
-	}
+  public void setType(SoundType type) {
+    this.type = type;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((file == null) ? 0 : file.hashCode());
-		result = prime * result + id;
-		result = prime * result + Float.floatToIntBits(pan);
-		result = prime * result + Float.floatToIntBits(pitch);
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + Float.floatToIntBits(volume);
-		return result;
-	}
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((file == null) ? 0 : file.hashCode());
+    result = prime * result + id;
+    result = prime * result + Float.floatToIntBits(pan);
+    result = prime * result + Float.floatToIntBits(pitch);
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + Float.floatToIntBits(volume);
+    return result;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SoundConfig other = (SoundConfig) obj;
-		if (file == null) {
-			if (other.file != null)
-				return false;
-		} else if (!file.equals(other.file))
-			return false;
-		if (id != other.id)
-			return false;
-		if (Float.floatToIntBits(pan) != Float.floatToIntBits(other.pan))
-			return false;
-		if (Float.floatToIntBits(pitch) != Float.floatToIntBits(other.pitch))
-			return false;
-		if (type != other.type)
-			return false;
-		if (Float.floatToIntBits(volume) != Float.floatToIntBits(other.volume))
-			return false;
-		return true;
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    SoundConfig other = (SoundConfig) obj;
+    if (file == null) {
+      if (other.file != null)
+        return false;
+    } else if (!file.equals(other.file))
+      return false;
+    if (id != other.id)
+      return false;
+    if (Float.floatToIntBits(pan) != Float.floatToIntBits(other.pan))
+      return false;
+    if (Float.floatToIntBits(pitch) != Float.floatToIntBits(other.pitch))
+      return false;
+    if (type != other.type)
+      return false;
+    if (Float.floatToIntBits(volume) != Float.floatToIntBits(other.volume))
+      return false;
+    return true;
+  }
 
 }

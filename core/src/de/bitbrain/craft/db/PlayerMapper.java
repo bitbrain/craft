@@ -39,34 +39,34 @@ import de.bitbrain.jpersis.annotations.Update;
 @Mapper("de.bitbrain.craft.models.Player")
 public interface PlayerMapper {
 
-	@Select
-	Collection<Player> findAll();
-	
-	@Select(condition = "id = $1")
-	Player findById(int id);
-	
-	@Select(condition = "name = $1")
-	Player findByName(String id);
-	
-	@Insert
-	boolean insert(Player item);
-	
-	@Insert
-	boolean insert(Collection<Player> items);
-	
-	@Update
-	boolean update(Player player);
+  @Select
+  Collection<Player> findAll();
 
-	@Update
-	boolean update(Collection<Player> players);
-	
-	@Delete
-	boolean delete(Player item);
-	
-	@Delete
-	boolean delete(Collection<Player> items);
-	
-	@Count
-    int count();
-	
+  @Select(condition = "id = $1")
+  Player findById(int id);
+
+  @Select(condition = "name = $1")
+  Player findByName(String id);
+
+  @Insert
+  boolean insert(Player item);
+
+  @Insert
+  boolean insert(Collection<Player> items);
+
+  @Update
+  boolean update(Player player);
+
+  @Update
+  boolean update(Collection<Player> players);
+
+  @Delete
+  boolean delete(Player item);
+
+  @Delete
+  boolean delete(Collection<Player> items);
+
+  @Count
+  int count();
+
 }

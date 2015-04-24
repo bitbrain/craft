@@ -28,13 +28,12 @@ package de.bitbrain.craft.models;
  */
 public class PlayerUtils {
 
-	/**
-	 * Security method for setting the current player. Use this method
-	 * only on initialization
-	 * 
-	 * @param player
-	 */
-	public static void setCurrentPlayer(Player player) {
-		Player.current = player;
-	}
+  /**
+   * Security method for setting the current player. Use this method only on initialization
+   * 
+   * @param player
+   */
+  public static void setCurrentPlayer(Player player) {
+    Player.current = player;
+  }
 }

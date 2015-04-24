@@ -43,7 +43,6 @@ import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.util.Fadeable;
 
-
 /**
  * Tooltip which will be displayed over an actor
  *
@@ -52,118 +51,112 @@ import de.bitbrain.craft.util.Fadeable;
  * @version 1.0
  */
 public class Tooltip extends InputListener implements Poolable, Fadeable {
-	
-	private static final float OFFSET = 20f;
-	
-	private String text;
-	
-	@Inject
-	private TooltipManager manager;
-	
-	@Inject
-	private TweenManager tweenManager;
-	
-	private Actor target;
-	
-	private NinePatch background;
-	
-	private BitmapFont font;
-	
-	private float alpha = 0f;
-	
-	static {
-		Tween.registerAccessor(Tooltip.class, new FadeableTween());
-	}
 
-	public static Tooltip create(Actor target) {
-		Tooltip tooltip = new Tooltip();
-		SharedInjector.get().injectMembers(tooltip);
-		tooltip.init();
-		tooltip.target(target);
-		return tooltip;
-	}
-	
-	/* private constructor */
-	private Tooltip() { }
-	
-	private void init() {
-		manager.register(this);
-		font = SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
-		background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BLACK_9patch, Sizes.panelTransparentRadius());
-	}
-	
-	public Tooltip text(String text) {
-		this.text = text;
-		return this;
-	}
-	
-	public Tooltip target(Actor target) {
-		if (this.target != null) {
-			this.target.removeCaptureListener(this);
-		}
-		this.target = target;
-		this.target.addCaptureListener(this);
-		return this;
-	}
-	
-	void draw(Batch batch, float parentAlpha) {
-		if (target != null && text != null) {
-			final float PADDING = 10f;
-			TextBounds bounds = font.getBounds(text);
-			float x = (Gdx.input.getX() / Sizes.worldScreenFactorX()) + OFFSET;
-			float y = ((Gdx.graphics.getHeight() - Gdx.input.getY()) / Sizes.worldScreenFactorY()) - OFFSET;
-			float width = bounds.width + PADDING * 2; float height = font.getLineHeight() * 2;
-			background.setColor(new Color(1f, 1f, 1f, alpha));
-			background.draw(batch, x, y, width, height);
-			font.setColor(1f, 1f, 1f, alpha);
-			font.draw(batch, text, x + PADDING, y + height - PADDING - 3f);
-		}
-	}
-	
-	@Override
-	public void enter(InputEvent event, float x, float y, int pointer,
-			Actor fromActor) {
-		animateFadeIn();
-	}
-	
-	@Override
-	public void exit(InputEvent event, float x, float y, int pointer,
-			Actor toActor) {
-		super.exit(event, x, y, pointer, toActor);
-		animateFadeOut();
-	}
+  private static final float OFFSET = 20f;
 
-	@Override
-	public void reset() {
-		this.text = "";
-		this.target = null;
-		manager.unregister(this);
-	}
-	
-	private void animateFadeIn() {
-		tweenManager.killTarget(this);
-		Tween.to(this, FadeableTween.DEFAULT, 0.2f)
-			 .target(1f)
-			 .ease(TweenEquations.easeInQuad)
-			 .start(tweenManager);
-	}
-	
-	private void animateFadeOut() {
-		tweenManager.killTarget(this);
-		Tween.to(this, FadeableTween.DEFAULT, 0.1f)
-			 .target(0f)
-			 .ease(TweenEquations.easeInQuad)
-			 .start(tweenManager);
-	}
+  private String text;
 
-	@Override
-	public float getAlpha() {
-		return alpha;
-	}
+  @Inject
+  private TooltipManager manager;
 
-	@Override
-	public void setAlpha(float alpha) {
-		this.alpha = alpha;
-	}
+  @Inject
+  private TweenManager tweenManager;
+
+  private Actor target;
+
+  private NinePatch background;
+
+  private BitmapFont font;
+
+  private float alpha = 0f;
+
+  static {
+    Tween.registerAccessor(Tooltip.class, new FadeableTween());
+  }
+
+  public static Tooltip create(Actor target) {
+    Tooltip tooltip = new Tooltip();
+    SharedInjector.get().injectMembers(tooltip);
+    tooltip.init();
+    tooltip.target(target);
+    return tooltip;
+  }
+
+  /* private constructor */
+  private Tooltip() {
+  }
+
+  private void init() {
+    manager.register(this);
+    font = SharedAssetManager.get(Assets.FNT_MEDIUM, BitmapFont.class);
+    background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_BLACK_9patch, Sizes.panelTransparentRadius());
+  }
+
+  public Tooltip text(String text) {
+    this.text = text;
+    return this;
+  }
+
+  public Tooltip target(Actor target) {
+    if (this.target != null) {
+      this.target.removeCaptureListener(this);
+    }
+    this.target = target;
+    this.target.addCaptureListener(this);
+    return this;
+  }
+
+  void draw(Batch batch, float parentAlpha) {
+    if (target != null && text != null) {
+      final float PADDING = 10f;
+      TextBounds bounds = font.getBounds(text);
+      float x = (Gdx.input.getX() / Sizes.worldScreenFactorX()) + OFFSET;
+      float y = ((Gdx.graphics.getHeight() - Gdx.input.getY()) / Sizes.worldScreenFactorY()) - OFFSET;
+      float width = bounds.width + PADDING * 2;
+      float height = font.getLineHeight() * 2;
+      background.setColor(new Color(1f, 1f, 1f, alpha));
+      background.draw(batch, x, y, width, height);
+      font.setColor(1f, 1f, 1f, alpha);
+      font.draw(batch, text, x + PADDING, y + height - PADDING - 3f);
+    }
+  }
+
+  @Override
+  public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+    animateFadeIn();
+  }
+
+  @Override
+  public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+    super.exit(event, x, y, pointer, toActor);
+    animateFadeOut();
+  }
+
+  @Override
+  public void reset() {
+    this.text = "";
+    this.target = null;
+    manager.unregister(this);
+  }
+
+  private void animateFadeIn() {
+    tweenManager.killTarget(this);
+    Tween.to(this, FadeableTween.DEFAULT, 0.2f).target(1f).ease(TweenEquations.easeInQuad).start(tweenManager);
+  }
+
+  private void animateFadeOut() {
+    tweenManager.killTarget(this);
+    Tween.to(this, FadeableTween.DEFAULT, 0.1f).target(0f).ease(TweenEquations.easeInQuad).start(tweenManager);
+  }
+
+  @Override
+  public float getAlpha() {
+    return alpha;
+  }
+
+  @Override
+  public void setAlpha(float alpha) {
+    this.alpha = alpha;
+  }
 
 }

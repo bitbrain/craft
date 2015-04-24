@@ -4,8 +4,8 @@ import de.bitbrain.craft.models.Progress;
 
 public class ProgressEvent extends Event<Progress> {
 
-	public ProgressEvent(Progress model) {
-		super(EventType.UPDATE, model);
-	}
+  public ProgressEvent(Progress model) {
+    super(EventType.UPDATE, model);
+  }
 
 }

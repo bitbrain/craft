@@ -40,31 +40,31 @@ import de.bitbrain.jpersis.annotations.Update;
 @Mapper("de.bitbrain.craft.models.Item")
 public interface ItemMapper {
 
-	@Select
-	Collection<Item> findAll();
-	
-	@Select(condition = "id = $1")
-	Item findById(ItemId id);
-	
-	@Insert
-	boolean insert(Item item);
-	
-	@Insert
-	boolean insert(Collection<Item> items);
-	
-	@Update
-	boolean update(Item item);
+  @Select
+  Collection<Item> findAll();
 
-	@Update
-	boolean update(Collection<Item> items);
-	
-	@Delete
-	boolean delete(Item item);
-	
-	@Delete
-	boolean delete(Collection<Item> items);
-	
-	@Count
-    int count();
-	
+  @Select(condition = "id = $1")
+  Item findById(ItemId id);
+
+  @Insert
+  boolean insert(Item item);
+
+  @Insert
+  boolean insert(Collection<Item> items);
+
+  @Update
+  boolean update(Item item);
+
+  @Update
+  boolean update(Collection<Item> items);
+
+  @Delete
+  boolean delete(Item item);
+
+  @Delete
+  boolean delete(Collection<Item> items);
+
+  @Count
+  int count();
+
 }

@@ -37,33 +37,33 @@ import de.bitbrain.craft.inject.StateScoped;
 @StateScoped
 public class GaussianBlur {
 
-	private ShaderManager shaderManager;
+  private ShaderManager shaderManager;
 
-	private BlurShader vertBlur, horBlur;
+  private BlurShader vertBlur, horBlur;
 
-	GaussianBlur(ShadeArea childArea) {
-		vertBlur = new BlurShader(false);
-		vertBlur.setBlurSize(0f);
-		horBlur = new BlurShader(true);
-		horBlur.setBlurSize(0f);
-		shaderManager = new SimpleShaderManager();
-		shaderManager.add(childArea, vertBlur, horBlur, vertBlur, horBlur);
-	}
+  GaussianBlur(ShadeArea childArea) {
+    vertBlur = new BlurShader(false);
+    vertBlur.setBlurSize(0f);
+    horBlur = new BlurShader(true);
+    horBlur.setBlurSize(0f);
+    shaderManager = new SimpleShaderManager();
+    shaderManager.add(childArea, vertBlur, horBlur, vertBlur, horBlur);
+  }
 
-	public BlurShader getVerticalBlur() {
-		return vertBlur;
-	}
+  public BlurShader getVerticalBlur() {
+    return vertBlur;
+  }
 
-	public BlurShader getHorizontalBlur() {
-		return horBlur;
-	}
+  public BlurShader getHorizontalBlur() {
+    return horBlur;
+  }
 
-	public void resize(int width, int height) {
-		shaderManager.resize(width, height);
-	}
+  public void resize(int width, int height) {
+    shaderManager.resize(width, height);
+  }
 
-	public void updateAndRender(Batch batch, float delta) {
-		shaderManager.updateAndRender(batch, delta);
-	}
+  public void updateAndRender(Batch batch, float delta) {
+    shaderManager.updateAndRender(batch, delta);
+  }
 
 }

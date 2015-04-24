@@ -24,7 +24,7 @@ import java.util.Map;
 
 import de.bitbrain.craft.models.Profession;
 
-/** 
+/**
  * Builds an recipe
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
@@ -32,50 +32,50 @@ import de.bitbrain.craft.models.Profession;
  * @version 1.0
  */
 public class RecipeDataBuilder {
-	
-	private RecipeData data;
-	
-	public RecipeDataBuilder(ItemId result, Profession profession) {
-		data = new RecipeData();
-		result(result).profession(profession);
-	}
-	
-	public RecipeDataBuilder profession(Profession profession) {
-		data.profession = profession;
-		return this;
-	}
-	
-	public RecipeDataBuilder result(ItemId itemId) {
-		data.itemId = itemId;
-		return this;				
-	}
-	
-	public RecipeDataBuilder amount(Integer amount) {
-		data.amount = amount;
-		return this;
-	}
-	
-	public RecipeDataBuilder addIngredient(ItemId itemId, Integer amount) {
-		data.ingredients.put(itemId, amount);
-		return this;
-	}
-	
-	public RecipeData build() {
-		return data;
-	}
 
-	public static class RecipeData {
-		
-		// ID of the item to create
-		ItemId itemId;
-		
-		// Amount of the items to create
-		int amount = 1;
-		
-		// Profession which can learn this recipe
-		Profession profession;
-		
-		// Ingredients which relate to the recipe
-		Map<ItemId, Integer> ingredients = new HashMap<ItemId, Integer>();
-	}
+  private RecipeData data;
+
+  public RecipeDataBuilder(ItemId result, Profession profession) {
+    data = new RecipeData();
+    result(result).profession(profession);
+  }
+
+  public RecipeDataBuilder profession(Profession profession) {
+    data.profession = profession;
+    return this;
+  }
+
+  public RecipeDataBuilder result(ItemId itemId) {
+    data.itemId = itemId;
+    return this;
+  }
+
+  public RecipeDataBuilder amount(Integer amount) {
+    data.amount = amount;
+    return this;
+  }
+
+  public RecipeDataBuilder addIngredient(ItemId itemId, Integer amount) {
+    data.ingredients.put(itemId, amount);
+    return this;
+  }
+
+  public RecipeData build() {
+    return data;
+  }
+
+  public static class RecipeData {
+
+    // ID of the item to create
+    ItemId itemId;
+
+    // Amount of the items to create
+    int amount = 1;
+
+    // Profession which can learn this recipe
+    Profession profession;
+
+    // Ingredients which relate to the recipe
+    Map<ItemId, Integer> ingredients = new HashMap<ItemId, Integer>();
+  }
 }

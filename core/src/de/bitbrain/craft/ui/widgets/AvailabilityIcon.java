@@ -16,44 +16,44 @@ import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.ui.Tooltip;
 
 public class AvailabilityIcon extends Actor {
-	
-	private static final float SIZE = 16;
-	
-	@Inject
-	private API api;
-	
-	private Sprite sprite;
-	
-	private Tooltip tooltip;
 
-	public AvailabilityIcon(Item item) {
-		SharedInjector.get().injectMembers(this);
-		tooltip = Tooltip.create(this);
-		setItem(item);
-		setWidth(SIZE);
-		setHeight(SIZE);
-	}
-	
-	public void setItem(Item item) {
-		if (api.canCraft(item.getId())) {
-			sprite = new Sprite(SharedAssetManager.get(Assets.TEX_CHECK, Texture.class));
-			sprite.setColor(Color.GREEN);
-			tooltip.text(Bundles.general.get("craftable"));
-		} else if (api.canCraftIndirect(item.getId())){
-			sprite = new Sprite(SharedAssetManager.get(Assets.TEX_CHECK, Texture.class));
-			sprite.setColor(Color.CYAN);
-			tooltip.text(Bundles.general.get("craftable_external"));
-		} else {
-			sprite = null;
-		}
-	}
-	
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		super.draw(batch, parentAlpha);
-		if (sprite != null) {
-			sprite.setBounds(getX(), getY(), getWidth(), getHeight());
-			sprite.draw(batch, parentAlpha);
-		}
-	}
+  private static final float SIZE = 16;
+
+  @Inject
+  private API api;
+
+  private Sprite sprite;
+
+  private Tooltip tooltip;
+
+  public AvailabilityIcon(Item item) {
+    SharedInjector.get().injectMembers(this);
+    tooltip = Tooltip.create(this);
+    setItem(item);
+    setWidth(SIZE);
+    setHeight(SIZE);
+  }
+
+  public void setItem(Item item) {
+    if (api.canCraft(item.getId())) {
+      sprite = new Sprite(SharedAssetManager.get(Assets.TEX_CHECK, Texture.class));
+      sprite.setColor(Color.GREEN);
+      tooltip.text(Bundles.general.get("craftable"));
+    } else if (api.canCraftIndirect(item.getId())) {
+      sprite = new Sprite(SharedAssetManager.get(Assets.TEX_CHECK, Texture.class));
+      sprite.setColor(Color.CYAN);
+      tooltip.text(Bundles.general.get("craftable_external"));
+    } else {
+      sprite = null;
+    }
+  }
+
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
+    super.draw(batch, parentAlpha);
+    if (sprite != null) {
+      sprite.setBounds(getX(), getY(), getWidth(), getHeight());
+      sprite.draw(batch, parentAlpha);
+    }
+  }
 }
