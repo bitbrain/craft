@@ -37,6 +37,8 @@ public class Animations {
   public static enum AnimationType {
     SCALE_X,
     SCALE_Y,
+    POS_X,
+    POS_Y,
     SCALE,
     FADE,
     WIDTH,
@@ -44,10 +46,23 @@ public class Animations {
     RED,
     GREEN,
     BLUE,
-    BOUNCE
+    ALPHA,
+    BOUNCE,
+    SIZE,
+    VALUE,
+    ROTATION,
+    NONE;
+    
+    public static AnimationType byIndex(int index) {
+      AnimationType[] types = values();
+      if (index >= 0 && index < types.length) {
+        return types[index];
+      } else {
+        return NONE;
+      }
+    }
   }
 
-  @SuppressWarnings("unused")
   @Inject
   private TweenManager tweenManager;
 

@@ -35,7 +35,7 @@ import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
-import de.bitbrain.craft.animations.FloatValueTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ProgressEvent;
@@ -158,7 +158,7 @@ public class PlayerWidget extends Actor implements Fadeable {
     float duration = 1f;
     duration = progress.getLevel() == this.progress.getLevel() ? 1f : (1.3f - oldProgress);
     final Tween tween =
-        Tween.to(progressProvider, FloatValueTween.VALUE, duration).ease(TweenEquations.easeOutQuad)
+        Tween.to(progressProvider, AnimationType.VALUE.ordinal(), duration).ease(TweenEquations.easeOutQuad)
             .setCallbackTriggers(TweenCallback.COMPLETE);
     if (progress.getLevel() == this.progress.getLevel()) {
       tween.target(progress.getCurrentProgress());
@@ -169,7 +169,7 @@ public class PlayerWidget extends Actor implements Fadeable {
         @Override
         public void onEvent(int type, BaseTween<?> source) {
           progressProvider.setValue(0f);
-          Tween.to(progressProvider, FloatValueTween.VALUE, oldProgress * 1f).target(progress.getCurrentProgress())
+          Tween.to(progressProvider, AnimationType.VALUE.ordinal(), oldProgress * 1f).target(progress.getCurrentProgress())
               .ease(TweenEquations.easeOutQuad).start(tweenManager);
         }
       });

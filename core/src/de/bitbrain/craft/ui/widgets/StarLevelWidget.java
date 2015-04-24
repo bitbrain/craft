@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.animations.ActorTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.ui.UIFactory;
 
@@ -88,7 +88,7 @@ public class StarLevelWidget extends Table {
     Image star = UIFactory.createImage(Assets.TEX_STAR, STAR_SIZE, STAR_SIZE, color);
     if (active) {
       star.getColor().a = 0f;
-      Tween.to(star, ActorTween.ALPHA, 0.4f).target(1f).ease(TweenEquations.easeInQuad).delay((index + 1) * 0.1f)
+      Tween.to(star, AnimationType.ALPHA.ordinal(), 0.4f).target(1f).ease(TweenEquations.easeInQuad).delay((index + 1) * 0.1f)
           .start(tweenManager);
     }
     return star;

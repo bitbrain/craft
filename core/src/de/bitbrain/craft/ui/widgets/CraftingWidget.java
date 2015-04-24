@@ -38,7 +38,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
-import de.bitbrain.craft.animations.SpriteTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event;
@@ -256,17 +256,17 @@ public class CraftingWidget extends Actor {
       // Alpha fading
       shadow.setAlpha(0f);
       background.setAlpha(0f);
-      Tween.to(background, SpriteTween.ALPHA, 0.4f).target(1f).ease(TweenEquations.easeInCubic).start(tweenManager);
-      Tween.to(shadow, SpriteTween.ALPHA, 0.4f).target(1f).ease(TweenEquations.easeInCubic).start(tweenManager);
+      Tween.to(background, AnimationType.ALPHA.ordinal(), 0.4f).target(1f).ease(TweenEquations.easeInCubic).start(tweenManager);
+      Tween.to(shadow, AnimationType.ALPHA.ordinal(), 0.4f).target(1f).ease(TweenEquations.easeInCubic).start(tweenManager);
       // vertical bounce
       float originalY = background.getY();
       background.setY(Gdx.graphics.getHeight() + getHeight());
-      Tween.to(background, SpriteTween.Y, 1.0f).target(originalY).ease(TweenEquations.easeOutBounce).delay(delay)
+      Tween.to(background, AnimationType.POS_Y.ordinal(), 1.0f).target(originalY).ease(TweenEquations.easeOutBounce).delay(delay)
           .start(tweenManager);
       // Shadow scaling
       shadow.setOrigin(shadow.getWidth() / 2f, shadow.getHeight() / 2f);
       shadow.setScale(0.0f);
-      Tween.to(shadow, SpriteTween.SCALE, 1.0f).target(1f).ease(TweenEquations.easeOutBounce).delay(delay).delay(0.2f)
+      Tween.to(shadow, AnimationType.SCALE.ordinal(), 1.0f).target(1f).ease(TweenEquations.easeOutBounce).delay(delay).delay(0.2f)
           .start(tweenManager);
     }
 

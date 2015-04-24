@@ -35,8 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.animations.BlurShaderTween;
-import de.bitbrain.craft.animations.SpriteTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.InputEventProcessor;
@@ -215,17 +214,17 @@ public class UIRenderer implements ShadeArea {
 
   private void animateFadeIn() {
     killAnimations();
-    Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(OVERLAY_OPACITY).ease(TweenEquations.easeOutQuad)
+    Tween.to(overlay, AnimationType.ALPHA.ordinal(), OVERLAY_FADE).target(OVERLAY_OPACITY).ease(TweenEquations.easeOutQuad)
         .start(tweenManager);
-    Tween.to(blurHandler.getVerticalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE).target(0.4f)
+    Tween.to(blurHandler.getVerticalBlur(), AnimationType.SIZE.ordinal(), OVERLAY_FADE).target(0.4f)
         .ease(TweenEquations.easeOutQuad).start(tweenManager);
-    Tween.to(blurHandler.getHorizontalBlur(), BlurShaderTween.SIZE, OVERLAY_FADE).target(0.4f)
+    Tween.to(blurHandler.getHorizontalBlur(), AnimationType.SIZE.ordinal(), OVERLAY_FADE).target(0.4f)
         .ease(TweenEquations.easeOutQuad).start(tweenManager);
   }
 
   private void animateFadeOut() {
     killAnimations();
-    Tween.to(overlay, SpriteTween.ALPHA, OVERLAY_FADE).target(0f).ease(TweenEquations.easeOutQuad).start(tweenManager);
+    Tween.to(overlay, AnimationType.ALPHA.ordinal(), OVERLAY_FADE).target(0f).ease(TweenEquations.easeOutQuad).start(tweenManager);
     blurHandler.getVerticalBlur().setBlurSize(0);
     blurHandler.getHorizontalBlur().setBlurSize(0);
   }

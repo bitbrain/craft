@@ -14,8 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 
 import de.bitbrain.craft.Assets;
-import de.bitbrain.craft.animations.FadeableTween;
-import de.bitbrain.craft.animations.SpriteTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.util.Fadeable;
 
@@ -45,11 +44,11 @@ public class LoadingIndicator extends Actor implements Fadeable, Disposable {
       for (int i = 0; i < 8; ++i) {
         Sprite block = new Sprite(texture);
         block.setAlpha(0f);
-        Tween.from(block, SpriteTween.ALPHA, TIME * 7).target(1f).delay(TIME * (8 - i)).repeat(Tween.INFINITY, 0f)
+        Tween.from(block, AnimationType.ALPHA.ordinal(), TIME * 7).target(1f).delay(TIME * (8 - i)).repeat(Tween.INFINITY, 0f)
             .ease(TweenEquations.easeOutQuad).start(tweenManager);
         blocks.add(block);
       }
-      Tween.to(this, FadeableTween.DEFAULT, TIME * 8).target(0.7f).repeatYoyo(Tween.INFINITY, 0f)
+      Tween.to(this, AnimationType.ALPHA.ordinal(), TIME * 8).target(0.7f).repeatYoyo(Tween.INFINITY, 0f)
           .ease(TweenEquations.easeInOutQuad).start(tweenManager);
     }
     final int BLOCK_SIZE = (int) (getWidth() / 3f);

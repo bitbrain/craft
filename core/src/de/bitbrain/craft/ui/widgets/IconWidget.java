@@ -37,6 +37,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.animations.IntegerValueTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -206,7 +207,7 @@ public class IconWidget extends Actor implements IntegerValueProvider {
 
   private void animateAmount() {
     tweenManager.killTarget(this);
-    Tween.to(this, IntegerValueTween.VALUE, 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
+    Tween.to(this, AnimationType.VALUE.ordinal(), 1f).target(amount).ease(TweenEquations.easeOutQuart).start(tweenManager);
   }
 
   private void registerEvents() {

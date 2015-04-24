@@ -36,7 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.google.inject.Inject;
 
-import de.bitbrain.craft.animations.ActorTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemBag;
 import de.bitbrain.craft.core.ItemId;
@@ -121,7 +121,7 @@ public class ItemList {
     if (newAmount <= 0 && !api.canCraft(item.getId())) {
       widgets.remove(item.getId());
       items.remove(widget);
-      Tween.to(widget, ActorTween.ALPHA, 0.65f).target(0f).ease(TweenEquations.easeOutQuad)
+      Tween.to(widget, AnimationType.ALPHA.ordinal(), 0.65f).target(0f).ease(TweenEquations.easeOutQuad)
           .setCallbackTriggers(TweenCallback.COMPLETE).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {

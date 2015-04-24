@@ -46,7 +46,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
-import de.bitbrain.craft.animations.ActorTween;
+import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.graphics.GraphicsFactory;
 import de.bitbrain.craft.graphics.Icon;
@@ -110,7 +110,7 @@ public class TabWidget extends Table {
       newTab.setActive(true);
       activeTabId = tab;
       showTab(tab);
-      Tween.to(actor, ActorTween.ALPHA, 0.5f).target(1f).ease(TweenEquations.easeOutQuad).start(tweenManager);
+      Tween.to(actor, AnimationType.ALPHA.ordinal(), 0.5f).target(1f).ease(TweenEquations.easeOutQuad).start(tweenManager);
     }
   }
 

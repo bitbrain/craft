@@ -23,6 +23,8 @@ import aurelienribon.tweenengine.TweenAccessor;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import de.bitbrain.craft.animations.Animations.AnimationType;
+
 /**
  * Tween accessor for sprites
  * 
@@ -32,17 +34,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  */
 public class SpriteTween implements TweenAccessor<Sprite> {
 
-  public static final int BOUNCE = 1;
-  public static final int ALPHA = 2;
-  public static final int ROTATION = 3;
-  public static final int SCALE = 4;
-  public static final int X = 5;
-  public static final int Y = 6;
-
   @Override
   public int getValues(Sprite target, int tweenType, float[] returnValues) {
-    switch (tweenType) {
-      case BOUNCE:
+    AnimationType type = AnimationType.byIndex(tweenType);
+    switch (type) {
+      case POS_X:
+        returnValues[0] = target.getX();
+        return 1;
+      case POS_Y:
         returnValues[0] = target.getY();
         return 1;
       case ALPHA:
@@ -54,20 +53,16 @@ public class SpriteTween implements TweenAccessor<Sprite> {
       case SCALE:
         returnValues[0] = target.getScaleX();
         return 1;
-      case X:
-        returnValues[0] = target.getX();
-        return 1;
-      case Y:
-        returnValues[0] = target.getY();
-        return 1;
       default:
         return 0;
     }
   }
 
+  @SuppressWarnings("incomplete-switch")
   @Override
   public void setValues(Sprite target, int tweenType, float[] newValues) {
-    switch (tweenType) {
+    AnimationType type = AnimationType.byIndex(tweenType);
+    switch (type) {
       case BOUNCE:
         target.setY(newValues[0]);
         break;
@@ -80,10 +75,10 @@ public class SpriteTween implements TweenAccessor<Sprite> {
       case SCALE:
         target.setScale(newValues[0]);
         break;
-      case X:
+      case POS_X:
         target.setX(newValues[0]);
         break;
-      case Y:
+      case POS_Y:
         target.setY(newValues[0]);
         break;
     }
