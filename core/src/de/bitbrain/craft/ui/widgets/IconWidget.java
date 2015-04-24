@@ -83,6 +83,8 @@ public class IconWidget extends Actor implements IntegerValueProvider {
   
   private FloatValueProvider iconOffset = new FloatValueProvider();
   
+  private FloatValueProvider labelScale = new FloatValueProvider();
+  
   private float currentIconOffset = 0f;
 
   private IconHandle iconHandle = new DefaultIconHandle();
@@ -134,6 +136,7 @@ public class IconWidget extends Actor implements IntegerValueProvider {
     background = GraphicsFactory.createNinePatch(Assets.TEX_PANEL_TRANSPARENT_9patch, Sizes.panelTransparentRadius());
     this.icon = iconManager.fetch(item.getIcon());
     this.currentAmount = amount;
+    labelScale.setValue(2f);
     registerEvents();
   }
 
@@ -155,6 +158,11 @@ public class IconWidget extends Actor implements IntegerValueProvider {
       Tween.to(iconOffset, TweenType.VALUE.ordinal(), 0.4f).target(0).ease(TweenEquations.easeOutQuad).start(tweenManager);
     }
     currentIconOffset = offset;
+  }
+  
+  public void setLabelScale(float scale) {
+    tweenManager.killTarget(labelScale);
+    Tween.to(labelScale, TweenType.VALUE.ordinal(), 0.15f).target(scale).ease(TweenEquations.easeOutCubic).start(tweenManager);
   }
 
   public final void setHandle(IconHandle iconHandle) {
@@ -186,6 +194,10 @@ public class IconWidget extends Actor implements IntegerValueProvider {
 
     if (iconHandle.isVisible(currentAmount)) {
       amountLabel.setText(iconHandle.getContent(currentAmount));
+      
+      if (Math.abs(labelScale.getValue()) > 0) {
+        amountLabel.setFontScale(Math.abs(labelScale.getValue()));
+      }
       amountLabel.setColor(iconHandle.getColor(currentAmount));
       amountLabel.setX(getX() + getWidth() - amountLabel.getPrefWidth() - getPadding() / 2f);
       amountLabel.setY(getY() + getPadding());

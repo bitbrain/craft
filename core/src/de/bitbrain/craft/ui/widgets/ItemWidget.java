@@ -182,10 +182,12 @@ public class ItemWidget extends HorizontalGroup {
       @Override
       public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
         icon.setIconOffset(-9f);
+        icon.setLabelScale(2.5f);
       }      
       @Override
       public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
         icon.setIconOffset(0f);
+        icon.setLabelScale(2f);
       }
     });
   }
