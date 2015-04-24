@@ -19,8 +19,6 @@
 
 package de.bitbrain.craft.animations;
 
-import aurelienribon.tweenengine.TweenAccessor;
-
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import de.bitbrain.craft.animations.Animations.AnimationType;
@@ -32,11 +30,10 @@ import de.bitbrain.craft.animations.Animations.AnimationType;
  * @since 1.0
  * @version 1.0
  */
-public class SpriteTween implements TweenAccessor<Sprite> {
+public class SpriteTween extends AbstractTween<Sprite> {
 
   @Override
-  public int getValues(Sprite target, int tweenType, float[] returnValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public int getValues(Sprite target, AnimationType type, float[] returnValues) {
     switch (type) {
       case POS_X:
         returnValues[0] = target.getX();
@@ -60,8 +57,7 @@ public class SpriteTween implements TweenAccessor<Sprite> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(Sprite target, int tweenType, float[] newValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public void setValues(Sprite target, AnimationType type, float[] newValues) {
     switch (type) {
       case BOUNCE:
         target.setY(newValues[0]);

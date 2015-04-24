@@ -1,14 +1,12 @@
 package de.bitbrain.craft.animations;
 
-import aurelienribon.tweenengine.TweenAccessor;
 import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.graphics.shader.BlurShader;
 
-public class BlurShaderTween implements TweenAccessor<BlurShader> {
+public class BlurShaderTween extends AbstractTween<BlurShader> {
   
   @Override
-  public int getValues(BlurShader target, int tweenType, float[] returnValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public int getValues(BlurShader target, AnimationType type, float[] returnValues) {
     switch (type) {
       case SIZE:
         returnValues[0] = target.getBlurSize();
@@ -20,8 +18,7 @@ public class BlurShaderTween implements TweenAccessor<BlurShader> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(BlurShader target, int tweenType, float[] newValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public void setValues(BlurShader target, AnimationType type, float[] newValues) {
     switch (type) {
       case SIZE:
         target.setBlurSize(newValues[0]);

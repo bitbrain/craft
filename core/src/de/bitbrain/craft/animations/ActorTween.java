@@ -1,16 +1,13 @@
 package de.bitbrain.craft.animations;
 
-import aurelienribon.tweenengine.TweenAccessor;
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import de.bitbrain.craft.animations.Animations.AnimationType;
 
-public class ActorTween implements TweenAccessor<Actor> {
+public class ActorTween extends AbstractTween<Actor> {
 
   @Override
-  public int getValues(Actor target, int tweenType, float[] returnValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public int getValues(Actor target, AnimationType type, float[] returnValues) {
     switch (type) {
       case ALPHA:
         returnValues[0] = target.getColor().a;
@@ -37,8 +34,7 @@ public class ActorTween implements TweenAccessor<Actor> {
   }
 
   @Override
-  public void setValues(Actor target, int tweenType, float[] newValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public void setValues(Actor target, AnimationType type, float[] newValues) {
     switch (type) {
       case ALPHA:
         target.setColor(target.getColor().r, target.getColor().g, target.getColor().b, newValues[0]);

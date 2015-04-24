@@ -1,16 +1,13 @@
 package de.bitbrain.craft.animations;
 
-import aurelienribon.tweenengine.TweenAccessor;
-
 import com.badlogic.gdx.math.Vector2;
 
 import de.bitbrain.craft.animations.Animations.AnimationType;
 
-public class VectorTween implements TweenAccessor<Vector2> {
+public class VectorTween extends AbstractTween<Vector2> {
 
   @Override
-  public int getValues(Vector2 target, int tweenType, float[] returnValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public int getValues(Vector2 target, AnimationType type, float[] returnValues) {
     switch (type) {
       case POS_X:
         returnValues[0] = target.x;
@@ -25,8 +22,7 @@ public class VectorTween implements TweenAccessor<Vector2> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(Vector2 target, int tweenType, float[] newValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public void setValues(Vector2 target, AnimationType type, float[] newValues) {
     switch (type) {
       case POS_X:
         target.x = newValues[0];

@@ -1,14 +1,12 @@
 package de.bitbrain.craft.animations;
 
-import aurelienribon.tweenengine.TweenAccessor;
 import de.bitbrain.craft.animations.Animations.AnimationType;
 import de.bitbrain.craft.util.FloatValueProvider;
 
-public class FloatValueTween implements TweenAccessor<FloatValueProvider> {
+public class FloatValueTween extends AbstractTween<FloatValueProvider> {
 
   @Override
-  public int getValues(FloatValueProvider target, int tweenType, float[] returnValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public int getValues(FloatValueProvider target, AnimationType type, float[] returnValues) {
     switch (type) {
       case VALUE:
         returnValues[0] = target.getValue();
@@ -20,8 +18,7 @@ public class FloatValueTween implements TweenAccessor<FloatValueProvider> {
 
   @SuppressWarnings("incomplete-switch")
   @Override
-  public void setValues(FloatValueProvider target, int tweenType, float[] newValues) {
-    AnimationType type = AnimationType.byIndex(tweenType);
+  public void setValues(FloatValueProvider target, AnimationType type, float[] newValues) {
     switch (type) {
       case VALUE:
         target.setValue(newValues[0]);
