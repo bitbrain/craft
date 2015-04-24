@@ -179,6 +179,14 @@ public class ItemWidget extends HorizontalGroup {
           eventBus.fireEvent(new MouseEvent<Item>(EventType.CLICK, item, x, y));
         }
       }
+      @Override
+      public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+        icon.setIconOffset(-9f);
+      }      
+      @Override
+      public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+        icon.setIconOffset(0f);
+      }
     });
   }
 }

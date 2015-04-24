@@ -30,6 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.google.inject.Inject;
 
@@ -47,11 +48,12 @@ import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
+import de.bitbrain.craft.util.FloatValueProvider;
 import de.bitbrain.craft.util.IntegerValueProvider;
 
 /**
  * An icon which also shows rarity and special effects
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
@@ -78,6 +80,10 @@ public class IconWidget extends Actor implements IntegerValueProvider {
   private EventBus eventBus;
 
   private Item item;
+  
+  private FloatValueProvider iconOffset = new FloatValueProvider();
+  
+  private float currentIconOffset = 0f;
 
   private IconHandle iconHandle = new DefaultIconHandle();
 
@@ -137,6 +143,19 @@ public class IconWidget extends Actor implements IntegerValueProvider {
     this.amount = amount;
     animateAmount();
   }
+  
+  public void setIconOffset(float offset) {
+    if (offset != 0) {
+      if (currentIconOffset == 0 ) {
+        iconOffset.setValue(offset);
+        Tween.to(iconOffset, TweenType.VALUE.ordinal(), 0.75f).target(0).ease(TweenEquations.easeOutBounce).repeat(Tween.INFINITY, 0).start(tweenManager);
+      }
+    } else {
+      tweenManager.killTarget(iconOffset);
+      Tween.to(iconOffset, TweenType.VALUE.ordinal(), 0.4f).target(0).ease(TweenEquations.easeOutQuad).start(tweenManager);
+    }
+    currentIconOffset = offset;
+  }
 
   public final void setHandle(IconHandle iconHandle) {
     this.iconHandle = iconHandle;
@@ -160,7 +179,7 @@ public class IconWidget extends Actor implements IntegerValueProvider {
     icon.width = getWidth() * -iconScale;
     icon.height = getHeight() * iconScale;
     icon.x = getX() + (getWidth() - icon.width) / 2;
-    icon.y = getY() + (getHeight() - icon.height) / 2;
+    icon.y = getY() + (getHeight() - icon.height) / 2 - iconOffset.getValue();
     icon.rotation = 180f;
     icon.color = getColor();
     icon.draw(batch, parentAlpha);
@@ -231,6 +250,21 @@ public class IconWidget extends Actor implements IntegerValueProvider {
           mouseEvent.setParam(ItemEvent.AMOUNT, iconHandle.getDragAmount());
           eventBus.fireEvent(mouseEvent);
         }
+      }
+    });
+    addListener(new ClickListener() {
+      @Override
+      public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+        super.enter(event, x, y, pointer, fromActor);
+        final float BOUNCE = 15f;
+        Tween.to(IconWidget.this, TweenType.POS_Y.ordinal(), 0.5f).target(getY() + BOUNCE)
+            .ease(TweenEquations.easeInOutBounce).repeat(Tween.INFINITY, 0).start(tweenManager);
+      }
+
+      @Override
+      public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+        super.exit(event, x, y, pointer, toActor);
+        tweenManager.killTarget(IconWidget.this);
       }
     });
     addCaptureListener(new InputListener() {
