@@ -41,6 +41,7 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.animations.SpriteTween;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.professions.ProfessionLogic;
+import de.bitbrain.craft.events.Event;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -59,223 +60,210 @@ import de.bitbrain.craft.models.Player;
  */
 public class CraftingWidget extends Actor {
 
-	private ProfessionLogic professionLogic;
+  private ProfessionLogic professionLogic;
 
-	@Inject
-	private EventBus eventBus;
+  @Inject
+  private EventBus eventBus;
 
-	@Inject
-	private API api;
+  @Inject
+  private API api;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private TweenManager tweenManager;
 
-	private AnimatedBounceObject workbench, table;
-	
-	private Item dragItem;
-	
-	private int dragAmount;
+  private AnimatedBounceObject workbench, table;
 
-	public CraftingWidget(ProfessionLogic professionLogic) {
-		SharedInjector.get().injectMembers(this);
-		eventBus.subscribe(this);
-		this.professionLogic = professionLogic;
-		table = new AnimatedBounceObject(Assets.TEX_TABLE,
-				GraphicsFactory.createTexture(32, 16, new Color(0f, 0f, 0f,
-						0.2f)));
-		table.setSizeOffset(50f, 120f);
-		table.setPositionOffset(0f, -190f);
-		table.setShadowSizeOffset(0f, -20f);
-		table.setShadowPositionOffset(0f, -250f);
-		workbench = new AnimatedBounceObject(Assets.TEX_BOWL, Assets.TEX_CIRCLE);
-		workbench.setShadowSizeOffset(-40f, -50f);
-		workbench.setShadowPositionOffset(0f, -30f);
-		registerEvents();
-	}
+  private Item dragItem;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics.
-	 * g2d.Batch, float)
-	 */
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		table.draw(batch, parentAlpha);
-		workbench.draw(batch, parentAlpha);
-	}
+  private int dragAmount;
 
-	@Handler
-	public void onEvent(MouseEvent<?> event) {
-		if (event.getType().equals(EventType.MOUSEDROP)
-				&& event.getModel() instanceof Item) {
-			Item item = (Item) event.getModel();
-			// Item accepted, remove it from system
-			int amount = 1;
-			if (event.getParam(0) != null) {
-				amount = (Integer) event.getParam(0);
-			}
-			if (collides(event.getMouseX(), event.getMouseY())) {				
-				professionLogic.add(item, amount);
-				api.removeItem(Player.getCurrent().getId(), item.getId(),
-						amount);
-			// Check if the element got dropped by this widget
-			} else if (event.getParam(1) != null && event.getParam(1).equals(this)) {
-				api.addItem(Player.getCurrent().getId(), item.getId(), amount);
-			}
-		}
-	}
+  public CraftingWidget(ProfessionLogic professionLogic) {
+    SharedInjector.get().injectMembers(this);
+    eventBus.subscribe(this);
+    this.professionLogic = professionLogic;
+    table =
+        new AnimatedBounceObject(Assets.TEX_TABLE, GraphicsFactory.createTexture(32, 16, new Color(0f, 0f, 0f, 0.2f)));
+    table.setSizeOffset(50f, 120f);
+    table.setPositionOffset(0f, -190f);
+    table.setShadowSizeOffset(0f, -20f);
+    table.setShadowPositionOffset(0f, -250f);
+    workbench = new AnimatedBounceObject(Assets.TEX_BOWL, Assets.TEX_CIRCLE);
+    workbench.setShadowSizeOffset(-40f, -50f);
+    workbench.setShadowPositionOffset(0f, -30f);
+    registerEvents();
+  }
 
-	@Handler
-	public void onEvent(ItemEvent event) {
-		if (event.getType().equals(EventType.CRAFT_REMOVE)) {
-			dragItem = event.getModel();
-			dragAmount = event.getAmount();
-			eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDRAG, event
-					.getModel(), Sizes.localMouseX(), Sizes.localMouseY(),
-					event.getAmount()));
-		}
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.scenes.scene2d.Actor#draw(com.badlogic.gdx.graphics. g2d.Batch, float)
+   */
+  @Override
+  public void draw(Batch batch, float parentAlpha) {
+    table.draw(batch, parentAlpha);
+    workbench.draw(batch, parentAlpha);
+  }
 
-	@Override
-	public void setY(float y) {
-		super.setY(y);
-		table.refresh();
-		workbench.refresh();
-	}
+  @Handler
+  public void onEvent(MouseEvent<?> event) {
+    if (event.getType().equals(EventType.MOUSEDROP) && event.getModel() instanceof Item) {
+      Item item = (Item) event.getModel();
+      // Item accepted, remove it from system
+      int amount = 1;
+      if (event.hasParam(ItemEvent.AMOUNT)) {
+        amount = (Integer) event.getParam(ItemEvent.AMOUNT);
+      }
+      if (collides(event.getMouseX(), event.getMouseY())) {
+        professionLogic.add(item, amount);
+        api.removeItem(Player.getCurrent().getId(), item.getId(), amount);
+        // Check if the element got dropped by this widget
+      } else if (event.hasParam(Event.SENDER) && event.getParam(Event.SENDER).equals(this)) {
+        api.addItem(Player.getCurrent().getId(), item.getId(), amount);
+      }
+    }
+  }
 
-	public void animate() {
-		workbench.hide();
-		table.animate(tweenManager);
-		workbench.animate(tweenManager, 0.4f);
-	}
+  @Handler
+  public void onEvent(ItemEvent event) {
+    if (event.getType().equals(EventType.CRAFT_REMOVE)) {
+      dragItem = event.getModel();
+      dragAmount = event.getAmount();
+      MouseEvent<Item> forwardedEvent =
+          new MouseEvent<Item>(EventType.MOUSEDRAG, event.getModel(), Sizes.localMouseX(), Sizes.localMouseY());
+      forwardedEvent.setParam(ItemEvent.ITEM, dragItem);
+      forwardedEvent.setParam(ItemEvent.AMOUNT, dragAmount);
+      eventBus.fireEvent(forwardedEvent);
+    }
+  }
 
-	private boolean collides(float x, float y) {
-		x /= Sizes.worldScreenFactorX();
-		y /= Sizes.worldScreenFactorY();
-		y += getHeight() / 1.2f;
-		return x >= getX() && x <= getX() + getWidth() && y >= getY()
-				&& y <= getY() + getHeight();
-	}
+  @Override
+  public void setY(float y) {
+    super.setY(y);
+    table.refresh();
+    workbench.refresh();
+  }
 
-	private void registerEvents() {
-		addListener(new DragListener() {
-			@Override
-			public void dragStart(InputEvent event, float x, float y,
-					int pointer) {
-				professionLogic.fetch();
-			}
+  public void animate() {
+    workbench.hide();
+    table.animate(tweenManager);
+    workbench.animate(tweenManager, 0.4f);
+  }
 
-			@Override
-			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				eventBus.fireEvent(new MouseEvent<Item>(EventType.MOUSEDROP,
-						dragItem, Sizes.localMouseX(), Sizes.localMouseY(),
-						dragAmount, CraftingWidget.this));
-				dragItem = null;
-				dragAmount = 0;
-			}
-		});
-	}
+  private boolean collides(float x, float y) {
+    x /= Sizes.worldScreenFactorX();
+    y /= Sizes.worldScreenFactorY();
+    y += getHeight() / 1.2f;
+    return x >= getX() && x <= getX() + getWidth() && y >= getY() && y <= getY() + getHeight();
+  }
 
-	private class AnimatedBounceObject {
+  private void registerEvents() {
+    addListener(new DragListener() {
+      @Override
+      public void dragStart(InputEvent event, float x, float y, int pointer) {
+        professionLogic.fetch();
+      }
 
-		private Sprite background, shadow;
+      @Override
+      public void dragStop(InputEvent event, float x, float y, int pointer) {
+        MouseEvent<Item> mouseEvent =
+            new MouseEvent<Item>(EventType.MOUSEDROP, dragItem, Sizes.localMouseX(), Sizes.localMouseY());
+        mouseEvent.setParam(Event.SENDER, CraftingWidget.this);
+        mouseEvent.setParam(ItemEvent.AMOUNT, dragAmount);
+        eventBus.fireEvent(mouseEvent);
+        dragItem = null;
+        dragAmount = 0;
+      }
+    });
+  }
 
-		private Vector2 sizeOffset, posOffset, shadowSizeOffset,
-				shadowPosOffset;
+  private class AnimatedBounceObject {
 
-		public AnimatedBounceObject(String assetId, Texture shadowAsset) {
-			sizeOffset = new Vector2();
-			posOffset = new Vector2();
-			shadowSizeOffset = new Vector2();
-			shadowPosOffset = new Vector2();
-			background = new Sprite(SharedAssetManager.get(assetId,
-					Texture.class));
-			shadow = new Sprite(shadowAsset);
-		}
+    private Sprite background, shadow;
 
-		public AnimatedBounceObject(String assetId, String shadowAssetId) {
-			this(assetId, SharedAssetManager.get(shadowAssetId, Texture.class));
-		}
+    private Vector2 sizeOffset, posOffset, shadowSizeOffset, shadowPosOffset;
 
-		public void setSizeOffset(float offsetX, float offsetY) {
-			sizeOffset.x = offsetX;
-			sizeOffset.y = offsetY;
-			refresh();
-		}
+    public AnimatedBounceObject(String assetId, Texture shadowAsset) {
+      sizeOffset = new Vector2();
+      posOffset = new Vector2();
+      shadowSizeOffset = new Vector2();
+      shadowPosOffset = new Vector2();
+      background = new Sprite(SharedAssetManager.get(assetId, Texture.class));
+      shadow = new Sprite(shadowAsset);
+    }
 
-		public void setPositionOffset(float offsetX, float offsetY) {
-			posOffset.x = offsetX;
-			posOffset.y = offsetY;
-			refresh();
-		}
+    public AnimatedBounceObject(String assetId, String shadowAssetId) {
+      this(assetId, SharedAssetManager.get(shadowAssetId, Texture.class));
+    }
 
-		public void setShadowSizeOffset(float offsetX, float offsetY) {
-			shadowSizeOffset.x = offsetX;
-			shadowSizeOffset.y = offsetY;
-			refreshShadow();
-		}
+    public void setSizeOffset(float offsetX, float offsetY) {
+      sizeOffset.x = offsetX;
+      sizeOffset.y = offsetY;
+      refresh();
+    }
 
-		public void setShadowPositionOffset(float offsetX, float offsetY) {
-			shadowPosOffset.x = offsetX;
-			shadowPosOffset.y = offsetY;
-			refreshShadow();
-		}
+    public void setPositionOffset(float offsetX, float offsetY) {
+      posOffset.x = offsetX;
+      posOffset.y = offsetY;
+      refresh();
+    }
 
-		public void refresh() {
-			refreshShadow();
-			background.setSize(getWidth() + sizeOffset.x, getHeight()
-					+ sizeOffset.y);
-			background.setPosition(getX() + posOffset.x
-					- (getWidth() - (getWidth() - sizeOffset.x)) / 2f, getY()
-					+ posOffset.y);
-		}
+    public void setShadowSizeOffset(float offsetX, float offsetY) {
+      shadowSizeOffset.x = offsetX;
+      shadowSizeOffset.y = offsetY;
+      refreshShadow();
+    }
 
-		public void refreshShadow() {
-			shadow.setSize(getWidth() + shadowSizeOffset.x, getHeight()
-					+ shadowSizeOffset.y);
-			shadow.setPosition(getX() + shadowPosOffset.x
-					- (getWidth() - (getWidth() - shadowSizeOffset.x)) / 2f,
-					getY() + shadowPosOffset.y);
-		}
+    public void setShadowPositionOffset(float offsetX, float offsetY) {
+      shadowPosOffset.x = offsetX;
+      shadowPosOffset.y = offsetY;
+      refreshShadow();
+    }
 
-		public void animate(TweenManager tweenManager) {
-			animate(tweenManager, 0f);
-		}
+    public void refresh() {
+      refreshShadow();
+      background.setSize(getWidth() + sizeOffset.x, getHeight() + sizeOffset.y);
+      background.setPosition(getX() + posOffset.x - (getWidth() - (getWidth() - sizeOffset.x)) / 2f, getY()
+          + posOffset.y);
+    }
 
-		public void hide() {
-			background.setY(Gdx.graphics.getHeight() + getHeight());
-		}
+    public void refreshShadow() {
+      shadow.setSize(getWidth() + shadowSizeOffset.x, getHeight() + shadowSizeOffset.y);
+      shadow.setPosition(getX() + shadowPosOffset.x - (getWidth() - (getWidth() - shadowSizeOffset.x)) / 2f, getY()
+          + shadowPosOffset.y);
+    }
 
-		public void animate(TweenManager tweenManager, float delay) {
-			refresh();
-			tweenManager.killTarget(shadow);
-			tweenManager.killTarget(background);
-			// Alpha fading
-			shadow.setAlpha(0f);
-			background.setAlpha(0f);
-			Tween.to(background, SpriteTween.ALPHA, 0.4f).target(1f)
-					.ease(TweenEquations.easeInCubic).start(tweenManager);
-			Tween.to(shadow, SpriteTween.ALPHA, 0.4f).target(1f)
-					.ease(TweenEquations.easeInCubic).start(tweenManager);
-			// vertical bounce
-			float originalY = background.getY();
-			background.setY(Gdx.graphics.getHeight() + getHeight());
-			Tween.to(background, SpriteTween.Y, 1.0f).target(originalY)
-					.ease(TweenEquations.easeOutBounce).delay(delay)
-					.start(tweenManager);
-			// Shadow scaling
-			shadow.setOrigin(shadow.getWidth() / 2f, shadow.getHeight() / 2f);
-			shadow.setScale(0.0f);
-			Tween.to(shadow, SpriteTween.SCALE, 1.0f).target(1f)
-					.ease(TweenEquations.easeOutBounce).delay(delay)
-					.delay(0.2f).start(tweenManager);
-		}
+    public void animate(TweenManager tweenManager) {
+      animate(tweenManager, 0f);
+    }
 
-		public void draw(Batch batch, float alphaModulation) {
-			shadow.draw(batch, alphaModulation);
-			background.draw(batch, alphaModulation);
-		}
-	}
+    public void hide() {
+      background.setY(Gdx.graphics.getHeight() + getHeight());
+    }
+
+    public void animate(TweenManager tweenManager, float delay) {
+      refresh();
+      tweenManager.killTarget(shadow);
+      tweenManager.killTarget(background);
+      // Alpha fading
+      shadow.setAlpha(0f);
+      background.setAlpha(0f);
+      Tween.to(background, SpriteTween.ALPHA, 0.4f).target(1f).ease(TweenEquations.easeInCubic).start(tweenManager);
+      Tween.to(shadow, SpriteTween.ALPHA, 0.4f).target(1f).ease(TweenEquations.easeInCubic).start(tweenManager);
+      // vertical bounce
+      float originalY = background.getY();
+      background.setY(Gdx.graphics.getHeight() + getHeight());
+      Tween.to(background, SpriteTween.Y, 1.0f).target(originalY).ease(TweenEquations.easeOutBounce).delay(delay)
+          .start(tweenManager);
+      // Shadow scaling
+      shadow.setOrigin(shadow.getWidth() / 2f, shadow.getHeight() / 2f);
+      shadow.setScale(0.0f);
+      Tween.to(shadow, SpriteTween.SCALE, 1.0f).target(1f).ease(TweenEquations.easeOutBounce).delay(delay).delay(0.2f)
+          .start(tweenManager);
+    }
+
+    public void draw(Batch batch, float alphaModulation) {
+      shadow.draw(batch, alphaModulation);
+      background.draw(batch, alphaModulation);
+    }
+  }
 }

@@ -25,7 +25,6 @@ import java.util.Queue;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.core.ItemBag;
-import de.bitbrain.craft.core.ItemId;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -42,55 +41,52 @@ import de.bitbrain.craft.models.Recipe;
  */
 abstract class AbstractProfessionLogic implements ProfessionLogic {
 
-	private ItemBag items;
+  private ItemBag items;
 
-	@Inject
-	private EventBus eventBus;
-	
-	private Queue<Item> itemOrder;
+  @Inject
+  private EventBus eventBus;
 
-	public AbstractProfessionLogic() {
-		SharedInjector.get().injectMembers(this);
-		itemOrder = new LinkedList<Item>();
-		items = new ItemBag();
-	}
+  private Queue<Item> itemOrder;
 
-	@Override
-	public void add(Item item, int amount) {
-		eventBus.fireEvent(new ItemEvent(EventType.CRAFT_SUBMIT, item, amount));
-		items.add(item, amount);
-		itemOrder.add(item);
-	}
-	
-	@Override
-	public void fetch() {
-		Item head = null;
-		do {
-			head = itemOrder.poll();
-		} while (!itemOrder.isEmpty() && !items.contains(head));
-		if (head != null && items.contains(head)) {
-			int amount = items.getAmount(head);
-			items.clear(head.getId());
-			eventBus.fireEvent(new ItemEvent(EventType.CRAFT_REMOVE, head, amount));
-		}
-	}
+  public AbstractProfessionLogic() {
+    SharedInjector.get().injectMembers(this);
+    itemOrder = new LinkedList<Item>();
+    items = new ItemBag();
+  }
 
-	@Override
-	public void clear(Item item) {
-		eventBus.fireEvent(new ItemEvent(EventType.CRAFT_REMOVE, item, items
-				.getAmount(item)));
-		items.clear(item.getId());
-	}
+  @Override
+  public void add(Item item, int amount) {
+    eventBus.fireEvent(new ItemEvent(EventType.CRAFT_SUBMIT, item, amount));
+    items.add(item, amount);
+    itemOrder.add(item);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.bitbrain.craft.core.professions.ProfessionLogic#setRecipe(de.bitbrain
-	 * .craft.models.Recipe)
-	 */
-	@Override
-	public void setRecipe(Recipe recipe) {
+  @Override
+  public void fetch() {
+    Item head = null;
+    do {
+      head = itemOrder.poll();
+    } while (!itemOrder.isEmpty() && !items.contains(head));
+    if (head != null && items.contains(head)) {
+      int amount = items.getAmount(head);
+      items.clear(head.getId());
+      eventBus.fireEvent(new ItemEvent(EventType.CRAFT_REMOVE, head, amount));
+    }
+  }
 
-	}
+  @Override
+  public void clear(Item item) {
+    eventBus.fireEvent(new ItemEvent(EventType.CRAFT_REMOVE, item, items.getAmount(item)));
+    items.clear(item.getId());
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.bitbrain.craft.core.professions.ProfessionLogic#setRecipe(de.bitbrain .craft.models.Recipe)
+   */
+  @Override
+  public void setRecipe(Recipe recipe) {
+
+  }
 }

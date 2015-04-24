@@ -46,61 +46,60 @@ import de.bitbrain.craft.models.SoundConfig;
 @StateScoped
 public class SoundManager implements Disposable {
 
-	public static final String DEFERRED_SOUNDS = Assets.DIR_AUDIO
-			+ "/deferred/";
+  public static final String DEFERRED_SOUNDS = Assets.DIR_AUDIO + "/deferred/";
 
-	private AssetManager assetManager;
+  private AssetManager assetManager;
 
-	private ExecutorService executor;
+  private ExecutorService executor;
 
-	@Inject
-	private EventBus eventBus;
+  @Inject
+  private EventBus eventBus;
 
-	public SoundManager() {
-		assetManager = new AssetManager();	
-		executor = Executors.newFixedThreadPool(5);
-	}
-	
-	@PostConstruct
-	public void init() {
-		eventBus.subscribe(this);
-	}
+  public SoundManager() {
+    assetManager = new AssetManager();
+    executor = Executors.newFixedThreadPool(5);
+  }
 
-	public void play(String id, final float volume, final float pitch, final float pan) {
-		final String file = DEFERRED_SOUNDS + id;
-		if (!assetManager.isLoaded(file, Sound.class)) {
-			executor.submit(new Runnable() {
-				@Override
-				public void run() {
-					assetManager.load(file, Sound.class);
-					assetManager.finishLoading();
-					Sound sound = assetManager.get(file, Sound.class);
-					eventBus.fireEvent(new SoundPlayEvent(sound, volume, pitch, pan));
-				}
-			});
-		} else {
-			assetManager.get(file, Sound.class).play(volume, pitch, pan);
-		}
-	}
+  @PostConstruct
+  public void init() {
+    eventBus.subscribe(this);
+  }
 
-	public void play(SoundConfig config) {
-		play(config.getFile(), config.getVolume(), config.getPitch(), config.getPan());
-	}
+  public void play(String id, final float volume, final float pitch, final float pan) {
+    final String file = DEFERRED_SOUNDS + id;
+    if (!assetManager.isLoaded(file, Sound.class)) {
+      executor.submit(new Runnable() {
+        @Override
+        public void run() {
+          assetManager.load(file, Sound.class);
+          assetManager.finishLoading();
+          Sound sound = assetManager.get(file, Sound.class);
+          eventBus.fireEvent(new SoundPlayEvent(sound, volume, pitch, pan));
+        }
+      });
+    } else {
+      assetManager.get(file, Sound.class).play(volume, pitch, pan);
+    }
+  }
 
-	@Handler	
-	public void onDeferredSoundPlay(SoundPlayEvent event) {
-		Sound sound = event.getModel();
-		Float volume = (Float) event.getParam(0);
-		Float pitch = (Float) event.getParam(1);
-		Float pan = (Float) event.getParam(2);
-		sound.play(volume, pitch, pan);
-	}
+  public void play(SoundConfig config) {
+    play(config.getFile(), config.getVolume(), config.getPitch(), config.getPan());
+  }
 
-	@Override
-	public void dispose() {
-		executor.shutdown();
-		assetManager.dispose();
-		eventBus.unsubscribe(this);
-	}
+  @Handler
+  public void onDeferredSoundPlay(SoundPlayEvent event) {
+    Sound sound = event.getModel();
+    Float volume = (Float) event.getParam(SoundPlayEvent.VOLUME);
+    Float pitch = (Float) event.getParam(SoundPlayEvent.PITCH);
+    Float pan = (Float) event.getParam(SoundPlayEvent.PAN);
+    sound.play(volume, pitch, pan);
+  }
+
+  @Override
+  public void dispose() {
+    executor.shutdown();
+    assetManager.dispose();
+    eventBus.unsubscribe(this);
+  }
 
 }

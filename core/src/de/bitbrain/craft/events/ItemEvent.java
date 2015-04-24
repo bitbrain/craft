@@ -29,19 +29,23 @@ import de.bitbrain.craft.models.Item;
  * @version 1.0
  */
 public class ItemEvent extends Event<Item> {
-	
-	private int amount;
 
-	/**
-	 * @param type
-	 * @param model
-	 */
-	public ItemEvent(de.bitbrain.craft.events.Event.EventType type, Item item, int amount) {
-		super(type, item);
-		this.amount = amount;
-	}
-	
-	public int getAmount() {
-		return amount;
-	}
+  public static final String ITEM = "item";
+
+  public static final String AMOUNT = "amount";
+
+  private int amount;
+
+  /**
+   * @param type
+   * @param model
+   */
+  public ItemEvent(de.bitbrain.craft.events.Event.EventType type, Item item, int amount) {
+    super(type, item);
+    this.amount = amount;
+  }
+
+  public int getAmount() {
+    return amount;
+  }
 }

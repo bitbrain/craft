@@ -19,6 +19,9 @@
 
 package de.bitbrain.craft.events;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * General event message which can be send
  *
@@ -27,54 +30,56 @@ package de.bitbrain.craft.events;
  * @version 1.0
  */
 public class Event<Model> {
-	
-	private EventType type;
-	
-	private Model model;
-	
-	private Object[] params;
-	
-	public Event(EventType type, Model model) {
-		this(type, model, (Object[])null);
-	}
-	
-	public Event(EventType type, Model model, Object ... params) {
-		this.type = type;
-		this.model = model;
-		this.params = params;
-	}
-	
-	public Object getParam(int index) {
-		if (params != null && params.length > 0 && index < params.length) {
-			return params[index];
-		} else {
-			return null;
-		}
-	}
-	
-	public EventType getType() {
-		return type;
-	}
-	
-	public Model getModel() {
-		return model;
-	}
 
-	public static enum EventType {		
-		UPDATE,
-		ADD,
-		REMOVE,
-		CLICK,
-		CRAFTED,
-		CRAFT_SUBMIT,
-		CRAFT_REMOVE,
-		MOUSEDOWN,
-		MOUSEUP,
-		MOUSEMOVE,
-		MOUSEDRAG,
-		MOUSEDROP,
-		KEYDOWN,
-		KEYUP,
-		PLAY
-	}
+  public static final String SENDER = "sender";
+
+  private EventType type;
+
+  private Model model;
+
+  private Map<String, Object> params;
+
+  public Event(EventType type, Model model) {
+    this.type = type;
+    this.model = model;
+    this.params = new HashMap<String, Object>();
+  }
+
+  public Object getParam(String id) {
+    return params.get(id);
+  }
+
+  public boolean hasParam(String id) {
+    return params.containsKey(id);
+  }
+
+  public void setParam(String id, Object object) {
+    params.put(id, object);
+  }
+
+  public EventType getType() {
+    return type;
+  }
+
+  public Model getModel() {
+    return model;
+  }
+
+  public static enum EventType {
+    UPDATE,
+    ADD,
+    REMOVE,
+    CLICK,
+    CRAFTED,
+    CRAFT_SUBMIT,
+    CRAFT_REMOVE,
+    MOUSEDOWN,
+    MOUSEUP,
+    MOUSEMOVE,
+    MOUSEDRAG,
+    MOUSEDROP,
+    KEYDOWN,
+    KEYUP,
+    PLAY
+  }
 }

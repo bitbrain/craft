@@ -26,22 +26,21 @@ package de.bitbrain.craft.events;
  * @since 1.0
  * @version 1.0
  */
-public class MouseEvent<Model> extends Event<Model>{
-	
-	private float x, y;
+public class MouseEvent<Model> extends Event<Model> {
 
-	public MouseEvent(de.bitbrain.craft.events.Event.EventType type,
-			Model model, float x, float y, Object ... args) {
-		super(type, model, args);
-		this.x = x;
-		this.y = y;
-	}
-	
-	public float getMouseX() {
-		return x;
-	}
-	
-	public float getMouseY() {
-		return y;
-	}
+  private float x, y;
+
+  public MouseEvent(de.bitbrain.craft.events.Event.EventType type, Model model, float x, float y) {
+    super(type, model);
+    this.x = x;
+    this.y = y;
+  }
+
+  public float getMouseX() {
+    return x;
+  }
+
+  public float getMouseY() {
+    return y;
+  }
 }

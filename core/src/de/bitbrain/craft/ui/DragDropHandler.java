@@ -56,8 +56,8 @@ import de.bitbrain.craft.ui.widgets.TabWidget.Tab;
 import de.bitbrain.craft.util.Fadeable;
 
 /**
- * Handler which handles drag and drop. This handler is capable of handling
- * multiple drag&drops. It reacts to any mouse and element events.
+ * Handler which handles drag and drop. This handler is capable of handling multiple drag&drops. It reacts to any mouse
+ * and element events.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -66,234 +66,218 @@ import de.bitbrain.craft.util.Fadeable;
 @StateScoped
 public class DragDropHandler {
 
-	// Determines if enabled or not
-	private boolean enabled;
+  // Determines if enabled or not
+  private boolean enabled;
 
-	// Contains all metadata for icons
-	private Map<ItemId, IconMetadata> metadata;
+  // Contains all metadata for icons
+  private Map<ItemId, IconMetadata> metadata;
 
-	// Temporary direction variable for target
-	private Vector2 target;
+  // Temporary direction variable for target
+  private Vector2 target;
 
-	@Inject
-	private EventBus eventBus;
+  @Inject
+  private EventBus eventBus;
 
-	@Inject
-	private SoundManager soundManager;
+  @Inject
+  private SoundManager soundManager;
 
-	@Inject
-	private API api;
+  @Inject
+  private API api;
 
-	@Inject
-	private TweenManager tweenManager;
+  @Inject
+  private TweenManager tweenManager;
 
-	@Inject
-	private IconManager iconManager;
+  @Inject
+  private IconManager iconManager;
 
-	static {
-		Tween.registerAccessor(IconMetadata.class, new FadeableTween());
-	}
+  static {
+    Tween.registerAccessor(IconMetadata.class, new FadeableTween());
+  }
 
-	@PostConstruct
-	public void init() {
-		metadata = new HashMap<ItemId, IconMetadata>();
-		target = new Vector2();
-		enabled = true;
-		eventBus.subscribe(this);
-	}
+  @PostConstruct
+  public void init() {
+    metadata = new HashMap<ItemId, IconMetadata>();
+    target = new Vector2();
+    enabled = true;
+    eventBus.subscribe(this);
+  }
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-	public void draw(Batch batch, float delta) {
-		if (enabled) {
-			for (Entry<ItemId, IconMetadata> entry : metadata.entrySet()) {
-				IconMetadata data = entry.getValue();
-				Vector2 location = data.location;
-				Vector2 size = data.size;
-				target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
-				target.y = getScreenY();
+  public void draw(Batch batch, float delta) {
+    if (enabled) {
+      for (Entry<ItemId, IconMetadata> entry : metadata.entrySet()) {
+        IconMetadata data = entry.getValue();
+        Vector2 location = data.location;
+        Vector2 size = data.size;
+        target.x = Sizes.worldMouseX() / Sizes.worldScreenFactorX();
+        target.y = getScreenY();
 
-				if (!data.frozen) {
-					float speed = 0.4f * entry.getKey().ordinal() + 1.6f;
-					if (data.drop) {
-						target.x = data.source.x;
-						target.y = data.source.y;
-						speed = 3f;
-						// Check if near, then drop everything
-						if (target.cpy().sub(location).len() < Sizes
-								.dragIconSize()) {
-							remove(entry.getKey());
-							break;
-						}
-					}
-					if (speed <= 0) {
-						// Apply direct mouse position
-						location.x = target.x;
-						location.y = target.y;
-					} else {
-						// Move the location towards the mouse
-						location.x += (target.x - location.x) * delta * speed;
-						location.y += (target.y - location.y) * delta * speed;
-					}
-				}
+        if (!data.frozen) {
+          float speed = 0.4f * entry.getKey().ordinal() + 1.6f;
+          if (data.drop) {
+            target.x = data.source.x;
+            target.y = data.source.y;
+            speed = 3f;
+            // Check if near, then drop everything
+            if (target.cpy().sub(location).len() < Sizes.dragIconSize()) {
+              remove(entry.getKey());
+              break;
+            }
+          }
+          if (speed <= 0) {
+            // Apply direct mouse position
+            location.x = target.x;
+            location.y = target.y;
+          } else {
+            // Move the location towards the mouse
+            location.x += (target.x - location.x) * delta * speed;
+            location.y += (target.y - location.y) * delta * speed;
+          }
+        }
 
-				IconDrawable icon = data.drawable;
+        IconDrawable icon = data.drawable;
 
-				for (int i = 0; i < data.amount; ++i) {
-					icon.x = location.x + size.x / 2f + 10.25f
-							* (float) Math.cos(i * 30f);
-					icon.y = location.y - size.y / 2f + 10.25f
-							* (float) Math.sin(i * 30f);
-					icon.rotation = 180f;
-					icon.width = size.x * -Sizes.worldScreenFactorX();
-					icon.height = size.y * Sizes.worldScreenFactorY();
-					icon.color.a = data.alpha;
-					icon.draw(batch, 1f);
-				}
-			}
-		}
-	}
+        for (int i = 0; i < data.amount; ++i) {
+          icon.x = location.x + size.x / 2f + 10.25f * (float) Math.cos(i * 30f);
+          icon.y = location.y - size.y / 2f + 10.25f * (float) Math.sin(i * 30f);
+          icon.rotation = 180f;
+          icon.width = size.x * -Sizes.worldScreenFactorX();
+          icon.height = size.y * Sizes.worldScreenFactorY();
+          icon.color.a = data.alpha;
+          icon.draw(batch, 1f);
+        }
+      }
+    }
+  }
 
-	public void clear() {
-		metadata.clear();
-	}
+  public void clear() {
+    metadata.clear();
+  }
 
-	@Handler
-	public void onEvent(final ItemEvent event) {
-		// ON ITEM REMOVE: Remove it from this handler
-		if (event.getType().equals(EventType.REMOVE)) {
-			final IconMetadata data = metadata.get(event.getModel().getId());
-			if (data != null) {
-				tweenManager.killTarget(data);
-				tweenManager.killTarget(data.size);
-				data.frozen = true;
-				Tween.to(data, FadeableTween.DEFAULT, 0.6f).target(0f)
-						.ease(TweenEquations.easeOutCubic)
-						.setCallbackTriggers(TweenCallback.COMPLETE)
-						.setCallback(new TweenCallback() {
-							@Override
-							public void onEvent(int type, BaseTween<?> source) {
-								remove(event.getModel().getId());
-							}
-						}).start(tweenManager);
-			}
-		}
-	}
+  @Handler
+  public void onEvent(final ItemEvent event) {
+    // ON ITEM REMOVE: Remove it from this handler
+    if (event.getType().equals(EventType.REMOVE)) {
+      final IconMetadata data = metadata.get(event.getModel().getId());
+      if (data != null) {
+        tweenManager.killTarget(data);
+        tweenManager.killTarget(data.size);
+        data.frozen = true;
+        Tween.to(data, FadeableTween.DEFAULT, 0.6f).target(0f).ease(TweenEquations.easeOutCubic)
+            .setCallbackTriggers(TweenCallback.COMPLETE).setCallback(new TweenCallback() {
+              @Override
+              public void onEvent(int type, BaseTween<?> source) {
+                remove(event.getModel().getId());
+              }
+            }).start(tweenManager);
+      }
+    }
+  }
 
-	@Handler
-	public void onEvent(MouseEvent<?> event) {
-		if (event.getModel() instanceof Item) {
-			final Item item = (Item) event.getModel();
+  @Handler
+  public void onEvent(MouseEvent<?> event) {
+    if (event.getModel() instanceof Item) {
+      final Item item = (Item) event.getModel();
 
-			if (event.getType() == EventType.MOUSEDRAG) {
-				int size = 1;
-				if (event.getParam(0) != null) {
-					size = (Integer) event.getParam(0);
-				}
-				add(item, size);
-				SoundUtils.playItemSound(item, SoundType.DRAG, soundManager,
-						api);
-			} else if (event.getType() == EventType.MOUSEDROP) {
-				IconMetadata data = metadata.get(item.getId());
-				data.drop = true;
-				tweenManager.killTarget(data.size);
-				animateVector(data.size, 1.7f, 0f, new TweenCallback() {
-					@Override
-					public void onEvent(int type, BaseTween<?> source) {
-					}
-				});
-				Tween.to(data, FadeableTween.DEFAULT, 0.3f).target(0f)
-						.ease(TweenEquations.easeOutCubic).start(tweenManager);
-				SoundUtils.playItemSound(item, SoundType.DROP, soundManager,
-						api);
-			}
-		} else if (event.getModel() instanceof Tab) {
-			clear();
-		}
-	}
+      if (event.getType() == EventType.MOUSEDRAG) {
+        int amount = 1;
+        if (event.hasParam(ItemEvent.AMOUNT)) {
+          amount = (Integer) event.getParam(ItemEvent.AMOUNT);
+        }
+        float sourceX = Sizes.worldMouseX();
+        float sourceY = getScreenY();
+        add(item, amount, sourceX, sourceY);
+        SoundUtils.playItemSound(item, SoundType.DRAG, soundManager, api);
+      } else if (event.getType() == EventType.MOUSEDROP) {
+        IconMetadata data = metadata.get(item.getId());
+        data.drop = true;
+        tweenManager.killTarget(data.size);
+        animateVector(data.size, 1.7f, 0f, new TweenCallback() {
+          @Override
+          public void onEvent(int type, BaseTween<?> source) {
+          }
+        });
+        Tween.to(data, FadeableTween.DEFAULT, 0.3f).target(0f).ease(TweenEquations.easeOutCubic).start(tweenManager);
+        SoundUtils.playItemSound(item, SoundType.DROP, soundManager, api);
+      }
+    } else if (event.getModel() instanceof Tab) {
+      clear();
+    }
+  }
 
-	private float getScreenY() {
-		return (Sizes.worldHeight() / Sizes.worldScreenFactorY())
-				- (Sizes.worldMouseY() / Sizes.worldScreenFactorY())
-				+ (Gdx.graphics.getHeight() / 8f) * Sizes.worldScreenFactorY();
-	}
+  private float getScreenY() {
+    return (Sizes.worldHeight() / Sizes.worldScreenFactorY()) - (Sizes.worldMouseY() / Sizes.worldScreenFactorY())
+        + (Gdx.graphics.getHeight() / 8f) * Sizes.worldScreenFactorY();
+  }
 
-	private void add(final Item item, int amount) {
-		final IconMetadata data = new IconMetadata();
-		data.drawable = iconManager.fetch(item.getIcon());
-		data.location = new Vector2(Sizes.worldMouseX(), getScreenY());
-		data.drop = false;
-		data.source = new Vector2(Sizes.worldMouseX(), getScreenY());
-		data.size = new Vector2();
-		data.amount = amount;
-		animateVector(data.size, 1f, Sizes.dragIconSize(), new TweenCallback() {
-			@Override
-			public void onEvent(int type, BaseTween<?> source) {
-				animateDragging(data);
-			}
-		});
-		metadata.put(item.getId(), data);
-	}
+  private void add(final Item item, int amount, float sourceX, float sourceY) {
+    final IconMetadata data = new IconMetadata();
+    data.drawable = iconManager.fetch(item.getIcon());
+    data.location = new Vector2(sourceX, sourceY);
+    data.drop = false;
+    data.source = new Vector2(sourceX, sourceY);
+    data.size = new Vector2();
+    data.amount = amount;
+    animateVector(data.size, 1f, Sizes.dragIconSize(), new TweenCallback() {
+      @Override
+      public void onEvent(int type, BaseTween<?> source) {
+        animateDragging(data);
+      }
+    });
+    metadata.put(item.getId(), data);
+  }
 
-	private void remove(final ItemId id) {
-		if (metadata.containsKey(id)) {
-			final IconMetadata data = metadata.get(id);
-			tweenManager.killTarget(data.size);
-			metadata.remove(id);
+  private void remove(final ItemId id) {
+    if (metadata.containsKey(id)) {
+      final IconMetadata data = metadata.get(id);
+      tweenManager.killTarget(data.size);
+      metadata.remove(id);
 
-		}
-	}
+    }
+  }
 
-	private void animateVector(Vector2 vec, float time, float target,
-			TweenCallback callback) {
-		Tween.to(vec, VectorTween.X, time).target(target)
-				.ease(TweenEquations.easeOutQuart).start(tweenManager);
-		Tween.to(vec, VectorTween.Y, time).target(target)
-				.ease(TweenEquations.easeOutQuart).setCallback(callback)
-				.setCallbackTriggers(TweenCallback.COMPLETE)
-				.start(tweenManager);
-	}
+  private void animateVector(Vector2 vec, float time, float target, TweenCallback callback) {
+    Tween.to(vec, VectorTween.X, time).target(target).ease(TweenEquations.easeOutQuart).start(tweenManager);
+    Tween.to(vec, VectorTween.Y, time).target(target).ease(TweenEquations.easeOutQuart).setCallback(callback)
+        .setCallbackTriggers(TweenCallback.COMPLETE).start(tweenManager);
+  }
 
-	private void animateDragging(IconMetadata data) {
-		tweenManager.killTarget(data);
-		tweenManager.killTarget(data.size);
-		Tween.to(data.size, VectorTween.X, 1.0f)
-				.target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
-				.repeatYoyo(Tween.INFINITY, 0f)
-				.ease(TweenEquations.easeOutBack).start(tweenManager);
-		Tween.to(data.size, VectorTween.Y, 1.0f)
-				.target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
-				.repeatYoyo(Tween.INFINITY, 0f)
-				.ease(TweenEquations.easeOutBack).start(tweenManager);
-		Tween.to(data, FadeableTween.DEFAULT, 2.2f).target(0.3f)
-				.repeatYoyo(Tween.INFINITY, 0f)
-				.ease(TweenEquations.easeInCubic).start(tweenManager);
-	}
+  private void animateDragging(IconMetadata data) {
+    tweenManager.killTarget(data);
+    tweenManager.killTarget(data.size);
+    Tween.to(data.size, VectorTween.X, 1.0f).target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
+        .repeatYoyo(Tween.INFINITY, 0f).ease(TweenEquations.easeOutBack).start(tweenManager);
+    Tween.to(data.size, VectorTween.Y, 1.0f).target(Sizes.dragIconSize() + Sizes.dragIconSize() / 3.2f)
+        .repeatYoyo(Tween.INFINITY, 0f).ease(TweenEquations.easeOutBack).start(tweenManager);
+    Tween.to(data, FadeableTween.DEFAULT, 2.2f).target(0.3f).repeatYoyo(Tween.INFINITY, 0f)
+        .ease(TweenEquations.easeInCubic).start(tweenManager);
+  }
 
-	private class IconMetadata implements Fadeable {
+  private class IconMetadata implements Fadeable {
 
-		public IconDrawable drawable;
+    public IconDrawable drawable;
 
-		public Vector2 location, source, size;
+    public Vector2 location, source, size;
 
-		public Boolean drop;
+    public Boolean drop;
 
-		public int amount;
+    public int amount;
 
-		private float alpha = 1f;
+    private float alpha = 1f;
 
-		public boolean frozen = false;
+    public boolean frozen = false;
 
-		@Override
-		public float getAlpha() {
-			return alpha;
-		}
+    @Override
+    public float getAlpha() {
+      return alpha;
+    }
 
-		@Override
-		public void setAlpha(float alpha) {
-			this.alpha = alpha;
-		}
-	}
+    @Override
+    public void setAlpha(float alpha) {
+      this.alpha = alpha;
+    }
+  }
 }
