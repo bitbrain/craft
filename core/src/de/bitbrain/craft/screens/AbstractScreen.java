@@ -40,6 +40,7 @@ import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundManager;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.GestureManager;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.graphics.ScreenFader;
 import de.bitbrain.craft.graphics.ScreenFader.FadeCallback;
@@ -55,186 +56,197 @@ import de.bitbrain.craft.ui.TooltipManager;
  * @version 1.0
  */
 public abstract class AbstractScreen implements Screen, FadeCallback {
-	
-	@Inject
-	protected OrthographicCamera camera;
-	
-	@Inject
-	protected TweenManager tweenManager;
-	
-	@Inject
-	protected ParticleRenderer particleRenderer;
-	
-	@Inject
-	protected SoundManager soundManager;
-	
-	@Inject
-	protected EventBus eventBus;
-	
-	@Inject
-	protected CraftGame game;
-	
-	@Inject
-	private Overlay overlay;
-	
-	@Inject
-	private TooltipManager tooltipManager;
-	
-	private ScreenFader fader;
-	
-	private Class<? extends Screen> nextScreen;
-	
-	private Sprite background;
-	
-	protected Batch batch;
-	
-	private UIRenderer uiRenderer;
-	
-	public static final float FADE_INTERVAL = 0.7f;	
-	
-	public void setBackground(Sprite background) {
-		this.background = background;
-	}
 
-	@Override
-	public final void render(float delta) {
-		
-		Gdx.gl.glClearColor(0.08f, 0.02f, 0f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
-		
-		onUpdate(delta);
+  @Inject
+  protected OrthographicCamera camera;
 
-		tweenManager.update(delta);
-		
-		camera.update();			
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-			if (background != null) {
-				background.setBounds(
-						camera.position.x - camera.viewportWidth / 2, 
-						camera.position.y - camera.viewportHeight / 2, 
-						camera.viewportWidth, 
-						camera.viewportHeight);
-				background.draw(batch);
-			}			
-			onDraw(batch, delta);
-		batch.end();		
-		if (uiRenderer != null) {
-			uiRenderer.render(delta);
-			camera.update();
-			batch.begin();
-			batch.setProjectionMatrix(camera.combined);
-			onStageDraw(batch, delta);
-			batch.end();
-		}		
-		batch.begin();
-			particleRenderer.render(batch, delta);
-		batch.end();		
-		uiRenderer.render(delta);
-		tooltipManager.draw(batch);
-		fader.render(batch);
-	}
+  @Inject
+  protected TweenManager tweenManager;
 
-	@Override
-	public void resize(int width, int height) {		
-		if (uiRenderer == null) {
-			uiRenderer = new UIRenderer(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()), createViewport(), batch);
-			overlay.setRenderer(uiRenderer);
-			fader = new ScreenFader(tweenManager);
-			fader.setCallback(this);
-			Gdx.input.setCatchBackKey(true);
-			onCreateStage(uiRenderer.getBase());
-			fader.fadeIn();
-		} else {
-			uiRenderer.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
-		}
-		fader.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
-		camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
-	}
+  @Inject
+  protected ParticleRenderer particleRenderer;
 
-	@Override
-	public final void show() {
-		onShow();
-		eventBus.subscribe(this);
-		batch = new SpriteBatch();
-		if (SharedAssetManager.isLoaded(Assets.TEX_BACKGROUND_01)) {
-			background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
-			background.flip(false, true);
-		}
-	}
+  @Inject
+  protected SoundManager soundManager;
 
-	@Override
-	public void dispose() {
-		batch.dispose();
-		uiRenderer.dispose();
-		eventBus.unsubscribe(this);
-		tooltipManager.clear();
-		soundManager.dispose();
-	}
+  @Inject
+  protected GestureManager gestureManager;
 
-	@Override
-	public void hide() {
-		eventBus.unsubscribe(this);
-		tooltipManager.clear();
-	}
+  @Inject
+  protected EventBus eventBus;
 
-	@Override
-	public void pause() { }
+  @Inject
+  protected CraftGame game;
 
-	@Override
-	public void resume() { }
-	
-	public void onStageDraw(Batch batch, float delta) { }
-	
-	public void setScreen(Class<? extends Screen> screen) {
-		Gdx.input.setInputProcessor(null);
-		Gdx.input.setCatchBackKey(true);
-		nextScreen = screen;
-		eventBus.unsubscribe(this);
-		fader.fadeOut();
-	}
-	
-	protected abstract void onCreateStage(Stage stage);
-	
-	protected abstract void onDraw(Batch batch, float delta);
-	
-	protected abstract void onShow();
-	
-	protected int getWorldWidth(int screenWidth) {
-		return screenWidth;
-	}
-	
-	protected int getWorldHeight(int screenHeight) {
-		return screenHeight;
-	}
-	
-	protected Viewport createViewport() {
-		return new ScreenViewport();
-	}
-	
-	protected void onUpdate(float delta) { }
-	
-	protected Sprite getBackground() {
-		return background;
-	}
-	
-	@Override
-	public void afterFadeIn() {
-		uiRenderer.syncMode();
-		Gdx.input.setCatchBackKey(true);
-	}
-	
-	@Override
-	public void afterFadeOut() {		
-		particleRenderer.clear();
-		if (nextScreen != null) {
-			game.setScreen(nextScreen);			
-		}
-	}
-	
-	@Override
-	public void beforeFadeIn() { }
-	
-	@Override
-	public void beforeFadeOut() { }
+  @Inject
+  private Overlay overlay;
+
+  @Inject
+  private TooltipManager tooltipManager;
+
+  private ScreenFader fader;
+
+  private Class<? extends Screen> nextScreen;
+
+  private Sprite background;
+
+  protected Batch batch;
+
+  private UIRenderer uiRenderer;
+
+  public static final float FADE_INTERVAL = 0.7f;
+
+  public void setBackground(Sprite background) {
+    this.background = background;
+  }
+
+  @Override
+  public final void render(float delta) {
+
+    Gdx.gl.glClearColor(0.08f, 0.02f, 0f, 1f);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT
+        | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+    onUpdate(delta);
+
+    tweenManager.update(delta);
+
+    camera.update();
+    batch.setProjectionMatrix(camera.combined);
+    batch.begin();
+    if (background != null) {
+      background.setBounds(camera.position.x - camera.viewportWidth / 2, camera.position.y - camera.viewportHeight / 2,
+          camera.viewportWidth, camera.viewportHeight);
+      background.draw(batch);
+    }
+    onDraw(batch, delta);
+    batch.end();
+    if (uiRenderer != null) {
+      uiRenderer.render(delta);
+      camera.update();
+      batch.begin();
+      batch.setProjectionMatrix(camera.combined);
+      onStageDraw(batch, delta);
+      batch.end();
+    }
+    batch.begin();
+    particleRenderer.render(batch, delta);
+    batch.end();
+    uiRenderer.render(delta);
+    tooltipManager.draw(batch);
+    fader.render(batch);
+  }
+
+  @Override
+  public void resize(int width, int height) {
+    if (uiRenderer == null) {
+      uiRenderer =
+          new UIRenderer(Math.round(width / Sizes.worldScreenFactorX()),
+              Math.round(height / Sizes.worldScreenFactorY()), createViewport(), batch);
+      overlay.setRenderer(uiRenderer);
+      fader = new ScreenFader(tweenManager);
+      fader.setCallback(this);
+      Gdx.input.setCatchBackKey(true);
+      onCreateStage(uiRenderer.getBase());
+      fader.fadeIn();
+    } else {
+      uiRenderer
+          .resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
+    }
+    fader.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
+    camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
+  }
+
+  @Override
+  public final void show() {
+    onShow();
+    eventBus.subscribe(this);
+    batch = new SpriteBatch();
+    if (SharedAssetManager.isLoaded(Assets.TEX_BACKGROUND_01)) {
+      background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
+      background.flip(false, true);
+    }
+  }
+
+  @Override
+  public void dispose() {
+    batch.dispose();
+    uiRenderer.dispose();
+    eventBus.unsubscribe(this);
+    tooltipManager.clear();
+    soundManager.dispose();
+    gestureManager.clear();
+  }
+
+  @Override
+  public void hide() {
+    eventBus.unsubscribe(this);
+    tooltipManager.clear();
+  }
+
+  @Override
+  public void pause() {
+  }
+
+  @Override
+  public void resume() {
+  }
+
+  public void onStageDraw(Batch batch, float delta) {
+  }
+
+  public void setScreen(Class<? extends Screen> screen) {
+    Gdx.input.setInputProcessor(null);
+    Gdx.input.setCatchBackKey(true);
+    nextScreen = screen;
+    eventBus.unsubscribe(this);
+    fader.fadeOut();
+  }
+
+  protected abstract void onCreateStage(Stage stage);
+
+  protected abstract void onDraw(Batch batch, float delta);
+
+  protected abstract void onShow();
+
+  protected int getWorldWidth(int screenWidth) {
+    return screenWidth;
+  }
+
+  protected int getWorldHeight(int screenHeight) {
+    return screenHeight;
+  }
+
+  protected Viewport createViewport() {
+    return new ScreenViewport();
+  }
+
+  protected void onUpdate(float delta) {
+  }
+
+  protected Sprite getBackground() {
+    return background;
+  }
+
+  @Override
+  public void afterFadeIn() {
+    uiRenderer.syncMode();
+    Gdx.input.setCatchBackKey(true);
+  }
+
+  @Override
+  public void afterFadeOut() {
+    particleRenderer.clear();
+    if (nextScreen != null) {
+      game.setScreen(nextScreen);
+    }
+  }
+
+  @Override
+  public void beforeFadeIn() {
+  }
+
+  @Override
+  public void beforeFadeOut() {
+  }
 }

@@ -44,6 +44,7 @@ import de.bitbrain.craft.core.professions.ProfessionLogic;
 import de.bitbrain.craft.events.Event;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
+import de.bitbrain.craft.events.GestureManager;
 import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.graphics.GraphicsFactory;
@@ -70,6 +71,9 @@ public class CraftingWidget extends Actor {
 
   @Inject
   private TweenManager tweenManager;
+
+  @Inject
+  private GestureManager gestureManager;
 
   private AnimatedBounceObject workbench, table;
 
@@ -157,6 +161,7 @@ public class CraftingWidget extends Actor {
   }
 
   private void registerEvents() {
+    gestureManager.addListener(professionLogic.getCraftingGesture());
     addListener(new DragListener() {
       @Override
       public void dragStart(InputEvent event, float x, float y, int pointer) {

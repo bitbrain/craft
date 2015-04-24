@@ -36,72 +36,101 @@ import de.bitbrain.craft.inject.SharedInjector;
  * @version 1.0
  */
 public class InputEventProcessor extends Stage {
-	
-	@Inject
-	private EventBus eventBus;
 
-	public InputEventProcessor(Viewport viewport, Batch batch) {
-		super(viewport, batch);
-		SharedInjector.get().injectMembers(this);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.InputAdapter#mouseMoved(int, int)
-	 */
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		super.mouseMoved(screenX, screenY);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEMOVE, this, screenX, screenY));	
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.InputAdapter#touchDragged(int, int, int)
-	 */
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		super.touchDragged(screenX, screenY, pointer);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEDRAG, this, screenX, screenY));		
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.InputAdapter#touchDown(int, int, int, int)
-	 */
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		super.touchDown(screenX, screenY, pointer, button);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEDOWN, this, screenX, screenY));		
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.InputAdapter#touchUp(int, int, int, int)
-	 */
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		super.touchUp(screenX, screenY, pointer, button);
-		eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEUP, this, screenX, screenY));		
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Stage#keyDown(int)
-	 */
-	@Override
-	public boolean keyDown(int keyCode) {
-		super.keyDown(keyCode);
-		eventBus.fireEvent(new KeyEvent(EventType.KEYDOWN, Gdx.input, keyCode));	
-		return true;
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Stage#keyUp(int)
-	 */
-	@Override
-	public boolean keyUp(int keyCode) {
-		super.keyUp(keyCode);
-		eventBus.fireEvent(new KeyEvent(EventType.KEYUP, Gdx.input, keyCode));		
-		return true;
-	}
+  @Inject
+  private EventBus eventBus;
+
+  @Inject
+  private GestureManager gestureManager;
+
+  public InputEventProcessor(Viewport viewport, Batch batch) {
+    super(viewport, batch);
+    SharedInjector.get().injectMembers(this);
+
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.InputAdapter#mouseMoved(int, int)
+   */
+  @Override
+  public boolean mouseMoved(int screenX, int screenY) {
+    super.mouseMoved(screenX, screenY);
+    eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEMOVE, this, screenX, screenY));
+    return gestureManager.mouseMoved(screenX, screenY);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.InputAdapter#touchDragged(int, int, int)
+   */
+  @Override
+  public boolean touchDragged(int screenX, int screenY, int pointer) {
+    super.touchDragged(screenX, screenY, pointer);
+    eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEDRAG, this, screenX, screenY));
+    return gestureManager.touchDragged(screenX, screenY, pointer);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.InputAdapter#touchDown(int, int, int, int)
+   */
+  @Override
+  public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    super.touchDown(screenX, screenY, pointer, button);
+    eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEDOWN, this, screenX, screenY));
+    return gestureManager.touchDown(screenX, screenY, pointer, button);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.InputAdapter#touchUp(int, int, int, int)
+   */
+  @Override
+  public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    super.touchUp(screenX, screenY, pointer, button);
+    eventBus.fireEvent(new MouseEvent<InputEventProcessor>(EventType.MOUSEUP, this, screenX, screenY));
+    return gestureManager.touchUp(screenX, screenY, pointer, button);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.scenes.scene2d.Stage#keyDown(int)
+   */
+  @Override
+  public boolean keyDown(int keyCode) {
+    super.keyDown(keyCode);
+    eventBus.fireEvent(new KeyEvent(EventType.KEYDOWN, Gdx.input, keyCode));
+    return gestureManager.keyDown(keyCode);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.badlogic.gdx.scenes.scene2d.Stage#keyUp(int)
+   */
+  @Override
+  public boolean keyUp(int keyCode) {
+    super.keyUp(keyCode);
+    eventBus.fireEvent(new KeyEvent(EventType.KEYUP, Gdx.input, keyCode));
+    return gestureManager.keyUp(keyCode);
+  }
+
+  @Override
+  public boolean keyTyped(char character) {
+    super.keyTyped(character);
+    return gestureManager.keyTyped(character);
+  }
+
+  @Override
+  public boolean scrolled(int amount) {
+    super.scrolled(amount);
+    return gestureManager.scrolled(amount);
+  }
+
 }

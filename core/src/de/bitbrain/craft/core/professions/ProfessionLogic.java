@@ -19,30 +19,33 @@
 
 package de.bitbrain.craft.core.professions;
 
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
+
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Recipe;
 
 /**
- * General handler for a profession. Implement this interface to create new
- * logic for a profession.
+ * General handler for a profession. Implement this interface to create new logic for a profession.
  *
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
 public interface ProfessionLogic {
-	
-	void add(Item item, int amount);
-	
-	void fetch();
-	
-	void clear(Item id);
 
-	/**
-	 * Set a new recipe to this logic
-	 * 
-	 * @param recipe
-	 *            new recipe to set
-	 */
-	void setRecipe(Recipe recipe);
+  GestureListener getCraftingGesture();
+
+  void add(Item item, int amount);
+
+  void fetch();
+
+  void clear(Item id);
+
+  /**
+   * Set a new recipe to this logic
+   * 
+   * @param recipe
+   *          new recipe to set
+   */
+  void setRecipe(Recipe recipe);
 }

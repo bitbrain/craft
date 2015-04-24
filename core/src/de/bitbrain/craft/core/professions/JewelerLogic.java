@@ -19,6 +19,8 @@
 
 package de.bitbrain.craft.core.professions;
 
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
+
 /**
  * Implementation of the jeweler logic
  *
@@ -27,5 +29,14 @@ package de.bitbrain.craft.core.professions;
  * @version 1.0
  */
 class JewelerLogic extends AbstractProfessionLogic {
+
+  @Override
+  public GestureListener getCraftingGesture() {
+    return new CraftingGesture();
+  }
+
+  private class CraftingGesture extends AbstractCraftingGesture {
+
+  }
 
 }

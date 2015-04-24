@@ -53,43 +53,43 @@ import de.bitbrain.jpersis.JPersis;
  * @version 1.0
  */
 public class StateModule extends AbstractModule {
-	
-	private JPersis jpersis;
 
-	/* (non-Javadoc)
-	 * @see com.google.inject.AbstractModule#configure()
-	 */
-	@Override
-	protected void configure() {
-		install(PostConstructModule.INSTANCE);
-		StateScope scope = new StateScope();
-	    bindScope(StateScoped.class, scope);
-	    bind(StateScope.class)
-	        .annotatedWith(Names.named("stateScope"))
-	        .toInstance(scope);
-		bind(OrthographicCamera.class).in(StateScoped.class);
-		bind(Camera.class).to(OrthographicCamera.class).in(StateScoped.class);
-		bind(ShaderManager.class).to(SimpleShaderManager.class).in(StateScoped.class);
-		bind(ParticleRenderer.class);
-		bind(EventBus.class).to(MBassadorEventBus.class);
-	    bind(DragDropHandler.class);
-		bind(IconManager.class);
-		bind(TweenManager.class).in(StateScoped.class);
-	    bind(CraftGame.class).asEagerSingleton();
-	    bind(CommandLineInterface.class).asEagerSingleton();
-	    bind(TooltipManager.class).asEagerSingleton();
-	    bind(LoadingScreen.class);
-	    bind(TitleScreen.class);
-	    bind(IngameScreen.class);
-	    bind(ProfessionScreen.class);
-	    bind(DataMigrator.class);
-	}
-	
-	@Provides
-	public JPersis provideJPersis() {
-		if (jpersis == null) {
-			jpersis = new JPersis(DriverProvider.getDriver());
-		}
-		return jpersis;
-	}
+  private JPersis jpersis;
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.inject.AbstractModule#configure()
+   */
+  @Override
+  protected void configure() {
+    install(PostConstructModule.INSTANCE);
+    StateScope scope = new StateScope();
+    bindScope(StateScoped.class, scope);
+    bind(StateScope.class).annotatedWith(Names.named("stateScope")).toInstance(scope);
+    bind(OrthographicCamera.class).in(StateScoped.class);
+    bind(Camera.class).to(OrthographicCamera.class).in(StateScoped.class);
+    bind(ShaderManager.class).to(SimpleShaderManager.class).in(StateScoped.class);
+    bind(ParticleRenderer.class);
+    bind(EventBus.class).to(MBassadorEventBus.class);
+    bind(DragDropHandler.class);
+    bind(IconManager.class);
+    bind(TweenManager.class).in(StateScoped.class);
+    bind(CraftGame.class).asEagerSingleton();
+    bind(CommandLineInterface.class).asEagerSingleton();
+    bind(TooltipManager.class).asEagerSingleton();
+    bind(LoadingScreen.class);
+    bind(TitleScreen.class);
+    bind(IngameScreen.class);
+    bind(ProfessionScreen.class);
+    bind(DataMigrator.class);
+  }
+
+  @Provides
+  public JPersis provideJPersis() {
+    if (jpersis == null) {
+      jpersis = new JPersis(DriverProvider.getDriver());
+    }
+    return jpersis;
+  }
 }
