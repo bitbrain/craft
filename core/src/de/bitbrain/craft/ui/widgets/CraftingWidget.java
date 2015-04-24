@@ -169,6 +169,10 @@ public class CraftingWidget extends Actor {
             new MouseEvent<Item>(EventType.MOUSEDROP, dragItem, Sizes.localMouseX(), Sizes.localMouseY());
         mouseEvent.setParam(Event.SENDER, CraftingWidget.this);
         mouseEvent.setParam(ItemEvent.AMOUNT, dragAmount);
+        if (!collides(Sizes.localMouseX(), Sizes.localMouseY())) {
+          mouseEvent.setParam(Event.SOURCE_X, 0f);
+          mouseEvent.setParam(Event.SOURCE_Y, 0f);
+        }
         eventBus.fireEvent(mouseEvent);
         dragItem = null;
         dragAmount = 0;

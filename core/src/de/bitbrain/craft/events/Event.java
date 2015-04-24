@@ -33,6 +33,10 @@ public class Event<Model> {
 
   public static final String SENDER = "sender";
 
+  public static final String SOURCE_X = "source_x";
+
+  public static final String SOURCE_Y = "source_y";
+
   private EventType type;
 
   private Model model;

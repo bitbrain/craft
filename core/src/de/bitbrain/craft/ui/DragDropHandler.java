@@ -43,6 +43,7 @@ import de.bitbrain.craft.audio.SoundType;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.core.ItemId;
+import de.bitbrain.craft.events.Event;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.ItemEvent;
@@ -194,6 +195,8 @@ public class DragDropHandler {
       } else if (event.getType() == EventType.MOUSEDROP) {
         IconMetadata data = metadata.get(item.getId());
         data.drop = true;
+        data.source.x = event.hasParam(Event.SOURCE_X) ? (Float) event.getParam(Event.SOURCE_X) : data.source.x;
+        data.source.y = event.hasParam(Event.SOURCE_Y) ? (Float) event.getParam(Event.SOURCE_Y) : data.source.y;
         tweenManager.killTarget(data.size);
         animateVector(data.size, 1.7f, 0f, new TweenCallback() {
           @Override
