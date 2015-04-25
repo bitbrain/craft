@@ -22,6 +22,7 @@ package de.bitbrain.craft.screens;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -44,6 +45,7 @@ import de.bitbrain.craft.events.GestureManager;
 import de.bitbrain.craft.graphics.ParticleRenderer;
 import de.bitbrain.craft.graphics.ScreenFader;
 import de.bitbrain.craft.graphics.ScreenFader.FadeCallback;
+import de.bitbrain.craft.graphics.ScreenShake;
 import de.bitbrain.craft.graphics.UIRenderer;
 import de.bitbrain.craft.ui.Overlay;
 import de.bitbrain.craft.ui.TooltipManager;
@@ -83,6 +85,9 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
 
   @Inject
   private TooltipManager tooltipManager;
+  
+  @Inject
+  protected ScreenShake screenShake;
 
   private ScreenFader fader;
 
@@ -106,11 +111,14 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
     Gdx.gl.glClearColor(0.08f, 0.02f, 0f, 1f);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT
         | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+    
+    if (Gdx.input.isKeyJustPressed(Keys.F1)) {
+      screenShake.shake(2f, 1f);
+    }
 
     onUpdate(delta);
 
     tweenManager.update(delta);
-
     camera.update();
     batch.setProjectionMatrix(camera.combined);
     batch.begin();
@@ -154,7 +162,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
           .resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
     }
     fader.resize(Math.round(width / Sizes.worldScreenFactorX()), Math.round(height / Sizes.worldScreenFactorY()));
-    camera.setToOrtho(true, getWorldWidth(width), getWorldHeight(height));
+    camera.setToOrtho(false, getWorldWidth(width), getWorldHeight(height));
   }
 
   @Override
@@ -164,7 +172,6 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
     batch = new SpriteBatch();
     if (SharedAssetManager.isLoaded(Assets.TEX_BACKGROUND_01)) {
       background = new Sprite(SharedAssetManager.get(Assets.TEX_BACKGROUND_01, Texture.class));
-      background.flip(false, true);
     }
   }
 

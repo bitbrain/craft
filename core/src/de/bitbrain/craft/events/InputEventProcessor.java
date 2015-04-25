@@ -48,6 +48,8 @@ public class InputEventProcessor extends Stage {
     SharedInjector.get().injectMembers(this);
 
   }
+  
+  
 
   /*
    * (non-Javadoc)

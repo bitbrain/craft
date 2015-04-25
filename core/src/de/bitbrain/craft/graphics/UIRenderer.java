@@ -26,6 +26,7 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -75,6 +76,9 @@ public class UIRenderer implements ShadeArea {
 
   @Inject
   private TweenManager tweenManager;
+  
+  @Inject
+  private Camera camera;
 
   private Sprite overlay;
 
@@ -90,6 +94,9 @@ public class UIRenderer implements ShadeArea {
     baseStage = new InputEventProcessor(viewport, batch);
     overlayStage = new InputEventProcessor(viewport, batch);
     cliStage = new InputEventProcessor(viewport, batch);
+    baseStage.getViewport().setCamera(camera);
+    overlayStage.getViewport().setCamera(camera);
+    cliStage.getViewport().setCamera(camera);
     cliStage.addActor(cli);
     eventBus.subscribe(baseStage);
     eventBus.subscribe(overlayStage);
