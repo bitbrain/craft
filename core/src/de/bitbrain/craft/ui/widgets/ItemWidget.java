@@ -183,9 +183,11 @@ public class ItemWidget extends HorizontalGroup {
       }
       @Override
       public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+        if (fromActor == null || (!fromActor.equals(ItemWidget.this) && !(fromActor instanceof IconWidget))) {
           icon.setIconOffset(-9f);
           icon.setLabelScale(2.5f);
           SoundUtils.play(Assets.SND_POP_ALT);
+        }
       }      
       @Override
       public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
