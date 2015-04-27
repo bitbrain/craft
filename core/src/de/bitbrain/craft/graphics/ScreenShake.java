@@ -48,9 +48,6 @@ public class ScreenShake {
       Tween.to(camera, TweenType.POS_X.ordinal(), STEP_INTERVAL).delay(step * STEP_INTERVAL).target(x).ease(TweenEquations.easeInOutCubic).start(tweenManager);
       Tween.to(camera, TweenType.POS_Y.ordinal(), STEP_INTERVAL).delay(step * STEP_INTERVAL).target(y).ease(TweenEquations.easeInOutCubic).start(tweenManager);
       strength -= STRENGTH_STEP;
-      if (strength < 0) {
-        strength = 0;
-      }
     }
   }
 }
