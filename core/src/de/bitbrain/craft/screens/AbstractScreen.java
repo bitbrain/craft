@@ -113,7 +113,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
         | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
     
     if (Gdx.input.isKeyJustPressed(Keys.F1)) {
-      screenShake.shake(2f, 1f);
+      screenShake.shake(15f, 3f);
     }
 
     onUpdate(delta);
