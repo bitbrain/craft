@@ -36,6 +36,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.Bundles;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
 import de.bitbrain.craft.events.Event.EventType;
 import de.bitbrain.craft.events.EventBus;
@@ -168,6 +169,7 @@ public class ItemWidget extends HorizontalGroup {
     descContainer.add(level);
     descContainer.right().add(availability).padLeft(70f).padTop(27f);
     layout.addActor(descContainer);
+    layout.setTouchable(Touchable.disabled);
     return layout;
   }
 
@@ -181,13 +183,14 @@ public class ItemWidget extends HorizontalGroup {
       }
       @Override
       public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-        icon.setIconOffset(-9f);
-        icon.setLabelScale(2.5f);
+          icon.setIconOffset(-9f);
+          icon.setLabelScale(2.5f);
+          SoundUtils.play(Assets.SND_POP_ALT);
       }      
       @Override
       public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-        icon.setIconOffset(0f);
-        icon.setLabelScale(2f);
+          icon.setIconOffset(0f);
+          icon.setLabelScale(2f);
       }
     });
   }

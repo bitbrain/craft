@@ -68,6 +68,7 @@ public final class Assets {
   public static final String SND_ABORT = DIR_AUDIO + "abort.mp3";
   public static final String SND_CONFIRM = DIR_AUDIO + "confirm.mp3";
   public static final String SND_POP = DIR_AUDIO + "pop.mp3";
+  public static final String SND_POP_ALT = DIR_AUDIO + "short_pop.mp3";
   public static final String SND_TAB = DIR_AUDIO + "tab.mp3";
 
   // ---------- TEXTURES --------
