@@ -38,7 +38,6 @@ import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.professions.ProfessionLogicFactory;
 import de.bitbrain.craft.events.KeyEvent;
-import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.models.Profession;
@@ -95,8 +94,8 @@ public class IngameScreen extends AbstractScreen {
     stage.addActor(craftingWidget);
     stage.addActor(playerWidget);
     stage.addActor(itemBagThumblistView);
-    tabView.addTab(Tabs.ITEMS, Icon.ITEMS, generateItemView());
-    tabView.addTab(Tabs.CRAFTING, Icon.HAMMER, recipeView);
+    tabView.addTab(Tabs.ITEMS, Assets.TEX_ICON_ITEMS, generateItemView());
+    tabView.addTab(Tabs.CRAFTING, Assets.TEX_ICON_HAMMER, recipeView);
     tabView.setTab(Tabs.ITEMS);
     tabView.hideTab(Tabs.CRAFTING);
   }

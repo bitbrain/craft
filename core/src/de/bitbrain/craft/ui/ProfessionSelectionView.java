@@ -196,7 +196,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
     public ProfessionElement(String text, TextButtonStyle style, Profession profession, Progress progressData) {
       super(text, style);
       this.profession = profession;
-
       Texture tex = getProfessionTexture(profession);
       bar = new PlayerWidget(profession);
       bar.setPadding(4f);

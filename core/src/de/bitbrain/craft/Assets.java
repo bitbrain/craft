@@ -87,9 +87,6 @@ public final class Assets {
   public static final String TEX_BUTTON_RED = DIR_IMAGES + "button_red.png";
   public static final String TEX_BUTTON_GREEN_DARK = DIR_IMAGES + "button_down.png";
   public static final String TEX_BUTTON_RED_DARK = DIR_IMAGES + "button_red_down.png";
-  public static final String TEX_JEWELER_PREVIEW = DIR_IMAGES + "icons/jewel_diamond_medium.png";
-  public static final String TEX_ENGINEER_PREVIEW = DIR_IMAGES + "icons/fab_power_medium.png";
-  public static final String TEX_ALCHEMIST_PREVIEW = DIR_IMAGES + "icons/alchemy_flasks_overview.png";
   public static final String TEX_PANEL_SMALL_H = DIR_IMAGES + "panel_small_horizontal.png";
   public static final String TEX_PANEL_SMALL_L_H = DIR_IMAGES + "panel_small_light_horizontal.png";
   public static final String TEX_PANEL_9patch = DIR_IMAGES + "ui/panel.9.png";
@@ -99,7 +96,9 @@ public final class Assets {
   public static final String TEX_PANEL_TAB_9patch = DIR_IMAGES + "ui/panel_tab.9.png";
   public static final String TEX_PANEL_TAB_ACTIVE_9patch = DIR_IMAGES + "ui/panel_tab_active.9.png";
   public static final String TEX_PANEL_BAR_9patch = DIR_IMAGES + "ui/panel_bar.9.png";
-
+  public static final String TEX_ICON_HAMMER = DIR_IMAGES + "ui/hammer.png";
+  public static final String TEX_ICON_ITEMS = DIR_IMAGES + "ui/items.png";
+  
   // ---------- COLORS ----------
 
   public static final Color CLR_GREEN_GRASS = Color.valueOf("b8d41c");

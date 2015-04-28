@@ -28,24 +28,10 @@ package de.bitbrain.craft.graphics;
  */
 public enum Icon {
 
-  FLUX,
   ACID_1,
-  ACID_2,
   EARTH,
   WATER,
-  SULFUR,
-  MERCURY,
-  PHIOLE_SMALL,
-  PHIOLE_MEDIUM,
-  GRAYSTONE,
-  BENTAGON,
-  PROFILE,
-  HAMMER,
   ITEMS,
-  DARKSTONE,
-  MOLTEN_SAND,
-  RECIPE,
-  JEWEL_DIAMOND_MEDIUM,
   XENOCITE,
   AIR,
   FIRE;

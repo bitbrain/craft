@@ -59,7 +59,7 @@ public enum Profession {
 
     @Override
     public String getIcon() {
-      return Assets.TEX_JEWELER_PREVIEW;
+      return Assets.TEX_ICON_ITEMS;
     }
 
     @Override
@@ -77,7 +77,7 @@ public enum Profession {
 
     @Override
     public String getIcon() {
-      return Assets.TEX_ENGINEER_PREVIEW;
+      return Assets.TEX_ICON_ITEMS;
     }
 
     @Override
