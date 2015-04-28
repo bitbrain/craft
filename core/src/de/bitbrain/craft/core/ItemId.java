@@ -21,7 +21,7 @@ package de.bitbrain.craft.core;
 
 /**
  * Ids of all items
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
@@ -32,7 +32,10 @@ public enum ItemId {
   EARTH,
   AIR,
   FIRE,
-  ACID_1;
+  ACID_1,
+  ACID_2,
+  PHIOLE_1,
+  PHIOLE_2;
 
   @Override
   public String toString() {

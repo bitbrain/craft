@@ -36,10 +36,21 @@ public class RecipeMigrationJob {
 
   @Migrate(Migrations.RELEASE)
   public void migrateRecipesForAlchemist(API api) {
-    RecipeDataBuilder builder = new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST);
-    builder.addIngredient(ItemId.WATER, 2);
-    builder.addIngredient(ItemId.EARTH, 2);
-    builder.amount(1);
-    api.registerRecipe(builder.build());
+    // Acid 1
+    api.registerRecipe(new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST)
+      .addIngredient(ItemId.WATER, 1).addIngredient(ItemId.EARTH, 1)
+      .amount(1).build());
+    // Acid 2
+    api.registerRecipe(new RecipeDataBuilder(ItemId.ACID_2, Profession.ALCHEMIST)
+    .addIngredient(ItemId.WATER, 2).addIngredient(ItemId.EARTH, 2).addIngredient(ItemId.EARTH, 1)
+    .amount(1).build());
+    // Phiole 1
+    api.registerRecipe(new RecipeDataBuilder(ItemId.PHIOLE_1, Profession.ALCHEMIST)
+    .addIngredient(ItemId.EARTH, 1).addIngredient(ItemId.FIRE, 1)
+    .amount(5).build());
+    // Phiole 2
+    api.registerRecipe(new RecipeDataBuilder(ItemId.PHIOLE_2, Profession.ALCHEMIST)
+    .addIngredient(ItemId.EARTH, 2).addIngredient(ItemId.FIRE, 2)
+    .amount(5).build());
   }
 }

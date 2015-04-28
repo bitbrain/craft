@@ -28,13 +28,15 @@ package de.bitbrain.craft.graphics;
  */
 public enum Icon {
 
-  ACID_1,
   EARTH,
   WATER,
   ITEMS,
-  XENOCITE,
   AIR,
-  FIRE;
+  FIRE,
+  ACID_1,
+  ACID_2,
+  PHIOLE_1,
+  PHIOLE_2;
 
   public final String EXTENSION = ".png";
 

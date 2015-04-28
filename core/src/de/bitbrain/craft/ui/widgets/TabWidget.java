@@ -28,6 +28,7 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -40,6 +41,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.google.inject.Inject;
 
 import de.bitbrain.craft.Assets;
@@ -49,10 +51,9 @@ import de.bitbrain.craft.Styles;
 import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.graphics.GraphicsFactory;
-import de.bitbrain.craft.graphics.Icon;
 import de.bitbrain.craft.graphics.IconManager;
-import de.bitbrain.craft.graphics.IconManager.IconDrawable;
 import de.bitbrain.craft.inject.StateScoped;
+import de.bitbrain.craft.ui.OffsetDrawable;
 
 /**
  * Responsive tab view which can be extendable
@@ -138,9 +139,9 @@ public class TabWidget extends Table {
    * @param actor
    *          Content actor
    */
-  public void addTab(String id, Icon icon, Actor content) {
+  public void addTab(String id, String iconId, Actor content) {
     if (!id.isEmpty() && !tabs.containsKey(id)) {
-      final Tab tab = new Tab(id, content, generateTabStyle(icon, false), generateTabStyle(icon, true));
+      final Tab tab = new Tab(id, content, generateTabStyle(iconId, false), generateTabStyle(iconId, true));
       tabs.put(id, tab);
       tabGroup.addActor(tab);
       Container<?> padding = new Container<Actor>();
@@ -189,17 +190,18 @@ public class TabWidget extends Table {
     right = add(tabGroup);
   }
 
-  private ImageButtonStyle generateTabStyle(Icon icon, boolean active) {
+  private ImageButtonStyle generateTabStyle(String iconId, boolean active) {
     ImageButtonStyle origin = Styles.BTN_TAB;
     if (active) {
       origin = Styles.BTN_TAB_ACTIVE;
     }
     ImageButtonStyle style = new ImageButtonStyle(origin);
-    IconDrawable iconDrawable = iconManager.fetch(icon);
-    iconDrawable.setOffsetX(-Sizes.panelRadius() - 1f);
-    iconDrawable.color.a = 0.8f;
-    style.imageUp = iconDrawable;
-    style.imageOver = iconDrawable;
+    Sprite sprite = new Sprite(SharedAssetManager.get(iconId, Texture.class));
+    sprite.setAlpha(0.8f);
+    OffsetDrawable drawable = new OffsetDrawable(new SpriteDrawable(sprite));
+    drawable.setOffsetX(-Sizes.panelRadius() - 1f);
+    style.imageUp = drawable;
+    style.imageOver = drawable;
     style.imageUp.setMinHeight(70);
     style.imageUp.setMinWidth(70);
     style.imageOver.setMinHeight(70);
