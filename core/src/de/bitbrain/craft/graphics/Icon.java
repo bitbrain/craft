@@ -53,7 +53,7 @@ public enum Icon {
   public final String EXTENSION = ".png";
 
   public String getId() {
-    return "ico_" + name().toLowerCase();
+    return name().toLowerCase();
   }
 
   public String getFile() {

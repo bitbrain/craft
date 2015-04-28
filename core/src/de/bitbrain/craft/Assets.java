@@ -87,9 +87,9 @@ public final class Assets {
   public static final String TEX_BUTTON_RED = DIR_IMAGES + "button_red.png";
   public static final String TEX_BUTTON_GREEN_DARK = DIR_IMAGES + "button_down.png";
   public static final String TEX_BUTTON_RED_DARK = DIR_IMAGES + "button_red_down.png";
-  public static final String TEX_JEWELER_PREVIEW = DIR_IMAGES + "icons/ico_jewel_diamond_medium.png";
-  public static final String TEX_ENGINEER_PREVIEW = DIR_IMAGES + "icons/ico_fab_power_medium.png";
-  public static final String TEX_ALCHEMIST_PREVIEW = DIR_IMAGES + "icons/ico_alchemy_flasks_overview.png";
+  public static final String TEX_JEWELER_PREVIEW = DIR_IMAGES + "icons/jewel_diamond_medium.png";
+  public static final String TEX_ENGINEER_PREVIEW = DIR_IMAGES + "icons/fab_power_medium.png";
+  public static final String TEX_ALCHEMIST_PREVIEW = DIR_IMAGES + "icons/alchemy_flasks_overview.png";
   public static final String TEX_PANEL_SMALL_H = DIR_IMAGES + "panel_small_horizontal.png";
   public static final String TEX_PANEL_SMALL_L_H = DIR_IMAGES + "panel_small_light_horizontal.png";
   public static final String TEX_PANEL_9patch = DIR_IMAGES + "ui/panel.9.png";

@@ -40,6 +40,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -200,7 +201,8 @@ public class ProfessionSelectionView extends Table implements EventListener {
       bar = new PlayerWidget(profession);
       bar.setPadding(4f);
       bar.setTextProvider(new LevelTextProvider());
-
+      bar.setTouchable(Touchable.disabled);
+      getLabel().setTouchable(Touchable.disabled);
       if (tex != null) {
         icon = new Sprite(tex);
       }
@@ -285,6 +287,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
         super.enter(event, x, y, pointer, fromActor);
         iconAlpha = 1.0f;
         bar.getColor().a = 1.0f;
+        SoundUtils.play(Assets.SND_POP_ALT);
       }
 
       /*
