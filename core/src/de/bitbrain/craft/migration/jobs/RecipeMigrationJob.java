@@ -38,23 +38,27 @@ public class RecipeMigrationJob {
   public void migrateRecipesForAlchemist(API api) {
     // Acid 1
     api.registerRecipe(new RecipeDataBuilder(ItemId.ACID_1, Profession.ALCHEMIST)
-      .addIngredient(ItemId.WATER, 1).addIngredient(ItemId.EARTH, 1)
-      .amount(1).build());
+       .addIngredient(ItemId.WATER, 1).addIngredient(ItemId.EARTH, 1)
+       .amount(1).build());
     // Acid 2
     api.registerRecipe(new RecipeDataBuilder(ItemId.ACID_2, Profession.ALCHEMIST)
-    .addIngredient(ItemId.WATER, 2).addIngredient(ItemId.EARTH, 2).addIngredient(ItemId.EARTH, 1)
-    .amount(1).build());
+       .addIngredient(ItemId.WATER, 2).addIngredient(ItemId.EARTH, 2).addIngredient(ItemId.EARTH, 1)
+       .amount(1).build());
     // Phiole 1
     api.registerRecipe(new RecipeDataBuilder(ItemId.PHIOLE_1, Profession.ALCHEMIST)
-    .addIngredient(ItemId.EARTH, 1).addIngredient(ItemId.FIRE, 1)
-    .amount(5).build());
+       .addIngredient(ItemId.EARTH, 1).addIngredient(ItemId.FIRE, 1)
+       .amount(5).build());
     // Phiole 2
     api.registerRecipe(new RecipeDataBuilder(ItemId.PHIOLE_2, Profession.ALCHEMIST)
-    .addIngredient(ItemId.EARTH, 2).addIngredient(ItemId.FIRE, 1)
-    .amount(5).build());
+       .addIngredient(ItemId.EARTH, 2).addIngredient(ItemId.FIRE, 1)
+       .amount(5).build());
     // Mercury
     api.registerRecipe(new RecipeDataBuilder(ItemId.MERCURY, Profession.ALCHEMIST)
-    .addIngredient(ItemId.EARTH, 1).addIngredient(ItemId.FIRE, 1).addIngredient(ItemId.PHIOLE_1, 1)
-    .amount(1).build());
+       .addIngredient(ItemId.EARTH, 1).addIngredient(ItemId.FIRE, 1).addIngredient(ItemId.PHIOLE_1, 1)
+       .amount(1).build());
+    // Sulfur
+    api.registerRecipe(new RecipeDataBuilder(ItemId.SULFUR, Profession.ALCHEMIST)
+       .addIngredient(ItemId.AIR, 1).addIngredient(ItemId.FIRE, 1)
+       .amount(1).build());
   }
 }

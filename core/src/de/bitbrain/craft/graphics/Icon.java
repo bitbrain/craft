@@ -37,7 +37,8 @@ public enum Icon {
   ACID_2,
   PHIOLE_1,
   PHIOLE_2,
-  MERCURY;
+  MERCURY,
+  SULFUR;
 
   public final String EXTENSION = ".png";
 
