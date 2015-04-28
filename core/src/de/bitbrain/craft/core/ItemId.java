@@ -35,7 +35,8 @@ public enum ItemId {
   ACID_1,
   ACID_2,
   PHIOLE_1,
-  PHIOLE_2;
+  PHIOLE_2,
+  MERCURY;
 
   @Override
   public String toString() {

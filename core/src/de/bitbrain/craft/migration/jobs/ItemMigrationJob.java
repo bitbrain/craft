@@ -44,6 +44,7 @@ public class ItemMigrationJob {
     api.registerItem(ItemId.ACID_2, Icon.ACID_2, Rarity.COMMON, 2);
     api.registerItem(ItemId.PHIOLE_1, Icon.PHIOLE_1, Rarity.COMMON, 1);
     api.registerItem(ItemId.PHIOLE_2, Icon.PHIOLE_2, Rarity.COMMON, 2);
+    api.registerItem(ItemId.MERCURY, Icon.MERCURY, Rarity.COMMON, 1);
   }
 
 }
