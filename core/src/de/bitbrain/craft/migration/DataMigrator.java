@@ -30,7 +30,6 @@ import de.bitbrain.craft.db.MigrationMapper;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.migration.jobs.ItemMigrationJob;
 import de.bitbrain.craft.migration.jobs.ItemSoundMigrationJob;
-import de.bitbrain.craft.migration.jobs.LearnedRecipeMigrationJob;
 import de.bitbrain.craft.migration.jobs.OwnedItemMigrationJob;
 import de.bitbrain.craft.migration.jobs.RecipeMigrationJob;
 import de.bitbrain.craft.models.Migration;
@@ -40,7 +39,7 @@ import de.bitbrain.jpersis.JPersis;
 
 /**
  * Migrates data at the beginning for new users
- *
+ * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
@@ -146,7 +145,7 @@ public final class DataMigrator {
 
   private Class<?>[] getMigrators() {
     return new Class<?>[] { ItemMigrationJob.class, OwnedItemMigrationJob.class, RecipeMigrationJob.class,
-        LearnedRecipeMigrationJob.class, ItemSoundMigrationJob.class };
+        ItemSoundMigrationJob.class };
   }
 
   private class MigrateException extends RuntimeException {
