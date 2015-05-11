@@ -34,8 +34,11 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -164,8 +167,8 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
         Tween.to(element.getBar(), 1, 0.8f).target(progress).ease(TweenEquations.easeInOutQuad).start(tweenManager);
 
-        Tween.to(element.getIcon(), TweenType.SCALE.ordinal(), 1.0f).delay(0.3f).setCallbackTriggers(TweenCallback.START)
-            .setCallback(new TweenCallback() {
+        Tween.to(element.getIcon(), TweenType.SCALE.ordinal(), 1.0f).delay(0.3f)
+            .setCallbackTriggers(TweenCallback.START).setCallback(new TweenCallback() {
               @Override
               public void onEvent(int type, BaseTween<?> source) {
                 Sound s = SharedAssetManager.get(Assets.SND_POP, Sound.class);
@@ -181,9 +184,13 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
   public class ProfessionElement extends TextButton {
 
-    private Sprite icon;
+    private Sprite currentIcon;
+
+    private Animation animation;
 
     private float iconAlpha = 0.5f;
+
+    private float stateTime = 0;
 
     private Profession profession;
 
@@ -202,12 +209,25 @@ public class ProfessionSelectionView extends Table implements EventListener {
       bar.setTextProvider(new LevelTextProvider());
       bar.setTouchable(Touchable.disabled);
       getLabel().setTouchable(Touchable.disabled);
+      currentIcon = new Sprite();
       if (tex != null) {
-        icon = new Sprite(tex);
+        animation = new Animation(0.3f, prepareAnimation(tex));
+        animation.setPlayMode(PlayMode.LOOP_RANDOM);
       }
       if (profession.isEnabled()) {
         addCaptureListener(new IconModulator());
       }
+    }
+
+    private TextureRegion[] prepareAnimation(Texture texture) {
+      List<TextureRegion> regions = new ArrayList<TextureRegion>();
+      int frames = (int) Math.floor(texture.getWidth() / texture.getHeight());
+      for (int i = 0; i < frames; ++i) {
+        TextureRegion region =
+            new TextureRegion(texture, i * texture.getHeight(), 0, texture.getHeight(), texture.getHeight());
+        regions.add(region);
+      }
+      return regions.toArray(new TextureRegion[regions.size()]);
     }
 
     public Profession getProfession() {
@@ -215,11 +235,17 @@ public class ProfessionSelectionView extends Table implements EventListener {
     }
 
     public Sprite getIcon() {
-      return icon;
+      return currentIcon;
     }
 
     public PlayerWidget getBar() {
       return bar;
+    }
+
+    @Override
+    public void act(float delta) {
+      super.act(delta);
+      stateTime += delta;
     }
 
     /*
@@ -233,15 +259,15 @@ public class ProfessionSelectionView extends Table implements EventListener {
         getColor().a = 0.3f;
       }
       super.draw(batch, parentAlpha);
-      if (icon != null) {
-        if (!profession.isEnabled()) {
-          icon.setColor(Color.BLACK);
-        }
-        icon.setSize(getWidth() / 1.3f, getWidth() / 1.3f);
-        icon.setPosition(getX() + getWidth() / 2 - icon.getWidth() / 2, getY() + getHeight() / 2.5f);
-        icon.setOrigin(icon.getWidth() / 2f, icon.getHeight() / 2f);
-        icon.draw(batch, parentAlpha * iconAlpha * getColor().a);
+      currentIcon.setRegion(animation.getKeyFrame(stateTime));
+      if (!profession.isEnabled()) {
+        currentIcon.setColor(Color.BLACK);
       }
+      currentIcon.setSize(getWidth() / 1.3f, getWidth() / 1.3f);
+      currentIcon.setPosition(getX() + getWidth() / 2 - currentIcon.getWidth() / 2, getY() + getHeight() / 2.5f);
+      currentIcon.setOrigin(currentIcon.getWidth() / 2f, currentIcon.getHeight() / 2f);
+      currentIcon.draw(batch, parentAlpha * iconAlpha * getColor().a);
+
       if (profession.isEnabled()) {
         bar.setColor(getColor());
         bar.setWidth(getWidth() / 1.4f);
