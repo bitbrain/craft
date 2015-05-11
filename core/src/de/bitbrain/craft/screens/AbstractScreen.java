@@ -39,6 +39,7 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.CraftGame;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
+import de.bitbrain.craft.animations.Animator;
 import de.bitbrain.craft.audio.SoundManager;
 import de.bitbrain.craft.events.EventBus;
 import de.bitbrain.craft.events.GestureManager;
@@ -88,6 +89,9 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
   
   @Inject
   protected ScreenShake screenShake;
+  
+  @Inject
+  private Animator animator;
 
   private ScreenFader fader;
 
@@ -117,7 +121,8 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
     }
 
     onUpdate(delta);
-
+    
+    animator.act(delta);
     tweenManager.update(delta);
     camera.update();
     batch.setProjectionMatrix(camera.combined);
@@ -183,6 +188,7 @@ public abstract class AbstractScreen implements Screen, FadeCallback {
     tooltipManager.clear();
     soundManager.dispose();
     gestureManager.clear();
+    animator.clear();
   }
 
   @Override
