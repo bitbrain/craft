@@ -9,9 +9,7 @@ import com.google.inject.Inject;
 import de.bitbrain.craft.animations.Animator;
 import de.bitbrain.craft.inject.PostConstruct;
 import de.bitbrain.craft.inject.SharedInjector;
-import de.bitbrain.craft.inject.StateScoped;
 
-@StateScoped
 public class AnimatedSprite extends Sprite {
   
   @Inject

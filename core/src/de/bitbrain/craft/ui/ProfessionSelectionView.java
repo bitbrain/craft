@@ -34,7 +34,6 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -58,7 +57,7 @@ import de.bitbrain.craft.animations.Animator;
 import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
-import de.bitbrain.craft.graphics.AnimatedSprite;
+import de.bitbrain.craft.graphics.Professor;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
@@ -84,7 +83,7 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
   @Inject
   private API api;
-  
+
   @Inject
   private Animator animator;
 
@@ -192,8 +191,8 @@ public class ProfessionSelectionView extends Table implements EventListener {
     private Profession profession;
 
     private PlayerWidget bar;
-    
-    private Sprite currentIcon;
+
+    private Professor professor;
 
     /**
      * @param text
@@ -207,18 +206,18 @@ public class ProfessionSelectionView extends Table implements EventListener {
       bar.setTextProvider(new LevelTextProvider());
       bar.setTouchable(Touchable.disabled);
       getLabel().setTouchable(Touchable.disabled);
-      currentIcon = new AnimatedSprite(getProfessionTexture(profession), 0.25f, PlayMode.LOOP_RANDOM);
+      professor = new Professor(profession);
       if (profession.isEnabled()) {
         addCaptureListener(new IconModulator());
       }
     }
-    
+
     public Profession getProfession() {
       return profession;
     }
 
     public Sprite getIcon() {
-      return currentIcon;
+      return professor.getSprite();
     }
 
     public PlayerWidget getBar() {
@@ -237,12 +236,12 @@ public class ProfessionSelectionView extends Table implements EventListener {
       }
       super.draw(batch, parentAlpha);
       if (!profession.isEnabled()) {
-        currentIcon.setColor(Color.BLACK);
+        professor.setColor(Color.BLACK);
       }
-      currentIcon.setSize(getWidth() / 1.3f, getWidth() / 1.3f);
-      currentIcon.setPosition(getX() + getWidth() / 2 - currentIcon.getWidth() / 2, getY() + getHeight() / 2.5f);
-      currentIcon.setOrigin(currentIcon.getWidth() / 2f, currentIcon.getHeight() / 2f);
-      currentIcon.draw(batch, parentAlpha * iconAlpha * getColor().a);
+      professor.setSize(getWidth() / 1.3f, getWidth() / 1.3f);
+      professor.setPosition(getX() + getWidth() / 2 - professor.getWidth() / 2, getY() + getHeight() / 2.5f);
+      professor.setOrigin(professor.getWidth() / 2f, professor.getHeight() / 2f);
+      professor.draw(batch, parentAlpha * iconAlpha * getColor().a);
 
       if (profession.isEnabled()) {
         bar.setColor(getColor());

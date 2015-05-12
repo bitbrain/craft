@@ -49,9 +49,11 @@ import de.bitbrain.craft.events.GestureManager;
 import de.bitbrain.craft.events.ItemEvent;
 import de.bitbrain.craft.events.MouseEvent;
 import de.bitbrain.craft.graphics.GraphicsFactory;
+import de.bitbrain.craft.graphics.Professor;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Item;
 import de.bitbrain.craft.models.Player;
+import de.bitbrain.craft.models.Profession;
 
 /**
  * General view component for professions
@@ -76,16 +78,19 @@ public class CraftingWidget extends Actor {
   @Inject
   private GestureManager gestureManager;
 
-  private AnimatedBounceObject workbench, table;
+  private AnimatedBounceObject workbench, table, character;
 
   private Item dragItem;
 
   private int dragAmount;
+  
+  private Professor professor;
 
   public CraftingWidget(ProfessionLogic professionLogic) {
     SharedInjector.get().injectMembers(this);
     eventBus.subscribe(this);
     this.professionLogic = professionLogic;
+    professor = new Professor(Profession.current);
     table =
         new AnimatedBounceObject(Assets.TEX_TABLE, GraphicsFactory.createTexture(32, 16, new Color(0f, 0f, 0f, 0.2f)));
     table.setSizeOffset(50f, 120f);
@@ -95,6 +100,11 @@ public class CraftingWidget extends Actor {
     workbench = new AnimatedBounceObject(Assets.TEX_BOWL, Assets.TEX_CIRCLE);
     workbench.setShadowSizeOffset(-40f, -50f);
     workbench.setShadowPositionOffset(0f, -30f);
+    character = new AnimatedBounceObject(professor.getSprite(), Assets.TEX_CIRCLE);
+    character.setShadowSizeOffset(-60f, -40f);
+    character.setShadowPositionOffset(90f, 30f);
+    character.setAutoScale(false);
+    professor.setSize(180, 180);
     registerEvents();
   }
 
@@ -107,6 +117,7 @@ public class CraftingWidget extends Actor {
   public void draw(Batch batch, float parentAlpha) {
     table.draw(batch, parentAlpha);
     workbench.draw(batch, parentAlpha);
+    character.draw(batch, parentAlpha);
   }
 
   @Handler
@@ -146,12 +157,14 @@ public class CraftingWidget extends Actor {
     super.setY(y);
     table.refresh();
     workbench.refresh();
+    character.refresh();
   }
 
   public void animate() {
     workbench.hide();
     table.animate(tweenManager);
     workbench.animate(tweenManager, 0.4f);
+    character.animate(tweenManager, 0.8f);
   }
 
   private boolean collides(float x, float y) {
@@ -197,14 +210,24 @@ public class CraftingWidget extends Actor {
     private Sprite background, shadow;
 
     private Vector2 sizeOffset, posOffset, shadowSizeOffset, shadowPosOffset;
+    
+    private boolean autoScale = true;
 
     public AnimatedBounceObject(String assetId, Texture shadowAsset) {
+      this(new Sprite(SharedAssetManager.get(assetId, Texture.class)), shadowAsset);
+    }
+    
+    public AnimatedBounceObject(Sprite sprite, Texture shadowAsset) {
       sizeOffset = new Vector2();
       posOffset = new Vector2();
       shadowSizeOffset = new Vector2();
       shadowPosOffset = new Vector2();
-      background = new Sprite(SharedAssetManager.get(assetId, Texture.class));
+      background = sprite;
       shadow = new Sprite(shadowAsset);
+    }
+    
+    public AnimatedBounceObject(Sprite sprite, String shadowAssetId) {
+      this(sprite, SharedAssetManager.get(shadowAssetId, Texture.class));
     }
 
     public AnimatedBounceObject(String assetId, String shadowAssetId) {
@@ -234,16 +257,24 @@ public class CraftingWidget extends Actor {
       shadowPosOffset.y = offsetY;
       refreshShadow();
     }
+    
+    public void setAutoScale(boolean scale) {
+      autoScale = scale;
+    }
 
     public void refresh() {
       refreshShadow();
-      background.setSize(getWidth() + sizeOffset.x, getHeight() + sizeOffset.y);
+      if (autoScale) {
+        background.setSize(getWidth() + sizeOffset.x, getHeight() + sizeOffset.y);
+      }
       background.setPosition(getX() + posOffset.x - (getWidth() - (getWidth() - sizeOffset.x)) / 2f, getY()
           + posOffset.y);
     }
 
     public void refreshShadow() {
-      shadow.setSize(getWidth() + shadowSizeOffset.x, getHeight() + shadowSizeOffset.y);
+      if (autoScale) {
+        shadow.setSize(getWidth() + shadowSizeOffset.x, getHeight() + shadowSizeOffset.y);
+      }
       shadow.setPosition(getX() + shadowPosOffset.x - (getWidth() - (getWidth() - shadowSizeOffset.x)) / 2f, getY()
           + shadowPosOffset.y);
     }
