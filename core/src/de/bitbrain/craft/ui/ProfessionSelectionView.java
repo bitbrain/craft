@@ -34,11 +34,9 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -56,9 +54,11 @@ import de.bitbrain.craft.Assets;
 import de.bitbrain.craft.SharedAssetManager;
 import de.bitbrain.craft.Sizes;
 import de.bitbrain.craft.Styles;
+import de.bitbrain.craft.animations.Animator;
 import de.bitbrain.craft.animations.TweenAnimations.TweenType;
 import de.bitbrain.craft.audio.SoundUtils;
 import de.bitbrain.craft.core.API;
+import de.bitbrain.craft.graphics.AnimatedSprite;
 import de.bitbrain.craft.inject.SharedInjector;
 import de.bitbrain.craft.models.Profession;
 import de.bitbrain.craft.models.Progress;
@@ -84,6 +84,9 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
   @Inject
   private API api;
+  
+  @Inject
+  private Animator animator;
 
   public ProfessionSelectionView() {
     SharedInjector.get().injectMembers(this);
@@ -184,17 +187,13 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
   public class ProfessionElement extends TextButton {
 
-    private Sprite currentIcon;
-
-    private Animation animation;
-
     private float iconAlpha = 0.5f;
-
-    private float stateTime = 0;
 
     private Profession profession;
 
     private PlayerWidget bar;
+    
+    private Sprite currentIcon;
 
     /**
      * @param text
@@ -203,33 +202,17 @@ public class ProfessionSelectionView extends Table implements EventListener {
     public ProfessionElement(String text, TextButtonStyle style, Profession profession, Progress progressData) {
       super(text, style);
       this.profession = profession;
-      Texture tex = getProfessionTexture(profession);
       bar = new PlayerWidget(profession);
       bar.setPadding(4f);
       bar.setTextProvider(new LevelTextProvider());
       bar.setTouchable(Touchable.disabled);
       getLabel().setTouchable(Touchable.disabled);
-      currentIcon = new Sprite();
-      if (tex != null) {
-        animation = new Animation(0.3f, prepareAnimation(tex));
-        animation.setPlayMode(PlayMode.LOOP_RANDOM);
-      }
+      currentIcon = new AnimatedSprite(getProfessionTexture(profession), 0.25f, PlayMode.LOOP_RANDOM);
       if (profession.isEnabled()) {
         addCaptureListener(new IconModulator());
       }
     }
-
-    private TextureRegion[] prepareAnimation(Texture texture) {
-      List<TextureRegion> regions = new ArrayList<TextureRegion>();
-      int frames = (int) Math.floor(texture.getWidth() / texture.getHeight());
-      for (int i = 0; i < frames; ++i) {
-        TextureRegion region =
-            new TextureRegion(texture, i * texture.getHeight(), 0, texture.getHeight(), texture.getHeight());
-        regions.add(region);
-      }
-      return regions.toArray(new TextureRegion[regions.size()]);
-    }
-
+    
     public Profession getProfession() {
       return profession;
     }
@@ -240,12 +223,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
 
     public PlayerWidget getBar() {
       return bar;
-    }
-
-    @Override
-    public void act(float delta) {
-      super.act(delta);
-      stateTime += delta;
     }
 
     /*
@@ -259,7 +236,6 @@ public class ProfessionSelectionView extends Table implements EventListener {
         getColor().a = 0.3f;
       }
       super.draw(batch, parentAlpha);
-      currentIcon.setRegion(animation.getKeyFrame(stateTime));
       if (!profession.isEnabled()) {
         currentIcon.setColor(Color.BLACK);
       }
